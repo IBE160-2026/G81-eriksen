@@ -16,6 +16,8 @@ I dag løser folk dette ved å bruke god tid på research, spørre venner, eller
 
 Your Next Adventure lar brukeren beskrive turen de har lyst på — lokasjon, tilgjengelig tid, og ønsket type opplevelse (f.eks. topptur, skogstur, tur med utsikt) — og få konkrete, ferdige forslag tilbake: rute vist på kart, estimert tidsbruk, og relevante tips for turen, inkludert bekledningstips basert på værvarselet for turdagen.
 
+Turforslagene hentes fra en kuratert turdatabase med 20–30 kontrollerte turer i Oslomarka, egnet for nybegynnere. Hver tur har faste opplysninger som navn, startpunkt, lengde, høydemeter, turtype og vanskelighetsgrad, og rutelinjene er hentet fra OpenStreetMap. KI tolker brukerens ønske i vanlig språk, og velger og forklarer blant turene i databasen, men lager ikke nye ruter. Tidsestimatet beregnes ut fra lengde og høydemeter, slik at det ikke er KI som gjetter hvor lang tid turen tar.
+
 Med innlogging kan brukeren lagre tidligere turer. Systemet bruker denne historikken, sammen med brukerens egen vurdering av hvor lett eller hardt en tur faktisk var, til å forstå brukerens preferanser og treffsikkerhet på vanskelighetsgrad. Neste gang brukeren spør om et forslag, er anbefalingen tilpasset dem — ikke en generisk liste over turer i området.
 
 ## What Makes This Different
@@ -43,7 +45,8 @@ Første versjon er bygget rundt denne ene brukergruppen. Andre brukergrupper, so
 **Med i første versjon:**
 - Geografisk avgrenset til Oslo-området, inkludert Oslomarka
 - Input for lokasjon, tilgjengelig tid og ønsket turtype/opplevelse
-- AI-genererte turforslag med kart, tidsestimat og tips
+- Kuratert turdatabase med 20–30 kontrollerte turer i Oslomarka, med rutelinjer fra OpenStreetMap
+- Turforslag fra turdatabasen med kart, tidsestimat og tips, der KI tolker brukerens ønske og velger og forklarer blant turene
 - Værbaserte bekledningstips til turforslaget, hentet fra Yr/MET sitt værvarsel-API for turens lokasjon og tidspunkt
 - Brukerkonto med innlogging
 - Lagring av tidligere turer og enkel tilbakemelding (f.eks. opplevd vanskelighetsgrad, likte/likte ikke)
@@ -51,6 +54,8 @@ Første versjon er bygget rundt denne ene brukergruppen. Andre brukergrupper, so
 
 **Eksplisitt utenfor for første versjon:**
 - Turer utenfor Oslo-området
+- KI-genererte ruter eller turer som ikke finnes i turdatabasen
+- Henting av turdata fra eksterne tjenester mens appen kjører
 - Tilpasning til andre brukergrupper enn nybegynnere (se Vision)
 - Værvarsel som egen varslingstjeneste (push-varsler, beredskapsmeldinger) — vær brukes kun som input til turforslaget, ikke som et selvstendig varslingsprodukt
 - Presis terrengstatus/føremelding (snø, is, gjørme) — for upresist til å love i v1; vurderes senere
