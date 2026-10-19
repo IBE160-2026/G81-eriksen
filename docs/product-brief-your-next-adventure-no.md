@@ -4,13 +4,13 @@
 
 Your Next Adventure er en nettside som hjelper nybegynnere med å planlegge sin neste fottur i naturen i Oslo-området. I stedet for å lete gjennom generelle kart eller store turdatabaser, skriver brukeren rett og slett inn hvor de vil dra, hvor mye tid de har, og hva slags opplevelse de er ute etter — en topptur, en rolig skogstur, eller noe midt imellom. Tjenesten svarer med konkrete forslag: rute på kart, tidsbruk og praktiske tips.
 
-Det som gjør Your Next Adventure annerledes er at den blir smartere jo mer den brukes. Med en brukerkonto lagres tidligere turer, og systemet lærer hva brukeren faktisk likte og hvordan de opplevde vanskelighetsgraden — ikke bare hva et objektivt turkart sier om stigning og lengde. Over tid gir dette forslag som er tilpasset den enkelte, ikke bare stedet.
+Det som gjør Your Next Adventure annerledes er at forslagene tilpasses brukeren. Med en brukerkonto lagres tidligere turer, sammen med brukerens egen vurdering av hva de likte og hvordan de opplevde vanskelighetsgraden — ikke bare hva et objektivt turkart sier om stigning og lengde. I første versjon skjer tilpasningen etter enkle, faste regler, slik at forslagene blir tilpasset den enkelte, ikke bare stedet. På sikt er målet en tjeneste som lærer av brukeren og blir smartere jo mer den brukes (se Vision).
 
 ## The Problem
 
 Å planlegge en tur i naturen tar ofte mer tid enn selve turen burde kreve. Man vet gjerne omtrent hvor man vil dra og hvor mye tid man har, men å finne en rute som faktisk passer — riktig lengde, riktig type opplevelse, riktig vanskelighetsgrad for akkurat denne dagen — betyr å lete gjennom flere kilder: turkart, blogger, AllTrails, ut.no, Google Maps.
 
-I dag løser folk dette ved å bruke god tid på research, spørre venner, eller rett og slett velge en tur de allerede kjenner fordi det er tryggere enn å lete. Konsekvensen er at man enten bruker mye tid man ikke har, eller ender opp med turer som ikke matcher det man faktisk hadde lyst til den dagen (for lett, for hardt, feil type natur). Ingen av de eksisterende verktøyene tar hensyn til hvem brukeren er og hva de har likt tidligere — de er statiske databaser, ikke noe som lærer av deg.
+I dag løser folk dette ved å bruke god tid på research, spørre venner, eller rett og slett velge en tur de allerede kjenner fordi det er tryggere enn å lete. Konsekvensen er at man enten bruker mye tid man ikke har, eller ender opp med turer som ikke matcher det man faktisk hadde lyst til den dagen (for lett, for hardt, feil type natur). Ingen av de eksisterende verktøyene tar hensyn til hvem brukeren er og hva de har likt tidligere — de er statiske databaser, ikke noe som tilpasser seg deg.
 
 ## The Solution
 
@@ -18,7 +18,7 @@ Your Next Adventure lar brukeren beskrive turen de har lyst på — lokasjon, ti
 
 Turforslagene hentes fra en kuratert turdatabase med 20–30 kontrollerte turer i Oslomarka, egnet for nybegynnere. Hver tur har faste opplysninger som navn, startpunkt, lengde, høydemeter, turtype og vanskelighetsgrad, og rutelinjene er hentet fra OpenStreetMap. KI tolker brukerens ønske i vanlig språk, og velger og forklarer blant turene i databasen, men lager ikke nye ruter. Tidsestimatet beregnes ut fra lengde og høydemeter, slik at det ikke er KI som gjetter hvor lang tid turen tar.
 
-Med innlogging kan brukeren lagre tidligere turer. Systemet bruker denne historikken, sammen med brukerens egen vurdering av hvor lett eller hardt en tur faktisk var, til å forstå brukerens preferanser og treffsikkerhet på vanskelighetsgrad. Neste gang brukeren spør om et forslag, er anbefalingen tilpasset dem — ikke en generisk liste over turer i området.
+Med innlogging kan brukeren lagre tidligere turer. Systemet bruker denne historikken, sammen med brukerens egen vurdering av hvor lett eller hardt en tur faktisk var, til å justere forslagene etter enkle, faste regler, for eksempel hvilken vanskelighetsgrad som foreslås. Neste gang brukeren spør om et forslag, er anbefalingen tilpasset dem — ikke en generisk liste over turer i området.
 
 ## What Makes This Different
 
@@ -67,4 +67,4 @@ Første versjon er bygget rundt denne ene brukergruppen. Andre brukergrupper, so
 
 ## Vision
 
-Om to-tre år er Your Next Adventure det første stedet folk går for å planlegge en tur i naturen — ikke fordi den har flest stier i databasen, men fordi den kjenner brukeren godt nok til å foreslå akkurat den turen de trenger denne dagen. Personaliseringen har blitt så treffsikker at brukere stoler blindt på forslagene, og tjenesten har utvidet fra Oslo-området til flere regioner. Den har også utvidet fra nybegynnere til flere brukergrupper: erfarne turgåere som vil ha raske, treffsikre forslag uten å bruke tid på research, og turister eller tilflyttere som ikke kjenner området og trenger konkrete forslag tilpasset tiden de har til rådighet. Etter hvert dekker tjenesten også flere typer friluftsaktiviteter enn fottur — ski, sykkel, padling — alltid med samme kjerneidé: forstå brukeren, ikke bare stedet.
+Om to-tre år er Your Next Adventure det første stedet folk går for å planlegge en tur i naturen — ikke fordi den har flest stier i databasen, men fordi den kjenner brukeren godt nok til å foreslå akkurat den turen de trenger denne dagen. Personaliseringen har gått fra enkle, faste regler til en tjeneste som lærer av hver enkelt bruker og blir smartere jo mer den brukes. Forslagene er så treffsikre at brukerne stoler på dem, samtidig som tjenesten alltid viser hvorfor en tur er foreslått. Tjenesten har også utvidet fra Oslo-området til flere regioner. Den har også utvidet fra nybegynnere til flere brukergrupper: erfarne turgåere som vil ha raske, treffsikre forslag uten å bruke tid på research, og turister eller tilflyttere som ikke kjenner området og trenger konkrete forslag tilpasset tiden de har til rådighet. Etter hvert dekker tjenesten også flere typer friluftsaktiviteter enn fottur — ski, sykkel, padling — alltid med samme kjerneidé: forstå brukeren, ikke bare stedet.
