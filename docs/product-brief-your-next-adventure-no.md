@@ -66,6 +66,7 @@ Vanskelighetsgrad følger DNTs fargeskala (grønn, blå, rød, svart). Kriterien
 - Lagring av tidligere turer og enkel tilbakemelding (opplevd vanskelighetsgrad: for lett/passe/for hard, og likte/likte ikke)
 - Regelbasert personalisering av forslag basert på lagret historikk (se Success Criteria 5–8)
 - Testbruker med ferdig turhistorikk
+- Brukeren kan slette kontoen sin og all lagret historikk
 
 **Eksplisitt utenfor for første versjon:**
 - Turer utenfor Oslo-området
@@ -79,6 +80,23 @@ Vanskelighetsgrad følger DNTs fargeskala (grønn, blå, rød, svart). Kriterien
 - Offline GPS-navigering underveis på tur
 - Booking/logistikk (overnatting, transport, utleie av utstyr)
 - Støtte for flere språk enn norsk/engelsk
+
+## Kvalitetskrav for første versjon
+
+**Feilhåndtering og tomtilstander**
+- Hvis ingen tur passer brukerens ønske, får brukeren beskjed om det og forslag til hva som kan justeres (for eksempel mer tid eller en annen turtype). Siden står aldri tom.
+- Hvis brukeren oppgir et sted utenfor Oslo-området, får brukeren beskjed om at første versjon bare dekker Oslo-området.
+- Hvis værdata ikke er tilgjengelig, vises turforslaget likevel, uten bekledningstips og med en melding om at værvarselet mangler.
+- Hvis KI ikke svarer eller gir et ugyldig svar, brukes et regelbasert forslag (se Success Criteria 2).
+
+**Mobil**
+- Nettsiden er responsiv og fungerer på mobil, siden brukerne ofte sjekker turen på vei ut.
+
+**Universell utforming**
+- Nettsiden følger grunnleggende krav til universell utforming, med WCAG 2.1 nivå AA som rettesnor: lesbar kontrast, tastaturnavigasjon, skjemaetiketter og alternativ tekst for kart og bilder.
+
+**Personvern**
+- Turhistorikk og vurderinger er personopplysninger. Appen lagrer bare det som trengs for personaliseringen: e-post, passord (lagret som hash), lagrede turer og vurderinger. Brukerens posisjon spores ikke, og brukeren kan slette kontoen sin med all historikk. Testbrukeren inneholder bare oppdiktede data.
 
 ## Vision
 
