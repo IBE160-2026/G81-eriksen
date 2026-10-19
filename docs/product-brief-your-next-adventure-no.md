@@ -34,11 +34,25 @@ Første versjon er bygget rundt denne ene brukergruppen. Andre brukergrupper, so
 
 ## Success Criteria
 
-- En bruker kan oppgi lokasjon i Oslo-området, tid og ønsket type tur, og få et konkret forslag med kart, tidsestimat og tips.
-- Brukere kan opprette konto og lagre gjennomførte turer.
-- Forslag blir merkbart mer treffsikre for en bruker med turhistorikk enn for en ny bruker (personalisering fungerer).
-- Testbrukere vurderer forslagene som relevante og vanskelighetsgraden som riktig oppfattet, målt gjennom enkel tilbakemelding etter tur.
-- Prosjektet leverer en fungerende demo som dekker kjerneflyten (input → forslag → lagring → forbedret forslag).
+Vanskelighetsgrad følger DNTs fargeskala (grønn, blå, rød, svart). Kriteriene under er formulert slik at de kan testes.
+
+**Kjerneflyt**
+1. En bruker kan beskrive ønsket tur (sted i Oslo-området, tid og type tur) og får minst ett forslag med rutelinje på kart, beregnet tidsestimat, bekledningstips og en kort forklaring på hvorfor turen passer.
+2. Alle forslag er turer som finnes i turdatabasen. Hvis KI foreslår noe som ikke finnes der, eller ikke svarer, brukes et regelbasert forslag i stedet.
+3. Det beregnede tidsestimatet for en foreslått tur er ikke lengre enn tiden brukeren har oppgitt.
+4. Brukere kan opprette konto, lagre en gjennomført tur og vurdere den som *for lett*, *passe* eller *for hard*, og som *likte* eller *likte ikke*.
+
+**Personalisering (faste regler)**
+
+5. En ny bruker uten historikk får bare turer med laveste vanskelighetsgrad (grønn) som førstevalg.
+6. Når en bruker har vurdert tre turer på samme vanskelighetsgrad som *for lett*, blir neste vanskelighetsgrad (for eksempel blå) foreslått først.
+7. Når en bruker vurderer en tur som *for hard*, foreslås ikke turer med høyere vanskelighetsgrad enn den turen før brukeren har vurdert en ny tur som *passe*.
+8. En tur brukeren har vurdert som *likte ikke*, blir ikke foreslått igjen. Turtyper brukeren har likt, rangeres høyere når flere turer passer like godt.
+
+**Demo og brukertest**
+
+9. Appen har en testbruker med ferdig turhistorikk, der regel 6–8 synes uten at appen må brukes over tid.
+10. Manuell brukertest med 3–5 nybegynnere: minst 4 av 5 klarer kjerneflyten (beskrive tur → få forslag → lagre → vurdere) uten hjelp, og vurderer det første forslaget som relevant. Resultatet dokumenteres i repoet.
 
 ## Scope
 
@@ -49,8 +63,9 @@ Første versjon er bygget rundt denne ene brukergruppen. Andre brukergrupper, so
 - Turforslag fra turdatabasen med kart, tidsestimat og tips, der KI tolker brukerens ønske og velger og forklarer blant turene
 - Værbaserte bekledningstips til turforslaget, hentet fra Yr/MET sitt værvarsel-API for turens lokasjon og tidspunkt
 - Brukerkonto med innlogging
-- Lagring av tidligere turer og enkel tilbakemelding (f.eks. opplevd vanskelighetsgrad, likte/likte ikke)
-- Grunnleggende personalisering av forslag basert på lagret historikk
+- Lagring av tidligere turer og enkel tilbakemelding (opplevd vanskelighetsgrad: for lett/passe/for hard, og likte/likte ikke)
+- Regelbasert personalisering av forslag basert på lagret historikk (se Success Criteria 5–8)
+- Testbruker med ferdig turhistorikk
 
 **Eksplisitt utenfor for første versjon:**
 - Turer utenfor Oslo-området
