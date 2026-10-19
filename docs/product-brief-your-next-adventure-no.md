@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-Your Next Adventure er en nettside som hjelper nybegynnere med å planlegge sin neste fottur i naturen i Oslo-området. I stedet for å lete gjennom generelle kart eller store turdatabaser, skriver brukeren rett og slett inn hvor de vil dra, hvor mye tid de har, og hva slags opplevelse de er ute etter — en krevende topptur, en rolig skogstur, eller noe midt imellom. Tjenesten svarer med konkrete forslag: rute på kart, tidsbruk og praktiske tips.
+Your Next Adventure er en nettside som hjelper nybegynnere med å planlegge sin neste fottur i naturen i Oslo-området. I stedet for å lete gjennom generelle kart eller store turdatabaser, skriver brukeren rett og slett inn hvor de vil dra, hvor mye tid de har, og hva slags opplevelse de er ute etter — en topptur, en rolig skogstur, eller noe midt imellom. Tjenesten svarer med konkrete forslag: rute på kart, tidsbruk og praktiske tips.
 
 Det som gjør Your Next Adventure annerledes er at den blir smartere jo mer den brukes. Med en brukerkonto lagres tidligere turer, og systemet lærer hva brukeren faktisk likte og hvordan de opplevde vanskelighetsgraden — ikke bare hva et objektivt turkart sier om stigning og lengde. Over tid gir dette forslag som er tilpasset den enkelte, ikke bare stedet.
 
