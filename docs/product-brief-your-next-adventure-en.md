@@ -1,5 +1,9 @@
 # Product Brief: Your Next Adventure
 
+> **Utdatert:** Dette er en engelsk oversettelse av første versjon (v1) og oppdateres ikke lenger. Gjeldende versjon er [product-brief-your-next-adventure-no.md](product-brief-your-next-adventure-no.md).
+>
+> **Outdated:** This is an English translation of the first version (v1) and is no longer maintained. The current version is the Norwegian brief linked above.
+
 ## Executive Summary
 
 Your Next Adventure is a website that helps people plan their next hike in nature. Instead of digging through general maps or large trail databases, the user simply enters where they want to go, how much time they have, and what kind of experience they're looking for, whether that is a demanding summit hike, a relaxed walk in the woods, or something in between. The service responds with concrete suggestions: a route on a map, time estimates, and practical tips.
