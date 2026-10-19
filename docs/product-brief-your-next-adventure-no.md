@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-Your Next Adventure er en nettside som hjelper folk med å planlegge sin neste fottur i naturen. I stedet for å lete gjennom generelle kart eller store turdatabaser, skriver brukeren rett og slett inn hvor de vil dra, hvor mye tid de har, og hva slags opplevelse de er ute etter — en krevende topptur, en rolig skogstur, eller noe midt imellom. Tjenesten svarer med konkrete forslag: rute på kart, tidsbruk og praktiske tips.
+Your Next Adventure er en nettside som hjelper nybegynnere med å planlegge sin neste fottur i naturen i Oslo-området. I stedet for å lete gjennom generelle kart eller store turdatabaser, skriver brukeren rett og slett inn hvor de vil dra, hvor mye tid de har, og hva slags opplevelse de er ute etter — en krevende topptur, en rolig skogstur, eller noe midt imellom. Tjenesten svarer med konkrete forslag: rute på kart, tidsbruk og praktiske tips.
 
 Det som gjør Your Next Adventure annerledes er at den blir smartere jo mer den brukes. Med en brukerkonto lagres tidligere turer, og systemet lærer hva brukeren faktisk likte og hvordan de opplevde vanskelighetsgraden — ikke bare hva et objektivt turkart sier om stigning og lengde. Over tid gir dette forslag som er tilpasset den enkelte, ikke bare stedet.
 
@@ -26,13 +26,13 @@ Vi skal være ærlige om hva fortrinnet er: det ligger ikke i en unik teknisk op
 
 ## Who This Serves
 
-Primærbruker: folk som liker å gå turer i naturen — fra nybegynnere som er usikre på hva de takler, til erfarne turgåere som vil ha raske, treffsikre forslag uten å bruke tid på research. Felles for dem er at de vet omtrent hva de har lyst til (tid, sted, type opplevelse), men ikke nødvendigvis den konkrete ruten. Suksess for dem er å få et forslag de stoler på og faktisk bruker, og som blir bedre tilpasset dem jo mer de bruker tjenesten.
+Primærbruker: nybegynnere på tur i Oslo-området — folk som har lyst til å komme seg ut i naturen, men som er usikre på hva de takler og hvilke turer som passer for dem. De vet omtrent hva de har lyst til (tid, sted, type opplevelse), men ikke den konkrete ruten, og de mangler erfaring til å vurdere lengde, stigning og vanskelighetsgrad selv. Suksess for dem er å få et forslag de stoler på og faktisk bruker, som ikke er for krevende, og som blir bedre tilpasset dem jo mer de bruker tjenesten.
 
-Sekundærbruker: turister eller tilflyttere som ikke kjenner området godt, og som trenger konkrete forslag tilpasset hvor mye tid de har til rådighet.
+Første versjon er bygget rundt denne ene brukergruppen. Andre brukergrupper, som erfarne turgåere og turister eller tilflyttere, er beskrevet under Vision.
 
 ## Success Criteria
 
-- En bruker kan oppgi lokasjon, tid og ønsket type tur, og få et konkret forslag med kart, tidsestimat og tips.
+- En bruker kan oppgi lokasjon i Oslo-området, tid og ønsket type tur, og få et konkret forslag med kart, tidsestimat og tips.
 - Brukere kan opprette konto og lagre gjennomførte turer.
 - Forslag blir merkbart mer treffsikre for en bruker med turhistorikk enn for en ny bruker (personalisering fungerer).
 - Testbrukere vurderer forslagene som relevante og vanskelighetsgraden som riktig oppfattet, målt gjennom enkel tilbakemelding etter tur.
@@ -41,6 +41,7 @@ Sekundærbruker: turister eller tilflyttere som ikke kjenner området godt, og s
 ## Scope
 
 **Med i første versjon:**
+- Geografisk avgrenset til Oslo-området, inkludert Oslomarka
 - Input for lokasjon, tilgjengelig tid og ønsket turtype/opplevelse
 - AI-genererte turforslag med kart, tidsestimat og tips
 - Værbaserte bekledningstips til turforslaget, hentet fra Yr/MET sitt værvarsel-API for turens lokasjon og tidspunkt
@@ -49,6 +50,8 @@ Sekundærbruker: turister eller tilflyttere som ikke kjenner området godt, og s
 - Grunnleggende personalisering av forslag basert på lagret historikk
 
 **Eksplisitt utenfor for første versjon:**
+- Turer utenfor Oslo-området
+- Tilpasning til andre brukergrupper enn nybegynnere (se Vision)
 - Værvarsel som egen varslingstjeneste (push-varsler, beredskapsmeldinger) — vær brukes kun som input til turforslaget, ikke som et selvstendig varslingsprodukt
 - Presis terrengstatus/føremelding (snø, is, gjørme) — for upresist til å love i v1; vurderes senere
 - Mobilapp (kun nettside i første omgang)
@@ -59,4 +62,4 @@ Sekundærbruker: turister eller tilflyttere som ikke kjenner området godt, og s
 
 ## Vision
 
-Om to-tre år er Your Next Adventure det første stedet folk går for å planlegge en tur i naturen — ikke fordi den har flest stier i databasen, men fordi den kjenner brukeren godt nok til å foreslå akkurat den turen de trenger denne dagen. Personaliseringen har blitt så treffsikker at brukere stoler blindt på forslagene, og tjenesten har utvidet til flere regioner og etter hvert flere typer friluftsaktiviteter enn fottur — ski, sykkel, padling — alltid med samme kjerneidé: forstå brukeren, ikke bare stedet.
+Om to-tre år er Your Next Adventure det første stedet folk går for å planlegge en tur i naturen — ikke fordi den har flest stier i databasen, men fordi den kjenner brukeren godt nok til å foreslå akkurat den turen de trenger denne dagen. Personaliseringen har blitt så treffsikker at brukere stoler blindt på forslagene, og tjenesten har utvidet fra Oslo-området til flere regioner. Den har også utvidet fra nybegynnere til flere brukergrupper: erfarne turgåere som vil ha raske, treffsikre forslag uten å bruke tid på research, og turister eller tilflyttere som ikke kjenner området og trenger konkrete forslag tilpasset tiden de har til rådighet. Etter hvert dekker tjenesten også flere typer friluftsaktiviteter enn fottur — ski, sykkel, padling — alltid med samme kjerneidé: forstå brukeren, ikke bare stedet.
