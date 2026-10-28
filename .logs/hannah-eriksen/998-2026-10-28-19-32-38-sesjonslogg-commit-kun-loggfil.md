@@ -11,7 +11,7 @@ Sørge for at `sesjonslogg`-skillen alltid committer selve loggfila etter at den
 
 ### Resultat
 - `.claude/skills/sesjonslogg/SKILL.md`: commit-seksjonen committer nå bare loggfila (`git add`/`git commit` path-begrenset til den ene fila), kontrollen med `git show --stat HEAD` krever nøyaktig én fil, og regelen om å ta med `issues.md` er fjernet. `issues.md`-seksjonen sier nå at fila ikke committes av skillen. Eksempelteksten for CLAUDE.md-forankring er oppdatert til «committer loggfila».
-- Skill-endringen er committet etter ønske fra brukeren: `19c67ea` («sesjonslogg: commit kun loggfila, ikke issues.md»), kun `SKILL.md`. Ikke pushet.
+- Skill-endringen er committet etter ønske fra brukeren: `19c67ea` («sesjonslogg: commit kun loggfila, ikke issues.md»), kun `SKILL.md`. Pushet til `origin/oppsett/bmad` (`7cde347..8bbf27e`).
 
 ### Åpne punkter
 Ingen.
