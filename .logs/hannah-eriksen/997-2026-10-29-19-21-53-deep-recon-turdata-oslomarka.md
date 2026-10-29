@@ -18,7 +18,7 @@ Kjørte `bmad-help` for å finne neste steg (svaret var PRD). Brukeren valgte å
 - Påstandene i rapporten: 3 verifisert, 4 uverifisert og 1 motbevist. Den motbeviste gjaldt GML i EPSG:4326, som ikke finnes. Kontrollagenten fant 7 avvik i kildehenvisningene, og alle er rettet i rapporten.
 - `_bmad-output/` er ikke committet.
 - Briefen er oppdatert etterpå: `docs/product-brief-your-next-adventure-no.md` (The Solution og Scope). Rutelinjene kommer nå fra Kartverkets Turrutebasen med OSM som supplement, høydemeter fra Kartverkets høydedata, og vanskelighetsgrad settes etter faste regler. Den engelske briefen er ikke endret, fordi den er en eldre versjon. Endringen i briefen er ikke committet.
-- Committet etter ønske fra brukeren: `69851e7` (research-mappen i `_bmad-output/`) og `0c5f36a` (briefen). Ikke pushet.
+- Committet etter ønske fra brukeren: `69851e7` (research-mappen i `_bmad-output/`) og `0c5f36a` (briefen). Pushet til `origin/oppsett/bmad` (`13e13cd..09d2e9f`).
 
 ### Åpne punkter
 - Avklar UT/DNTs grenseverdier for gradering (≤5 km / ≤300 hm for grønn) i nettleser. hjelp.ut.no returnerte 403.
