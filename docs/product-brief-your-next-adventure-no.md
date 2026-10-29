@@ -16,7 +16,7 @@ I dag løser folk dette ved å bruke god tid på research, spørre venner, eller
 
 Your Next Adventure lar brukeren beskrive turen de har lyst på — lokasjon, tilgjengelig tid, og ønsket type opplevelse (f.eks. topptur, skogstur, tur med utsikt) — og få konkrete, ferdige forslag tilbake: rute vist på kart, estimert tidsbruk, og relevante tips for turen, inkludert bekledningstips basert på værvarselet for turdagen.
 
-Turforslagene hentes fra en kuratert turdatabase med 20–30 kontrollerte turer i Oslomarka, egnet for nybegynnere. Hver tur har faste opplysninger som navn, startpunkt, lengde, høydemeter, turtype og vanskelighetsgrad, og rutelinjene er hentet fra OpenStreetMap. KI tolker brukerens ønske i vanlig språk, og velger og forklarer blant turene i databasen, men lager ikke nye ruter. Tidsestimatet beregnes ut fra lengde og høydemeter, slik at det ikke er KI som gjetter hvor lang tid turen tar.
+Turforslagene hentes fra en kuratert turdatabase med 20–30 kontrollerte turer i Oslomarka, egnet for nybegynnere. Hver tur har faste opplysninger som navn, startpunkt, lengde, høydemeter, turtype og vanskelighetsgrad, og rutelinjene er hentet fra Kartverkets Turrutebasen (åpne data), med OpenStreetMap som supplement for turer som mangler der. Høydemeter beregnes fra Kartverkets høydedata. Siden de åpne kildene sjelden oppgir vanskelighetsgrad, setter vi den selv etter faste regler basert på lengde og høydemeter. KI tolker brukerens ønske i vanlig språk, og velger og forklarer blant turene i databasen, men lager ikke nye ruter. Tidsestimatet beregnes ut fra lengde og høydemeter, slik at det ikke er KI som gjetter hvor lang tid turen tar.
 
 Med innlogging kan brukeren lagre tidligere turer. Systemet bruker denne historikken, sammen med brukerens egen vurdering av hvor lett eller hardt en tur faktisk var, til å justere forslagene etter enkle, faste regler, for eksempel hvilken vanskelighetsgrad som foreslås. Neste gang brukeren spør om et forslag, er anbefalingen tilpasset dem — ikke en generisk liste over turer i området.
 
@@ -59,7 +59,7 @@ Vanskelighetsgrad følger DNTs fargeskala (grønn, blå, rød, svart). Kriterien
 **Med i første versjon:**
 - Geografisk avgrenset til Oslo-området, inkludert Oslomarka
 - Input for lokasjon, tilgjengelig tid og ønsket turtype/opplevelse
-- Kuratert turdatabase med 20–30 kontrollerte turer i Oslomarka, med rutelinjer fra OpenStreetMap
+- Kuratert turdatabase med 20–30 kontrollerte turer i Oslomarka, med rutelinjer fra Kartverkets Turrutebasen (OpenStreetMap som supplement), høydemeter fra Kartverkets høydedata og vanskelighetsgrad satt etter faste regler
 - Turforslag fra turdatabasen med kart, tidsestimat og tips, der KI tolker brukerens ønske og velger og forklarer blant turene
 - Værbaserte bekledningstips til turforslaget, hentet fra Yr/MET sitt værvarsel-API for turens lokasjon og tidspunkt
 - Brukerkonto med innlogging
