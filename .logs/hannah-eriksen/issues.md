@@ -8,3 +8,4 @@
 - [x] 2026-10-29 [deep-recon-turdata-oslomarka](997-2026-10-29-19-21-53-deep-recon-turdata-oslomarka.md) — kjør bmad-prd (neste påkrevde BMAD-steg) (løst 2026-10-29 — startet, fortsettelse spores under)
 - [ ] 2026-10-29 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — gjenoppta bmad-prd (pauset): velg arbeidsmodus, avklar turdato/vær, gradsterskler/tidsformel, regel 6 vs 7, testmodus uten KI-nøkkel
 - [ ] 2026-10-29 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — avklar værkilde og lisens (MET/Yr), ikke dekket i teknisk research
+- [ ] 2026-10-29 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — merge PR #6, og fortsett PRD på ny branch fra `main` (f.eks. `planlegging/prd`)
