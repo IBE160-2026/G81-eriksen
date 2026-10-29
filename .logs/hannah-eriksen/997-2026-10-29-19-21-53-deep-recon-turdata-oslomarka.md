@@ -17,9 +17,9 @@ Kjørte `bmad-help` for å finne neste steg (svaret var PRD). Brukeren valgte å
 - **Hovedfunn:** Ingen kilde har brukbar vanskelighetsgrad for Oslomarka. Gradering finnes på bare 11,7 % av fotrute-segmentene i Oslo, og ingen av OSM-relasjonene har det. Gruppen må derfor kuratere og gradere turene selv etter en fast regel. ut.no har ikke noe åpent API.
 - Påstandene i rapporten: 3 verifisert, 4 uverifisert og 1 motbevist. Den motbeviste gjaldt GML i EPSG:4326, som ikke finnes. Kontrollagenten fant 7 avvik i kildehenvisningene, og alle er rettet i rapporten.
 - `_bmad-output/` er ikke committet.
+- Briefen er oppdatert etterpå: `docs/product-brief-your-next-adventure-no.md` (The Solution og Scope). Rutelinjene kommer nå fra Kartverkets Turrutebasen med OSM som supplement, høydemeter fra Kartverkets høydedata, og vanskelighetsgrad settes etter faste regler. Den engelske briefen er ikke endret, fordi den er en eldre versjon. Endringen i briefen er ikke committet.
 
 ### Åpne punkter
-- Briefen sier at rutelinjer hentes fra OpenStreetMap. Den bør oppdateres til Turrutebasen, med OSM som supplement (anbefaling 7 i rapporten).
 - Avklar UT/DNTs grenseverdier for gradering (≤5 km / ≤300 hm for grønn) i nettleser. hjelp.ut.no returnerte 403.
 - Dekningen av Turrutebasen i resten av Oslomarka (Akershus, fylke 32) er ikke målt.
 - `bmad-review` (structure, prose) er ikke kjørt på rapporten. Det er valgfri polering.
