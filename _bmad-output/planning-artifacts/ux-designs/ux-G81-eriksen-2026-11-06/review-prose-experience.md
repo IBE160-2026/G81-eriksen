@@ -1,0 +1,13 @@
+# Prosagjennomgang – EXPERIENCE.md (bmad-review, lens prose)
+
+21 prosarader + mønstre. Alle godtas. Fasilitatorens valg:
+- «Port» → Tilgang «Alle (inngang til kontofunksjoner)».
+- «har bare summer» → verifiser betydning mot konteksten; bruk «har bare totalverdier, ikke høydeprofil» hvis det stemmer, ellers skriv det tydelig.
+- «Alle forslag er vist»: «Ingen tur vises to ganger i samme økt, med mindre brukeren velger «Start fra første forslag igjen».»
+- Avvik #7: «… så brukeren kan gå tilbake til alle turtyper med tastatur (en radiogruppe kan ellers ikke nullstilles).»
+- A11y l. 284: «Når en navigering har en melding med seg (…), står meldingen rett under `h1` og får fokus i stedet for `h1` (`tabindex="-1"`). Meldingen leses ikke i tillegg opp i en live-region.»
+- UI-skrivefeil: «7. nov» → «7. nov.» i Søkeoppsummering-eksemplet. Indre sitater i UI-strenger bruker "…" (f.eks. plassholder: For eksempel "rundt 5 km" eller "forbi et vann").
+- Skjermnavn: «Logg inn / Registrer» → «Logg inn / Lag konto» overalt i EXPERIENCE.md (i tråd med beslutningen om «Lag konto»); legg til i Avvik fra PRD at PRD §6 kaller skjermen «logg inn / registrer».
+- Ta også med de 9 mindre rettene linsen utelot når de er åpenbare (f.eks. «Infokolonne» med stor forbokstav som komponentnavn).
+
+Øvrige rader (ordrett fra linsen): Voice l. 66 eksempel flyttes til etter regelen; pekere til «PRD-original» → «kolonnen Kilde»; pekere til «Responsive & Platform» → «Turforslag – rekkefølge»; Kilde-verdier entydige per tekst («Godkjent (mock)», «PRD», «[ASSUMPTION]») og forklaringen i l. 98 flyttes til Begrunnelse-raden; forklar/bytt sjargong («bare spine» → «bare beskrevet her (ingen mock)», «memlog (beslutningsloggen fra UX-arbeidet)», «Foldmålet (det som skal synes uten rulling, se DESIGN.md)», «live-region med `aria-live="polite"`», «journeyen» → «brukerreisen», «nøkkel» → «API-nøkkel til KI-tjenesten» første gang); én term per begrep («sidelengs rulling», «Logg inn / Lag konto», «konkrete endringsforslag», «desktop og mobil» unntatt Olas PC i fortellingen, «Faktarute»); «Etter det siste forslaget kommer Tilstandspanel …»; Søkeoppsummering-setningen med subjekt; «Feltene valideres …»; «Vanlig tastaturoppførsel for nedtrekksliste.»; «Feltet stopper ikke inntastingen ved 200 tegn.»; «Har brukeren skrevet …»; «Fanen er lukket, eller adressen er åpnet direkte»; «står (alltid) med» → «vises (alltid)»; token-referanser i formen `{colors.…}`; «Mocken viser mobil (375 px) og desktop (1280 px) side om side, med denne rekkefølgen:»; «sendeknappen»; «i stedet for på mobilen på vei ut»; «tekstavstand etter WCAG 1.4.12».

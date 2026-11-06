@@ -1,0 +1,1088 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fargetemaer runde 2</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#E9E9EB;color:#1F2125;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:16px;line-height:1.5}
+code{font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;font-size:12px}
+.top{max-width:1560px;margin:0 auto;padding:40px 24px 8px}
+.top h1{margin:0 0 6px;font-size:30px;letter-spacing:-.01em}
+.top p{margin:4px 0;max-width:95ch;color:#3E4148}
+.top .meta{font-size:14px;color:#55585F}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0;padding:0;list-style:none}
+.toc a{display:inline-block;padding:6px 12px;border-radius:999px;background:#fff;color:#1F2125;text-decoration:none;border:1px solid #D2D3D8;font-size:14px}
+/* oversikt */
+.ov{max-width:1560px;margin:24px auto 0;padding:0 24px}
+.ov h2{font-size:20px;margin:0 0 10px}
+.ov-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.ov-col{border:1px solid #D7D8DC;border-radius:12px;overflow:hidden;background:#fff}
+.ov-col.is-ref{border:2px dashed #8A8D94}
+.ov-h{padding:10px 12px;font-size:14px}
+.ov-h .st{display:block;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A5D64}
+.ov-h b{font-size:16px}
+.ov-m{background:var(--bg);color:var(--text);padding:12px}
+.ov-m .lbl{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:0 0 6px}
+.pair{display:flex;gap:6px;align-items:stretch}
+.pair .big{flex:1;border-radius:8px;min-height:60px;padding:6px 8px;font-size:12px;display:flex;flex-direction:column;justify-content:flex-end;line-height:1.3}
+.pair .big.pr{background:var(--primary);color:var(--on-primary)}
+.pair .big.gr{background:var(--g);color:var(--g-on)}
+.ov-m .row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}
+.ov-m .de{font-size:13px;margin:6px 0 0}
+.ov-m .de b{font-variant-numeric:tabular-nums}
+.ov-m .btn{min-height:36px;padding:6px 12px;font-size:13px}
+.ov-m .badge{font-size:12.5px;padding:3px 9px 3px 7px}
+/* variantseksjoner */
+.var{max-width:1560px;margin:32px auto 0;padding:0 24px}
+.var-h{background:#fff;border:1px solid #D7D8DC;border-radius:14px 14px 0 0;padding:18px 22px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.var-h .num{font-size:13px;font-weight:700;color:#55585F;letter-spacing:.06em;text-transform:uppercase}
+.var-h h2{margin:0;font-size:24px}
+.var-h .reg{margin:2px 0 0;font-style:italic;color:#3E4148}
+.var-h .about{margin:4px 0 0;font-size:14px;color:#4A4D54;max-width:110ch}
+.var-h .grad-strip{flex:0 0 200px;height:44px;border-radius:10px}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,680px),1fr));border:1px solid #D7D8DC;border-top:0;border-radius:0 0 14px 14px;overflow:hidden}
+.mode{background:var(--bg);color:var(--text);padding:22px}
+.mode-h{margin:0 0 12px;font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.tbd{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:999px;border:1px dashed var(--muted);font-size:12px;letter-spacing:0;text-transform:none}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.chip{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:8px;font-size:12.5px;line-height:1.35}
+.sw{flex:0 0 38px;height:38px;border-radius:8px;border:1px solid rgba(127,127,127,.35)}
+.cl b{font-size:13px}
+.ratio{font-size:11.5px;color:var(--muted)}
+.ratio.ok::before{content:"✓ ";color:var(--text)}
+.ratio.bad{color:var(--error);font-weight:700}
+.sub{margin:18px 0 8px;font-size:14px;color:var(--text)}
+.lvchips{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px}
+.lvchip{align-items:center}
+.tables{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px}
+.tbl{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);font-size:12.5px}
+.tbl th,.tbl td{text-align:left;padding:5px 8px;border-bottom:1px solid var(--border);vertical-align:middle}
+.tbl th{font-size:11.5px;color:var(--muted);font-weight:600}
+.tbl .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl td.ok{color:var(--text)}
+.tbl td.ok::before{content:"✓ "}
+.tbl td.bad{color:var(--error);font-weight:700}
+.mini{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px;border:1px solid rgba(127,127,127,.4)}
+.note{font-size:12.5px;color:var(--muted);margin:8px 0 0}
+/* nivåmerke */
+.badge{display:inline-flex;align-items:center;gap:7px;padding:4px 11px 4px 9px;border-radius:999px;font-size:14px;font-weight:650;white-space:nowrap;line-height:1.3}
+.badge .dot{width:10px;height:10px;border-radius:50%;background:currentColor;opacity:.9}
+.lv-g{background:var(--g);color:var(--g-on)}
+.lv-b{background:var(--b);color:var(--b-on)}
+.lv-r{background:var(--r);color:var(--r-on)}
+.lv-s{background:var(--s);color:var(--s-on)}
+.dark .lv-s{box-shadow:inset 0 0 0 1.5px var(--muted)}
+/* UI-utsnitt */
+.app{background:var(--bg);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.appbar{display:flex;justify-content:space-between;align-items:center;padding:10px 18px;background:var(--surface);border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px}
+.logo-mark{width:22px;height:22px;border-radius:6px;background:var(--grad)}
+.appbar nav{display:flex;gap:4px}
+.nav-i{padding:6px 12px;border-radius:8px;font-size:14px;color:var(--muted)}
+.nav-i.is-on{color:var(--text);background:var(--surface-alt);font-weight:600}
+.sky{height:5px;background:var(--grad)}
+.page{padding:18px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr)}
+.illu{background:var(--surface-alt);border-right:1px solid var(--border);padding:14px 12px 8px;display:flex;flex-direction:column;justify-content:center}
+.prof{display:block;width:100%;height:auto}
+.p-sun{fill:var(--sun);opacity:.85}
+.p-ridge{fill:var(--grad-mid);opacity:.28}
+.p-area{fill:var(--profile-fill)}
+.p-line{fill:none;stroke:var(--primary);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.p-base{stroke:var(--border);stroke-width:1.5}
+.p-view{fill:var(--accent);stroke:var(--surface);stroke-width:2}
+.p-start{fill:var(--primary);stroke:var(--surface);stroke-width:2}
+.p-lbl{fill:var(--text);font-size:11px;font-weight:650;font-family:inherit}
+.p-ax{fill:var(--muted);font-size:10.5px;font-family:inherit}
+.illu-cap{margin:4px 0 0;font-size:11.5px;color:var(--muted);text-align:center}
+.card-body{padding:16px 20px 12px}
+.eyebrow{margin:0;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.route{margin:2px 0 8px;font-size:21px;line-height:1.25}
+.facts{display:flex;flex-wrap:wrap;gap:6px 8px}
+.fact{padding:3px 10px;border-radius:999px;background:var(--surface-alt);font-size:13.5px;font-weight:550}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}
+.match{display:inline-flex;align-items:center;gap:6px;padding:4px 11px 4px 8px;border-radius:8px;background:var(--accent-soft);color:var(--text);font-size:14px;font-weight:600;border:1px solid var(--accent)}
+.sunic{width:16px;height:16px}
+.sunic circle{fill:var(--accent)}
+.sunic path{stroke:var(--accent);stroke-width:1.6;stroke-linecap:round;fill:none}
+.why{margin:10px 0 0;font-size:14.5px}
+.actions{display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center;margin-top:14px}
+.btn{font:inherit;font-size:15px;font-weight:650;min-height:44px;padding:9px 18px;border-radius:10px;cursor:pointer}
+.btn.primary{background:var(--primary);color:var(--on-primary);border:1.5px solid var(--primary)}
+.btn.secondary{background:transparent;color:var(--primary);border:1.5px solid var(--primary)}
+.btn.is-focus,.btn:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.ratio-inline{font-size:11.5px;color:var(--muted);margin:8px 0 0}
+.credit{margin:10px 0 0;padding-top:8px;border-top:1px solid var(--border);font-size:12px;color:var(--muted)}
+.foot{max-width:1560px;margin:28px auto 48px;padding:0 24px;font-size:13px;color:#55585F}
+@media (max-width:1100px){.ov-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}.tables{grid-template-columns:1fr}}
+@media (max-width:720px){.card{grid-template-columns:1fr}.illu{border-right:0;border-bottom:1px solid var(--border)}.appbar nav{display:none}}
+</style>
+<style>
+/* ===== REF Granskog (runde 1) (Referanse – uendret) – Jordnær og trygg – blågrønn gran, solnedgangen titter fram mellom stammene. =====
+   LYS:
+     --background: #F3F4EF;
+     --surface: #FFFFFF;
+     --surface-alt: #E6EBE2;
+     --text: #1D2A23;
+     --text-muted: #4F5E55;
+     --primary: #2F5866;
+     --primary-on: #FFFFFF;
+     --accent: #D6936E;
+     --accent-2: #C99AA6;
+     --border: #CDD5C9;
+     --focus-ring: #B0624A;
+     --success: #2F6A47;
+     --info: #3F5F86;
+     --warning: #865A16;
+     --error: #A5383A;
+     --accent-soft: #F6E4D8;  (bakgrunn for «Utsikt – som du ba om»)
+     --profile-fill: #CFE0E3;  (høydeprofil, fyll; linje = --primary)
+     --level-gronn: #1A7F37; (tekst #FFFFFF)
+     --level-bla: #0A5BD3; (tekst #FFFFFF)
+     --level-rod: #C8221B; (tekst #FFFFFF)
+     --level-svart: #111111; (tekst #FFFFFF)
+     gradient: linear-gradient(90deg,#2F5866 0%,#6F8A7E 40%,#D9A48A 75%,#EEC7B0 100%)
+     dE2000 primær vs Grønn #1A7F37: 32.3
+   MØRK:
+     --background: #131A18;
+     --surface: #1B2422;
+     --surface-alt: #24302C;
+     --text: #E6EDE8;
+     --text-muted: #A7B5AC;
+     --primary: #8EC0C4;
+     --primary-on: #10201E;
+     --accent: #E3A784;
+     --accent-2: #D9AAB5;
+     --border: #2F3D38;
+     --focus-ring: #F0B79C;
+     --success: #8CCB9C;
+     --info: #97B6E0;
+     --warning: #E5BA6E;
+     --error: #EF9A92;
+     --accent-soft: #3B2D27;  (bakgrunn for «Utsikt – som du ba om»)
+     --profile-fill: #2B4245;  (høydeprofil, fyll; linje = --primary)
+     --level-gronn: #34C35F; (tekst #111418)
+     --level-bla: #4C93FF; (tekst #111418)
+     --level-rod: #FF5D52; (tekst #111418)
+     --level-svart: #050505; (tekst #FFFFFF)
+     gradient: linear-gradient(90deg,#1F3A40 0%,#3F5A50 40%,#8F6D5C 75%,#B48B74 100%)
+     dE2000 primær vs Grønn #34C35F: 27.5
+*/
+.ref.light{--bg:#F3F4EF;--surface:#FFFFFF;--surface-alt:#E6EBE2;--text:#1D2A23;--muted:#4F5E55;--border:#CDD5C9;--primary:#2F5866;--on-primary:#FFFFFF;--success:#2F6A47;--profile-fill:#CFE0E3;--grad-mid:#6F8A7E;--grad:linear-gradient(90deg,#2F5866 0%,#6F8A7E 40%,#D9A48A 75%,#EEC7B0 100%);--accent:#D6936E;--accent2:#C99AA6;--focus:#B0624A;--info:#3F5F86;--warning:#865A16;--error:#A5383A;--accent-soft:#F6E4D8;--sun:#EEC7B0;--g:#1A7F37;--b:#0A5BD3;--r:#C8221B;--s:#111111;--g-on:#FFFFFF;--b-on:#FFFFFF;--r-on:#FFFFFF;--s-on:#FFFFFF;}
+.ref.dark{--bg:#131A18;--surface:#1B2422;--surface-alt:#24302C;--text:#E6EDE8;--muted:#A7B5AC;--border:#2F3D38;--primary:#8EC0C4;--on-primary:#10201E;--success:#8CCB9C;--profile-fill:#2B4245;--grad-mid:#3F5A50;--grad:linear-gradient(90deg,#1F3A40 0%,#3F5A50 40%,#8F6D5C 75%,#B48B74 100%);--accent:#E3A784;--accent2:#D9AAB5;--focus:#F0B79C;--info:#97B6E0;--warning:#E5BA6E;--error:#EF9A92;--accent-soft:#3B2D27;--sun:#8F6D5C;--g:#34C35F;--b:#4C93FF;--r:#FF5D52;--s:#050505;--g-on:#111418;--b-on:#111418;--r-on:#111418;--s-on:#FFFFFF;}
+/* ===== GT Granskog – grantopp (Steg 1 – litt grønnere) – Samme ro som før, men lyset faller på de grønne granspissene i stedet for i blått. =====
+   LYS:
+     --background: #F2F4EF;
+     --surface: #FFFFFF;
+     --surface-alt: #E4EBE4;
+     --text: #1C2A24;
+     --text-muted: #4D5E57;
+     --primary: #335954;
+     --primary-on: #FFFFFF;
+     --accent: #D6936E;
+     --accent-2: #C99AA6;
+     --border: #CAD5CB;
+     --focus-ring: #B0624A;
+     --success: #2E4D3C;
+     --info: #3F5F86;
+     --warning: #865A16;
+     --error: #A5383A;
+     --accent-soft: #F6E4D8;  (bakgrunn for «Utsikt – som du ba om»)
+     --profile-fill: #CCE1DD;  (høydeprofil, fyll; linje = --primary)
+     --level-gronn: #1A7F37; (tekst #FFFFFF)
+     --level-bla: #0A5BD3; (tekst #FFFFFF)
+     --level-rod: #C8221B; (tekst #FFFFFF)
+     --level-svart: #111111; (tekst #FFFFFF)
+     gradient: linear-gradient(90deg,#335954 0%,#79908C 40%,#D9A48A 75%,#EEC7B0 100%)
+     dE2000 primær vs Grønn #1A7F37: 22.1
+   MØRK:
+     --background: #121A17;
+     --surface: #1A2420;
+     --surface-alt: #23302B;
+     --text: #E5EDE8;
+     --text-muted: #A6B6AE;
+     --primary: #A0C9C2;
+     --primary-on: #172422;
+     --accent: #E3A784;
+     --accent-2: #D9AAB5;
+     --border: #2E3D37;
+     --focus-ring: #F0B79C;
+     --success: #B0CDBA;
+     --info: #97B6E0;
+     --warning: #E5BA6E;
+     --error: #EF9A92;
+     --accent-soft: #3B2D27;  (bakgrunn for «Utsikt – som du ba om»)
+     --profile-fill: #344B47;  (høydeprofil, fyll; linje = --primary)
+     --level-gronn: #34C35F; (tekst #111418)
+     --level-bla: #4C93FF; (tekst #111418)
+     --level-rod: #FF5D52; (tekst #111418)
+     --level-svart: #050505; (tekst #FFFFFF)
+     gradient: linear-gradient(90deg,#223935 0%,#465E5A 40%,#8F6D5C 75%,#B48B74 100%)
+     dE2000 primær vs Grønn #34C35F: 23.2
+*/
+.gt.light{--bg:#F2F4EF;--surface:#FFFFFF;--surface-alt:#E4EBE4;--text:#1C2A24;--muted:#4D5E57;--border:#CAD5CB;--primary:#335954;--on-primary:#FFFFFF;--success:#2E4D3C;--profile-fill:#CCE1DD;--grad-mid:#79908C;--accent:#D6936E;--accent2:#C99AA6;--focus:#B0624A;--info:#3F5F86;--warning:#865A16;--error:#A5383A;--accent-soft:#F6E4D8;--sun:#EEC7B0;--grad:linear-gradient(90deg,#335954 0%,#79908C 40%,#D9A48A 75%,#EEC7B0 100%);--g:#1A7F37;--b:#0A5BD3;--r:#C8221B;--s:#111111;--g-on:#FFFFFF;--b-on:#FFFFFF;--r-on:#FFFFFF;--s-on:#FFFFFF;}
+.gt.dark{--bg:#121A17;--surface:#1A2420;--surface-alt:#23302B;--text:#E5EDE8;--muted:#A6B6AE;--border:#2E3D37;--primary:#A0C9C2;--on-primary:#172422;--success:#B0CDBA;--profile-fill:#344B47;--grad-mid:#465E5A;--accent:#E3A784;--accent2:#D9AAB5;--focus:#F0B79C;--info:#97B6E0;--warning:#E5BA6E;--error:#EF9A92;--accent-soft:#3B2D27;--sun:#8F6D5C;--grad:linear-gradient(90deg,#223935 0%,#465E5A 40%,#8F6D5C 75%,#B48B74 100%);--g:#34C35F;--b:#4C93FF;--r:#FF5D52;--s:#050505;--g-on:#111418;--b-on:#111418;--r-on:#111418;--s-on:#FFFFFF;}
+/* ===== MO Mosegrønn (Steg 2 – tydelig grønnere) – Mykt og stille – grågrønn mose på en stein, varm og lun bunn. =====
+   LYS:
+     --background: #F3F3EC;
+     --surface: #FFFEFA;
+     --surface-alt: #E7EADF;
+     --text: #1F2A22;
+     --text-muted: #4F5B50;
+     --primary: #355146;
+     --primary-on: #FFFFFF;
+     --accent: #D6936E;
+     --accent-2: #C99AA6;
+     --border: #CFD4C5;
+     --focus-ring: #B0624A;
+     --success: #2E4D3C;
+     --info: #3F5F86;
+     --warning: #865A16;
+     --error: #A5383A;
+     --accent-soft: #F6E4D8;  (bakgrunn for «Utsikt – som du ba om»)
+     --profile-fill: #CEE1D9;  (høydeprofil, fyll; linje = --primary)
+     --level-gronn: #1A7F37; (tekst #FFFFFF)
+     --level-bla: #0A5BD3; (tekst #FFFFFF)
+     --level-rod: #C8221B; (tekst #FFFFFF)
+     --level-svart: #111111; (tekst #FFFFFF)
+     gradient: linear-gradient(90deg,#355146 0%,#7C9087 40%,#D9A48A 75%,#EEC7B0 100%)
+     dE2000 primær vs Grønn #1A7F37: 21.3
+   MØRK:
+     --background: #141A15;
+     --surface: #1C231D;
+     --surface-alt: #262F27;
+     --text: #E8ECE4;
+     --text-muted: #AAB4A8;
+     --primary: #ADCEC0;
+     --primary-on: #19241F;
+     --accent: #E3A784;
+     --accent-2: #D9AAB5;
+     --border: #333D33;
+     --focus-ring: #F0B79C;
+     --success: #B0CDBA;
+     --info: #97B6E0;
+     --warning: #E5BA6E;
+     --error: #EF9A92;
+     --accent-soft: #3B2D27;  (bakgrunn for «Utsikt – som du ba om»)
+     --profile-fill: #374B43;  (høydeprofil, fyll; linje = --primary)
+     --level-gronn: #34C35F; (tekst #111418)
+     --level-bla: #4C93FF; (tekst #111418)
+     --level-rod: #FF5D52; (tekst #111418)
+     --level-svart: #050505; (tekst #FFFFFF)
+     gradient: linear-gradient(90deg,#263931 0%,#4A5E55 40%,#8F6D5C 75%,#B48B74 100%)
+     dE2000 primær vs Grønn #34C35F: 21.7
+*/
+.mo.light{--bg:#F3F3EC;--surface:#FFFEFA;--surface-alt:#E7EADF;--text:#1F2A22;--muted:#4F5B50;--border:#CFD4C5;--primary:#355146;--on-primary:#FFFFFF;--success:#2E4D3C;--profile-fill:#CEE1D9;--grad-mid:#7C9087;--accent:#D6936E;--accent2:#C99AA6;--focus:#B0624A;--info:#3F5F86;--warning:#865A16;--error:#A5383A;--accent-soft:#F6E4D8;--sun:#EEC7B0;--grad:linear-gradient(90deg,#355146 0%,#7C9087 40%,#D9A48A 75%,#EEC7B0 100%);--g:#1A7F37;--b:#0A5BD3;--r:#C8221B;--s:#111111;--g-on:#FFFFFF;--b-on:#FFFFFF;--r-on:#FFFFFF;--s-on:#FFFFFF;}
+.mo.dark{--bg:#141A15;--surface:#1C231D;--surface-alt:#262F27;--text:#E8ECE4;--muted:#AAB4A8;--border:#333D33;--primary:#ADCEC0;--on-primary:#19241F;--success:#B0CDBA;--profile-fill:#374B43;--grad-mid:#4A5E55;--accent:#E3A784;--accent2:#D9AAB5;--focus:#F0B79C;--info:#97B6E0;--warning:#E5BA6E;--error:#EF9A92;--accent-soft:#3B2D27;--sun:#8F6D5C;--grad:linear-gradient(90deg,#263931 0%,#4A5E55 40%,#8F6D5C 75%,#B48B74 100%);--g:#34C35F;--b:#4C93FF;--r:#FF5D52;--s:#050505;--g-on:#111418;--b-on:#111418;--r-on:#111418;--s-on:#FFFFFF;}
+/* ===== FU Furu/barnål (Steg 3 – grønn) – Trygg og jordnær – mørke barnåler, skyggen inne i skogen. =====
+   LYS:
+     --background: #F1F3EC;
+     --surface: #FFFFFC;
+     --surface-alt: #E3E9DE;
+     --text: #1B281F;
+     --text-muted: #4B5A4E;
+     --primary: #324A39;
+     --primary-on: #FFFFFF;
+     --accent: #D6936E;
+     --accent-2: #C99AA6;
+     --border: #CAD3C4;
+     --focus-ring: #B0624A;
+     --success: #2E4D3C;
+     --info: #3F5F86;
+     --warning: #865A16;
+     --error: #A5383A;
+     --accent-soft: #F6E4D8;  (bakgrunn for «Utsikt – som du ba om»)
+     --profile-fill: #D2E1D5;  (høydeprofil, fyll; linje = --primary)
+     --level-gronn: #1A7F37; (tekst #FFFFFF)
+     --level-bla: #0A5BD3; (tekst #FFFFFF)
+     --level-rod: #C8221B; (tekst #FFFFFF)
+     --level-svart: #111111; (tekst #FFFFFF)
+     gradient: linear-gradient(90deg,#324A39 0%,#808F84 40%,#D9A48A 75%,#EEC7B0 100%)
+     dE2000 primær vs Grønn #1A7F37: 21.4
+   MØRK:
+     --background: #121914;
+     --surface: #1A231C;
+     --surface-alt: #232F26;
+     --text: #E6ECE5;
+     --text-muted: #A8B5AA;
+     --primary: #B6D0BC;
+     --primary-on: #1B241E;
+     --accent: #E3A784;
+     --accent-2: #D9AAB5;
+     --border: #2F3C32;
+     --focus-ring: #F0B79C;
+     --success: #B0CDBA;
+     --info: #97B6E0;
+     --warning: #E5BA6E;
+     --error: #EF9A92;
+     --accent-soft: #3B2D27;  (bakgrunn for «Utsikt – som du ba om»)
+     --profile-fill: #3B4A3F;  (høydeprofil, fyll; linje = --primary)
+     --level-gronn: #34C35F; (tekst #111418)
+     --level-bla: #4C93FF; (tekst #111418)
+     --level-rod: #FF5D52; (tekst #111418)
+     --level-svart: #050505; (tekst #FFFFFF)
+     gradient: linear-gradient(90deg,#29382D 0%,#4D5D52 40%,#8F6D5C 75%,#B48B74 100%)
+     dE2000 primær vs Grønn #34C35F: 21.1
+*/
+.fu.light{--bg:#F1F3EC;--surface:#FFFFFC;--surface-alt:#E3E9DE;--text:#1B281F;--muted:#4B5A4E;--border:#CAD3C4;--primary:#324A39;--on-primary:#FFFFFF;--success:#2E4D3C;--profile-fill:#D2E1D5;--grad-mid:#808F84;--accent:#D6936E;--accent2:#C99AA6;--focus:#B0624A;--info:#3F5F86;--warning:#865A16;--error:#A5383A;--accent-soft:#F6E4D8;--sun:#EEC7B0;--grad:linear-gradient(90deg,#324A39 0%,#808F84 40%,#D9A48A 75%,#EEC7B0 100%);--g:#1A7F37;--b:#0A5BD3;--r:#C8221B;--s:#111111;--g-on:#FFFFFF;--b-on:#FFFFFF;--r-on:#FFFFFF;--s-on:#FFFFFF;}
+.fu.dark{--bg:#121914;--surface:#1A231C;--surface-alt:#232F26;--text:#E6ECE5;--muted:#A8B5AA;--border:#2F3C32;--primary:#B6D0BC;--on-primary:#1B241E;--success:#B0CDBA;--profile-fill:#3B4A3F;--grad-mid:#4D5D52;--accent:#E3A784;--accent2:#D9AAB5;--focus:#F0B79C;--info:#97B6E0;--warning:#E5BA6E;--error:#EF9A92;--accent-soft:#3B2D27;--sun:#8F6D5C;--grad:linear-gradient(90deg,#29382D 0%,#4D5D52 40%,#8F6D5C 75%,#B48B74 100%);--g:#34C35F;--b:#4C93FF;--r:#FF5D52;--s:#050505;--g-on:#111418;--b-on:#111418;--r-on:#111418;--s-on:#FFFFFF;}
+/* ===== DS Dyp skog (Steg 4 – klart grønn) – Dypt og rolig – nesten svartgrønn skog i skumringen, med glør i horisonten. =====
+   LYS:
+     --background: #F0F2EA;
+     --surface: #FDFDF9;
+     --surface-alt: #E1E7DA;
+     --text: #1A261D;
+     --text-muted: #4A584B;
+     --primary: #2F4231;
+     --primary-on: #FFFFFF;
+     --accent: #D6936E;
+     --accent-2: #C99AA6;
+     --border: #C8D1C0;
+     --focus-ring: #B0624A;
+     --success: #2E4D3C;
+     --info: #3F5F86;
+     --warning: #865A16;
+     --error: #A5383A;
+     --accent-soft: #F6E4D8;  (bakgrunn for «Utsikt – som du ba om»)
+     --profile-fill: #D3E0D4;  (høydeprofil, fyll; linje = --primary)
+     --level-gronn: #1A7F37; (tekst #FFFFFF)
+     --level-bla: #0A5BD3; (tekst #FFFFFF)
+     --level-rod: #C8221B; (tekst #FFFFFF)
+     --level-svart: #111111; (tekst #FFFFFF)
+     gradient: linear-gradient(90deg,#2F4231 0%,#818F82 40%,#D9A48A 75%,#EEC7B0 100%)
+     dE2000 primær vs Grønn #1A7F37: 23.4
+   MØRK:
+     --background: #111813;
+     --surface: #18211A;
+     --surface-alt: #212D23;
+     --text: #E6ECE4;
+     --text-muted: #A7B4A8;
+     --primary: #BBD2BD;
+     --primary-on: #1C231D;
+     --accent: #E3A784;
+     --accent-2: #D9AAB5;
+     --border: #2C3A2F;
+     --focus-ring: #F0B79C;
+     --success: #B0CDBA;
+     --info: #97B6E0;
+     --warning: #E5BA6E;
+     --error: #EF9A92;
+     --accent-soft: #3B2D27;  (bakgrunn for «Utsikt – som du ba om»)
+     --profile-fill: #3D4A3E;  (høydeprofil, fyll; linje = --primary)
+     --level-gronn: #34C35F; (tekst #111418)
+     --level-bla: #4C93FF; (tekst #111418)
+     --level-rod: #FF5D52; (tekst #111418)
+     --level-svart: #050505; (tekst #FFFFFF)
+     gradient: linear-gradient(90deg,#2B382C 0%,#4F5D50 40%,#8F6D5C 75%,#B48B74 100%)
+     dE2000 primær vs Grønn #34C35F: 21.4
+*/
+.ds.light{--bg:#F0F2EA;--surface:#FDFDF9;--surface-alt:#E1E7DA;--text:#1A261D;--muted:#4A584B;--border:#C8D1C0;--primary:#2F4231;--on-primary:#FFFFFF;--success:#2E4D3C;--profile-fill:#D3E0D4;--grad-mid:#818F82;--accent:#D6936E;--accent2:#C99AA6;--focus:#B0624A;--info:#3F5F86;--warning:#865A16;--error:#A5383A;--accent-soft:#F6E4D8;--sun:#EEC7B0;--grad:linear-gradient(90deg,#2F4231 0%,#818F82 40%,#D9A48A 75%,#EEC7B0 100%);--g:#1A7F37;--b:#0A5BD3;--r:#C8221B;--s:#111111;--g-on:#FFFFFF;--b-on:#FFFFFF;--r-on:#FFFFFF;--s-on:#FFFFFF;}
+.ds.dark{--bg:#111813;--surface:#18211A;--surface-alt:#212D23;--text:#E6ECE4;--muted:#A7B4A8;--border:#2C3A2F;--primary:#BBD2BD;--on-primary:#1C231D;--success:#B0CDBA;--profile-fill:#3D4A3E;--grad-mid:#4F5D50;--accent:#E3A784;--accent2:#D9AAB5;--focus:#F0B79C;--info:#97B6E0;--warning:#E5BA6E;--error:#EF9A92;--accent-soft:#3B2D27;--sun:#8F6D5C;--grad:linear-gradient(90deg,#2B382C 0%,#4F5D50 40%,#8F6D5C 75%,#B48B74 100%);--g:#34C35F;--b:#4C93FF;--r:#FF5D52;--s:#050505;--g-on:#111418;--b-on:#111418;--r-on:#111418;--s-on:#FFFFFF;}
+</style>
+</head>
+<body>
+<div class="top">
+  <h1>Fargetemaer – runde 2: grønnere Granskog</h1>
+  <p>Du ba om at Granskog skulle bli litt mer grønn i stedet for blå. Her er dagens Granskog som referanse, og fire varianter som går trinnvis fra litt grønnere til klart grønn. Alle er duse og rolige. Aprikos, støvrosa og skumringsblått fra vintersolnedgangen er beholdt som aksenter.</p>
+  <p>Jo grønnere merkefargen blir, jo nærmere kommer den nivåfargen Grønn. Derfor skiller de grønne variantene seg fra Grønn ved å være mørkere og mindre mettet, ikke bare ved fargetonen. For hver variant står avstanden (ΔE CIEDE2000) mellom merkefargene og Grønn. Under 20 regnes som for nært og er merket med ⚠.</p>
+  <p class="meta">Turnivåfargene er faste og endres ikke: lys Grønn #1A7F37, Blå #0A5BD3, Rød #C8221B, Svart #111111 · mørk #34C35F, #4C93FF, #FF5D52, #050505. Nivåmerket viser alltid farge og tekst. Kontrast er beregnet etter WCAG 2.1: 4,5:1 for tekst og knapper, 3:1 for fokusring. Mørk modus følger systeminnstillingen. Turen «Granåsen rundt» er oppdiktet eksempeldata.</p>
+  <ul class="toc"><li><a href="#ref">Granskog (runde 1)</a></li><li><a href="#gt">Granskog – grantopp</a></li><li><a href="#mo">Mosegrønn</a></li><li><a href="#fu">Furu/barnål</a></li><li><a href="#ds">Dyp skog</a></li></ul>
+</div>
+<section class="ov" aria-labelledby="ov-h"><h2 id="ov-h">Oversikt: fra blågrønn til skoggrønn</h2>
+<div class="ov-grid"><div class="ov-col is-ref"><div class="ov-h"><span class="st">Referanse – uendret</span><b>Granskog (runde 1)</b></div><div class="ov-m ref light"><p class="lbl">Lys</p>
+  <div class="pair"><div class="big pr"><b>Primær</b><code>#2F5866</code></div><div class="big gr"><b>Grønn</b><code>#1A7F37</code></div></div>
+  <p class="de">ΔE primær ↔ Grønn: <b>32,3</b></p>
+  <div class="row"><button class="btn primary" type="button">Nytt forslag</button><span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span></div></div><div class="ov-m ref dark"><p class="lbl">Mørk</p>
+  <div class="pair"><div class="big pr"><b>Primær</b><code>#8EC0C4</code></div><div class="big gr"><b>Grønn</b><code>#34C35F</code></div></div>
+  <p class="de">ΔE primær ↔ Grønn: <b>27,5</b></p>
+  <div class="row"><button class="btn primary" type="button">Nytt forslag</button><span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span></div></div></div><div class="ov-col"><div class="ov-h"><span class="st">Steg 1 – litt grønnere</span><b>Granskog – grantopp</b></div><div class="ov-m gt light"><p class="lbl">Lys</p>
+  <div class="pair"><div class="big pr"><b>Primær</b><code>#335954</code></div><div class="big gr"><b>Grønn</b><code>#1A7F37</code></div></div>
+  <p class="de">ΔE primær ↔ Grønn: <b>22,1</b></p>
+  <div class="row"><button class="btn primary" type="button">Nytt forslag</button><span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span></div></div><div class="ov-m gt dark"><p class="lbl">Mørk</p>
+  <div class="pair"><div class="big pr"><b>Primær</b><code>#A0C9C2</code></div><div class="big gr"><b>Grønn</b><code>#34C35F</code></div></div>
+  <p class="de">ΔE primær ↔ Grønn: <b>23,2</b></p>
+  <div class="row"><button class="btn primary" type="button">Nytt forslag</button><span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span></div></div></div><div class="ov-col"><div class="ov-h"><span class="st">Steg 2 – tydelig grønnere</span><b>Mosegrønn</b></div><div class="ov-m mo light"><p class="lbl">Lys</p>
+  <div class="pair"><div class="big pr"><b>Primær</b><code>#355146</code></div><div class="big gr"><b>Grønn</b><code>#1A7F37</code></div></div>
+  <p class="de">ΔE primær ↔ Grønn: <b>21,3</b></p>
+  <div class="row"><button class="btn primary" type="button">Nytt forslag</button><span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span></div></div><div class="ov-m mo dark"><p class="lbl">Mørk</p>
+  <div class="pair"><div class="big pr"><b>Primær</b><code>#ADCEC0</code></div><div class="big gr"><b>Grønn</b><code>#34C35F</code></div></div>
+  <p class="de">ΔE primær ↔ Grønn: <b>21,7</b></p>
+  <div class="row"><button class="btn primary" type="button">Nytt forslag</button><span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span></div></div></div><div class="ov-col"><div class="ov-h"><span class="st">Steg 3 – grønn</span><b>Furu/barnål</b></div><div class="ov-m fu light"><p class="lbl">Lys</p>
+  <div class="pair"><div class="big pr"><b>Primær</b><code>#324A39</code></div><div class="big gr"><b>Grønn</b><code>#1A7F37</code></div></div>
+  <p class="de">ΔE primær ↔ Grønn: <b>21,4</b></p>
+  <div class="row"><button class="btn primary" type="button">Nytt forslag</button><span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span></div></div><div class="ov-m fu dark"><p class="lbl">Mørk</p>
+  <div class="pair"><div class="big pr"><b>Primær</b><code>#B6D0BC</code></div><div class="big gr"><b>Grønn</b><code>#34C35F</code></div></div>
+  <p class="de">ΔE primær ↔ Grønn: <b>21,1</b></p>
+  <div class="row"><button class="btn primary" type="button">Nytt forslag</button><span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span></div></div></div><div class="ov-col"><div class="ov-h"><span class="st">Steg 4 – klart grønn</span><b>Dyp skog</b></div><div class="ov-m ds light"><p class="lbl">Lys</p>
+  <div class="pair"><div class="big pr"><b>Primær</b><code>#2F4231</code></div><div class="big gr"><b>Grønn</b><code>#1A7F37</code></div></div>
+  <p class="de">ΔE primær ↔ Grønn: <b>23,4</b></p>
+  <div class="row"><button class="btn primary" type="button">Nytt forslag</button><span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span></div></div><div class="ov-m ds dark"><p class="lbl">Mørk</p>
+  <div class="pair"><div class="big pr"><b>Primær</b><code>#BBD2BD</code></div><div class="big gr"><b>Grønn</b><code>#34C35F</code></div></div>
+  <p class="de">ΔE primær ↔ Grønn: <b>21,4</b></p>
+  <div class="row"><button class="btn primary" type="button">Nytt forslag</button><span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span></div></div></div></div></section>
+
+<section class="var" id="ref">
+  <header class="var-h">
+    <div class="grad-strip" style="background:linear-gradient(90deg,#2F5866 0%,#6F8A7E 40%,#D9A48A 75%,#EEC7B0 100%)"></div>
+    <div><span class="num">Referanse – uendret</span>
+      <h2>Granskog (runde 1)</h2>
+      <p class="reg">Jordnær og trygg – blågrønn gran, solnedgangen titter fram mellom stammene.</p>
+      <p class="about">Valgt tema fra runde 1, vist uendret for sammenligning. Primærfargen heller mot blått (petrol).</p></div>
+  </header>
+  <div class="modes">
+  <div class="mode ref light">
+    <h3 class="mode-h">Lys modus</h3>
+    <div class="chips"><div class="chip"><span class="sw" style="background:#F3F4EF"></span><span class="cl"><b>Bakgrunn</b> <code>--background</code><br><code>#F3F4EF</code><br><span class="ratio ok">13,5:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#FFFFFF"></span><span class="cl"><b>Flate</b> <code>--surface</code><br><code>#FFFFFF</code><br><span class="ratio ok">14,9:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#E6EBE2"></span><span class="cl"><b>Flate, alt.</b> <code>--surface-alt</code><br><code>#E6EBE2</code><br><span class="ratio ok">12,3:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#1D2A23"></span><span class="cl"><b>Tekst</b> <code>--text</code><br><code>#1D2A23</code><br><span class="ratio ok">13,5:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#4F5E55"></span><span class="cl"><b>Dempet tekst</b> <code>--text-muted</code><br><code>#4F5E55</code><br><span class="ratio ok">6,2:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#2F5866"></span><span class="cl"><b>Primær (handling)</b> <code>--primary</code><br><code>#2F5866</code><br><span class="ratio ok">7,8:1 · knappetekst</span></span></div><div class="chip"><span class="sw" style="background:#FFFFFF"></span><span class="cl"><b>Tekst på primær</b> <code>--primary-on</code><br><code>#FFFFFF</code><br><span class="ratio ok">7,8:1 · knappetekst</span></span></div><div class="chip"><span class="sw" style="background:#D6936E"></span><span class="cl"><b>Aksent (aprikos)</b> <code>--accent</code><br><code>#D6936E</code><br><span class="ratio">2,5:1 mot flate · kun dekor, ikke tekst</span></span></div><div class="chip"><span class="sw" style="background:#C99AA6"></span><span class="cl"><b>Aksent 2 (støvrosa)</b> <code>--accent-2</code><br><code>#C99AA6</code><br><span class="ratio">2,4:1 mot flate · kun dekor, ikke tekst</span></span></div><div class="chip"><span class="sw" style="background:#CDD5C9"></span><span class="cl"><b>Kantlinje</b> <code>--border</code><br><code>#CDD5C9</code><br></span></div><div class="chip"><span class="sw" style="background:#B0624A"></span><span class="cl"><b>Fokusring</b> <code>--focus-ring</code><br><code>#B0624A</code><br><span class="ratio ok">4,0:1 · ikke-tekst, krav 3:1</span></span></div><div class="chip"><span class="sw" style="background:#2F6A47"></span><span class="cl"><b>Suksess</b> <code>--success</code><br><code>#2F6A47</code><br><span class="ratio ok">5,8:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#3F5F86"></span><span class="cl"><b>Info (skumringsblå)</b> <code>--info</code><br><code>#3F5F86</code><br><span class="ratio ok">6,0:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#865A16"></span><span class="cl"><b>Advarsel</b> <code>--warning</code><br><code>#865A16</code><br><span class="ratio ok">5,4:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#A5383A"></span><span class="cl"><b>Feil</b> <code>--error</code><br><code>#A5383A</code><br><span class="ratio ok">5,9:1 · tekst mot flate/bakgrunn</span></span></div></div>
+    <h4 class="sub">Turnivå – faste, klare domenefarger (endres ikke, alltid farge og tekst)</h4>
+    <div class="lvchips"><div class="chip lvchip"><span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span><span class="cl"><code>#1A7F37</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">5,1:1</span></span></div><div class="chip lvchip"><span class="badge lv-b"><span class="dot" aria-hidden="true"></span>Blå – moderat</span><span class="cl"><code>#0A5BD3</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">6,1:1</span></span></div><div class="chip lvchip"><span class="badge lv-r"><span class="dot" aria-hidden="true"></span>Rød – moderat</span><span class="cl"><code>#C8221B</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">5,7:1</span></span></div><div class="chip lvchip"><span class="badge lv-s"><span class="dot" aria-hidden="true"></span>Svart – vanskelig</span><span class="cl"><code>#111111</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">18,9:1</span></span></div></div>
+    <div class="tables">
+      <div>
+        <h4 class="sub">Avstand til nivåfargen Grønn (ΔE CIEDE2000, krav ≥ 20)</h4>
+        <table class="tbl"><thead><tr><th>Merkefarge</th><th>Grønn</th><th>ΔE</th><th>Vurdering</th></tr></thead><tbody><tr><td><span class="mini" style="background:#2F5866"></span>Primær <code>#2F5866</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">32,3</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#2F6A47"></span>Suksess <code>#2F6A47</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">10,3</td><td class="bad">⚠ under 20 – for nær</td></tr><tr><td><span class="mini" style="background:#CFE0E3"></span>Høydeprofil, fyll <code>#CFE0E3</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">41,5</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#6F8A7E"></span>Gradient, grønt ledd <code>#6F8A7E</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">19,5</td><td class="bad">⚠ under 20 – for nær</td></tr><tr><td><span class="mini" style="background:#E6EBE2"></span>Flate, alt. <code>#E6EBE2</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">41,8</td><td class="ok">tydelig adskilt</td></tr></tbody></table>
+        <p class="note">Suksessfargen fra runde 1 ligger nær Grønn. I de nye variantene er den gjort mørkere og mindre mettet.</p>
+      </div>
+      <div>
+        <h4 class="sub">Kontrast (WCAG 2.1)</h4>
+        <table class="tbl"><thead><tr><th>Bruk</th><th>Forhold</th><th>Krav</th><th></th></tr></thead><tbody><tr><td>Brødtekst på flate</td><td class="num">14,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Brødtekst på bakgrunn</td><td class="num">13,5:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Dempet tekst på flate</td><td class="num">6,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Dempet tekst på flate, alt.</td><td class="num">5,7:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Primærknapp (tekst på primær)</td><td class="num">7,8:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Sekundærknapp/lenke (primær på flate)</td><td class="num">7,8:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>«Utsikt»-merke (tekst på lys aksent)</td><td class="num">12,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Faktabrikke (tekst på flate, alt.)</td><td class="num">12,3:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Suksess-tekst på flate/bakgrunn</td><td class="num">5,8:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Info-tekst på flate/bakgrunn</td><td class="num">6,0:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Advarsel-tekst på flate/bakgrunn</td><td class="num">5,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Feil-tekst på flate/bakgrunn</td><td class="num">5,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Fokusring mot flate/bakgrunn</td><td class="num">4,0:1</td><td class="num">3,0:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Grønn – lett</td><td class="num">5,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Blå – moderat</td><td class="num">6,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Rød – moderat</td><td class="num">5,7:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Svart – vanskelig</td><td class="num">18,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="app">
+      <div class="appbar"><span class="logo"><span class="logo-mark" aria-hidden="true"></span>Your Next Adventure</span>
+        <nav><span class="nav-i is-on">Søk</span><span class="nav-i">Historikk</span><span class="nav-i">Logg inn</span></nav></div>
+      <div class="sky" aria-hidden="true"></div>
+      <div class="page">
+        <article class="card">
+          <div class="illu"><svg class="prof" viewBox="0 0 360 132" role="img" aria-labelledby="ref-light-t">
+  <title id="ref-light-t">Høydeprofil (illustrasjon): rundtur på 3,5 km, ca. 130 høydemeter stigning, med utsiktspunkt etter ca. 1,5 km</title>
+  <circle class="p-sun" cx="300" cy="30" r="20"/>
+  <path class="p-ridge" d="M0 70 C40 56 80 64 120 54 C170 42 220 58 260 48 C300 40 330 50 360 46 V108 H0 Z"/>
+  <path class="p-area" d="M14 96 C34 94 48 88 64 80 C82 71 92 62 110 52 C126 43 140 34 156 30 C170 27 180 34 192 44 C206 56 214 60 230 62 C246 64 256 56 270 60 C288 66 300 82 318 92 C330 98 340 96 346 96 L346 108 L14 108 Z"/>
+  <path class="p-line" d="M14 96 C34 94 48 88 64 80 C82 71 92 62 110 52 C126 43 140 34 156 30 C170 27 180 34 192 44 C206 56 214 60 230 62 C246 64 256 56 270 60 C288 66 300 82 318 92 C330 98 340 96 346 96"/>
+  <path class="p-base" d="M14 108 H346"/>
+  <circle class="p-view" cx="156" cy="30" r="6"/>
+  <text class="p-lbl" x="156" y="17" text-anchor="middle">Utsikt</text>
+  <circle class="p-start" cx="14" cy="96" r="5"/>
+  <text class="p-ax" x="14" y="124">0 km</text>
+  <text class="p-ax" x="180" y="124" text-anchor="middle">Start og mål samme sted</text>
+  <text class="p-ax" x="346" y="124" text-anchor="end">3,5 km</text>
+</svg><p class="illu-cap">Høydeprofil – illustrasjon laget fra turdata</p></div>
+          <div class="card-body">
+            <p class="eyebrow">Turforslag</p>
+            <h2 class="route">Eksempel: Granåsen rundt</h2>
+            <div class="facts">
+              <span class="fact">rundtur · 3,5 km totalt</span>
+              <span class="fact">ca. 130 høydemeter</span>
+              <span class="fact">ca. 1 t 35 min (pauser ikke inkludert)</span>
+            </div>
+            <div class="tags">
+              <span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span>
+              <span class="match"><svg class="sunic" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="10" r="4"/><path d="M8 2v2M2.5 5.5l1.4 1.4M13.5 5.5l-1.4 1.4M1 14h14"/></svg>Utsikt – som du ba om</span>
+            </div>
+            <p class="why">Passer innenfor tiden du oppga, og har utsikt som du ba om.</p>
+            <div class="actions">
+              <button class="btn primary" type="button">Nytt forslag</button>
+              <button class="btn secondary is-focus" type="button">Registrer gjennomført tur</button>
+            </div>
+            <p class="ratio-inline">Primærknapp 7,8:1 · sekundærknapp 7,8:1 · brødtekst 14,9:1 · primær ↔ Grønn ΔE 32,3 · sekundærknappen vises med fokusring</p>
+            <p class="credit">© Kartverket · © OpenStreetMap contributors · Data fra MET Norge</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+  <div class="mode ref dark">
+    <h3 class="mode-h">Mørk modus <span class="tbd">følger systeminnstillingen · v1, lav prioritet</span></h3>
+    <div class="chips"><div class="chip"><span class="sw" style="background:#131A18"></span><span class="cl"><b>Bakgrunn</b> <code>--background</code><br><code>#131A18</code><br><span class="ratio ok">14,8:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#1B2422"></span><span class="cl"><b>Flate</b> <code>--surface</code><br><code>#1B2422</code><br><span class="ratio ok">13,3:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#24302C"></span><span class="cl"><b>Flate, alt.</b> <code>--surface-alt</code><br><code>#24302C</code><br><span class="ratio ok">11,5:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#E6EDE8"></span><span class="cl"><b>Tekst</b> <code>--text</code><br><code>#E6EDE8</code><br><span class="ratio ok">13,3:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#A7B5AC"></span><span class="cl"><b>Dempet tekst</b> <code>--text-muted</code><br><code>#A7B5AC</code><br><span class="ratio ok">7,4:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#8EC0C4"></span><span class="cl"><b>Primær (handling)</b> <code>--primary</code><br><code>#8EC0C4</code><br><span class="ratio ok">8,4:1 · knappetekst</span></span></div><div class="chip"><span class="sw" style="background:#10201E"></span><span class="cl"><b>Tekst på primær</b> <code>--primary-on</code><br><code>#10201E</code><br><span class="ratio ok">8,4:1 · knappetekst</span></span></div><div class="chip"><span class="sw" style="background:#E3A784"></span><span class="cl"><b>Aksent (aprikos)</b> <code>--accent</code><br><code>#E3A784</code><br><span class="ratio">7,7:1 mot flate · kun dekor, ikke tekst</span></span></div><div class="chip"><span class="sw" style="background:#D9AAB5"></span><span class="cl"><b>Aksent 2 (støvrosa)</b> <code>--accent-2</code><br><code>#D9AAB5</code><br><span class="ratio">7,8:1 mot flate · kun dekor, ikke tekst</span></span></div><div class="chip"><span class="sw" style="background:#2F3D38"></span><span class="cl"><b>Kantlinje</b> <code>--border</code><br><code>#2F3D38</code><br></span></div><div class="chip"><span class="sw" style="background:#F0B79C"></span><span class="cl"><b>Fokusring</b> <code>--focus-ring</code><br><code>#F0B79C</code><br><span class="ratio ok">9,0:1 · ikke-tekst, krav 3:1</span></span></div><div class="chip"><span class="sw" style="background:#8CCB9C"></span><span class="cl"><b>Suksess</b> <code>--success</code><br><code>#8CCB9C</code><br><span class="ratio ok">8,4:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#97B6E0"></span><span class="cl"><b>Info (skumringsblå)</b> <code>--info</code><br><code>#97B6E0</code><br><span class="ratio ok">7,6:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#E5BA6E"></span><span class="cl"><b>Advarsel</b> <code>--warning</code><br><code>#E5BA6E</code><br><span class="ratio ok">8,8:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#EF9A92"></span><span class="cl"><b>Feil</b> <code>--error</code><br><code>#EF9A92</code><br><span class="ratio ok">7,3:1 · tekst mot flate/bakgrunn</span></span></div></div>
+    <h4 class="sub">Turnivå – faste, klare domenefarger (endres ikke, alltid farge og tekst)</h4>
+    <div class="lvchips"><div class="chip lvchip"><span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span><span class="cl"><code>#34C35F</code> · tekst <code>#111418</code><br><span class="ratio ok">8,0:1</span></span></div><div class="chip lvchip"><span class="badge lv-b"><span class="dot" aria-hidden="true"></span>Blå – moderat</span><span class="cl"><code>#4C93FF</code> · tekst <code>#111418</code><br><span class="ratio ok">6,1:1</span></span></div><div class="chip lvchip"><span class="badge lv-r"><span class="dot" aria-hidden="true"></span>Rød – moderat</span><span class="cl"><code>#FF5D52</code> · tekst <code>#111418</code><br><span class="ratio ok">6,1:1</span></span></div><div class="chip lvchip"><span class="badge lv-s"><span class="dot" aria-hidden="true"></span>Svart – vanskelig</span><span class="cl"><code>#050505</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">20,4:1</span></span></div></div>
+    <div class="tables">
+      <div>
+        <h4 class="sub">Avstand til nivåfargen Grønn (ΔE CIEDE2000, krav ≥ 20)</h4>
+        <table class="tbl"><thead><tr><th>Merkefarge</th><th>Grønn</th><th>ΔE</th><th>Vurdering</th></tr></thead><tbody><tr><td><span class="mini" style="background:#8EC0C4"></span>Primær <code>#8EC0C4</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">27,5</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#8CCB9C"></span>Suksess <code>#8CCB9C</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">12,0</td><td class="bad">⚠ under 20 – for nær</td></tr><tr><td><span class="mini" style="background:#2B4245"></span>Høydeprofil, fyll <code>#2B4245</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">51,3</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#3F5A50"></span>Gradient, grønt ledd <code>#3F5A50</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">39,4</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#24302C"></span>Flate, alt. <code>#24302C</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">53,8</td><td class="ok">tydelig adskilt</td></tr></tbody></table>
+        <p class="note">Suksessfargen fra runde 1 ligger nær Grønn. I de nye variantene er den gjort mørkere og mindre mettet.</p>
+      </div>
+      <div>
+        <h4 class="sub">Kontrast (WCAG 2.1)</h4>
+        <table class="tbl"><thead><tr><th>Bruk</th><th>Forhold</th><th>Krav</th><th></th></tr></thead><tbody><tr><td>Brødtekst på flate</td><td class="num">13,3:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Brødtekst på bakgrunn</td><td class="num">14,8:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Dempet tekst på flate</td><td class="num">7,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Dempet tekst på flate, alt.</td><td class="num">6,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Primærknapp (tekst på primær)</td><td class="num">8,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Sekundærknapp/lenke (primær på flate)</td><td class="num">7,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>«Utsikt»-merke (tekst på lys aksent)</td><td class="num">11,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Faktabrikke (tekst på flate, alt.)</td><td class="num">11,5:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Suksess-tekst på flate/bakgrunn</td><td class="num">8,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Info-tekst på flate/bakgrunn</td><td class="num">7,6:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Advarsel-tekst på flate/bakgrunn</td><td class="num">8,8:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Feil-tekst på flate/bakgrunn</td><td class="num">7,3:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Fokusring mot flate/bakgrunn</td><td class="num">9,0:1</td><td class="num">3,0:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Grønn – lett</td><td class="num">8,0:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Blå – moderat</td><td class="num">6,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Rød – moderat</td><td class="num">6,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Svart – vanskelig</td><td class="num">20,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="app">
+      <div class="appbar"><span class="logo"><span class="logo-mark" aria-hidden="true"></span>Your Next Adventure</span>
+        <nav><span class="nav-i is-on">Søk</span><span class="nav-i">Historikk</span><span class="nav-i">Logg inn</span></nav></div>
+      <div class="sky" aria-hidden="true"></div>
+      <div class="page">
+        <article class="card">
+          <div class="illu"><svg class="prof" viewBox="0 0 360 132" role="img" aria-labelledby="ref-dark-t">
+  <title id="ref-dark-t">Høydeprofil (illustrasjon): rundtur på 3,5 km, ca. 130 høydemeter stigning, med utsiktspunkt etter ca. 1,5 km</title>
+  <circle class="p-sun" cx="300" cy="30" r="20"/>
+  <path class="p-ridge" d="M0 70 C40 56 80 64 120 54 C170 42 220 58 260 48 C300 40 330 50 360 46 V108 H0 Z"/>
+  <path class="p-area" d="M14 96 C34 94 48 88 64 80 C82 71 92 62 110 52 C126 43 140 34 156 30 C170 27 180 34 192 44 C206 56 214 60 230 62 C246 64 256 56 270 60 C288 66 300 82 318 92 C330 98 340 96 346 96 L346 108 L14 108 Z"/>
+  <path class="p-line" d="M14 96 C34 94 48 88 64 80 C82 71 92 62 110 52 C126 43 140 34 156 30 C170 27 180 34 192 44 C206 56 214 60 230 62 C246 64 256 56 270 60 C288 66 300 82 318 92 C330 98 340 96 346 96"/>
+  <path class="p-base" d="M14 108 H346"/>
+  <circle class="p-view" cx="156" cy="30" r="6"/>
+  <text class="p-lbl" x="156" y="17" text-anchor="middle">Utsikt</text>
+  <circle class="p-start" cx="14" cy="96" r="5"/>
+  <text class="p-ax" x="14" y="124">0 km</text>
+  <text class="p-ax" x="180" y="124" text-anchor="middle">Start og mål samme sted</text>
+  <text class="p-ax" x="346" y="124" text-anchor="end">3,5 km</text>
+</svg><p class="illu-cap">Høydeprofil – illustrasjon laget fra turdata</p></div>
+          <div class="card-body">
+            <p class="eyebrow">Turforslag</p>
+            <h2 class="route">Eksempel: Granåsen rundt</h2>
+            <div class="facts">
+              <span class="fact">rundtur · 3,5 km totalt</span>
+              <span class="fact">ca. 130 høydemeter</span>
+              <span class="fact">ca. 1 t 35 min (pauser ikke inkludert)</span>
+            </div>
+            <div class="tags">
+              <span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span>
+              <span class="match"><svg class="sunic" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="10" r="4"/><path d="M8 2v2M2.5 5.5l1.4 1.4M13.5 5.5l-1.4 1.4M1 14h14"/></svg>Utsikt – som du ba om</span>
+            </div>
+            <p class="why">Passer innenfor tiden du oppga, og har utsikt som du ba om.</p>
+            <div class="actions">
+              <button class="btn primary" type="button">Nytt forslag</button>
+              <button class="btn secondary is-focus" type="button">Registrer gjennomført tur</button>
+            </div>
+            <p class="ratio-inline">Primærknapp 8,4:1 · sekundærknapp 7,9:1 · brødtekst 13,3:1 · primær ↔ Grønn ΔE 27,5 · sekundærknappen vises med fokusring</p>
+            <p class="credit">© Kartverket · © OpenStreetMap contributors · Data fra MET Norge</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div></div>
+</section>
+<section class="var" id="gt">
+  <header class="var-h">
+    <div class="grad-strip" style="background:linear-gradient(90deg,#335954 0%,#79908C 40%,#D9A48A 75%,#EEC7B0 100%)"></div>
+    <div><span class="num">Steg 1 – litt grønnere</span>
+      <h2>Granskog – grantopp</h2>
+      <p class="reg">Samme ro som før, men lyset faller på de grønne granspissene i stedet for i blått.</p>
+      <p class="about">Minste endring: tonen dreies fra petrol mot grågrønn gran. Lyshet og metning er nesten som før, så helheten kjennes igjen.</p></div>
+  </header>
+  <div class="modes">
+  <div class="mode gt light">
+    <h3 class="mode-h">Lys modus</h3>
+    <div class="chips"><div class="chip"><span class="sw" style="background:#F2F4EF"></span><span class="cl"><b>Bakgrunn</b> <code>--background</code><br><code>#F2F4EF</code><br><span class="ratio ok">13,5:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#FFFFFF"></span><span class="cl"><b>Flate</b> <code>--surface</code><br><code>#FFFFFF</code><br><span class="ratio ok">14,9:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#E4EBE4"></span><span class="cl"><b>Flate, alt.</b> <code>--surface-alt</code><br><code>#E4EBE4</code><br><span class="ratio ok">12,3:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#1C2A24"></span><span class="cl"><b>Tekst</b> <code>--text</code><br><code>#1C2A24</code><br><span class="ratio ok">13,5:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#4D5E57"></span><span class="cl"><b>Dempet tekst</b> <code>--text-muted</code><br><code>#4D5E57</code><br><span class="ratio ok">6,2:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#335954"></span><span class="cl"><b>Primær (handling)</b> <code>--primary</code><br><code>#335954</code><br><span class="ratio ok">7,8:1 · knappetekst</span></span></div><div class="chip"><span class="sw" style="background:#FFFFFF"></span><span class="cl"><b>Tekst på primær</b> <code>--primary-on</code><br><code>#FFFFFF</code><br><span class="ratio ok">7,8:1 · knappetekst</span></span></div><div class="chip"><span class="sw" style="background:#D6936E"></span><span class="cl"><b>Aksent (aprikos)</b> <code>--accent</code><br><code>#D6936E</code><br><span class="ratio">2,5:1 mot flate · kun dekor, ikke tekst</span></span></div><div class="chip"><span class="sw" style="background:#C99AA6"></span><span class="cl"><b>Aksent 2 (støvrosa)</b> <code>--accent-2</code><br><code>#C99AA6</code><br><span class="ratio">2,4:1 mot flate · kun dekor, ikke tekst</span></span></div><div class="chip"><span class="sw" style="background:#CAD5CB"></span><span class="cl"><b>Kantlinje</b> <code>--border</code><br><code>#CAD5CB</code><br></span></div><div class="chip"><span class="sw" style="background:#B0624A"></span><span class="cl"><b>Fokusring</b> <code>--focus-ring</code><br><code>#B0624A</code><br><span class="ratio ok">4,0:1 · ikke-tekst, krav 3:1</span></span></div><div class="chip"><span class="sw" style="background:#2E4D3C"></span><span class="cl"><b>Suksess</b> <code>--success</code><br><code>#2E4D3C</code><br><span class="ratio ok">8,5:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#3F5F86"></span><span class="cl"><b>Info (skumringsblå)</b> <code>--info</code><br><code>#3F5F86</code><br><span class="ratio ok">5,9:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#865A16"></span><span class="cl"><b>Advarsel</b> <code>--warning</code><br><code>#865A16</code><br><span class="ratio ok">5,4:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#A5383A"></span><span class="cl"><b>Feil</b> <code>--error</code><br><code>#A5383A</code><br><span class="ratio ok">5,9:1 · tekst mot flate/bakgrunn</span></span></div></div>
+    <h4 class="sub">Turnivå – faste, klare domenefarger (endres ikke, alltid farge og tekst)</h4>
+    <div class="lvchips"><div class="chip lvchip"><span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span><span class="cl"><code>#1A7F37</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">5,1:1</span></span></div><div class="chip lvchip"><span class="badge lv-b"><span class="dot" aria-hidden="true"></span>Blå – moderat</span><span class="cl"><code>#0A5BD3</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">6,1:1</span></span></div><div class="chip lvchip"><span class="badge lv-r"><span class="dot" aria-hidden="true"></span>Rød – moderat</span><span class="cl"><code>#C8221B</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">5,7:1</span></span></div><div class="chip lvchip"><span class="badge lv-s"><span class="dot" aria-hidden="true"></span>Svart – vanskelig</span><span class="cl"><code>#111111</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">18,9:1</span></span></div></div>
+    <div class="tables">
+      <div>
+        <h4 class="sub">Avstand til nivåfargen Grønn (ΔE CIEDE2000, krav ≥ 20)</h4>
+        <table class="tbl"><thead><tr><th>Merkefarge</th><th>Grønn</th><th>ΔE</th><th>Vurdering</th></tr></thead><tbody><tr><td><span class="mini" style="background:#335954"></span>Primær <code>#335954</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">22,1</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#2E4D3C"></span>Suksess <code>#2E4D3C</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">20,5</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#CCE1DD"></span>Høydeprofil, fyll <code>#CCE1DD</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">39,4</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#79908C"></span>Gradient, grønt ledd <code>#79908C</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">23,8</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#E4EBE4"></span>Flate, alt. <code>#E4EBE4</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">41,8</td><td class="ok">tydelig adskilt</td></tr></tbody></table>
+        <p class="note">Suksess og primær ligger nær hverandre her (ΔE 7,1). Det er greit fordi begge betyr «gå videre», men suksessmeldinger skal alltid ha ikon og tekst.</p>
+      </div>
+      <div>
+        <h4 class="sub">Kontrast (WCAG 2.1)</h4>
+        <table class="tbl"><thead><tr><th>Bruk</th><th>Forhold</th><th>Krav</th><th></th></tr></thead><tbody><tr><td>Brødtekst på flate</td><td class="num">14,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Brødtekst på bakgrunn</td><td class="num">13,5:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Dempet tekst på flate</td><td class="num">6,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Dempet tekst på flate, alt.</td><td class="num">5,7:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Primærknapp (tekst på primær)</td><td class="num">7,8:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Sekundærknapp/lenke (primær på flate)</td><td class="num">7,8:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>«Utsikt»-merke (tekst på lys aksent)</td><td class="num">12,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Faktabrikke (tekst på flate, alt.)</td><td class="num">12,3:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Suksess-tekst på flate/bakgrunn</td><td class="num">8,5:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Info-tekst på flate/bakgrunn</td><td class="num">5,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Advarsel-tekst på flate/bakgrunn</td><td class="num">5,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Feil-tekst på flate/bakgrunn</td><td class="num">5,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Fokusring mot flate/bakgrunn</td><td class="num">4,0:1</td><td class="num">3,0:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Grønn – lett</td><td class="num">5,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Blå – moderat</td><td class="num">6,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Rød – moderat</td><td class="num">5,7:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Svart – vanskelig</td><td class="num">18,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="app">
+      <div class="appbar"><span class="logo"><span class="logo-mark" aria-hidden="true"></span>Your Next Adventure</span>
+        <nav><span class="nav-i is-on">Søk</span><span class="nav-i">Historikk</span><span class="nav-i">Logg inn</span></nav></div>
+      <div class="sky" aria-hidden="true"></div>
+      <div class="page">
+        <article class="card">
+          <div class="illu"><svg class="prof" viewBox="0 0 360 132" role="img" aria-labelledby="gt-light-t">
+  <title id="gt-light-t">Høydeprofil (illustrasjon): rundtur på 3,5 km, ca. 130 høydemeter stigning, med utsiktspunkt etter ca. 1,5 km</title>
+  <circle class="p-sun" cx="300" cy="30" r="20"/>
+  <path class="p-ridge" d="M0 70 C40 56 80 64 120 54 C170 42 220 58 260 48 C300 40 330 50 360 46 V108 H0 Z"/>
+  <path class="p-area" d="M14 96 C34 94 48 88 64 80 C82 71 92 62 110 52 C126 43 140 34 156 30 C170 27 180 34 192 44 C206 56 214 60 230 62 C246 64 256 56 270 60 C288 66 300 82 318 92 C330 98 340 96 346 96 L346 108 L14 108 Z"/>
+  <path class="p-line" d="M14 96 C34 94 48 88 64 80 C82 71 92 62 110 52 C126 43 140 34 156 30 C170 27 180 34 192 44 C206 56 214 60 230 62 C246 64 256 56 270 60 C288 66 300 82 318 92 C330 98 340 96 346 96"/>
+  <path class="p-base" d="M14 108 H346"/>
+  <circle class="p-view" cx="156" cy="30" r="6"/>
+  <text class="p-lbl" x="156" y="17" text-anchor="middle">Utsikt</text>
+  <circle class="p-start" cx="14" cy="96" r="5"/>
+  <text class="p-ax" x="14" y="124">0 km</text>
+  <text class="p-ax" x="180" y="124" text-anchor="middle">Start og mål samme sted</text>
+  <text class="p-ax" x="346" y="124" text-anchor="end">3,5 km</text>
+</svg><p class="illu-cap">Høydeprofil – illustrasjon laget fra turdata</p></div>
+          <div class="card-body">
+            <p class="eyebrow">Turforslag</p>
+            <h2 class="route">Eksempel: Granåsen rundt</h2>
+            <div class="facts">
+              <span class="fact">rundtur · 3,5 km totalt</span>
+              <span class="fact">ca. 130 høydemeter</span>
+              <span class="fact">ca. 1 t 35 min (pauser ikke inkludert)</span>
+            </div>
+            <div class="tags">
+              <span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span>
+              <span class="match"><svg class="sunic" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="10" r="4"/><path d="M8 2v2M2.5 5.5l1.4 1.4M13.5 5.5l-1.4 1.4M1 14h14"/></svg>Utsikt – som du ba om</span>
+            </div>
+            <p class="why">Passer innenfor tiden du oppga, og har utsikt som du ba om.</p>
+            <div class="actions">
+              <button class="btn primary" type="button">Nytt forslag</button>
+              <button class="btn secondary is-focus" type="button">Registrer gjennomført tur</button>
+            </div>
+            <p class="ratio-inline">Primærknapp 7,8:1 · sekundærknapp 7,8:1 · brødtekst 14,9:1 · primær ↔ Grønn ΔE 22,1 · sekundærknappen vises med fokusring</p>
+            <p class="credit">© Kartverket · © OpenStreetMap contributors · Data fra MET Norge</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+  <div class="mode gt dark">
+    <h3 class="mode-h">Mørk modus <span class="tbd">følger systeminnstillingen · v1, lav prioritet</span></h3>
+    <div class="chips"><div class="chip"><span class="sw" style="background:#121A17"></span><span class="cl"><b>Bakgrunn</b> <code>--background</code><br><code>#121A17</code><br><span class="ratio ok">14,9:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#1A2420"></span><span class="cl"><b>Flate</b> <code>--surface</code><br><code>#1A2420</code><br><span class="ratio ok">13,4:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#23302B"></span><span class="cl"><b>Flate, alt.</b> <code>--surface-alt</code><br><code>#23302B</code><br><span class="ratio ok">11,5:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#E5EDE8"></span><span class="cl"><b>Tekst</b> <code>--text</code><br><code>#E5EDE8</code><br><span class="ratio ok">13,4:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#A6B6AE"></span><span class="cl"><b>Dempet tekst</b> <code>--text-muted</code><br><code>#A6B6AE</code><br><span class="ratio ok">7,5:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#A0C9C2"></span><span class="cl"><b>Primær (handling)</b> <code>--primary</code><br><code>#A0C9C2</code><br><span class="ratio ok">8,9:1 · knappetekst</span></span></div><div class="chip"><span class="sw" style="background:#172422"></span><span class="cl"><b>Tekst på primær</b> <code>--primary-on</code><br><code>#172422</code><br><span class="ratio ok">8,9:1 · knappetekst</span></span></div><div class="chip"><span class="sw" style="background:#E3A784"></span><span class="cl"><b>Aksent (aprikos)</b> <code>--accent</code><br><code>#E3A784</code><br><span class="ratio">7,7:1 mot flate · kun dekor, ikke tekst</span></span></div><div class="chip"><span class="sw" style="background:#D9AAB5"></span><span class="cl"><b>Aksent 2 (støvrosa)</b> <code>--accent-2</code><br><code>#D9AAB5</code><br><span class="ratio">7,9:1 mot flate · kun dekor, ikke tekst</span></span></div><div class="chip"><span class="sw" style="background:#2E3D37"></span><span class="cl"><b>Kantlinje</b> <code>--border</code><br><code>#2E3D37</code><br></span></div><div class="chip"><span class="sw" style="background:#F0B79C"></span><span class="cl"><b>Fokusring</b> <code>--focus-ring</code><br><code>#F0B79C</code><br><span class="ratio ok">9,1:1 · ikke-tekst, krav 3:1</span></span></div><div class="chip"><span class="sw" style="background:#B0CDBA"></span><span class="cl"><b>Suksess</b> <code>--success</code><br><code>#B0CDBA</code><br><span class="ratio ok">9,3:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#97B6E0"></span><span class="cl"><b>Info (skumringsblå)</b> <code>--info</code><br><code>#97B6E0</code><br><span class="ratio ok">7,7:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#E5BA6E"></span><span class="cl"><b>Advarsel</b> <code>--warning</code><br><code>#E5BA6E</code><br><span class="ratio ok">8,8:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#EF9A92"></span><span class="cl"><b>Feil</b> <code>--error</code><br><code>#EF9A92</code><br><span class="ratio ok">7,4:1 · tekst mot flate/bakgrunn</span></span></div></div>
+    <h4 class="sub">Turnivå – faste, klare domenefarger (endres ikke, alltid farge og tekst)</h4>
+    <div class="lvchips"><div class="chip lvchip"><span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span><span class="cl"><code>#34C35F</code> · tekst <code>#111418</code><br><span class="ratio ok">8,0:1</span></span></div><div class="chip lvchip"><span class="badge lv-b"><span class="dot" aria-hidden="true"></span>Blå – moderat</span><span class="cl"><code>#4C93FF</code> · tekst <code>#111418</code><br><span class="ratio ok">6,1:1</span></span></div><div class="chip lvchip"><span class="badge lv-r"><span class="dot" aria-hidden="true"></span>Rød – moderat</span><span class="cl"><code>#FF5D52</code> · tekst <code>#111418</code><br><span class="ratio ok">6,1:1</span></span></div><div class="chip lvchip"><span class="badge lv-s"><span class="dot" aria-hidden="true"></span>Svart – vanskelig</span><span class="cl"><code>#050505</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">20,4:1</span></span></div></div>
+    <div class="tables">
+      <div>
+        <h4 class="sub">Avstand til nivåfargen Grønn (ΔE CIEDE2000, krav ≥ 20)</h4>
+        <table class="tbl"><thead><tr><th>Merkefarge</th><th>Grønn</th><th>ΔE</th><th>Vurdering</th></tr></thead><tbody><tr><td><span class="mini" style="background:#A0C9C2"></span>Primær <code>#A0C9C2</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">23,2</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#B0CDBA"></span>Suksess <code>#B0CDBA</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">20,7</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#344B47"></span>Høydeprofil, fyll <code>#344B47</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">46,4</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#465E5A"></span>Gradient, grønt ledd <code>#465E5A</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">38,9</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#23302B"></span>Flate, alt. <code>#23302B</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">53,6</td><td class="ok">tydelig adskilt</td></tr></tbody></table>
+        <p class="note">Suksess og primær ligger nær hverandre her (ΔE 5,8). Det er greit fordi begge betyr «gå videre», men suksessmeldinger skal alltid ha ikon og tekst.</p>
+      </div>
+      <div>
+        <h4 class="sub">Kontrast (WCAG 2.1)</h4>
+        <table class="tbl"><thead><tr><th>Bruk</th><th>Forhold</th><th>Krav</th><th></th></tr></thead><tbody><tr><td>Brødtekst på flate</td><td class="num">13,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Brødtekst på bakgrunn</td><td class="num">14,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Dempet tekst på flate</td><td class="num">7,5:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Dempet tekst på flate, alt.</td><td class="num">6,5:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Primærknapp (tekst på primær)</td><td class="num">8,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Sekundærknapp/lenke (primær på flate)</td><td class="num">8,8:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>«Utsikt»-merke (tekst på lys aksent)</td><td class="num">11,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Faktabrikke (tekst på flate, alt.)</td><td class="num">11,5:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Suksess-tekst på flate/bakgrunn</td><td class="num">9,3:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Info-tekst på flate/bakgrunn</td><td class="num">7,7:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Advarsel-tekst på flate/bakgrunn</td><td class="num">8,8:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Feil-tekst på flate/bakgrunn</td><td class="num">7,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Fokusring mot flate/bakgrunn</td><td class="num">9,1:1</td><td class="num">3,0:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Grønn – lett</td><td class="num">8,0:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Blå – moderat</td><td class="num">6,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Rød – moderat</td><td class="num">6,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Svart – vanskelig</td><td class="num">20,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="app">
+      <div class="appbar"><span class="logo"><span class="logo-mark" aria-hidden="true"></span>Your Next Adventure</span>
+        <nav><span class="nav-i is-on">Søk</span><span class="nav-i">Historikk</span><span class="nav-i">Logg inn</span></nav></div>
+      <div class="sky" aria-hidden="true"></div>
+      <div class="page">
+        <article class="card">
+          <div class="illu"><svg class="prof" viewBox="0 0 360 132" role="img" aria-labelledby="gt-dark-t">
+  <title id="gt-dark-t">Høydeprofil (illustrasjon): rundtur på 3,5 km, ca. 130 høydemeter stigning, med utsiktspunkt etter ca. 1,5 km</title>
+  <circle class="p-sun" cx="300" cy="30" r="20"/>
+  <path class="p-ridge" d="M0 70 C40 56 80 64 120 54 C170 42 220 58 260 48 C300 40 330 50 360 46 V108 H0 Z"/>
+  <path class="p-area" d="M14 96 C34 94 48 88 64 80 C82 71 92 62 110 52 C126 43 140 34 156 30 C170 27 180 34 192 44 C206 56 214 60 230 62 C246 64 256 56 270 60 C288 66 300 82 318 92 C330 98 340 96 346 96 L346 108 L14 108 Z"/>
+  <path class="p-line" d="M14 96 C34 94 48 88 64 80 C82 71 92 62 110 52 C126 43 140 34 156 30 C170 27 180 34 192 44 C206 56 214 60 230 62 C246 64 256 56 270 60 C288 66 300 82 318 92 C330 98 340 96 346 96"/>
+  <path class="p-base" d="M14 108 H346"/>
+  <circle class="p-view" cx="156" cy="30" r="6"/>
+  <text class="p-lbl" x="156" y="17" text-anchor="middle">Utsikt</text>
+  <circle class="p-start" cx="14" cy="96" r="5"/>
+  <text class="p-ax" x="14" y="124">0 km</text>
+  <text class="p-ax" x="180" y="124" text-anchor="middle">Start og mål samme sted</text>
+  <text class="p-ax" x="346" y="124" text-anchor="end">3,5 km</text>
+</svg><p class="illu-cap">Høydeprofil – illustrasjon laget fra turdata</p></div>
+          <div class="card-body">
+            <p class="eyebrow">Turforslag</p>
+            <h2 class="route">Eksempel: Granåsen rundt</h2>
+            <div class="facts">
+              <span class="fact">rundtur · 3,5 km totalt</span>
+              <span class="fact">ca. 130 høydemeter</span>
+              <span class="fact">ca. 1 t 35 min (pauser ikke inkludert)</span>
+            </div>
+            <div class="tags">
+              <span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span>
+              <span class="match"><svg class="sunic" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="10" r="4"/><path d="M8 2v2M2.5 5.5l1.4 1.4M13.5 5.5l-1.4 1.4M1 14h14"/></svg>Utsikt – som du ba om</span>
+            </div>
+            <p class="why">Passer innenfor tiden du oppga, og har utsikt som du ba om.</p>
+            <div class="actions">
+              <button class="btn primary" type="button">Nytt forslag</button>
+              <button class="btn secondary is-focus" type="button">Registrer gjennomført tur</button>
+            </div>
+            <p class="ratio-inline">Primærknapp 8,9:1 · sekundærknapp 8,8:1 · brødtekst 13,4:1 · primær ↔ Grønn ΔE 23,2 · sekundærknappen vises med fokusring</p>
+            <p class="credit">© Kartverket · © OpenStreetMap contributors · Data fra MET Norge</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div></div>
+</section>
+<section class="var" id="mo">
+  <header class="var-h">
+    <div class="grad-strip" style="background:linear-gradient(90deg,#355146 0%,#7C9087 40%,#D9A48A 75%,#EEC7B0 100%)"></div>
+    <div><span class="num">Steg 2 – tydelig grønnere</span>
+      <h2>Mosegrønn</h2>
+      <p class="reg">Mykt og stille – grågrønn mose på en stein, varm og lun bunn.</p>
+      <p class="about">Salviegrønn med lite metning. Bakgrunnen er litt varmere (kremaktig), så aprikos og støvrosa gløder litt mer.</p></div>
+  </header>
+  <div class="modes">
+  <div class="mode mo light">
+    <h3 class="mode-h">Lys modus</h3>
+    <div class="chips"><div class="chip"><span class="sw" style="background:#F3F3EC"></span><span class="cl"><b>Bakgrunn</b> <code>--background</code><br><code>#F3F3EC</code><br><span class="ratio ok">13,3:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#FFFEFA"></span><span class="cl"><b>Flate</b> <code>--surface</code><br><code>#FFFEFA</code><br><span class="ratio ok">14,7:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#E7EADF"></span><span class="cl"><b>Flate, alt.</b> <code>--surface-alt</code><br><code>#E7EADF</code><br><span class="ratio ok">12,2:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#1F2A22"></span><span class="cl"><b>Tekst</b> <code>--text</code><br><code>#1F2A22</code><br><span class="ratio ok">13,3:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#4F5B50"></span><span class="cl"><b>Dempet tekst</b> <code>--text-muted</code><br><code>#4F5B50</code><br><span class="ratio ok">6,4:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#355146"></span><span class="cl"><b>Primær (handling)</b> <code>--primary</code><br><code>#355146</code><br><span class="ratio ok">8,7:1 · knappetekst</span></span></div><div class="chip"><span class="sw" style="background:#FFFFFF"></span><span class="cl"><b>Tekst på primær</b> <code>--primary-on</code><br><code>#FFFFFF</code><br><span class="ratio ok">8,7:1 · knappetekst</span></span></div><div class="chip"><span class="sw" style="background:#D6936E"></span><span class="cl"><b>Aksent (aprikos)</b> <code>--accent</code><br><code>#D6936E</code><br><span class="ratio">2,5:1 mot flate · kun dekor, ikke tekst</span></span></div><div class="chip"><span class="sw" style="background:#C99AA6"></span><span class="cl"><b>Aksent 2 (støvrosa)</b> <code>--accent-2</code><br><code>#C99AA6</code><br><span class="ratio">2,4:1 mot flate · kun dekor, ikke tekst</span></span></div><div class="chip"><span class="sw" style="background:#CFD4C5"></span><span class="cl"><b>Kantlinje</b> <code>--border</code><br><code>#CFD4C5</code><br></span></div><div class="chip"><span class="sw" style="background:#B0624A"></span><span class="cl"><b>Fokusring</b> <code>--focus-ring</code><br><code>#B0624A</code><br><span class="ratio ok">4,0:1 · ikke-tekst, krav 3:1</span></span></div><div class="chip"><span class="sw" style="background:#2E4D3C"></span><span class="cl"><b>Suksess</b> <code>--success</code><br><code>#2E4D3C</code><br><span class="ratio ok">8,4:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#3F5F86"></span><span class="cl"><b>Info (skumringsblå)</b> <code>--info</code><br><code>#3F5F86</code><br><span class="ratio ok">5,9:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#865A16"></span><span class="cl"><b>Advarsel</b> <code>--warning</code><br><code>#865A16</code><br><span class="ratio ok">5,4:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#A5383A"></span><span class="cl"><b>Feil</b> <code>--error</code><br><code>#A5383A</code><br><span class="ratio ok">5,8:1 · tekst mot flate/bakgrunn</span></span></div></div>
+    <h4 class="sub">Turnivå – faste, klare domenefarger (endres ikke, alltid farge og tekst)</h4>
+    <div class="lvchips"><div class="chip lvchip"><span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span><span class="cl"><code>#1A7F37</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">5,1:1</span></span></div><div class="chip lvchip"><span class="badge lv-b"><span class="dot" aria-hidden="true"></span>Blå – moderat</span><span class="cl"><code>#0A5BD3</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">6,1:1</span></span></div><div class="chip lvchip"><span class="badge lv-r"><span class="dot" aria-hidden="true"></span>Rød – moderat</span><span class="cl"><code>#C8221B</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">5,7:1</span></span></div><div class="chip lvchip"><span class="badge lv-s"><span class="dot" aria-hidden="true"></span>Svart – vanskelig</span><span class="cl"><code>#111111</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">18,9:1</span></span></div></div>
+    <div class="tables">
+      <div>
+        <h4 class="sub">Avstand til nivåfargen Grønn (ΔE CIEDE2000, krav ≥ 20)</h4>
+        <table class="tbl"><thead><tr><th>Merkefarge</th><th>Grønn</th><th>ΔE</th><th>Vurdering</th></tr></thead><tbody><tr><td><span class="mini" style="background:#355146"></span>Primær <code>#355146</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">21,3</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#2E4D3C"></span>Suksess <code>#2E4D3C</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">20,5</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#CEE1D9"></span>Høydeprofil, fyll <code>#CEE1D9</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">38,7</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#7C9087"></span>Gradient, grønt ledd <code>#7C9087</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">22,3</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#E7EADF"></span>Flate, alt. <code>#E7EADF</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">41,6</td><td class="ok">tydelig adskilt</td></tr></tbody></table>
+        <p class="note">Suksess og primær ligger nær hverandre her (ΔE 3,3). Det er greit fordi begge betyr «gå videre», men suksessmeldinger skal alltid ha ikon og tekst.</p>
+      </div>
+      <div>
+        <h4 class="sub">Kontrast (WCAG 2.1)</h4>
+        <table class="tbl"><thead><tr><th>Bruk</th><th>Forhold</th><th>Krav</th><th></th></tr></thead><tbody><tr><td>Brødtekst på flate</td><td class="num">14,7:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Brødtekst på bakgrunn</td><td class="num">13,3:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Dempet tekst på flate</td><td class="num">7,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Dempet tekst på flate, alt.</td><td class="num">5,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Primærknapp (tekst på primær)</td><td class="num">8,7:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Sekundærknapp/lenke (primær på flate)</td><td class="num">8,6:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>«Utsikt»-merke (tekst på lys aksent)</td><td class="num">12,0:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Faktabrikke (tekst på flate, alt.)</td><td class="num">12,2:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Suksess-tekst på flate/bakgrunn</td><td class="num">8,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Info-tekst på flate/bakgrunn</td><td class="num">5,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Advarsel-tekst på flate/bakgrunn</td><td class="num">5,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Feil-tekst på flate/bakgrunn</td><td class="num">5,8:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Fokusring mot flate/bakgrunn</td><td class="num">4,0:1</td><td class="num">3,0:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Grønn – lett</td><td class="num">5,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Blå – moderat</td><td class="num">6,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Rød – moderat</td><td class="num">5,7:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Svart – vanskelig</td><td class="num">18,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="app">
+      <div class="appbar"><span class="logo"><span class="logo-mark" aria-hidden="true"></span>Your Next Adventure</span>
+        <nav><span class="nav-i is-on">Søk</span><span class="nav-i">Historikk</span><span class="nav-i">Logg inn</span></nav></div>
+      <div class="sky" aria-hidden="true"></div>
+      <div class="page">
+        <article class="card">
+          <div class="illu"><svg class="prof" viewBox="0 0 360 132" role="img" aria-labelledby="mo-light-t">
+  <title id="mo-light-t">Høydeprofil (illustrasjon): rundtur på 3,5 km, ca. 130 høydemeter stigning, med utsiktspunkt etter ca. 1,5 km</title>
+  <circle class="p-sun" cx="300" cy="30" r="20"/>
+  <path class="p-ridge" d="M0 70 C40 56 80 64 120 54 C170 42 220 58 260 48 C300 40 330 50 360 46 V108 H0 Z"/>
+  <path class="p-area" d="M14 96 C34 94 48 88 64 80 C82 71 92 62 110 52 C126 43 140 34 156 30 C170 27 180 34 192 44 C206 56 214 60 230 62 C246 64 256 56 270 60 C288 66 300 82 318 92 C330 98 340 96 346 96 L346 108 L14 108 Z"/>
+  <path class="p-line" d="M14 96 C34 94 48 88 64 80 C82 71 92 62 110 52 C126 43 140 34 156 30 C170 27 180 34 192 44 C206 56 214 60 230 62 C246 64 256 56 270 60 C288 66 300 82 318 92 C330 98 340 96 346 96"/>
+  <path class="p-base" d="M14 108 H346"/>
+  <circle class="p-view" cx="156" cy="30" r="6"/>
+  <text class="p-lbl" x="156" y="17" text-anchor="middle">Utsikt</text>
+  <circle class="p-start" cx="14" cy="96" r="5"/>
+  <text class="p-ax" x="14" y="124">0 km</text>
+  <text class="p-ax" x="180" y="124" text-anchor="middle">Start og mål samme sted</text>
+  <text class="p-ax" x="346" y="124" text-anchor="end">3,5 km</text>
+</svg><p class="illu-cap">Høydeprofil – illustrasjon laget fra turdata</p></div>
+          <div class="card-body">
+            <p class="eyebrow">Turforslag</p>
+            <h2 class="route">Eksempel: Granåsen rundt</h2>
+            <div class="facts">
+              <span class="fact">rundtur · 3,5 km totalt</span>
+              <span class="fact">ca. 130 høydemeter</span>
+              <span class="fact">ca. 1 t 35 min (pauser ikke inkludert)</span>
+            </div>
+            <div class="tags">
+              <span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span>
+              <span class="match"><svg class="sunic" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="10" r="4"/><path d="M8 2v2M2.5 5.5l1.4 1.4M13.5 5.5l-1.4 1.4M1 14h14"/></svg>Utsikt – som du ba om</span>
+            </div>
+            <p class="why">Passer innenfor tiden du oppga, og har utsikt som du ba om.</p>
+            <div class="actions">
+              <button class="btn primary" type="button">Nytt forslag</button>
+              <button class="btn secondary is-focus" type="button">Registrer gjennomført tur</button>
+            </div>
+            <p class="ratio-inline">Primærknapp 8,7:1 · sekundærknapp 8,6:1 · brødtekst 14,7:1 · primær ↔ Grønn ΔE 21,3 · sekundærknappen vises med fokusring</p>
+            <p class="credit">© Kartverket · © OpenStreetMap contributors · Data fra MET Norge</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+  <div class="mode mo dark">
+    <h3 class="mode-h">Mørk modus <span class="tbd">følger systeminnstillingen · v1, lav prioritet</span></h3>
+    <div class="chips"><div class="chip"><span class="sw" style="background:#141A15"></span><span class="cl"><b>Bakgrunn</b> <code>--background</code><br><code>#141A15</code><br><span class="ratio ok">14,8:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#1C231D"></span><span class="cl"><b>Flate</b> <code>--surface</code><br><code>#1C231D</code><br><span class="ratio ok">13,4:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#262F27"></span><span class="cl"><b>Flate, alt.</b> <code>--surface-alt</code><br><code>#262F27</code><br><span class="ratio ok">11,6:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#E8ECE4"></span><span class="cl"><b>Tekst</b> <code>--text</code><br><code>#E8ECE4</code><br><span class="ratio ok">13,4:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#AAB4A8"></span><span class="cl"><b>Dempet tekst</b> <code>--text-muted</code><br><code>#AAB4A8</code><br><span class="ratio ok">7,5:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#ADCEC0"></span><span class="cl"><b>Primær (handling)</b> <code>--primary</code><br><code>#ADCEC0</code><br><span class="ratio ok">9,4:1 · knappetekst</span></span></div><div class="chip"><span class="sw" style="background:#19241F"></span><span class="cl"><b>Tekst på primær</b> <code>--primary-on</code><br><code>#19241F</code><br><span class="ratio ok">9,4:1 · knappetekst</span></span></div><div class="chip"><span class="sw" style="background:#E3A784"></span><span class="cl"><b>Aksent (aprikos)</b> <code>--accent</code><br><code>#E3A784</code><br><span class="ratio">7,7:1 mot flate · kun dekor, ikke tekst</span></span></div><div class="chip"><span class="sw" style="background:#D9AAB5"></span><span class="cl"><b>Aksent 2 (støvrosa)</b> <code>--accent-2</code><br><code>#D9AAB5</code><br><span class="ratio">7,9:1 mot flate · kun dekor, ikke tekst</span></span></div><div class="chip"><span class="sw" style="background:#333D33"></span><span class="cl"><b>Kantlinje</b> <code>--border</code><br><code>#333D33</code><br></span></div><div class="chip"><span class="sw" style="background:#F0B79C"></span><span class="cl"><b>Fokusring</b> <code>--focus-ring</code><br><code>#F0B79C</code><br><span class="ratio ok">9,1:1 · ikke-tekst, krav 3:1</span></span></div><div class="chip"><span class="sw" style="background:#B0CDBA"></span><span class="cl"><b>Suksess</b> <code>--success</code><br><code>#B0CDBA</code><br><span class="ratio ok">9,4:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#97B6E0"></span><span class="cl"><b>Info (skumringsblå)</b> <code>--info</code><br><code>#97B6E0</code><br><span class="ratio ok">7,7:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#E5BA6E"></span><span class="cl"><b>Advarsel</b> <code>--warning</code><br><code>#E5BA6E</code><br><span class="ratio ok">8,9:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#EF9A92"></span><span class="cl"><b>Feil</b> <code>--error</code><br><code>#EF9A92</code><br><span class="ratio ok">7,4:1 · tekst mot flate/bakgrunn</span></span></div></div>
+    <h4 class="sub">Turnivå – faste, klare domenefarger (endres ikke, alltid farge og tekst)</h4>
+    <div class="lvchips"><div class="chip lvchip"><span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span><span class="cl"><code>#34C35F</code> · tekst <code>#111418</code><br><span class="ratio ok">8,0:1</span></span></div><div class="chip lvchip"><span class="badge lv-b"><span class="dot" aria-hidden="true"></span>Blå – moderat</span><span class="cl"><code>#4C93FF</code> · tekst <code>#111418</code><br><span class="ratio ok">6,1:1</span></span></div><div class="chip lvchip"><span class="badge lv-r"><span class="dot" aria-hidden="true"></span>Rød – moderat</span><span class="cl"><code>#FF5D52</code> · tekst <code>#111418</code><br><span class="ratio ok">6,1:1</span></span></div><div class="chip lvchip"><span class="badge lv-s"><span class="dot" aria-hidden="true"></span>Svart – vanskelig</span><span class="cl"><code>#050505</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">20,4:1</span></span></div></div>
+    <div class="tables">
+      <div>
+        <h4 class="sub">Avstand til nivåfargen Grønn (ΔE CIEDE2000, krav ≥ 20)</h4>
+        <table class="tbl"><thead><tr><th>Merkefarge</th><th>Grønn</th><th>ΔE</th><th>Vurdering</th></tr></thead><tbody><tr><td><span class="mini" style="background:#ADCEC0"></span>Primær <code>#ADCEC0</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">21,7</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#B0CDBA"></span>Suksess <code>#B0CDBA</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">20,7</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#374B43"></span>Høydeprofil, fyll <code>#374B43</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">45,6</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#4A5E55"></span>Gradient, grønt ledd <code>#4A5E55</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">37,8</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#262F27"></span>Flate, alt. <code>#262F27</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">53,5</td><td class="ok">tydelig adskilt</td></tr></tbody></table>
+        <p class="note">Suksess og primær ligger nær hverandre her (ΔE 2,2). Det er greit fordi begge betyr «gå videre», men suksessmeldinger skal alltid ha ikon og tekst.</p>
+      </div>
+      <div>
+        <h4 class="sub">Kontrast (WCAG 2.1)</h4>
+        <table class="tbl"><thead><tr><th>Bruk</th><th>Forhold</th><th>Krav</th><th></th></tr></thead><tbody><tr><td>Brødtekst på flate</td><td class="num">13,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Brødtekst på bakgrunn</td><td class="num">14,8:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Dempet tekst på flate</td><td class="num">7,5:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Dempet tekst på flate, alt.</td><td class="num">6,5:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Primærknapp (tekst på primær)</td><td class="num">9,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Sekundærknapp/lenke (primær på flate)</td><td class="num">9,5:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>«Utsikt»-merke (tekst på lys aksent)</td><td class="num">11,0:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Faktabrikke (tekst på flate, alt.)</td><td class="num">11,6:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Suksess-tekst på flate/bakgrunn</td><td class="num">9,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Info-tekst på flate/bakgrunn</td><td class="num">7,7:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Advarsel-tekst på flate/bakgrunn</td><td class="num">8,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Feil-tekst på flate/bakgrunn</td><td class="num">7,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Fokusring mot flate/bakgrunn</td><td class="num">9,1:1</td><td class="num">3,0:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Grønn – lett</td><td class="num">8,0:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Blå – moderat</td><td class="num">6,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Rød – moderat</td><td class="num">6,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Svart – vanskelig</td><td class="num">20,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="app">
+      <div class="appbar"><span class="logo"><span class="logo-mark" aria-hidden="true"></span>Your Next Adventure</span>
+        <nav><span class="nav-i is-on">Søk</span><span class="nav-i">Historikk</span><span class="nav-i">Logg inn</span></nav></div>
+      <div class="sky" aria-hidden="true"></div>
+      <div class="page">
+        <article class="card">
+          <div class="illu"><svg class="prof" viewBox="0 0 360 132" role="img" aria-labelledby="mo-dark-t">
+  <title id="mo-dark-t">Høydeprofil (illustrasjon): rundtur på 3,5 km, ca. 130 høydemeter stigning, med utsiktspunkt etter ca. 1,5 km</title>
+  <circle class="p-sun" cx="300" cy="30" r="20"/>
+  <path class="p-ridge" d="M0 70 C40 56 80 64 120 54 C170 42 220 58 260 48 C300 40 330 50 360 46 V108 H0 Z"/>
+  <path class="p-area" d="M14 96 C34 94 48 88 64 80 C82 71 92 62 110 52 C126 43 140 34 156 30 C170 27 180 34 192 44 C206 56 214 60 230 62 C246 64 256 56 270 60 C288 66 300 82 318 92 C330 98 340 96 346 96 L346 108 L14 108 Z"/>
+  <path class="p-line" d="M14 96 C34 94 48 88 64 80 C82 71 92 62 110 52 C126 43 140 34 156 30 C170 27 180 34 192 44 C206 56 214 60 230 62 C246 64 256 56 270 60 C288 66 300 82 318 92 C330 98 340 96 346 96"/>
+  <path class="p-base" d="M14 108 H346"/>
+  <circle class="p-view" cx="156" cy="30" r="6"/>
+  <text class="p-lbl" x="156" y="17" text-anchor="middle">Utsikt</text>
+  <circle class="p-start" cx="14" cy="96" r="5"/>
+  <text class="p-ax" x="14" y="124">0 km</text>
+  <text class="p-ax" x="180" y="124" text-anchor="middle">Start og mål samme sted</text>
+  <text class="p-ax" x="346" y="124" text-anchor="end">3,5 km</text>
+</svg><p class="illu-cap">Høydeprofil – illustrasjon laget fra turdata</p></div>
+          <div class="card-body">
+            <p class="eyebrow">Turforslag</p>
+            <h2 class="route">Eksempel: Granåsen rundt</h2>
+            <div class="facts">
+              <span class="fact">rundtur · 3,5 km totalt</span>
+              <span class="fact">ca. 130 høydemeter</span>
+              <span class="fact">ca. 1 t 35 min (pauser ikke inkludert)</span>
+            </div>
+            <div class="tags">
+              <span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span>
+              <span class="match"><svg class="sunic" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="10" r="4"/><path d="M8 2v2M2.5 5.5l1.4 1.4M13.5 5.5l-1.4 1.4M1 14h14"/></svg>Utsikt – som du ba om</span>
+            </div>
+            <p class="why">Passer innenfor tiden du oppga, og har utsikt som du ba om.</p>
+            <div class="actions">
+              <button class="btn primary" type="button">Nytt forslag</button>
+              <button class="btn secondary is-focus" type="button">Registrer gjennomført tur</button>
+            </div>
+            <p class="ratio-inline">Primærknapp 9,4:1 · sekundærknapp 9,5:1 · brødtekst 13,4:1 · primær ↔ Grønn ΔE 21,7 · sekundærknappen vises med fokusring</p>
+            <p class="credit">© Kartverket · © OpenStreetMap contributors · Data fra MET Norge</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div></div>
+</section>
+<section class="var" id="fu">
+  <header class="var-h">
+    <div class="grad-strip" style="background:linear-gradient(90deg,#324A39 0%,#808F84 40%,#D9A48A 75%,#EEC7B0 100%)"></div>
+    <div><span class="num">Steg 3 – grønn</span>
+      <h2>Furu/barnål</h2>
+      <p class="reg">Trygg og jordnær – mørke barnåler, skyggen inne i skogen.</p>
+      <p class="about">En mørk, dempet barnålsgrønn. Avstanden til nivåfargen Grønn kommer fra mørkere verdi og lavere metning, ikke fra fargetonen.</p></div>
+  </header>
+  <div class="modes">
+  <div class="mode fu light">
+    <h3 class="mode-h">Lys modus</h3>
+    <div class="chips"><div class="chip"><span class="sw" style="background:#F1F3EC"></span><span class="cl"><b>Bakgrunn</b> <code>--background</code><br><code>#F1F3EC</code><br><span class="ratio ok">13,7:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#FFFFFC"></span><span class="cl"><b>Flate</b> <code>--surface</code><br><code>#FFFFFC</code><br><span class="ratio ok">15,3:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#E3E9DE"></span><span class="cl"><b>Flate, alt.</b> <code>--surface-alt</code><br><code>#E3E9DE</code><br><span class="ratio ok">12,4:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#1B281F"></span><span class="cl"><b>Tekst</b> <code>--text</code><br><code>#1B281F</code><br><span class="ratio ok">13,7:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#4B5A4E"></span><span class="cl"><b>Dempet tekst</b> <code>--text-muted</code><br><code>#4B5A4E</code><br><span class="ratio ok">6,5:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#324A39"></span><span class="cl"><b>Primær (handling)</b> <code>--primary</code><br><code>#324A39</code><br><span class="ratio ok">9,7:1 · knappetekst</span></span></div><div class="chip"><span class="sw" style="background:#FFFFFF"></span><span class="cl"><b>Tekst på primær</b> <code>--primary-on</code><br><code>#FFFFFF</code><br><span class="ratio ok">9,7:1 · knappetekst</span></span></div><div class="chip"><span class="sw" style="background:#D6936E"></span><span class="cl"><b>Aksent (aprikos)</b> <code>--accent</code><br><code>#D6936E</code><br><span class="ratio">2,5:1 mot flate · kun dekor, ikke tekst</span></span></div><div class="chip"><span class="sw" style="background:#C99AA6"></span><span class="cl"><b>Aksent 2 (støvrosa)</b> <code>--accent-2</code><br><code>#C99AA6</code><br><span class="ratio">2,4:1 mot flate · kun dekor, ikke tekst</span></span></div><div class="chip"><span class="sw" style="background:#CAD3C4"></span><span class="cl"><b>Kantlinje</b> <code>--border</code><br><code>#CAD3C4</code><br></span></div><div class="chip"><span class="sw" style="background:#B0624A"></span><span class="cl"><b>Fokusring</b> <code>--focus-ring</code><br><code>#B0624A</code><br><span class="ratio ok">4,0:1 · ikke-tekst, krav 3:1</span></span></div><div class="chip"><span class="sw" style="background:#2E4D3C"></span><span class="cl"><b>Suksess</b> <code>--success</code><br><code>#2E4D3C</code><br><span class="ratio ok">8,4:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#3F5F86"></span><span class="cl"><b>Info (skumringsblå)</b> <code>--info</code><br><code>#3F5F86</code><br><span class="ratio ok">5,9:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#865A16"></span><span class="cl"><b>Advarsel</b> <code>--warning</code><br><code>#865A16</code><br><span class="ratio ok">5,4:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#A5383A"></span><span class="cl"><b>Feil</b> <code>--error</code><br><code>#A5383A</code><br><span class="ratio ok">5,8:1 · tekst mot flate/bakgrunn</span></span></div></div>
+    <h4 class="sub">Turnivå – faste, klare domenefarger (endres ikke, alltid farge og tekst)</h4>
+    <div class="lvchips"><div class="chip lvchip"><span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span><span class="cl"><code>#1A7F37</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">5,1:1</span></span></div><div class="chip lvchip"><span class="badge lv-b"><span class="dot" aria-hidden="true"></span>Blå – moderat</span><span class="cl"><code>#0A5BD3</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">6,1:1</span></span></div><div class="chip lvchip"><span class="badge lv-r"><span class="dot" aria-hidden="true"></span>Rød – moderat</span><span class="cl"><code>#C8221B</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">5,7:1</span></span></div><div class="chip lvchip"><span class="badge lv-s"><span class="dot" aria-hidden="true"></span>Svart – vanskelig</span><span class="cl"><code>#111111</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">18,9:1</span></span></div></div>
+    <div class="tables">
+      <div>
+        <h4 class="sub">Avstand til nivåfargen Grønn (ΔE CIEDE2000, krav ≥ 20)</h4>
+        <table class="tbl"><thead><tr><th>Merkefarge</th><th>Grønn</th><th>ΔE</th><th>Vurdering</th></tr></thead><tbody><tr><td><span class="mini" style="background:#324A39"></span>Primær <code>#324A39</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">21,4</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#2E4D3C"></span>Suksess <code>#2E4D3C</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">20,5</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#D2E1D5"></span>Høydeprofil, fyll <code>#D2E1D5</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">38,4</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#808F84"></span>Gradient, grønt ledd <code>#808F84</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">22,2</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#E3E9DE"></span>Flate, alt. <code>#E3E9DE</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">41,0</td><td class="ok">tydelig adskilt</td></tr></tbody></table>
+        <p class="note">Suksess og primær ligger nær hverandre her (ΔE 2,1). Det er greit fordi begge betyr «gå videre», men suksessmeldinger skal alltid ha ikon og tekst.</p>
+      </div>
+      <div>
+        <h4 class="sub">Kontrast (WCAG 2.1)</h4>
+        <table class="tbl"><thead><tr><th>Bruk</th><th>Forhold</th><th>Krav</th><th></th></tr></thead><tbody><tr><td>Brødtekst på flate</td><td class="num">15,3:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Brødtekst på bakgrunn</td><td class="num">13,7:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Dempet tekst på flate</td><td class="num">7,3:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Dempet tekst på flate, alt.</td><td class="num">5,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Primærknapp (tekst på primær)</td><td class="num">9,7:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Sekundærknapp/lenke (primær på flate)</td><td class="num">9,6:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>«Utsikt»-merke (tekst på lys aksent)</td><td class="num">12,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Faktabrikke (tekst på flate, alt.)</td><td class="num">12,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Suksess-tekst på flate/bakgrunn</td><td class="num">8,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Info-tekst på flate/bakgrunn</td><td class="num">5,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Advarsel-tekst på flate/bakgrunn</td><td class="num">5,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Feil-tekst på flate/bakgrunn</td><td class="num">5,8:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Fokusring mot flate/bakgrunn</td><td class="num">4,0:1</td><td class="num">3,0:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Grønn – lett</td><td class="num">5,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Blå – moderat</td><td class="num">6,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Rød – moderat</td><td class="num">5,7:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Svart – vanskelig</td><td class="num">18,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="app">
+      <div class="appbar"><span class="logo"><span class="logo-mark" aria-hidden="true"></span>Your Next Adventure</span>
+        <nav><span class="nav-i is-on">Søk</span><span class="nav-i">Historikk</span><span class="nav-i">Logg inn</span></nav></div>
+      <div class="sky" aria-hidden="true"></div>
+      <div class="page">
+        <article class="card">
+          <div class="illu"><svg class="prof" viewBox="0 0 360 132" role="img" aria-labelledby="fu-light-t">
+  <title id="fu-light-t">Høydeprofil (illustrasjon): rundtur på 3,5 km, ca. 130 høydemeter stigning, med utsiktspunkt etter ca. 1,5 km</title>
+  <circle class="p-sun" cx="300" cy="30" r="20"/>
+  <path class="p-ridge" d="M0 70 C40 56 80 64 120 54 C170 42 220 58 260 48 C300 40 330 50 360 46 V108 H0 Z"/>
+  <path class="p-area" d="M14 96 C34 94 48 88 64 80 C82 71 92 62 110 52 C126 43 140 34 156 30 C170 27 180 34 192 44 C206 56 214 60 230 62 C246 64 256 56 270 60 C288 66 300 82 318 92 C330 98 340 96 346 96 L346 108 L14 108 Z"/>
+  <path class="p-line" d="M14 96 C34 94 48 88 64 80 C82 71 92 62 110 52 C126 43 140 34 156 30 C170 27 180 34 192 44 C206 56 214 60 230 62 C246 64 256 56 270 60 C288 66 300 82 318 92 C330 98 340 96 346 96"/>
+  <path class="p-base" d="M14 108 H346"/>
+  <circle class="p-view" cx="156" cy="30" r="6"/>
+  <text class="p-lbl" x="156" y="17" text-anchor="middle">Utsikt</text>
+  <circle class="p-start" cx="14" cy="96" r="5"/>
+  <text class="p-ax" x="14" y="124">0 km</text>
+  <text class="p-ax" x="180" y="124" text-anchor="middle">Start og mål samme sted</text>
+  <text class="p-ax" x="346" y="124" text-anchor="end">3,5 km</text>
+</svg><p class="illu-cap">Høydeprofil – illustrasjon laget fra turdata</p></div>
+          <div class="card-body">
+            <p class="eyebrow">Turforslag</p>
+            <h2 class="route">Eksempel: Granåsen rundt</h2>
+            <div class="facts">
+              <span class="fact">rundtur · 3,5 km totalt</span>
+              <span class="fact">ca. 130 høydemeter</span>
+              <span class="fact">ca. 1 t 35 min (pauser ikke inkludert)</span>
+            </div>
+            <div class="tags">
+              <span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span>
+              <span class="match"><svg class="sunic" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="10" r="4"/><path d="M8 2v2M2.5 5.5l1.4 1.4M13.5 5.5l-1.4 1.4M1 14h14"/></svg>Utsikt – som du ba om</span>
+            </div>
+            <p class="why">Passer innenfor tiden du oppga, og har utsikt som du ba om.</p>
+            <div class="actions">
+              <button class="btn primary" type="button">Nytt forslag</button>
+              <button class="btn secondary is-focus" type="button">Registrer gjennomført tur</button>
+            </div>
+            <p class="ratio-inline">Primærknapp 9,7:1 · sekundærknapp 9,6:1 · brødtekst 15,3:1 · primær ↔ Grønn ΔE 21,4 · sekundærknappen vises med fokusring</p>
+            <p class="credit">© Kartverket · © OpenStreetMap contributors · Data fra MET Norge</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+  <div class="mode fu dark">
+    <h3 class="mode-h">Mørk modus <span class="tbd">følger systeminnstillingen · v1, lav prioritet</span></h3>
+    <div class="chips"><div class="chip"><span class="sw" style="background:#121914"></span><span class="cl"><b>Bakgrunn</b> <code>--background</code><br><code>#121914</code><br><span class="ratio ok">14,9:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#1A231C"></span><span class="cl"><b>Flate</b> <code>--surface</code><br><code>#1A231C</code><br><span class="ratio ok">13,4:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#232F26"></span><span class="cl"><b>Flate, alt.</b> <code>--surface-alt</code><br><code>#232F26</code><br><span class="ratio ok">11,6:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#E6ECE5"></span><span class="cl"><b>Tekst</b> <code>--text</code><br><code>#E6ECE5</code><br><span class="ratio ok">13,4:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#A8B5AA"></span><span class="cl"><b>Dempet tekst</b> <code>--text-muted</code><br><code>#A8B5AA</code><br><span class="ratio ok">7,6:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#B6D0BC"></span><span class="cl"><b>Primær (handling)</b> <code>--primary</code><br><code>#B6D0BC</code><br><span class="ratio ok">9,7:1 · knappetekst</span></span></div><div class="chip"><span class="sw" style="background:#1B241E"></span><span class="cl"><b>Tekst på primær</b> <code>--primary-on</code><br><code>#1B241E</code><br><span class="ratio ok">9,7:1 · knappetekst</span></span></div><div class="chip"><span class="sw" style="background:#E3A784"></span><span class="cl"><b>Aksent (aprikos)</b> <code>--accent</code><br><code>#E3A784</code><br><span class="ratio">7,8:1 mot flate · kun dekor, ikke tekst</span></span></div><div class="chip"><span class="sw" style="background:#D9AAB5"></span><span class="cl"><b>Aksent 2 (støvrosa)</b> <code>--accent-2</code><br><code>#D9AAB5</code><br><span class="ratio">8,0:1 mot flate · kun dekor, ikke tekst</span></span></div><div class="chip"><span class="sw" style="background:#2F3C32"></span><span class="cl"><b>Kantlinje</b> <code>--border</code><br><code>#2F3C32</code><br></span></div><div class="chip"><span class="sw" style="background:#F0B79C"></span><span class="cl"><b>Fokusring</b> <code>--focus-ring</code><br><code>#F0B79C</code><br><span class="ratio ok">9,2:1 · ikke-tekst, krav 3:1</span></span></div><div class="chip"><span class="sw" style="background:#B0CDBA"></span><span class="cl"><b>Suksess</b> <code>--success</code><br><code>#B0CDBA</code><br><span class="ratio ok">9,4:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#97B6E0"></span><span class="cl"><b>Info (skumringsblå)</b> <code>--info</code><br><code>#97B6E0</code><br><span class="ratio ok">7,7:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#E5BA6E"></span><span class="cl"><b>Advarsel</b> <code>--warning</code><br><code>#E5BA6E</code><br><span class="ratio ok">8,9:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#EF9A92"></span><span class="cl"><b>Feil</b> <code>--error</code><br><code>#EF9A92</code><br><span class="ratio ok">7,5:1 · tekst mot flate/bakgrunn</span></span></div></div>
+    <h4 class="sub">Turnivå – faste, klare domenefarger (endres ikke, alltid farge og tekst)</h4>
+    <div class="lvchips"><div class="chip lvchip"><span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span><span class="cl"><code>#34C35F</code> · tekst <code>#111418</code><br><span class="ratio ok">8,0:1</span></span></div><div class="chip lvchip"><span class="badge lv-b"><span class="dot" aria-hidden="true"></span>Blå – moderat</span><span class="cl"><code>#4C93FF</code> · tekst <code>#111418</code><br><span class="ratio ok">6,1:1</span></span></div><div class="chip lvchip"><span class="badge lv-r"><span class="dot" aria-hidden="true"></span>Rød – moderat</span><span class="cl"><code>#FF5D52</code> · tekst <code>#111418</code><br><span class="ratio ok">6,1:1</span></span></div><div class="chip lvchip"><span class="badge lv-s"><span class="dot" aria-hidden="true"></span>Svart – vanskelig</span><span class="cl"><code>#050505</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">20,4:1</span></span></div></div>
+    <div class="tables">
+      <div>
+        <h4 class="sub">Avstand til nivåfargen Grønn (ΔE CIEDE2000, krav ≥ 20)</h4>
+        <table class="tbl"><thead><tr><th>Merkefarge</th><th>Grønn</th><th>ΔE</th><th>Vurdering</th></tr></thead><tbody><tr><td><span class="mini" style="background:#B6D0BC"></span>Primær <code>#B6D0BC</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">21,1</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#B0CDBA"></span>Suksess <code>#B0CDBA</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">20,7</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#3B4A3F"></span>Høydeprofil, fyll <code>#3B4A3F</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">45,6</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#4D5D52"></span>Gradient, grønt ledd <code>#4D5D52</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">37,8</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#232F26"></span>Flate, alt. <code>#232F26</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">53,3</td><td class="ok">tydelig adskilt</td></tr></tbody></table>
+        <p class="note">Suksess og primær ligger nær hverandre her (ΔE 1,3). Det er greit fordi begge betyr «gå videre», men suksessmeldinger skal alltid ha ikon og tekst.</p>
+      </div>
+      <div>
+        <h4 class="sub">Kontrast (WCAG 2.1)</h4>
+        <table class="tbl"><thead><tr><th>Bruk</th><th>Forhold</th><th>Krav</th><th></th></tr></thead><tbody><tr><td>Brødtekst på flate</td><td class="num">13,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Brødtekst på bakgrunn</td><td class="num">14,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Dempet tekst på flate</td><td class="num">7,6:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Dempet tekst på flate, alt.</td><td class="num">6,5:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Primærknapp (tekst på primær)</td><td class="num">9,7:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Sekundærknapp/lenke (primær på flate)</td><td class="num">9,8:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>«Utsikt»-merke (tekst på lys aksent)</td><td class="num">11,0:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Faktabrikke (tekst på flate, alt.)</td><td class="num">11,6:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Suksess-tekst på flate/bakgrunn</td><td class="num">9,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Info-tekst på flate/bakgrunn</td><td class="num">7,7:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Advarsel-tekst på flate/bakgrunn</td><td class="num">8,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Feil-tekst på flate/bakgrunn</td><td class="num">7,5:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Fokusring mot flate/bakgrunn</td><td class="num">9,2:1</td><td class="num">3,0:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Grønn – lett</td><td class="num">8,0:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Blå – moderat</td><td class="num">6,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Rød – moderat</td><td class="num">6,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Svart – vanskelig</td><td class="num">20,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="app">
+      <div class="appbar"><span class="logo"><span class="logo-mark" aria-hidden="true"></span>Your Next Adventure</span>
+        <nav><span class="nav-i is-on">Søk</span><span class="nav-i">Historikk</span><span class="nav-i">Logg inn</span></nav></div>
+      <div class="sky" aria-hidden="true"></div>
+      <div class="page">
+        <article class="card">
+          <div class="illu"><svg class="prof" viewBox="0 0 360 132" role="img" aria-labelledby="fu-dark-t">
+  <title id="fu-dark-t">Høydeprofil (illustrasjon): rundtur på 3,5 km, ca. 130 høydemeter stigning, med utsiktspunkt etter ca. 1,5 km</title>
+  <circle class="p-sun" cx="300" cy="30" r="20"/>
+  <path class="p-ridge" d="M0 70 C40 56 80 64 120 54 C170 42 220 58 260 48 C300 40 330 50 360 46 V108 H0 Z"/>
+  <path class="p-area" d="M14 96 C34 94 48 88 64 80 C82 71 92 62 110 52 C126 43 140 34 156 30 C170 27 180 34 192 44 C206 56 214 60 230 62 C246 64 256 56 270 60 C288 66 300 82 318 92 C330 98 340 96 346 96 L346 108 L14 108 Z"/>
+  <path class="p-line" d="M14 96 C34 94 48 88 64 80 C82 71 92 62 110 52 C126 43 140 34 156 30 C170 27 180 34 192 44 C206 56 214 60 230 62 C246 64 256 56 270 60 C288 66 300 82 318 92 C330 98 340 96 346 96"/>
+  <path class="p-base" d="M14 108 H346"/>
+  <circle class="p-view" cx="156" cy="30" r="6"/>
+  <text class="p-lbl" x="156" y="17" text-anchor="middle">Utsikt</text>
+  <circle class="p-start" cx="14" cy="96" r="5"/>
+  <text class="p-ax" x="14" y="124">0 km</text>
+  <text class="p-ax" x="180" y="124" text-anchor="middle">Start og mål samme sted</text>
+  <text class="p-ax" x="346" y="124" text-anchor="end">3,5 km</text>
+</svg><p class="illu-cap">Høydeprofil – illustrasjon laget fra turdata</p></div>
+          <div class="card-body">
+            <p class="eyebrow">Turforslag</p>
+            <h2 class="route">Eksempel: Granåsen rundt</h2>
+            <div class="facts">
+              <span class="fact">rundtur · 3,5 km totalt</span>
+              <span class="fact">ca. 130 høydemeter</span>
+              <span class="fact">ca. 1 t 35 min (pauser ikke inkludert)</span>
+            </div>
+            <div class="tags">
+              <span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span>
+              <span class="match"><svg class="sunic" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="10" r="4"/><path d="M8 2v2M2.5 5.5l1.4 1.4M13.5 5.5l-1.4 1.4M1 14h14"/></svg>Utsikt – som du ba om</span>
+            </div>
+            <p class="why">Passer innenfor tiden du oppga, og har utsikt som du ba om.</p>
+            <div class="actions">
+              <button class="btn primary" type="button">Nytt forslag</button>
+              <button class="btn secondary is-focus" type="button">Registrer gjennomført tur</button>
+            </div>
+            <p class="ratio-inline">Primærknapp 9,7:1 · sekundærknapp 9,8:1 · brødtekst 13,4:1 · primær ↔ Grønn ΔE 21,1 · sekundærknappen vises med fokusring</p>
+            <p class="credit">© Kartverket · © OpenStreetMap contributors · Data fra MET Norge</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div></div>
+</section>
+<section class="var" id="ds">
+  <header class="var-h">
+    <div class="grad-strip" style="background:linear-gradient(90deg,#2F4231 0%,#818F82 40%,#D9A48A 75%,#EEC7B0 100%)"></div>
+    <div><span class="num">Steg 4 – klart grønn</span>
+      <h2>Dyp skog</h2>
+      <p class="reg">Dypt og rolig – nesten svartgrønn skog i skumringen, med glør i horisonten.</p>
+      <p class="about">Samme fargetone som skogen selv, men svært mørk og dus. Gir sterkest kontrast mot de lyse flatene og lar solnedgangsaksentene skinne.</p></div>
+  </header>
+  <div class="modes">
+  <div class="mode ds light">
+    <h3 class="mode-h">Lys modus</h3>
+    <div class="chips"><div class="chip"><span class="sw" style="background:#F0F2EA"></span><span class="cl"><b>Bakgrunn</b> <code>--background</code><br><code>#F0F2EA</code><br><span class="ratio ok">13,9:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#FDFDF9"></span><span class="cl"><b>Flate</b> <code>--surface</code><br><code>#FDFDF9</code><br><span class="ratio ok">15,4:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#E1E7DA"></span><span class="cl"><b>Flate, alt.</b> <code>--surface-alt</code><br><code>#E1E7DA</code><br><span class="ratio ok">12,4:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#1A261D"></span><span class="cl"><b>Tekst</b> <code>--text</code><br><code>#1A261D</code><br><span class="ratio ok">13,9:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#4A584B"></span><span class="cl"><b>Dempet tekst</b> <code>--text-muted</code><br><code>#4A584B</code><br><span class="ratio ok">6,7:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#2F4231"></span><span class="cl"><b>Primær (handling)</b> <code>--primary</code><br><code>#2F4231</code><br><span class="ratio ok">10,8:1 · knappetekst</span></span></div><div class="chip"><span class="sw" style="background:#FFFFFF"></span><span class="cl"><b>Tekst på primær</b> <code>--primary-on</code><br><code>#FFFFFF</code><br><span class="ratio ok">10,8:1 · knappetekst</span></span></div><div class="chip"><span class="sw" style="background:#D6936E"></span><span class="cl"><b>Aksent (aprikos)</b> <code>--accent</code><br><code>#D6936E</code><br><span class="ratio">2,5:1 mot flate · kun dekor, ikke tekst</span></span></div><div class="chip"><span class="sw" style="background:#C99AA6"></span><span class="cl"><b>Aksent 2 (støvrosa)</b> <code>--accent-2</code><br><code>#C99AA6</code><br><span class="ratio">2,4:1 mot flate · kun dekor, ikke tekst</span></span></div><div class="chip"><span class="sw" style="background:#C8D1C0"></span><span class="cl"><b>Kantlinje</b> <code>--border</code><br><code>#C8D1C0</code><br></span></div><div class="chip"><span class="sw" style="background:#B0624A"></span><span class="cl"><b>Fokusring</b> <code>--focus-ring</code><br><code>#B0624A</code><br><span class="ratio ok">4,0:1 · ikke-tekst, krav 3:1</span></span></div><div class="chip"><span class="sw" style="background:#2E4D3C"></span><span class="cl"><b>Suksess</b> <code>--success</code><br><code>#2E4D3C</code><br><span class="ratio ok">8,3:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#3F5F86"></span><span class="cl"><b>Info (skumringsblå)</b> <code>--info</code><br><code>#3F5F86</code><br><span class="ratio ok">5,8:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#865A16"></span><span class="cl"><b>Advarsel</b> <code>--warning</code><br><code>#865A16</code><br><span class="ratio ok">5,3:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#A5383A"></span><span class="cl"><b>Feil</b> <code>--error</code><br><code>#A5383A</code><br><span class="ratio ok">5,8:1 · tekst mot flate/bakgrunn</span></span></div></div>
+    <h4 class="sub">Turnivå – faste, klare domenefarger (endres ikke, alltid farge og tekst)</h4>
+    <div class="lvchips"><div class="chip lvchip"><span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span><span class="cl"><code>#1A7F37</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">5,1:1</span></span></div><div class="chip lvchip"><span class="badge lv-b"><span class="dot" aria-hidden="true"></span>Blå – moderat</span><span class="cl"><code>#0A5BD3</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">6,1:1</span></span></div><div class="chip lvchip"><span class="badge lv-r"><span class="dot" aria-hidden="true"></span>Rød – moderat</span><span class="cl"><code>#C8221B</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">5,7:1</span></span></div><div class="chip lvchip"><span class="badge lv-s"><span class="dot" aria-hidden="true"></span>Svart – vanskelig</span><span class="cl"><code>#111111</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">18,9:1</span></span></div></div>
+    <div class="tables">
+      <div>
+        <h4 class="sub">Avstand til nivåfargen Grønn (ΔE CIEDE2000, krav ≥ 20)</h4>
+        <table class="tbl"><thead><tr><th>Merkefarge</th><th>Grønn</th><th>ΔE</th><th>Vurdering</th></tr></thead><tbody><tr><td><span class="mini" style="background:#2F4231"></span>Primær <code>#2F4231</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">23,4</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#2E4D3C"></span>Suksess <code>#2E4D3C</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">20,5</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#D3E0D4"></span>Høydeprofil, fyll <code>#D3E0D4</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">38,4</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#818F82"></span>Gradient, grønt ledd <code>#818F82</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">21,8</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#E1E7DA"></span>Flate, alt. <code>#E1E7DA</code></td><td><span class="mini" style="background:#1A7F37"></span><code>#1A7F37</code></td><td class="num">40,4</td><td class="ok">tydelig adskilt</td></tr></tbody></table>
+        <p class="note">Suksess og primær ligger nær hverandre her (ΔE 4,7). Det er greit fordi begge betyr «gå videre», men suksessmeldinger skal alltid ha ikon og tekst.</p>
+      </div>
+      <div>
+        <h4 class="sub">Kontrast (WCAG 2.1)</h4>
+        <table class="tbl"><thead><tr><th>Bruk</th><th>Forhold</th><th>Krav</th><th></th></tr></thead><tbody><tr><td>Brødtekst på flate</td><td class="num">15,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Brødtekst på bakgrunn</td><td class="num">13,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Dempet tekst på flate</td><td class="num">7,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Dempet tekst på flate, alt.</td><td class="num">6,0:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Primærknapp (tekst på primær)</td><td class="num">10,8:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Sekundærknapp/lenke (primær på flate)</td><td class="num">10,6:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>«Utsikt»-merke (tekst på lys aksent)</td><td class="num">12,7:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Faktabrikke (tekst på flate, alt.)</td><td class="num">12,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Suksess-tekst på flate/bakgrunn</td><td class="num">8,3:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Info-tekst på flate/bakgrunn</td><td class="num">5,8:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Advarsel-tekst på flate/bakgrunn</td><td class="num">5,3:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Feil-tekst på flate/bakgrunn</td><td class="num">5,8:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Fokusring mot flate/bakgrunn</td><td class="num">4,0:1</td><td class="num">3,0:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Grønn – lett</td><td class="num">5,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Blå – moderat</td><td class="num">6,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Rød – moderat</td><td class="num">5,7:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Svart – vanskelig</td><td class="num">18,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="app">
+      <div class="appbar"><span class="logo"><span class="logo-mark" aria-hidden="true"></span>Your Next Adventure</span>
+        <nav><span class="nav-i is-on">Søk</span><span class="nav-i">Historikk</span><span class="nav-i">Logg inn</span></nav></div>
+      <div class="sky" aria-hidden="true"></div>
+      <div class="page">
+        <article class="card">
+          <div class="illu"><svg class="prof" viewBox="0 0 360 132" role="img" aria-labelledby="ds-light-t">
+  <title id="ds-light-t">Høydeprofil (illustrasjon): rundtur på 3,5 km, ca. 130 høydemeter stigning, med utsiktspunkt etter ca. 1,5 km</title>
+  <circle class="p-sun" cx="300" cy="30" r="20"/>
+  <path class="p-ridge" d="M0 70 C40 56 80 64 120 54 C170 42 220 58 260 48 C300 40 330 50 360 46 V108 H0 Z"/>
+  <path class="p-area" d="M14 96 C34 94 48 88 64 80 C82 71 92 62 110 52 C126 43 140 34 156 30 C170 27 180 34 192 44 C206 56 214 60 230 62 C246 64 256 56 270 60 C288 66 300 82 318 92 C330 98 340 96 346 96 L346 108 L14 108 Z"/>
+  <path class="p-line" d="M14 96 C34 94 48 88 64 80 C82 71 92 62 110 52 C126 43 140 34 156 30 C170 27 180 34 192 44 C206 56 214 60 230 62 C246 64 256 56 270 60 C288 66 300 82 318 92 C330 98 340 96 346 96"/>
+  <path class="p-base" d="M14 108 H346"/>
+  <circle class="p-view" cx="156" cy="30" r="6"/>
+  <text class="p-lbl" x="156" y="17" text-anchor="middle">Utsikt</text>
+  <circle class="p-start" cx="14" cy="96" r="5"/>
+  <text class="p-ax" x="14" y="124">0 km</text>
+  <text class="p-ax" x="180" y="124" text-anchor="middle">Start og mål samme sted</text>
+  <text class="p-ax" x="346" y="124" text-anchor="end">3,5 km</text>
+</svg><p class="illu-cap">Høydeprofil – illustrasjon laget fra turdata</p></div>
+          <div class="card-body">
+            <p class="eyebrow">Turforslag</p>
+            <h2 class="route">Eksempel: Granåsen rundt</h2>
+            <div class="facts">
+              <span class="fact">rundtur · 3,5 km totalt</span>
+              <span class="fact">ca. 130 høydemeter</span>
+              <span class="fact">ca. 1 t 35 min (pauser ikke inkludert)</span>
+            </div>
+            <div class="tags">
+              <span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span>
+              <span class="match"><svg class="sunic" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="10" r="4"/><path d="M8 2v2M2.5 5.5l1.4 1.4M13.5 5.5l-1.4 1.4M1 14h14"/></svg>Utsikt – som du ba om</span>
+            </div>
+            <p class="why">Passer innenfor tiden du oppga, og har utsikt som du ba om.</p>
+            <div class="actions">
+              <button class="btn primary" type="button">Nytt forslag</button>
+              <button class="btn secondary is-focus" type="button">Registrer gjennomført tur</button>
+            </div>
+            <p class="ratio-inline">Primærknapp 10,8:1 · sekundærknapp 10,6:1 · brødtekst 15,4:1 · primær ↔ Grønn ΔE 23,4 · sekundærknappen vises med fokusring</p>
+            <p class="credit">© Kartverket · © OpenStreetMap contributors · Data fra MET Norge</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+  <div class="mode ds dark">
+    <h3 class="mode-h">Mørk modus <span class="tbd">følger systeminnstillingen · v1, lav prioritet</span></h3>
+    <div class="chips"><div class="chip"><span class="sw" style="background:#111813"></span><span class="cl"><b>Bakgrunn</b> <code>--background</code><br><code>#111813</code><br><span class="ratio ok">15,0:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#18211A"></span><span class="cl"><b>Flate</b> <code>--surface</code><br><code>#18211A</code><br><span class="ratio ok">13,8:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#212D23"></span><span class="cl"><b>Flate, alt.</b> <code>--surface-alt</code><br><code>#212D23</code><br><span class="ratio ok">11,9:1 · tekst på denne</span></span></div><div class="chip"><span class="sw" style="background:#E6ECE4"></span><span class="cl"><b>Tekst</b> <code>--text</code><br><code>#E6ECE4</code><br><span class="ratio ok">13,8:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#A7B4A8"></span><span class="cl"><b>Dempet tekst</b> <code>--text-muted</code><br><code>#A7B4A8</code><br><span class="ratio ok">7,7:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#BBD2BD"></span><span class="cl"><b>Primær (handling)</b> <code>--primary</code><br><code>#BBD2BD</code><br><span class="ratio ok">10,0:1 · knappetekst</span></span></div><div class="chip"><span class="sw" style="background:#1C231D"></span><span class="cl"><b>Tekst på primær</b> <code>--primary-on</code><br><code>#1C231D</code><br><span class="ratio ok">10,0:1 · knappetekst</span></span></div><div class="chip"><span class="sw" style="background:#E3A784"></span><span class="cl"><b>Aksent (aprikos)</b> <code>--accent</code><br><code>#E3A784</code><br><span class="ratio">8,0:1 mot flate · kun dekor, ikke tekst</span></span></div><div class="chip"><span class="sw" style="background:#D9AAB5"></span><span class="cl"><b>Aksent 2 (støvrosa)</b> <code>--accent-2</code><br><code>#D9AAB5</code><br><span class="ratio">8,2:1 mot flate · kun dekor, ikke tekst</span></span></div><div class="chip"><span class="sw" style="background:#2C3A2F"></span><span class="cl"><b>Kantlinje</b> <code>--border</code><br><code>#2C3A2F</code><br></span></div><div class="chip"><span class="sw" style="background:#F0B79C"></span><span class="cl"><b>Fokusring</b> <code>--focus-ring</code><br><code>#F0B79C</code><br><span class="ratio ok">9,4:1 · ikke-tekst, krav 3:1</span></span></div><div class="chip"><span class="sw" style="background:#B0CDBA"></span><span class="cl"><b>Suksess</b> <code>--success</code><br><code>#B0CDBA</code><br><span class="ratio ok">9,7:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#97B6E0"></span><span class="cl"><b>Info (skumringsblå)</b> <code>--info</code><br><code>#97B6E0</code><br><span class="ratio ok">7,9:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#E5BA6E"></span><span class="cl"><b>Advarsel</b> <code>--warning</code><br><code>#E5BA6E</code><br><span class="ratio ok">9,1:1 · tekst mot flate/bakgrunn</span></span></div><div class="chip"><span class="sw" style="background:#EF9A92"></span><span class="cl"><b>Feil</b> <code>--error</code><br><code>#EF9A92</code><br><span class="ratio ok">7,6:1 · tekst mot flate/bakgrunn</span></span></div></div>
+    <h4 class="sub">Turnivå – faste, klare domenefarger (endres ikke, alltid farge og tekst)</h4>
+    <div class="lvchips"><div class="chip lvchip"><span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span><span class="cl"><code>#34C35F</code> · tekst <code>#111418</code><br><span class="ratio ok">8,0:1</span></span></div><div class="chip lvchip"><span class="badge lv-b"><span class="dot" aria-hidden="true"></span>Blå – moderat</span><span class="cl"><code>#4C93FF</code> · tekst <code>#111418</code><br><span class="ratio ok">6,1:1</span></span></div><div class="chip lvchip"><span class="badge lv-r"><span class="dot" aria-hidden="true"></span>Rød – moderat</span><span class="cl"><code>#FF5D52</code> · tekst <code>#111418</code><br><span class="ratio ok">6,1:1</span></span></div><div class="chip lvchip"><span class="badge lv-s"><span class="dot" aria-hidden="true"></span>Svart – vanskelig</span><span class="cl"><code>#050505</code> · tekst <code>#FFFFFF</code><br><span class="ratio ok">20,4:1</span></span></div></div>
+    <div class="tables">
+      <div>
+        <h4 class="sub">Avstand til nivåfargen Grønn (ΔE CIEDE2000, krav ≥ 20)</h4>
+        <table class="tbl"><thead><tr><th>Merkefarge</th><th>Grønn</th><th>ΔE</th><th>Vurdering</th></tr></thead><tbody><tr><td><span class="mini" style="background:#BBD2BD"></span>Primær <code>#BBD2BD</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">21,4</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#B0CDBA"></span>Suksess <code>#B0CDBA</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">20,7</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#3D4A3E"></span>Høydeprofil, fyll <code>#3D4A3E</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">45,4</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#4F5D50"></span>Gradient, grønt ledd <code>#4F5D50</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">37,5</td><td class="ok">tydelig adskilt</td></tr><tr><td><span class="mini" style="background:#212D23"></span>Flate, alt. <code>#212D23</code></td><td><span class="mini" style="background:#34C35F"></span><code>#34C35F</code></td><td class="num">53,6</td><td class="ok">tydelig adskilt</td></tr></tbody></table>
+        <p class="note">Suksess og primær ligger nær hverandre her (ΔE 2,5). Det er greit fordi begge betyr «gå videre», men suksessmeldinger skal alltid ha ikon og tekst.</p>
+      </div>
+      <div>
+        <h4 class="sub">Kontrast (WCAG 2.1)</h4>
+        <table class="tbl"><thead><tr><th>Bruk</th><th>Forhold</th><th>Krav</th><th></th></tr></thead><tbody><tr><td>Brødtekst på flate</td><td class="num">13,8:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Brødtekst på bakgrunn</td><td class="num">15,0:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Dempet tekst på flate</td><td class="num">7,7:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Dempet tekst på flate, alt.</td><td class="num">6,6:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Primærknapp (tekst på primær)</td><td class="num">10,0:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Sekundærknapp/lenke (primær på flate)</td><td class="num">10,3:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>«Utsikt»-merke (tekst på lys aksent)</td><td class="num">11,0:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Faktabrikke (tekst på flate, alt.)</td><td class="num">11,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Suksess-tekst på flate/bakgrunn</td><td class="num">9,7:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Info-tekst på flate/bakgrunn</td><td class="num">7,9:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Advarsel-tekst på flate/bakgrunn</td><td class="num">9,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Feil-tekst på flate/bakgrunn</td><td class="num">7,6:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Fokusring mot flate/bakgrunn</td><td class="num">9,4:1</td><td class="num">3,0:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Grønn – lett</td><td class="num">8,0:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Blå – moderat</td><td class="num">6,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Rød – moderat</td><td class="num">6,1:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr><tr><td>Nivåmerke Svart – vanskelig</td><td class="num">20,4:1</td><td class="num">4,5:1</td><td class="ok">består</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <div class="app">
+      <div class="appbar"><span class="logo"><span class="logo-mark" aria-hidden="true"></span>Your Next Adventure</span>
+        <nav><span class="nav-i is-on">Søk</span><span class="nav-i">Historikk</span><span class="nav-i">Logg inn</span></nav></div>
+      <div class="sky" aria-hidden="true"></div>
+      <div class="page">
+        <article class="card">
+          <div class="illu"><svg class="prof" viewBox="0 0 360 132" role="img" aria-labelledby="ds-dark-t">
+  <title id="ds-dark-t">Høydeprofil (illustrasjon): rundtur på 3,5 km, ca. 130 høydemeter stigning, med utsiktspunkt etter ca. 1,5 km</title>
+  <circle class="p-sun" cx="300" cy="30" r="20"/>
+  <path class="p-ridge" d="M0 70 C40 56 80 64 120 54 C170 42 220 58 260 48 C300 40 330 50 360 46 V108 H0 Z"/>
+  <path class="p-area" d="M14 96 C34 94 48 88 64 80 C82 71 92 62 110 52 C126 43 140 34 156 30 C170 27 180 34 192 44 C206 56 214 60 230 62 C246 64 256 56 270 60 C288 66 300 82 318 92 C330 98 340 96 346 96 L346 108 L14 108 Z"/>
+  <path class="p-line" d="M14 96 C34 94 48 88 64 80 C82 71 92 62 110 52 C126 43 140 34 156 30 C170 27 180 34 192 44 C206 56 214 60 230 62 C246 64 256 56 270 60 C288 66 300 82 318 92 C330 98 340 96 346 96"/>
+  <path class="p-base" d="M14 108 H346"/>
+  <circle class="p-view" cx="156" cy="30" r="6"/>
+  <text class="p-lbl" x="156" y="17" text-anchor="middle">Utsikt</text>
+  <circle class="p-start" cx="14" cy="96" r="5"/>
+  <text class="p-ax" x="14" y="124">0 km</text>
+  <text class="p-ax" x="180" y="124" text-anchor="middle">Start og mål samme sted</text>
+  <text class="p-ax" x="346" y="124" text-anchor="end">3,5 km</text>
+</svg><p class="illu-cap">Høydeprofil – illustrasjon laget fra turdata</p></div>
+          <div class="card-body">
+            <p class="eyebrow">Turforslag</p>
+            <h2 class="route">Eksempel: Granåsen rundt</h2>
+            <div class="facts">
+              <span class="fact">rundtur · 3,5 km totalt</span>
+              <span class="fact">ca. 130 høydemeter</span>
+              <span class="fact">ca. 1 t 35 min (pauser ikke inkludert)</span>
+            </div>
+            <div class="tags">
+              <span class="badge lv-g"><span class="dot" aria-hidden="true"></span>Grønn – lett</span>
+              <span class="match"><svg class="sunic" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="10" r="4"/><path d="M8 2v2M2.5 5.5l1.4 1.4M13.5 5.5l-1.4 1.4M1 14h14"/></svg>Utsikt – som du ba om</span>
+            </div>
+            <p class="why">Passer innenfor tiden du oppga, og har utsikt som du ba om.</p>
+            <div class="actions">
+              <button class="btn primary" type="button">Nytt forslag</button>
+              <button class="btn secondary is-focus" type="button">Registrer gjennomført tur</button>
+            </div>
+            <p class="ratio-inline">Primærknapp 10,0:1 · sekundærknapp 10,3:1 · brødtekst 13,8:1 · primær ↔ Grønn ΔE 21,4 · sekundærknappen vises med fokusring</p>
+            <p class="credit">© Kartverket · © OpenStreetMap contributors · Data fra MET Norge</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div></div>
+</section>
+<p class="foot">Laget for UX-arbeidet med Your Next Adventure · 2026-11-06 · Hexverdiene for hver variant står som kommentar i &lt;style&gt;-blokken i kildekoden.</p>
+</body>
+</html>

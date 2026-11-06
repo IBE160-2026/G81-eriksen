@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Retning 3 – Rolig oversikt</title>
+<style>
+/* ===== Retning 3: «Rolig oversikt» – Granskog LYS =====
+   --bg        #F3F4EF   sidebakgrunn
+   --surface   #FFFFFF   paneler
+   --surface-2 #E6EBE2   faktastripe, segmenter
+   --text      #1D2A23   (14,9:1 på #FFFFFF, 12,4:1 på #E6EBE2)
+   --muted     #4F5E55   (6,6:1 på #FFFFFF, 5,4:1 på #E6EBE2)
+   --primary   #2F5866   primærknapp, valgte segmenter, lenker (7,6:1)
+   --on-primary #FFFFFF
+   --accent    #D6936E   kun dekor (prikker, utsiktsmarkør)
+   --accent-ink #6B3A22  tekst på fersken #F7E6DC (8,9:1)
+   --border    #CDD5C9   skillelinjer; skjemafelt bruker #8C978F (3,0:1 mot hvit, ikke-tekst)
+   --focus     #B0624A
+   --error     #A5383A   feilmelding (6,4:1 på #FFFFFF)
+   --info      #3F5F86
+   Kart: land #EEF0E8 · skog #CFDDC8 · vann #CFDCE6 · rute #C0694A
+   Turnivå (faste): Grønn #1A7F37 · Blå #0A5BD3 · Rød #C8221B · Svart #111111 – hvit tekst
+   Gradient: #2F5866 → #6F8A7E → #D9A48A → #EEC7B0
+   Typografi: system-ui, -apple-system, "Segoe UI", Roboto – tett, 14 px grunnstørrelse, tabulære tall
+*/
+:root{--bg:#F3F4EF;--surface:#FFFFFF;--surface-2:#E6EBE2;--text:#1D2A23;--muted:#4F5E55;--primary:#2F5866;--accent:#D6936E;--ink:#6B3A22;--border:#CDD5C9;--field:#8C978F;--focus:#B0624A;--error:#A5383A;--info:#3F5F86;--gronn:#1A7F37}
+*{box-sizing:border-box}
+body{margin:0;background:#DDE2D8;color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:14px;line-height:1.4;overflow-x:auto}
+.doc{width:1320px;margin:0 auto;padding:40px 20px 80px}
+.doc-head{max-width:900px;margin-bottom:28px}
+.doc-head .kicker{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.doc-head h1{font-size:30px;font-weight:700;margin:0 0 10px;color:var(--primary);letter-spacing:-.01em}
+.doc-head p{font-size:15.5px;margin:0 0 8px;max-width:820px}
+.section-label{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:44px 0 10px;font-weight:600}
+
+.browser{width:1280px;background:var(--bg);border:1px solid #B9C1B5;border-radius:12px;overflow:hidden;box-shadow:0 18px 40px rgba(29,42,35,.16)}
+.chrome{height:40px;background:#E3E7DF;border-bottom:1px solid #C9D0C4;display:flex;align-items:center;gap:8px;padding:0 14px}
+.dot{width:12px;height:12px;border-radius:50%;background:#C9CFC4}
+.url{margin-left:14px;flex:0 0 520px;height:26px;border-radius:13px;background:#FFFFFF;border:1px solid #CDD5C9;font-size:13px;color:var(--muted);display:flex;align-items:center;padding:0 14px}
+.page{position:relative}
+.fold{position:absolute;left:0;right:0;top:720px;border-top:2px dashed #B0624A;z-index:20}
+.fold span{position:absolute;right:10px;top:-24px;background:#B0624A;color:#FFFFFF;font-size:12px;padding:2px 8px;border-radius:4px}
+
+.site-head{height:52px;background:var(--primary);color:#FFFFFF;display:flex;align-items:center;padding:0 20px;gap:24px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:15.5px;color:#FFFFFF;text-decoration:none}
+.nav{margin-left:auto;display:flex;gap:6px;font-size:14px}
+.nav a{color:#FFFFFF;text-decoration:none;padding:6px 12px;border-radius:6px}
+.nav a.on{background:rgba(255,255,255,.16);font-weight:600}
+.nav a.login{border:1px solid rgba(255,255,255,.7)}
+
+.app{display:grid;grid-template-columns:288px 1fr;min-height:668px}
+.side{background:var(--surface);border-right:1px solid var(--border);padding:16px 18px}
+.side h2{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 12px;font-weight:600}
+.f{margin-bottom:13px}
+.f label,.f .lbl{display:block;font-weight:600;font-size:13.5px;margin-bottom:5px}
+.opt{font-weight:400;color:var(--muted)}
+.segs{display:flex;flex-wrap:wrap;gap:5px}
+.segs span{border:1px solid var(--field);border-radius:6px;padding:5px 9px;font-size:13px;background:#FFFFFF}
+.segs span.on{background:var(--primary);border-color:var(--primary);color:#FFFFFF;font-weight:600}
+.sub{font-size:12.5px;color:var(--muted);margin-top:4px}
+.stepper{display:flex;align-items:center;border:1px solid var(--field);border-radius:6px;height:36px;overflow:hidden;width:150px}
+.stepper span{width:36px;height:100%;display:flex;align-items:center;justify-content:center;font-size:17px;background:var(--surface-2)}
+.stepper b{flex:1;text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
+.sel{height:36px;border:1px solid var(--field);border-radius:6px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;color:var(--muted)}
+.ta{height:52px;border:1px solid var(--field);border-radius:6px;padding:7px 10px;color:var(--muted);font-size:13px}
+.cnt{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:3px}
+.btn{font:inherit;font-weight:600;border-radius:6px;padding:9px 16px;border:1px solid var(--primary);font-size:14px}
+.btn.primary{background:var(--primary);color:#FFFFFF}
+.btn.secondary{background:#FFFFFF;color:var(--primary)}
+.btn.block{width:100%}
+
+.main{padding:16px 22px;display:flex;flex-direction:column;gap:12px}
+.topline{display:flex;align-items:center;gap:16px}
+.topline h1{font-size:23px;font-weight:700;margin:0;letter-spacing:-.01em}
+.ex{font-size:11.5px;font-weight:600;color:var(--muted);border:1px solid var(--border);border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:middle;position:relative;top:-2px}
+.tags{display:flex;gap:6px;margin-top:5px;align-items:center}
+.tag{font-size:12.5px;padding:2px 9px;border-radius:999px;background:var(--surface-2)}
+.tag.match{background:#F7E6DC;border:1px solid var(--accent);color:var(--ink);font-weight:600;display:inline-flex;gap:5px;align-items:center}
+.tags .meta{font-size:12.5px;color:var(--muted);margin-left:4px}
+.topline .acts{margin-left:auto;display:flex;gap:8px}
+
+.strip{display:grid;grid-template-columns:150px 150px 210px 1fr;background:var(--surface);border:1px solid var(--border);border-radius:8px}
+.strip > div{padding:9px 14px;border-right:1px solid var(--border)}
+.strip > div:last-child{border-right:none;display:flex;gap:10px;align-items:center}
+.strip .k{font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.strip .v{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
+.strip .s{font-size:12px;color:var(--muted)}
+.badge{flex:none;display:inline-flex;align-items:center;gap:6px;background:var(--gronn);color:#FFFFFF;font-weight:600;font-size:13.5px;padding:4px 10px;border-radius:5px}
+.strip p{margin:0;font-size:12px;color:var(--muted);line-height:1.35}
+
+.mid{display:grid;grid-template-columns:1.45fr 1fr;gap:12px;height:300px}
+.map{position:relative;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#EEF0E8}
+.map svg{display:block;width:100%;height:100%}
+.ph{position:absolute;left:10px;top:10px;font-size:11.5px;color:var(--muted);background:rgba(255,255,255,.92);border:1px dashed #8C978F;padding:2px 7px;border-radius:4px}
+.ctl{position:absolute;right:10px;top:10px;background:#FFFFFF;border:1px solid var(--border);border-radius:6px;display:flex;flex-direction:column}
+.ctl span{width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.ctl span+span{border-top:1px solid var(--border)}
+.credits{position:absolute;right:0;bottom:0;background:rgba(255,255,255,.94);font-size:11.5px;padding:3px 8px;border-top-left-radius:6px}
+.credits a{color:var(--primary)}
+.illu{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.illu .k{font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between}
+.illu .row{display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:center}
+.illu ul{list-style:none;margin:0;padding:0;font-size:12.5px;color:var(--text)}
+.illu li{display:flex;gap:7px;align-items:center;padding:2px 0}
+
+.low{display:grid;grid-template-columns:1.3fr 1fr .8fr;gap:12px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px}
+.card .k{font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.card p{margin:0;font-size:14px}
+.card ul{margin:0;padding:0;list-style:none;font-size:13.5px}
+.card li{display:flex;gap:7px;align-items:center;padding:2px 0}
+.card li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);flex:none}
+.card a{color:var(--primary)}
+
+/* Tom start */
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;height:100%;padding:40px}
+.welcome h1{font-size:24px;margin:8px 0 0}
+.welcome p{color:var(--muted);font-size:15px;margin:0;max-width:440px}
+.focusring{box-shadow:0 0 0 2px #FFFFFF,0 0 0 4px var(--focus)}
+
+/* Laster */
+.sk{background:var(--surface-2);border-radius:6px}
+.loading-msg{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600}
+.spin{width:18px;height:18px;border-radius:50%;border:3px solid #CDD5C9;border-top-color:var(--primary)}
+
+/* Feil */
+.err .sel,.err .stepper{border:2px solid var(--error)}
+.errmsg{color:var(--error);font-size:12.5px;font-weight:600;margin-top:4px;display:flex;gap:5px;align-items:flex-start}
+.statesgrid{display:grid;grid-template-columns:1fr 288px;gap:24px;align-items:start}
+.panel{background:var(--surface);border:1px solid #B9C1B5;border-radius:10px;box-shadow:0 10px 26px rgba(29,42,35,.12);overflow:hidden}
+.panel .cap{font-size:12px;color:var(--muted);padding:8px 14px;border-bottom:1px solid var(--border);background:var(--bg)}
+</style>
+</head>
+<body>
+<div class="doc">
+
+<header class="doc-head">
+  <p class="kicker">Designretning 3 av 3 · Turforslag · desktop · Granskog lys</p>
+  <h1>Rolig oversikt</h1>
+  <p>Søket står alltid til venstre, så Ola kan justere «2 timer» eller «utsikt» uten å gå tilbake. Til høyre ligger hele forslaget over folden: faktastripe, kart, egen rute- og høydetegning, begrunnelse og bekledningstips – tett, men med myke kanter og dempede farger.</p>
+  <p>Personligheten er praktisk og trygg, som et godt verktøy: system-sans, tabulære tall og korte etiketter. Kartet og tegningen står side om side og får omtrent like mye plass.</p>
+</header>
+
+<!-- ================= HELTESKJERM ================= -->
+<p class="section-label">Hovedskjerm – turforslag (lørdag · 2 timer · utsikt)</p>
+<div class="browser">
+  <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">yournextadventure.no/turforslag</div></div>
+  <div class="page">
+    <div class="fold"><span>Folden ved 1280 × 800-skjerm</span></div>
+    <header class="site-head">
+      <a class="brand" href="#"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="6" fill="#FFFFFF"/><path d="M4 18 L9 10 L12 14 L15 9 L20 18 Z" fill="#2F5866"/><circle cx="17" cy="6" r="2" fill="#D6936E"/></svg>Your Next Adventure</a>
+      <nav class="nav"><a class="on" href="#">Finn tur</a><a href="#">Historikk</a><a class="login" href="#">Logg inn</a></nav>
+    </header>
+    <div class="app">
+      <aside class="side" aria-label="Søk">
+        <h2>Ditt søk</h2>
+        <div class="f"><span class="lbl">Dato</span>
+          <div class="segs"><span>I dag</span><span class="on">Lør. 7.11</span><span>Søn. 8.11</span><span>Annen dato</span></div>
+        </div>
+        <div class="f"><span class="lbl">Varighet</span><div class="stepper"><span>−</span><b>2 t</b><span>+</span></div><div class="sub">1–8 timer, i halvtimer</div></div>
+        <div class="f"><span class="lbl">Turtype <span class="opt">(valgfritt)</span></span><div class="segs"><span>Marka</span><span class="on">Utsikt</span><span>Topptur</span></div></div>
+        <div class="f"><label>Startpunkt <span class="opt">(valgfritt)</span></label><div class="sel"><span>Alle startpunkt</span><span aria-hidden="true">▾</span></div></div>
+        <div class="f"><label>Fritekstønske <span class="opt">(valgfritt)</span></label><div class="ta">F.eks. «rundt 5 km»</div><div class="cnt"><span></span><span>0 / 200</span></div></div>
+        <button class="btn secondary block">Søk på nytt</button>
+      </aside>
+
+      <main class="main">
+        <div class="topline">
+          <div>
+            <h1>Granåsen rundt <span class="ex">Eksempel</span></h1>
+            <div class="tags">
+              <span class="tag match"><svg width="13" height="11" viewBox="0 0 13 11" aria-hidden="true"><path d="M1 10 L5 2.5 L7.8 6.5 L9.5 4.3 L12 10 Z" fill="#6B3A22"/></svg>Utsikt – som du ba om</span>
+              <span class="tag">Rundtur</span>
+              <span class="meta">Start: Granvannet p-plass</span>
+            </div>
+          </div>
+          <div class="acts"><button class="btn secondary">Registrer gjennomført tur</button><button class="btn primary">Nytt forslag</button></div>
+        </div>
+
+        <div class="strip">
+          <div><div class="k">Lengde</div><div class="v">4,2 km</div><div class="s">rundtur · 4,2 km totalt</div></div>
+          <div><div class="k">Stigning</div><div class="v">ca. 230</div><div class="s">høydemeter</div></div>
+          <div><div class="k">Estimert tid</div><div class="v">ca. 1 t 35 min</div><div class="s">pauser ikke inkludert</div></div>
+          <div><span class="badge"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="none" stroke="#FFFFFF" stroke-width="2"/></svg>Grønn – lett</span><p>Beregnet av tjenesten etter Merkehåndbokas mal ut fra lengde og høydemeter. Terreng og føre er ikke vurdert.</p></div>
+        </div>
+
+        <div class="mid">
+          <div class="map">
+            <svg viewBox="0 0 560 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Kart over runden fra Granvannet p-plass opp til utsiktspunktet på Granåsen og tilbake.">
+              <rect width="560" height="300" fill="#EEF0E8"/>
+              <path fill="#CFDDC8" d="M0,0 H330 C300,50 250,70 200,90 C140,112 80,110 0,150 Z"/>
+              <path fill="#CFDDC8" d="M560,120 C480,140 440,190 430,240 C424,270 432,300 440,300 H560 Z"/>
+              <path fill="#CFDCE6" d="M390,30 C430,10 500,16 516,50 C532,86 500,110 456,110 C412,110 380,90 378,66 C376,48 372,40 390,30 Z"/>
+              <path d="M420,110 C400,150 420,180 400,220 C380,260 400,280 390,300" fill="none" stroke="#CFDCE6" stroke-width="5"/>
+              <g fill="none" stroke="#2F5866" stroke-opacity=".14" stroke-width="1.2"><path d="M200,120 C240,70 330,70 345,120 C360,170 290,190 250,182 C210,174 175,155 200,120 Z"/><path d="M165,125 C210,45 360,40 380,125 C400,210 280,225 220,212 C160,199 140,175 165,125 Z"/><path d="M130,140 C180,20 400,10 420,130 C440,250 260,260 190,240 C120,220 100,200 130,140 Z"/></g>
+              <path d="M0,262 C120,250 200,280 320,272 C420,266 480,240 560,250" fill="none" stroke="#FFFFFF" stroke-width="6"/>
+              <path d="M170,248 C135,200 152,132 196,114 C240,96 262,66 300,70 C352,76 370,124 352,166 C334,208 284,208 256,230 C228,252 194,276 170,248 Z" fill="none" stroke="#FFFFFF" stroke-width="8"/>
+              <path d="M170,248 C135,200 152,132 196,114 C240,96 262,66 300,70 C352,76 370,124 352,166 C334,208 284,208 256,230 C228,252 194,276 170,248 Z" fill="none" stroke="#C0694A" stroke-width="4"/>
+              <g transform="translate(170,248)"><circle r="10" fill="#2F5866" stroke="#FFFFFF" stroke-width="2.5"/><text y="4" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF" font-family="system-ui, Segoe UI, sans-serif">S</text></g>
+              <g transform="translate(300,70)"><circle r="11" fill="#FFFFFF" stroke="#D6936E" stroke-width="2.5"/><path d="M-6,4 L-1,-4 L2,1 L4,-1 L7,4 Z" fill="#6B3A22"/></g>
+              <text x="456" y="66" text-anchor="middle" font-size="12" font-style="italic" fill="#3F5F86" font-family="system-ui, Segoe UI, sans-serif">Granvannet</text>
+            </svg>
+            <span class="ph">Plassholder for kart</span>
+            <div class="ctl" aria-hidden="true"><span>+</span><span>−</span></div>
+            <div class="credits">© Kartverket · © <a href="#">OpenStreetMap contributors</a> · Data fra MET Norge</div>
+          </div>
+
+          <div class="illu" aria-label="Tegning av runden og høydeprofilen">
+            <div class="k"><span>Turen i tegning</span><span>laget fra rutedata</span></div>
+            <div class="row">
+              <svg width="150" height="118" viewBox="0 0 150 118" aria-hidden="true">
+                <rect width="150" height="118" rx="6" fill="#F3F4EF"/>
+                <path d="M34,98 C16,74 24,40 48,30 C72,20 84,8 102,10 C126,13 134,38 126,58 C118,78 96,80 82,90 C68,100 48,110 34,98 Z" fill="#E6EBE2" stroke="#C0694A" stroke-width="4" stroke-linejoin="round"/>
+                <circle cx="34" cy="98" r="7" fill="#2F5866" stroke="#FFFFFF" stroke-width="2"/>
+                <circle cx="102" cy="10" r="6" fill="#FFFFFF" stroke="#D6936E" stroke-width="2.5"/>
+                <path d="M17,64 l5,-10 l5,10" fill="none" stroke="#1D2A23" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <ul>
+                <li><svg width="12" height="12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="#2F5866"/></svg>Start og mål, 180 moh</li>
+                <li><svg width="12" height="12" aria-hidden="true"><circle cx="6" cy="6" r="4.5" fill="#FFFFFF" stroke="#D6936E" stroke-width="2"/></svg>Utsikt, 410 moh</li>
+                <li><svg width="12" height="12" aria-hidden="true"><path d="M1 9 L6 2 L11 9" fill="none" stroke="#1D2A23" stroke-width="1.6"/></svg>Gå med klokka</li>
+              </ul>
+            </div>
+            <svg width="100%" height="96" viewBox="0 0 420 118" preserveAspectRatio="none" aria-hidden="true">
+              <defs><linearGradient id="pg" x1="0" x2="1"><stop offset="0" stop-color="#2F5866"/><stop offset=".4" stop-color="#6F8A7E"/><stop offset=".75" stop-color="#D9A48A"/><stop offset="1" stop-color="#EEC7B0"/></linearGradient></defs>
+              <line x1="0" y1="20" x2="420" y2="20" stroke="#CDD5C9" stroke-dasharray="3 4"/>
+              <path d="M0,96 C28,94 63,86 90,79 S126,66 140,60 S168,48 180,44 S203,34 210,31 S224,26 230,26 S248,29 260,33 S287,45 300,51 S329,66 340,72 S367,86 380,88 S406,96 420,96 L420,100 L0,100 Z" fill="url(#pg)"/>
+              <line x1="230" y1="26" x2="230" y2="100" stroke="#D6936E" stroke-dasharray="2 3"/>
+              <line x1="0" y1="100" x2="420" y2="100" stroke="#8C978F"/>
+            </svg>
+            <div class="k" style="text-transform:none;letter-spacing:0;font-size:12px"><span>0 km</span><span>utsikt ved 2,3 km</span><span>4,2 km</span></div>
+          </div>
+        </div>
+
+        <div class="low">
+          <div class="card"><div class="k">Begrunnelse</div><p>Turen tar ca. 1 t 35 min og passer de 2 timene du har. Den har utsikt, som du ba om, og er grønn, som passer når du er ny.</p></div>
+          <div class="card"><div class="k">Bekledningstips · lørdag kl. 10–16</div><ul><li>Kaldt – ta med lue, votter og et varmt mellomlag</li><li>Fare for nedbør – husk regntøy</li><li>Gode sko og litt mat og drikke</li></ul></div>
+          <div class="card"><div class="k">Mer om turen</div><p><a href="#">Se turen på ut.no ↗</a></p><p style="font-size:12.5px;color:var(--muted);margin-top:4px">Turen åpnes på ut.no i en ny fane.</p></div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- ================= SEKUNDÆR: SØK ================= -->
+<p class="section-label">Sekundærskjerm – søk (Ola har valgt lørdag, 2 timer, utsikt og skal trykke «Finn en tur»)</p>
+<div class="browser">
+  <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">yournextadventure.no</div></div>
+  <div class="page">
+    <header class="site-head">
+      <a class="brand" href="#"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="6" fill="#FFFFFF"/><path d="M4 18 L9 10 L12 14 L15 9 L20 18 Z" fill="#2F5866"/><circle cx="17" cy="6" r="2" fill="#D6936E"/></svg>Your Next Adventure</a>
+      <nav class="nav"><a class="on" href="#">Finn tur</a><a href="#">Historikk</a><a class="login" href="#">Logg inn</a></nav>
+    </header>
+    <div class="app" style="min-height:560px">
+      <aside class="side" aria-label="Søk">
+        <h2>Finn en tur</h2>
+        <div class="f"><span class="lbl">Dato</span>
+          <div class="segs"><span>I dag</span><span class="on">Lør. 7.11</span><span>Søn. 8.11</span><span>Annen dato</span></div>
+          <div class="sub">Lørdag 7. november</div>
+        </div>
+        <div class="f"><span class="lbl">Varighet</span><div class="stepper"><span>−</span><b>2 t</b><span>+</span></div><div class="sub">1–8 timer, i halvtimer</div></div>
+        <div class="f"><span class="lbl">Turtype <span class="opt">(valgfritt)</span></span><div class="segs"><span>Marka</span><span class="on">Utsikt</span><span>Topptur</span></div></div>
+        <div class="f"><label>Startpunkt <span class="opt">(valgfritt)</span></label><div class="sel"><span>Alle startpunkt</span><span aria-hidden="true">▾</span></div></div>
+        <div class="f"><label>Fritekstønske <span class="opt">(valgfritt)</span></label><div class="ta">F.eks. «rundt 5 km»</div><div class="cnt"><span>Vi prøver å ta hensyn til det.</span><span>0 / 200</span></div></div>
+        <button class="btn primary block focusring">Finn en tur</button>
+      </aside>
+      <main class="main">
+        <div class="welcome">
+          <svg width="300" height="150" viewBox="0 0 300 150" aria-hidden="true">
+            <defs><linearGradient id="wg" x1="0" x2="1"><stop offset="0" stop-color="#2F5866"/><stop offset=".4" stop-color="#6F8A7E"/><stop offset=".75" stop-color="#D9A48A"/><stop offset="1" stop-color="#EEC7B0"/></linearGradient></defs>
+            <circle cx="236" cy="40" r="20" fill="#EEC7B0"/>
+            <path d="M0,130 C40,120 70,90 110,70 C140,56 160,76 180,82 C210,92 250,110 300,116 V150 H0 Z" fill="url(#wg)" opacity=".85"/>
+            <path d="M30,140 C70,120 100,100 120,84" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"/>
+          </svg>
+          <h1>Hei! Hvor lang tid har du?</h1>
+          <p>Velg dato og varighet til venstre. Du får ett turforslag om gangen, med kart, en tegning av turen og en forklaring på hvorfor den passer.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- ================= TILSTANDER ================= -->
+<p class="section-label">Tilstander – laster (venstre) og feil i skjemaet (høyre)</p>
+<div class="statesgrid">
+  <div class="panel">
+    <div class="cap">Laster – etter «Finn en tur». Hovedfeltet viser plassholdere i samme oppsett som forslaget, så ingenting hopper.</div>
+    <div class="main" style="height:420px" role="status" aria-live="polite">
+      <div class="loading-msg"><span class="spin" aria-hidden="true"></span>Finner en tur med utsikt som passer 2 timer …</div>
+      <div class="sk" style="height:62px;background:#FFFFFF;border:1px solid #CDD5C9"></div>
+      <div class="mid" style="height:200px">
+        <div class="sk" style="position:relative;overflow:hidden">
+          <svg width="100%" height="100%" viewBox="0 0 560 200" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path d="M170,170 C135,130 152,80 196,66 C240,52 262,30 300,34 C352,40 370,80 352,110 C334,140 284,140 256,155 C228,170 194,190 170,170 Z" fill="none" stroke="#8C978F" stroke-width="3" stroke-dasharray="6 8" stroke-linecap="round"/></svg>
+        </div>
+        <div class="sk"></div>
+      </div>
+      <div class="low"><div class="sk" style="height:70px"></div><div class="sk" style="height:70px"></div><div class="sk" style="height:70px"></div></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="cap">Feil i skjemaet – varighet mangler</div>
+    <aside class="side" style="border:none">
+      <div class="f"><span class="lbl">Dato</span><div class="segs"><span>I dag</span><span class="on">Lør. 7.11</span><span>Søn. 8.11</span><span>Annen dato</span></div></div>
+      <div class="f err"><span class="lbl" id="v-lbl">Varighet</span><div class="stepper" aria-describedby="v-err"><span>−</span><b style="color:#4F5E55;font-weight:400">Velg</b><span>+</span></div>
+        <div class="errmsg" id="v-err"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" style="flex:none;margin-top:1px"><circle cx="7" cy="7" r="6.3" fill="#A5383A"/><rect x="6.2" y="3" width="1.6" height="5" fill="#FFFFFF"/><circle cx="7" cy="10.3" r="1" fill="#FFFFFF"/></svg>Velg hvor mange timer du har, fra 1 til 8.</div>
+      </div>
+      <div class="f"><span class="lbl">Turtype <span class="opt">(valgfritt)</span></span><div class="segs"><span>Marka</span><span class="on">Utsikt</span><span>Topptur</span></div></div>
+      <button class="btn primary block">Finn en tur</button>
+    </aside>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

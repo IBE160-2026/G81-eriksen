@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Retning 2 – Turkort</title>
+<style>
+/* ===== Retning 2: «Turkort» – Granskog LYS =====
+   --bg        #F3F4EF   sidebakgrunn
+   --surface   #FFFFFF   kort
+   --surface-2 #E6EBE2   rolige flater
+   --text      #1D2A23   (14,9:1 på #FFFFFF, 13,6:1 på #F3F4EF)
+   --muted     #4F5E55   (6,6:1 på #FFFFFF, 6,0:1 på #F3F4EF)
+   --primary   #2F5866   knapper, lenker, serif-overskrifter (7,6:1 på #FFFFFF)
+   --on-primary #FFFFFF
+   --accent    #D6936E   kun dekor: utsiktsmerke, solnedgang i illustrasjon
+   --accent-2  #C99AA6   kun dekor: fjerne åser
+   --accent-ink #6B3A22  tekst på lys fersken #F7E6DC (8,9:1)
+   --border    #CDD5C9
+   --focus     #B0624A
+   Kart: land #EEF0E8 · skog #CFDDC8 · vann #CFDCE6 · rute #C0694A
+   Turnivå (faste): Grønn #1A7F37 · Blå #0A5BD3 · Rød #C8221B · Svart #111111 – hvit tekst
+   Gradient: #2F5866 → #6F8A7E → #D9A48A → #EEC7B0
+   Typografi: serif-overskrifter Georgia / "Iowan Old Style" / "Palatino Linotype";
+              brødtekst "Segoe UI", Candara, system-ui
+*/
+:root{--bg:#F3F4EF;--surface:#FFFFFF;--surface-2:#E6EBE2;--text:#1D2A23;--muted:#4F5E55;--primary:#2F5866;--accent:#D6936E;--accent-2:#C99AA6;--ink:#6B3A22;--border:#CDD5C9;--focus:#B0624A;--gronn:#1A7F37;--info:#3F5F86}
+*{box-sizing:border-box}
+body{margin:0;background:#DDE2D8;color:var(--text);font-family:"Segoe UI",Candara,system-ui,sans-serif;line-height:1.5;overflow-x:auto}
+.serif{font-family:Georgia,"Iowan Old Style","Palatino Linotype",serif}
+.doc{width:1320px;margin:0 auto;padding:40px 20px 80px}
+.doc-head{max-width:900px;margin-bottom:28px}
+.doc-head .kicker{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.doc-head h1{font-family:Georgia,"Iowan Old Style","Palatino Linotype",serif;font-weight:400;font-size:38px;margin:0 0 10px;color:var(--primary)}
+.doc-head p{font-size:16px;margin:0 0 8px;max-width:820px}
+.section-label{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:44px 0 10px;font-weight:600}
+
+.browser{width:1280px;background:var(--bg);border:1px solid #B9C1B5;border-radius:12px;overflow:hidden;box-shadow:0 18px 40px rgba(29,42,35,.16)}
+.chrome{height:40px;background:#E3E7DF;border-bottom:1px solid #C9D0C4;display:flex;align-items:center;gap:8px;padding:0 14px}
+.dot{width:12px;height:12px;border-radius:50%;background:#C9CFC4}
+.url{margin-left:14px;flex:0 0 520px;height:26px;border-radius:13px;background:#FFFFFF;border:1px solid #CDD5C9;font-size:13px;color:var(--muted);display:flex;align-items:center;padding:0 14px}
+.page{position:relative}
+.fold{position:absolute;left:0;right:0;top:720px;border-top:2px dashed #B0624A;z-index:20}
+.fold span{position:absolute;right:10px;top:-24px;background:#B0624A;color:#FFFFFF;font-size:12px;padding:2px 8px;border-radius:4px}
+
+.site-head{height:64px;display:flex;align-items:center;padding:0 64px;gap:28px;border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:10px;font-family:Georgia,"Palatino Linotype",serif;font-size:20px;color:var(--text);text-decoration:none}
+.nav{margin-left:auto;display:flex;gap:26px;font-size:15px}
+.nav a{color:var(--text);text-decoration:none}
+.nav a.on{color:var(--primary);font-weight:600}
+.nav a.login{color:var(--primary);text-decoration:underline;text-underline-offset:3px}
+
+.wrap{padding:22px 64px 0}
+.titleblock{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end}
+.eyebrow{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 4px}
+.eyebrow a{color:var(--primary);text-transform:none;letter-spacing:0;margin-left:10px}
+h2.route{font-family:Georgia,"Iowan Old Style","Palatino Linotype",serif;font-weight:400;font-size:44px;line-height:1.05;margin:0;color:var(--text)}
+.ex{font-family:"Segoe UI",system-ui,sans-serif;font-size:12px;font-weight:600;color:var(--muted);border:1px solid var(--border);border-radius:4px;padding:1px 6px;vertical-align:middle;margin-left:10px;position:relative;top:-8px}
+.lead{font-family:Georgia,"Iowan Old Style","Palatino Linotype",serif;font-style:italic;font-size:18px;color:var(--text);margin:8px 0 0;max-width:720px}
+.actions{display:flex;gap:10px;align-items:center}
+.btn{font:inherit;font-size:15px;font-weight:600;border-radius:999px;padding:11px 22px;border:1px solid var(--primary)}
+.btn.primary{background:var(--primary);color:#FFFFFF}
+.btn.secondary{background:transparent;color:var(--primary)}
+
+.hero{display:grid;grid-template-columns:1fr 336px;gap:20px;margin-top:18px;height:344px}
+.illu{background:#FFFFFF;border:1px solid var(--border);border-radius:16px;overflow:hidden;position:relative}
+.illu svg{display:block;width:100%;height:100%}
+.mapcard{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--border);background:#EEF0E8}
+.mapcard svg{display:block;width:100%;height:100%}
+.maplabel{position:absolute;left:12px;top:12px;font-size:12.5px;font-weight:600;background:#FFFFFF;color:var(--text);padding:3px 10px;border-radius:999px;border:1px solid var(--border)}
+.mapopen{position:absolute;right:12px;top:12px;font-size:12.5px;background:#FFFFFF;color:var(--primary);padding:3px 10px;border-radius:999px;border:1px solid var(--border)}
+.credits{position:absolute;left:0;right:0;bottom:0;background:rgba(255,255,255,.94);font-size:11.5px;color:var(--text);padding:5px 10px;text-align:center}
+.credits a{color:var(--primary)}
+
+.facts{display:grid;grid-template-columns:auto auto auto 1fr;gap:0;margin-top:18px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.fact{padding:12px 30px 12px 0;margin-right:30px;border-right:1px solid var(--border)}
+.fact b{display:block;font-family:Georgia,"Iowan Old Style","Palatino Linotype",serif;font-weight:400;font-size:28px;line-height:1.1}
+.fact small{font-size:13px;color:var(--muted)}
+.level{padding:12px 0;display:flex;gap:12px;align-items:flex-start}
+.badge{flex:none;display:inline-flex;align-items:center;gap:6px;background:var(--gronn);color:#FFFFFF;font-weight:600;font-size:14px;padding:5px 12px;border-radius:6px}
+.level p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.4}
+.match{display:inline-flex;align-items:center;gap:7px;background:#F7E6DC;color:var(--ink);border:1px solid var(--accent);font-weight:600;font-size:14px;padding:4px 12px;border-radius:999px;vertical-align:middle}
+.form{display:inline-block;font-size:14px;padding:4px 12px;border-radius:999px;background:var(--surface-2);margin-left:6px;vertical-align:middle}
+
+.belowgrid{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:28px;padding:36px 64px 40px}
+.belowgrid h3{font-family:Georgia,"Palatino Linotype",serif;font-weight:400;font-size:22px;margin:0 0 10px;color:var(--primary)}
+.tip{display:flex;gap:12px;align-items:center;background:#FFFFFF;border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:8px;font-size:15px}
+.belowgrid p{font-size:15px;margin:0 0 10px}
+.belowgrid a{color:var(--primary)}
+
+/* Søk */
+.searchwrap{min-height:720px;display:grid;grid-template-columns:1fr 440px;gap:56px;padding:44px 64px}
+.searchwrap h2{font-family:Georgia,"Iowan Old Style","Palatino Linotype",serif;font-weight:400;font-size:42px;line-height:1.1;margin:0 0 8px}
+.searchwrap .intro{font-size:16px;color:var(--muted);margin:0 0 26px}
+.field{margin-bottom:20px}
+.field label,.field .lbl{display:block;font-weight:600;font-size:15px;margin-bottom:6px}
+.opt{font-weight:400;color:var(--muted)}
+.input{height:46px;border:1px solid #8C978F;border-radius:10px;background:#FFFFFF;display:flex;align-items:center;justify-content:space-between;padding:0 14px;font-size:16px}
+.input.empty{color:var(--muted)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.types{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.type{background:#FFFFFF;border:1px solid #8C978F;border-radius:12px;padding:10px;text-align:center;font-size:15px}
+.type svg{display:block;margin:0 auto 4px}
+.type.on{border:2px solid var(--primary);background:#EEF3F3;font-weight:600}
+.type.on::after{content:"Valgt";display:block;font-size:12px;color:var(--primary);font-weight:600}
+.textarea{height:60px;border:1px solid #8C978F;border-radius:10px;background:#FFFFFF;padding:10px 14px;font-size:15px;color:var(--muted)}
+.hint{font-size:13px;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between}
+.side-illu{background:#FFFFFF;border:1px solid var(--border);border-radius:16px;padding:22px;align-self:start}
+.side-illu p{font-size:14.5px;color:var(--muted);margin:12px 0 0}
+.focusring{box-shadow:0 0 0 3px #FFFFFF,0 0 0 5px var(--focus)}
+
+/* Tilstand */
+.alldone{min-height:520px;display:grid;grid-template-columns:420px 1fr;gap:56px;padding:56px 64px;align-items:start}
+.alldone h2{font-family:Georgia,"Iowan Old Style","Palatino Linotype",serif;font-weight:400;font-size:36px;line-height:1.15;margin:0 0 10px}
+.alldone p{font-size:16px;margin:0 0 14px}
+.alldone ul{margin:0 0 22px;padding:0;list-style:none}
+.alldone li{padding:10px 0;border-bottom:1px solid var(--border);font-size:16px;display:flex;justify-content:space-between}
+.alldone li a{color:var(--primary);font-size:15px}
+</style>
+</head>
+<body>
+<div class="doc">
+
+<header class="doc-head">
+  <p class="kicker">Designretning 2 av 3 · Turforslag · desktop · Granskog lys</p>
+  <h1>Turkort</h1>
+  <p>Hver tur presenteres som et lite, tegnet turkort: en stor, egen illustrasjon av runden og høydeprofilen er helten, med serif-overskrifter og god luft rundt. Kartet står ved siden av som praktisk bekreftelse, og «Utsikt – som du ba om» står rett under navnet.</p>
+  <p>Personligheten er redaksjonell og varm, som en side i en turbok. Begrunnelsen står som en kursiv ingress, så Ola leser <em>hvorfor</em> før tallene. Avveining: bekledningstipsene havner rett under folden.</p>
+</header>
+
+<!-- ================= HELTESKJERM ================= -->
+<p class="section-label">Hovedskjerm – turforslag (lørdag · 2 timer · utsikt)</p>
+<div class="browser">
+  <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">yournextadventure.no/turforslag</div></div>
+  <div class="page">
+    <div class="fold"><span>Folden ved 1280 × 800-skjerm</span></div>
+    <header class="site-head">
+      <a class="brand" href="#"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path d="M3 24 C6 14 10 8 15 8 C20 8 24 14 27 24" fill="none" stroke="#2F5866" stroke-width="2.4" stroke-linecap="round"/><circle cx="15" cy="8" r="3" fill="#D6936E"/><path d="M3 24 H27" stroke="#2F5866" stroke-width="2.4" stroke-linecap="round"/></svg>Your Next Adventure</a>
+      <nav class="nav"><a class="on" href="#">Finn tur</a><a href="#">Historikk</a><a class="login" href="#">Logg inn</a></nav>
+    </header>
+
+    <div class="wrap">
+      <div class="titleblock">
+        <div>
+          <p class="eyebrow">Turforslag for lørdag 7. november · 2 timer<a href="#">Endre søk</a></p>
+          <h2 class="route">Granåsen rundt<span class="ex">Eksempel</span></h2>
+          <div style="margin-top:10px">
+            <span class="match"><svg width="15" height="12" viewBox="0 0 15 12" aria-hidden="true"><path d="M1 11 L6 2.5 L9 7 L11 4.5 L14 11 Z" fill="#6B3A22"/></svg>Utsikt – som du ba om</span><span class="form">Rundtur</span><span class="form">Start: Granvannet p-plass</span>
+          </div>
+          <p class="lead">«Turen tar ca. 1 t 35 min og passer de 2 timene du har. Den har utsikt, som du ba om, og er grønn, som passer når du er ny.»</p>
+        </div>
+        <div class="actions">
+          <button class="btn secondary">Registrer gjennomført tur</button>
+          <button class="btn primary">Nytt forslag</button>
+        </div>
+      </div>
+
+      <div class="hero">
+        <!-- Illustrasjon -->
+        <figure class="illu" style="margin:0">
+          <svg viewBox="0 0 820 344" role="img" aria-label="Tegning av runden Granåsen rundt og høydeprofilen. Turen starter på 180 moh, når utsiktspunktet på 410 moh etter ca. 2,3 km og går ned igjen til start.">
+            <defs>
+              <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7E6DC"/><stop offset=".55" stop-color="#FBF5F0"/><stop offset="1" stop-color="#FFFFFF"/></linearGradient>
+              <linearGradient id="prof" x1="0" x2="1"><stop offset="0" stop-color="#2F5866"/><stop offset=".4" stop-color="#6F8A7E"/><stop offset=".75" stop-color="#D9A48A"/><stop offset="1" stop-color="#EEC7B0"/></linearGradient>
+            </defs>
+            <rect width="820" height="344" fill="url(#sky)"/>
+            <circle cx="792" cy="36" r="30" fill="#EEC7B0" opacity=".7"/>
+            <path d="M0,230 C120,170 200,200 300,160 C400,120 470,170 560,140 C650,110 740,150 820,120 V344 H0 Z" fill="#C99AA6" opacity=".18"/>
+            <!-- Rutetegning -->
+            <g transform="translate(36,34)">
+              <path d="M54,236 C20,180 34,96 92,70 C150,44 186,10 236,16 C296,24 318,92 296,148 C274,204 214,206 174,236 C134,266 84,278 54,236 Z" fill="#E6EBE2" opacity=".75"/>
+              <path d="M54,236 C20,180 34,96 92,70 C150,44 186,10 236,16 C296,24 318,92 296,148 C274,204 214,206 174,236 C134,266 84,278 54,236 Z" fill="none" stroke="#C0694A" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+              <path d="M30,160 l7,-15 l7,15" fill="none" stroke="#1D2A23" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M306,100 l-2,16 l11,-11" fill="none" stroke="#1D2A23" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <g transform="translate(236,16)"><circle r="14" fill="#FFFFFF" stroke="#D6936E" stroke-width="3"/><path d="M-7,5 L-1,-5 L3,1 L5,-2 L8,5 Z" fill="#6B3A22"/></g>
+              <g transform="translate(54,236)"><circle r="12" fill="#2F5866" stroke="#FFFFFF" stroke-width="3"/><text y="4.5" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF" font-family="Segoe UI, system-ui, sans-serif">S</text></g>
+              <text x="74" y="294" font-size="13" fill="#4F5E55" font-family="Segoe UI, system-ui, sans-serif">Start og mål</text>
+              <text x="160" y="140" text-anchor="middle" font-size="15" font-style="italic" fill="#2F5866" font-family="Georgia, Palatino Linotype, serif">rundtur · 4,2 km totalt</text>
+            </g>
+            <!-- Høydeprofil -->
+            <g font-family="Segoe UI, system-ui, sans-serif">
+              <line x1="392" y1="290" x2="790" y2="290" stroke="#8C978F" stroke-width="1"/>
+              <line x1="392" y1="120" x2="790" y2="120" stroke="#CDD5C9" stroke-dasharray="4 4"/>
+              <text x="392" y="112" font-size="12" fill="#4F5E55">410 moh</text>
+              <text x="392" y="310" font-size="12" fill="#4F5E55">0 km</text>
+              <text x="790" y="310" font-size="12" fill="#4F5E55" text-anchor="end">4,2 km</text>
+              <text x="396" y="262" font-size="12" fill="#4F5E55">180 moh</text>
+              <path d="M392,282 C418,280 452,270 478,260 S512,246 525,240 S552,227 563,223 S585,210 592,207 S606,202 612,202 S629,205 640,209 S666,222 679,229 S706,247 717,254 S743,269 755,272 S778,282 790,282 L790,290 L392,290 Z" fill="url(#prof)" opacity=".9"/>
+              <path d="M392,282 C418,280 452,270 478,260 S512,246 525,240 S552,227 563,223 S585,210 592,207 S606,202 612,202 S629,205 640,209 S666,222 679,229 S706,247 717,254 S743,269 755,272 S778,282 790,282" fill="none" stroke="#1D2A23" stroke-width="1.6"/>
+              <line x1="612" y1="202" x2="612" y2="146" stroke="#D6936E" stroke-width="1.5"/>
+              <g transform="translate(548,124)"><rect width="128" height="24" rx="12" fill="#FFFFFF" stroke="#D6936E"/><text x="64" y="16.5" text-anchor="middle" font-size="12.5" font-weight="600" fill="#6B3A22">Utsikt etter 2,3 km</text></g>
+              <text x="392" y="60" font-size="13" letter-spacing="1.2" fill="#4F5E55">HØYDEPROFIL</text>
+              <text x="392" y="82" font-size="15" fill="#1D2A23" font-family="Georgia, Palatino Linotype, serif" font-style="italic">Jevnt opp, jevnt ned – ca. 230 høydemeter</text>
+            </g>
+          </svg>
+        </figure>
+
+        <!-- Kart -->
+        <div class="mapcard">
+          <svg viewBox="0 0 336 344" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Kart over runden fra Granvannet p-plass opp til Granåsen og tilbake.">
+            <rect width="336" height="344" fill="#EEF0E8"/>
+            <path fill="#CFDDC8" d="M0,0 H240 C210,60 160,80 120,100 C80,120 40,130 0,150 Z"/>
+            <path fill="#CFDDC8" d="M336,150 C280,170 250,230 240,280 C232,320 250,344 260,344 H336 Z"/>
+            <path fill="#CFDCE6" d="M230,40 C260,24 312,30 326,60 C340,92 316,118 284,118 C252,118 222,100 220,76 C218,58 216,48 230,40 Z"/>
+            <g fill="none" stroke="#2F5866" stroke-opacity=".14" stroke-width="1.2"><path d="M110,130 C140,90 210,90 220,140 C230,190 170,210 140,200 C110,190 90,160 110,130 Z"/><path d="M80,140 C120,60 240,60 250,150 C260,240 160,250 110,230 C60,210 50,190 80,140 Z"/></g>
+            <path d="M0,300 C80,290 160,320 336,296" stroke="#FFFFFF" stroke-width="6" fill="none"/>
+            <path d="M100,260 C70,214 86,152 124,136 C162,120 182,98 210,102 C252,108 262,152 248,186 C234,220 196,220 172,240 C148,260 118,280 100,260 Z" fill="none" stroke="#FFFFFF" stroke-width="8"/>
+            <path d="M100,260 C70,214 86,152 124,136 C162,120 182,98 210,102 C252,108 262,152 248,186 C234,220 196,220 172,240 C148,260 118,280 100,260 Z" fill="none" stroke="#C0694A" stroke-width="4"/>
+            <circle cx="100" cy="260" r="9" fill="#2F5866" stroke="#FFFFFF" stroke-width="2.5"/>
+            <g transform="translate(210,102)"><circle r="10" fill="#FFFFFF" stroke="#D6936E" stroke-width="2.5"/><path d="M-5,4 L-1,-4 L2,1 L4,-1 L6,4 Z" fill="#6B3A22"/></g>
+          </svg>
+          <span class="maplabel">Kart (plassholder)</span>
+          <span class="mapopen">Stort kart ↗</span>
+          <div class="credits">© Kartverket · © <a href="#">OpenStreetMap contributors</a> · Data fra MET Norge</div>
+        </div>
+      </div>
+
+      <div class="facts">
+        <div class="fact"><b>4,2 km</b><small>rundtur · 4,2 km totalt</small></div>
+        <div class="fact"><b>ca. 230 m</b><small>høydemeter</small></div>
+        <div class="fact"><b>ca. 1 t 35 min</b><small>pauser ikke inkludert</small></div>
+        <div class="level"><span class="badge">Grønn – lett</span><p>Beregnet av tjenesten etter Merkehåndbokas mal ut fra lengde og høydemeter. Terreng og føre er ikke vurdert.</p></div>
+      </div>
+    </div>
+
+    <div class="belowgrid">
+      <div>
+        <h3>Bekledningstips for lørdag</h3>
+        <div class="tip"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M6 16 C6 8 20 8 20 16 Z" fill="#2F5866"/><rect x="5" y="16" width="16" height="4" rx="2" fill="#D6936E"/></svg>Kaldt – ta med lue, votter og et varmt mellomlag</div>
+        <div class="tip"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M5 18 C5 12 9 8 11 8 L13 14 L21 16 C23 16.5 23 20 21 20 H6 Z" fill="#2F5866"/></svg>Gode sko og litt mat og drikke</div>
+      </div>
+      <div>
+        <h3>Kartet i tekst</h3>
+        <p>Rundtur fra Granvannet p-plass. Stien går nordover gjennom skogen og opp til utsiktspunktet på Granåsen (410 moh), og ned igjen langs bekken til start.</p>
+      </div>
+      <div>
+        <h3>Mer om turen</h3>
+        <p>Bilder og flere detaljer om turen finner du på ut.no.</p>
+        <p><a href="#">Se turen på ut.no ↗</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= SEKUNDÆR: SØK ================= -->
+<p class="section-label">Sekundærskjerm – søk (Ola velger lørdag, 2 timer, utsikt)</p>
+<div class="browser">
+  <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">yournextadventure.no</div></div>
+  <div class="page">
+    <header class="site-head">
+      <a class="brand" href="#"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path d="M3 24 C6 14 10 8 15 8 C20 8 24 14 27 24" fill="none" stroke="#2F5866" stroke-width="2.4" stroke-linecap="round"/><circle cx="15" cy="8" r="3" fill="#D6936E"/><path d="M3 24 H27" stroke="#2F5866" stroke-width="2.4" stroke-linecap="round"/></svg>Your Next Adventure</a>
+      <nav class="nav"><a class="on" href="#">Finn tur</a><a href="#">Historikk</a><a class="login" href="#">Logg inn</a></nav>
+    </header>
+    <div class="searchwrap">
+      <div>
+        <h2>Når vil du på tur, og hvor lenge?</h2>
+        <p class="intro">Du får ett turforslag om gangen, med en forklaring på hvorfor det passer deg.</p>
+        <div class="row2">
+          <div class="field"><label>Dato</label><div class="input"><span>Lørdag 7. november</span><span aria-hidden="true">▾</span></div></div>
+          <div class="field"><label>Varighet</label><div class="input focusring"><span>2 timer</span><span aria-hidden="true">▾</span></div><div class="hint"><span>Mellom 1 og 8 timer</span></div></div>
+        </div>
+        <div class="field"><span class="lbl">Turtype <span class="opt">(valgfritt)</span></span>
+          <div class="types">
+            <div class="type"><svg width="40" height="30" viewBox="0 0 40 30" aria-hidden="true"><path d="M10 26 L16 8 L22 26 Z M20 26 L27 4 L34 26 Z" fill="#6F8A7E"/></svg>Marka</div>
+            <div class="type on"><svg width="40" height="30" viewBox="0 0 40 30" aria-hidden="true"><path d="M2 27 L14 9 L21 18 L26 12 L38 27 Z" fill="#2F5866"/><circle cx="31" cy="7" r="4" fill="#D6936E"/></svg>Utsikt</div>
+            <div class="type"><svg width="40" height="30" viewBox="0 0 40 30" aria-hidden="true"><path d="M4 27 L20 3 L36 27 Z" fill="#6F8A7E"/><path d="M20 3 L20 -2 L26 1 Z" fill="#C0694A"/></svg>Topptur</div>
+          </div>
+        </div>
+        <div class="field"><label>Startpunkt <span class="opt">(valgfritt)</span></label><div class="input empty"><span>Alle startpunkt</span><span aria-hidden="true">▾</span></div></div>
+        <div class="field"><label>Fritekstønske <span class="opt">(valgfritt)</span></label><div class="textarea">For eksempel «rundt 5 km» eller «forbi et vann»</div><div class="hint"><span>Vi prøver å ta hensyn til ønsket ditt.</span><span>0 / 200 tegn</span></div></div>
+        <button class="btn primary">Finn en tur</button>
+      </div>
+      <aside class="side-illu">
+        <svg width="100%" height="230" viewBox="0 0 396 230" aria-hidden="true">
+          <defs><linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7E6DC"/><stop offset="1" stop-color="#FFFFFF"/></linearGradient><linearGradient id="prof2" x1="0" x2="1"><stop offset="0" stop-color="#2F5866"/><stop offset=".4" stop-color="#6F8A7E"/><stop offset=".75" stop-color="#D9A48A"/><stop offset="1" stop-color="#EEC7B0"/></linearGradient></defs>
+          <rect width="396" height="230" rx="12" fill="url(#sky2)"/>
+          <circle cx="320" cy="56" r="24" fill="#EEC7B0"/>
+          <path d="M0,190 C60,170 110,120 170,92 C210,74 230,100 260,110 C300,124 340,150 396,160 V230 H0 Z" fill="url(#prof2)" opacity=".85"/>
+          <path d="M40,200 C80,180 120,150 170,130" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round"/>
+        </svg>
+        <p>Hver tur får sin egen tegning, laget ut fra rute og høydedata – så du ser formen på turen før du går.</p>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<!-- ================= TILSTAND ================= -->
+<p class="section-label">Tilstand – alle forslag er vist (FR-7)</p>
+<div class="browser">
+  <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><div class="url">yournextadventure.no/turforslag</div></div>
+  <div class="page">
+    <div class="alldone">
+      <svg width="420" height="360" viewBox="0 0 420 360" role="img" aria-label="Tegning av fire runder som alle er hakket av">
+        <defs><linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7E6DC"/><stop offset="1" stop-color="#F3F4EF"/></linearGradient></defs>
+        <rect width="420" height="360" rx="18" fill="url(#sky3)"/>
+        <g fill="none" stroke-width="4" stroke-linejoin="round">
+          <path d="M60,150 C40,110 70,60 120,60 C170,60 180,110 160,140 C140,170 80,180 60,150 Z" stroke="#C0694A"/>
+          <path d="M250,140 C230,100 260,50 310,56 C360,62 370,110 350,140 C330,170 270,170 250,140 Z" stroke="#C0694A" opacity=".75"/>
+          <path d="M70,300 C50,260 80,212 130,214 C180,216 188,262 168,290 C148,318 90,330 70,300 Z" stroke="#C0694A" opacity=".55"/>
+          <path d="M256,296 C236,256 266,210 316,214 C366,218 374,262 354,292 C334,322 276,326 256,296 Z" stroke="#C0694A" opacity=".4"/>
+        </g>
+        <g fill="#2F5866"><circle cx="160" cy="70" r="14"/><circle cx="350" cy="66" r="14"/><circle cx="168" cy="224" r="14"/><circle cx="354" cy="224" r="14"/></g>
+        <g fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M153,70 l5,5 l9,-10"/><path d="M343,66 l5,5 l9,-10"/><path d="M161,224 l5,5 l9,-10"/><path d="M347,224 l5,5 l9,-10"/></g>
+      </svg>
+      <div>
+        <p class="eyebrow">Lørdag 7. november · 2 timer · Utsikt</p>
+        <h2>Du har sett alle turene som passer søket</h2>
+        <p>Det var fire turer med utsikt som passer 2 timer. Vil du se flere, kan du endre litt på søket:</p>
+        <ul>
+          <li>Lengre varighet, for eksempel 3 timer <a href="#">Prøv 3 timer</a></li>
+          <li>Et annet startpunkt <a href="#">Velg startpunkt</a></li>
+          <li>En annen turtype, for eksempel marka <a href="#">Prøv marka</a></li>
+        </ul>
+        <div class="actions">
+          <button class="btn primary">Start fra første forslag igjen</button>
+          <button class="btn secondary">Endre søket</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
