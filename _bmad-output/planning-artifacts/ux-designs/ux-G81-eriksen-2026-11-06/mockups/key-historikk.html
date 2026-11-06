@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nøkkelskjerm – Historikk</title>
+<style>
+/* ===== Nøkkelskjerm: Historikk – innlogget, desktop 1280, lys modus =====
+   Styrende spine-seksjoner (spine vinner over denne mocken):
+   - DESIGN.md: Colors (success, Turnivå), Typography (headline-lg, eyebrow, caption),
+     Layout & Spacing (content-max-width 960, én kolonne), Shapes, Elevation & Depth,
+     Components → Toppmeny (aktivt punkt), Melding (suksess), Historikktabell, Nivåmerke
+   - EXPERIENCE.md: Information Architecture (Historikk, sidetittel «Historikk», innlogget meny),
+     Mikrotekst (Etter registrering, Historikk, Fremgang (valgfri)), Component Patterns → Toppmeny,
+     Melding, Historikktabell, Nivåmerke; State Patterns → Historikk «Registrert» og
+     «Fremgang mot neste nivå (valgfri)»; Key Flows → UJ-2 steg 3 (og steg 6: «Åpne som turforslag»);
+     Accessibility Floor → «Meldinger etter navigering», «Sidetitler og fokus», overskriftstabell;
+     Foundation → Kuttrekkefølge (fremgang kuttes først)
+   Nye fargepar utover tokens: ingen. Målt: success #2E4D3C på surface 9,3:1.
+   Mockrammen (nettleser, merknader) er ikke produkt-UI.
+*/
+:root{
+  --background:#F3F3EC;--surface:#FFFEFA;--surface-alt:#E7EADF;--text:#1F2A22;--text-muted:#4F5B50;
+  --primary:#355146;--border:#CFD4C5;--input-border:#6F7A72;--success:#2E4D3C;
+  --level-gronn:#1A7F37;--level-gronn-on:#FFFFFF;
+  --serif:Georgia,"Iowan Old Style","Palatino Linotype","Times New Roman",serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --r-sm:6px;--r-md:8px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface-alt);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.5}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* --- Mockramme (ikke produkt) --- */
+.doc{width:1344px;margin:0 auto;padding:40px 32px 80px}
+.doc-head{max-width:860px;margin-bottom:24px}
+.kicker{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin:0 0 6px}
+.doc-head h1{font-family:var(--serif);font-weight:400;font-size:36px;line-height:1.15;margin:0 0 8px}
+.doc-head p{margin:0 0 6px;max-width:820px}
+.section-label{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin:0 0 10px}
+.note{font-size:14.5px;color:var(--text-muted);max-width:1280px;margin:10px 0 0}
+.browser{width:1280px;background:var(--background);border:1px solid var(--input-border);border-radius:12px;overflow:hidden;box-shadow:0 16px 36px rgba(31,42,34,.14)}
+.chrome{min-height:44px;background:var(--surface-alt);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;padding:0 14px}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--border)}
+.tab{margin-left:12px;font-size:12.5px;background:var(--surface);border:1px solid var(--border);border-radius:8px 8px 0 0;padding:4px 12px}
+.url{margin-left:12px;flex:0 0 440px;border-radius:999px;background:var(--surface);border:1px solid var(--border);font-size:12.5px;color:var(--text-muted);padding:4px 14px}
+.ex{display:inline-block;font-family:var(--sans);font-size:12px;font-weight:600;line-height:1.4;color:var(--text-muted);border:1px solid var(--border);border-radius:4px;padding:0 6px;vertical-align:middle;margin-left:10px;position:relative;top:-4px}
+.callout{font-size:12px;font-weight:600;color:var(--text-muted);margin:4px 0 0}
+
+/* --- Toppmeny (innlogget) --- */
+.toppmeny{min-height:60px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;flex-wrap:wrap;gap:8px 28px;padding:0 64px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:20px;line-height:1.2;color:var(--text);text-decoration:none;min-height:44px}
+.toppmeny nav{margin-left:auto}
+.toppmeny ul{list-style:none;margin:0;padding:0;display:flex;gap:24px}
+.toppmeny a.item{display:inline-flex;align-items:center;min-height:44px;color:var(--text);text-decoration:none;font-size:15px}
+.toppmeny a.item[aria-current="page"]{color:var(--primary);font-weight:600;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:6px}
+
+/* --- Historikk --- */
+.hist{max-width:960px;margin:0 auto;padding:44px 0 64px}
+h1.page{font-family:var(--serif);font-weight:400;font-size:36px;line-height:1.15;margin:0 0 16px}
+.melding{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--success);border-radius:var(--r-md);padding:12px 16px;margin:0 0 14px}
+.melding svg{flex:none;margin-top:2px}
+.melding b{font-weight:600}
+.fremgang{margin:0 0 24px;font-size:16px}
+.tablewrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14.5px;line-height:1.45}
+thead th,thead td{text-align:left;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);padding:12px 16px;border-bottom:1px solid var(--border);white-space:nowrap}
+tbody th,tbody td{text-align:left;vertical-align:top;padding:12px 16px;border-bottom:1px solid var(--border)}
+tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
+tbody th{font-weight:600;font-size:16px}
+tbody td{white-space:nowrap}
+.badge{display:inline-flex;align-items:center;gap:6px;background:var(--level-gronn);color:var(--level-gronn-on);font-size:15px;font-weight:600;line-height:1.3;padding:4px 8px;border-radius:var(--r-sm);margin-top:6px}
+.sec{display:block;color:var(--text-muted)}
+.acts{display:flex;flex-direction:column;align-items:flex-start}
+.acts a{display:inline-flex;align-items:center;min-height:44px;color:var(--primary);text-decoration:underline;text-underline-offset:2px}
+.etter{margin:12px 0 0;font-size:12.5px;line-height:1.4;color:var(--text-muted)}
+</style>
+</head>
+<body>
+<div class="doc">
+
+<header class="doc-head">
+  <p class="kicker">Nøkkelskjerm 3 av 3 · Historikk · innlogget · desktop 1280 · lys modus</p>
+  <h1>Historikk</h1>
+  <p>Ola har nettopp trykket «Registrer gjennomført tur» (UJ-2, steg 2–3) og lander i Historikk. Suksessmeldingen står rett under <code>h1</code> og har fått fokus, så den leses opp. Den nye raden står øverst, med brukt tid og estimert tid under hverandre.</p>
+</header>
+
+<p class="section-label">Historikk – registrert (med valgfri fremgangslinje)</p>
+<div class="browser">
+  <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="tab">Historikk – Your Next Adventure</span><span class="url">yournextadventure.no/historikk</span></div>
+  <header class="toppmeny">
+    <a class="brand" href="#">
+      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="lgh" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#355146"/><stop offset=".4" stop-color="#7C9087"/><stop offset=".75" stop-color="#D9A48A"/><stop offset="1" stop-color="#EEC7B0"/></linearGradient></defs><circle cx="12" cy="12" r="12" fill="url(#lgh)"/><path d="M2 18 L9 10 L13 14 L16 11 L22 18 Z" fill="#355146"/></svg>
+      Your Next Adventure
+    </a>
+    <nav aria-label="Hovedmeny"><ul>
+      <li><a class="item" href="#">Finn tur</a></li>
+      <li><a class="item" href="#" aria-current="page">Historikk</a></li>
+      <li><a class="item" href="#">Konto</a></li>
+    </ul></nav>
+  </header>
+
+  <main class="hist">
+    <h1 class="page">Historikk</h1>
+
+    <!-- Melding (suksess) etter navigering: rett under h1, får fokus i stedet for h1 -->
+    <div class="melding" tabindex="-1">
+      <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="#2E4D3C"/><path d="M5.6 10.4 L8.6 13.2 L14.4 7" fill="none" stroke="#FFFEFA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <b>Turen er registrert i historikken din.</b>
+    </div>
+
+    <!-- Fremgang mot neste nivå (valgfri, kuttes først) -->
+    <p class="fremgang">Du har gått 2 av 3 lette grønne turer. Etter én til foreslår jeg også blå turer.</p>
+
+    <div class="tablewrap" role="region" aria-label="Historikk" tabindex="0">
+      <table>
+        <thead>
+          <tr><th scope="col">Tur</th><th scope="col">Dato</th><th scope="col">Brukt tid</th><th scope="col">Opplevd vanskelighet</th><th scope="col">Fornøydhet</th><td></td></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Granåsen rundt<span class="ex" aria-hidden="true">Eksempel</span><br><span class="badge"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="4.5" fill="none" stroke="#FFFFFF" stroke-width="2"/></svg>Grønn – lett</span></th>
+            <td>7. nov.</td>
+            <td>1 t 50 min<span class="sec">estimert ca. 1 t 35 min</span></td>
+            <td>Lett</td>
+            <td>5 av 5</td>
+            <td><div class="acts"><a href="#">Åpne som turforslag<span class="vh"> – Granåsen rundt, 7. nov.</span></a><a href="#">Registrer gjennomført tur<span class="vh"> – Granåsen rundt, 7. nov.</span></a></div></td>
+          </tr>
+          <tr>
+            <th scope="row">Granåsen rundt<span class="ex" aria-hidden="true">Eksempel</span><br><span class="badge"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="4.5" fill="none" stroke="#FFFFFF" stroke-width="2"/></svg>Grønn – lett</span></th>
+            <td>12. okt.</td>
+            <td>1 t 45 min<span class="sec">estimert ca. 1 t 35 min</span></td>
+            <td>Lett</td>
+            <td>5 av 5</td>
+            <td><div class="acts"><a href="#">Åpne som turforslag<span class="vh"> – Granåsen rundt, 12. okt.</span></a><a href="#">Registrer gjennomført tur<span class="vh"> – Granåsen rundt, 12. okt.</span></a></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="etter">Nye søk prioriterer turer du ikke har gått.</p>
+  </main>
+</div>
+<p class="note">Suksessmeldingen har <code>tabindex="-1"</code> og får fokus etter navigeringen (eneste metode, ingen live-region). Fremgangslinjen er valgfri og kuttes først. Historikktabell er en ekte <code>&lt;table&gt;</code> med turnavnet som <code>th scope="row"</code>, én rad per registrering (samme tur gått to ganger, FR-19), nyeste først. Lenkene har skjult tillegg («– Granåsen rundt, 7. nov.»). Under 720 px ruller tabellen sidelengs i egen beholder.</p>
+
+</div>
+</body>
+</html>
