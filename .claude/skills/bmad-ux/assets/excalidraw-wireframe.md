@@ -2,9 +2,14 @@
 
 Subagent prompt. Produce one `.excalidraw` file at `.working/ia-{date}.excalidraw` (IA diagram) or `.working/flow-{name}-{date}.excalidraw` (flow wireframe).
 
-## CRITICAL: two-character `index` fields only
+## CRITICAL: valid fractional `index` fields
 
-Every element's `index` field must be **exactly two characters** (`a0`, `aZ`, `b3`, ...). Three-character indices cause a silent *"Error: invalid file"* with no diagnostic output. Assign sequentially across all elements; advance the leading letter when the trailing alphanumeric exhausts (`a0..a9, aA..aZ`, then `b0..`). Verify before writing.
+Every element's `index` field must be a valid Excalidraw fractional index, or the import fails with a silent *"Error: invalid file"* and no diagnostic output. The leading letter sets how many base-62 digits follow: `a` takes exactly **one** digit, `b` exactly **two**, `c` exactly **three**. Digits are ordered `0-9`, then `A-Z`, then `a-z` (ASCII order). Assign sequentially across all elements:
+
+- elements 1–62: `a0..a9, aA..aZ, aa..az`
+- elements 63–3906: `b00, b01, ..., b0z, b10, ..., bzz`
+
+So `b0` and `a00` are invalid. Verify before writing: every index matches its prefix length, and the list is strictly increasing under plain string sorting.
 
 ## Shape
 
@@ -16,4 +21,4 @@ Valid Excalidraw file: `{type: "excalidraw", version: 2, source: "https://excali
 
 **Flow wireframe:** screen-by-screen rectangles left-to-right, simple shapes inside (nav bar, CTA, content blocks) at low fidelity. Arrows labeled with the user action that causes transition. Annotations alongside for climax and edge-case beats.
 
-Return to the parent: file path, kind, one-line subject, element count, confirmation that all indices are two-character. Do not dump JSON into parent context. Tell the user to open in Excalidraw desktop or excalidraw.com.
+Return to the parent: file path, kind, one-line subject, element count, confirmation that all indices are valid and strictly increasing. Do not dump JSON into parent context. Tell the user to open in Excalidraw desktop or excalidraw.com.

@@ -205,7 +205,7 @@ Brukeren kan be om et nytt turforslag. Hen får da neste tur i rangeringen, aldr
 #### FR-8: Ingen treff og utsiktstur i stedet for topptur
 - **Ingen topptur passer varigheten:** Systemet viser en utsiktstur og meldingen «Toppturer krever mer tid enn du har oppgitt». Passer heller ingen utsiktstur, gjelder punktet om ingen treff.
 - **Bare turer over nivåtaket passer søket:** Systemet viser en melding om det, ikke en tur over nivåtaket. Meldingen tilpasses brukertypen:
-  - **Gjest:** «Som ny bruker får du grønne turer. Lag konto og vurder turene dine for å låse opp lengre turer.»
+  - **Gjest:** «Som ny bruker får du grønne turer. Lag konto og vurder turene dine, så tilpasser jeg forslagene etter hvordan turene kjentes for deg.»
   - **Bruker uten historikk:** Samme budskap, men meldingen ber brukeren registrere og vurdere turene hen går, i stedet for å lage konto.
   - **Bruker med historikk:** Meldingen sier hvilket turnivå tjenesten nå foreslår turer opp til, og at ingen av disse turene passer søket.
 
@@ -500,7 +500,6 @@ Antakelsene og standardverdiene i kravene, endringene i v1.1 og rettingene etter
 |---|---|---|
 | Ordlyden i tekster merket som antakelser i `EXPERIENCE.md` › Mikrotekst, blant annet nivåtakmeldingene (FR-8) og personverntekst (NFR-5). Budskapet er avgjort | UX | nei |
 | Tekst i begrunnelsen ved sperre (FR-19) og turtypepreferanse (FR-20), og om disse reglene regnes som å ha påvirket valget (FR-12) | UX | nei |
-| Ordlyden «låse opp lengre turer» i FR-8. Et høyere turnivå kan skyldes høydemeter og ikke bare lengde (FR-2), og teksten skal ikke presse nybegynnere (SM-C1) | PRD | nei |
 
 Åpne punkter som bare gjelder UX eller arkitektur, står i `EXPERIENCE.md` › Åpne punkter.
 
@@ -516,3 +515,4 @@ Antakelsene og standardverdiene i kravene, endringene i v1.1 og rettingene etter
 | 0.6 | 2026-11-06 | MET-vilkår og Kartverkets API-er er verifisert, og de åpne punktene i §10 er lukket |
 | 1.0 | 2026-11-06 | Struktur- og språkgjennomgang. 41 språkfunn er vurdert: 40 er rettet, og «Scope» er beholdt som BMAD-begrep. PRD-en er markert som ferdig |
 | 1.1 | 2026-11-06 | Oppdatert etter UX-arbeidet (`ux-designs/ux-G81-eriksen-2026-11-06/`) og rettet etter gjennomgangen av v1.1 (`review-rubric-v1.1.md`, `reconcile-ux.md`). Berørt: UJ-1 til UJ-3 (UJ-3 er ny), §3, FR-1, FR-4 til FR-9, FR-12 til FR-17, FR-19, NFR-3 til NFR-5, §6, §7, SM-4, SM-C1, §10 og addendum. Struktur- og språkgjennomgang 2026-11-07 (`review-structure-v1.1.md`, `review-prose-v1.1.md`) med nye ID-er FR-17.1 og NFR-9 (begge P2). Beslutningene står i `.memlog.md` |
+| 1.2 | 2026-11-07 | Ny gjestetekst i FR-8: «låse opp lengre turer» er erstattet, fordi et høyere turnivå også kan skyldes høydemeter (FR-2), og teksten ikke skal presse nybegynnere (SM-C1). Punktet er fjernet fra §10 |

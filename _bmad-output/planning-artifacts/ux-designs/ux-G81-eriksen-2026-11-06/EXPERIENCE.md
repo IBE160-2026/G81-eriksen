@@ -126,8 +126,8 @@ Har en rad flere tekster med ulik kilde, står kilden per tekst.
 | Topptur passer ikke | «Toppturer krever mer tid enn du har oppgitt» | PRD |
 | Topptur passer ikke, merke | «Utsikt i stedet for topptur» | [ASSUMPTION] |
 | Nivåtak, tittel | «Ingen grønne turer passer søket» | [ASSUMPTION] |
-| Nivåtak (gjest) | «Som ny bruker får du grønne turer. Lag konto og vurder turene dine for å låse opp lengre turer.» | PRD |
-| Nivåtak (innlogget uten historikk) | «Som ny bruker får du grønne turer. Registrer og vurder turene du går, for å låse opp lengre turer.» | [ASSUMPTION]. Budskapet står i PRD FR-8, og ordlyden er foreløpig (PRD §10). |
+| Nivåtak (gjest) | «Som ny bruker får du grønne turer. Lag konto og vurder turene dine, så tilpasser jeg forslagene etter hvordan turene kjentes for deg.» | PRD |
+| Nivåtak (innlogget uten historikk) | «Som ny bruker får du grønne turer. Registrer og vurder turene du går, så tilpasser jeg forslagene etter hvordan turene kjentes for deg.» | [ASSUMPTION]. Budskapet står i PRD FR-8, og ordlyden er foreløpig (PRD §10). |
 | Nivåtak (bruker med historikk) | «Akkurat nå foreslår jeg turer opp til grønt nivå, og ingen av dem passer søket.» | [ASSUMPTION] |
 | Ingen treff | «Jeg fant ingen tur som passer søket ditt», «Prøv å endre søket:» | [ASSUMPTION] |
 | Alle forslag er vist | «Du har sett alle turene som passer søket» | PRD |
