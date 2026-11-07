@@ -2,7 +2,7 @@
 title: "PRD: Your Next Adventure"
 status: final
 created: 2026-10-29
-updated: 2026-11-06
+updated: 2026-11-07
 ---
 
 # PRD: Your Next Adventure
@@ -12,9 +12,10 @@ updated: 2026-11-06
 Denne PRD-en beskriver versjon 1 (v1) av *Your Next Adventure*. Prosjektet er et fagprosjekt i IBE160. Dokumentet bygger på:
 - product brief (`docs/product-brief-your-next-adventure-no.md`)
 - tilbakemeldingen fra faglærer (`docs/tilbakemelding-product-brief.md`)
-- den tekniske researchen om turdata i Oslomarka (`_bmad-output/planning-artifacts/research/`).
+- den tekniske researchen om turdata i Oslomarka (`_bmad-output/planning-artifacts/research/`)
+- UX-spesifikasjonen (`_bmad-output/planning-artifacts/ux-designs/ux-G81-eriksen-2026-11-06/`), se §6.
 
-**Der PRD-en avviker fra briefen, gjelder PRD-en.** Alle avvik står i §9. Avvik som oppstår under implementeringen, føres også i §9 og i endringsloggen, med henvisning til story eller PR.
+**Der PRD-en avviker fra briefen, gjelder PRD-en.** Alle avvik står i §9. Avvik som oppstår under implementeringen, føres også i §9 og i endringsloggen, med henvisning til story eller PR. Ved motstrid gjelder PRD-en for krav og budskap, og `EXPERIENCE.md` › Mikrotekst for ordlyd.
 
 Alle krav har faste ID-er: UJ for brukerreiser, FR for funksjonelle krav, NFR for ikke-funksjonelle krav og SM for suksessmål. Begrepene i §3 brukes konsekvent. Antakelser og åpne spørsmål samles i §10.
 
@@ -36,7 +37,7 @@ På sikt kan tilpasningen gå fra faste regler til å lære av brukerens histori
 
 - **Funksjonelt:** Finne en tur som passer tiden og formen min, uten å bruke lang tid på å lete.
 - **Emosjonelt:** Føle meg trygg på at turen ikke blir for krevende, og stole nok på forslaget til faktisk å gå turen.
-- **Kontekst:** Bestemme meg raskt, ofte spontant en fin dag, eller på mobilen på vei ut.
+- **Kontekst:** Bestemme meg raskt, ofte spontant, hjemme på PC-en før en fin dag eller på mobilen på vei ut.
 - **Over tid:** Få forslag som blir bedre tilpasset meg, og finne igjen turer jeg likte.
 
 ### 2.2 Ikke-brukere i v1
@@ -45,19 +46,30 @@ Disse er ikke målgruppen i v1: erfarne turgåere, turister, tilflyttere og alle
 
 ### 2.3 Brukerreiser
 
+Den detaljerte flyten for hver reise, med feilveier, står i `EXPERIENCE.md` › Key Flows. Eksempelturen «Granåsen rundt» er oppdiktet.
+
 **UJ-1. Ola tar en spontan tur en fin dag, uten konto.**
-Ola kjenner ikke marka godt. Det er strålende vær, og han trenger frisk luft, men han vil ikke bruke tid på å planlegge. Han åpner nettsiden på mobilen uten å logge inn, og fyller inn at han har tre timer, at turen skal være i dag, og at han vil ha *utsikt*. Startpunktet hopper han over.
+Ola er ikke turvant og kjenner ikke marka godt. Han sitter i sofaen med PC-en og vil på tur til helgen, men han vil ikke bruke tid på å planlegge. Han åpner nettsiden som gjest, og søkeskjemaet møter ham med en gang. Han velger to timer, lørdag og turtypen *utsikt*. Startpunkt og fritekstønske hopper han over.
 
-Han får ett turforslag: et kart med ruten, merket «tur-retur, 7,2 km totalt, ca. 2 t 40 min (pauser ikke inkludert)», turnivået «Grønn – lett», bekledningstips for dagens vær, en kort begrunnelse og en lenke til turen på ut.no. Han liker ikke helt forslaget og trykker «Nytt forslag». Det neste forslaget passer, så han pakker og går.
+Han får ett turforslag: «Granåsen rundt», med start på Granvannet p-plass. Han ser ruten på kart, merket «rundtur, 3,5 km totalt, ca. 130 høydemeter, ca. 1 t 35 min (pauser ikke inkludert)», og turnivået «Grønn – lett». Han ser også bekledningstips for lørdag, en kort begrunnelse merket «✦ Skrevet med KI» og en lenke til turen på ut.no. Turen passer de to timene han har, og den har utsikt, så han bestemmer seg.
 
-**Kanttilfelle:** Hadde Ola bedt om *topptur*, og ingen topptur passet innenfor tre timer, ville han fått en utsiktstur og beskjed om at toppturer krever mer tid.
+Han vil registrere turen etterpå, så han lager konto med e-post og passord. Han kommer tilbake til det samme turforslaget (FR-14) og lar fanen stå åpen.
+
+**Kanttilfelle:** Hadde Ola bedt om *topptur*, og ingen topptur passet innenfor to timer, ville han fått en utsiktstur og meldingen «Toppturer krever mer tid enn du har oppgitt» (FR-8).
 
 **UJ-2. Ola kommer tilbake og får bedre forslag.**
-Etter noen turer lager Ola en konto. Etter hver tur registrerer han hvor lang tid han brukte, hvor vanskelig turen føltes (*lett / moderat / vanskelig*) og hvor fornøyd han var (1–5). Når han søker igjen, prioriterer tjenesten turer han ikke har gått. Etter tre grønne turer vurdert *lett* får han tilgang til blå turer, og begrunnelsen sier hvorfor. I historikken finner han igjen favoritturen fra i vår og går den igjen.
+Lørdag ettermiddag, rett etter turen, sitter Ola hjemme ved PC-en, og fanen med turforslaget er fortsatt åpen. For å holde reisen kort antar vi at Ola allerede har registrert to grønne turer vurdert *lett*, fra søk han gjorde i andre faner.
+
+Han trykker «Registrer gjennomført tur» og oppgir dato, brukt tid (1 t 50 min), hvor vanskelig turen føltes (*lett / moderat / vanskelig*) og hvor fornøyd han var (1–5). Han velger *lett* og 5. I historikken står turen øverst, med brukt tid sammen med estimert tid. Dette er hans tredje grønne tur vurdert *lett*, så nivåtaket heves til blått (FR-19).
+
+Når han søker igjen, kommer blå turer først, fordi nivåtaket nettopp er hevet (FR-5). Han får en tur merket «Blå – moderat», og begrunnelsen sier: «Du får en blå tur fordi de tre siste grønne turene var lette for deg.» Tjenesten prioriterer turer han ikke har gått. Hadde Ola heller villet ha en lett tur, kunne han skrevet «helst en lett tur» som fritekstønske (FR-11) eller trykket «Nytt forslag», som etter hvert også gir grønne turer. Senere åpner han favoritturen fra historikken. Den vises under «Fra historikken din», med bekledningstips for i dag, og han går den igjen (FR-17).
+
+**UJ-3. Ola sletter kontoen.**
+Ola vil ikke lenger bruke tjenesten. Han går til Konto og trykker «Slett konto». En egen side spør i nøktern tone «Vil du slette kontoen?» og sier at hele historikken slettes for godt og ikke kan angres. Han bekrefter. Han blir logget ut, står på søkesiden som gjest og får en kvittering på at kontoen er slettet (FR-15).
 
 ## 3. Begreper
 
-- **Tur:** En kuratert fottur i turdatabasen. Hver tur har navn, startpunkt, rutelinje, lengde, høydemeter, nedstigning, form (tur-retur eller rundtur), turnivå, én eller flere turtyper, estimert tid og en valgfri ut.no-lenke.
+- **Tur:** En kuratert fottur i turdatabasen. Hver tur har navn, startpunkt, rutelinje, lengde, høydemeter, nedstigning, høydeprofil, form (tur-retur eller rundtur), turnivå, én eller flere turtyper, estimert tid og en valgfri ut.no-lenke.
 - **Tur-retur / rundtur:** En tur-retur går samme vei tilbake. Lengde, høydemeter og nedstigning lagres da for én vei. En rundtur går i ring. Da lagres verdiene for hele runden.
 - **Høydemeter:** Samlet stigning. **Nedstigning:** Samlet nedstigning.
 - **Turdatabase:** En samling på 20–30 turer i Oslo-området som er kuratert på forhånd.
@@ -65,12 +77,13 @@ Etter noen turer lager Ola en konto. Etter hver tur registrerer han hvor lang ti
 - **Turtype:** *marka*, *utsikt* eller *topptur*. En tur kan ha flere turtyper.
 - **Turnivå:** Farge (grønn, blå, rød eller svart) satt etter Merkehåndbokas graderingsmal (FR-2). Rekkefølgen er grønn < blå < rød < svart. Hver farge har et vurderingsord: grønn = *lett*, blå og rød = *moderat*, svart = *vanskelig*.
 - **Varighet:** Hvor lenge brukeren vil være ute, valgt i halvtimessteg (FR-4).
-- **Kjerneflyt:** søke som gjest → få turforslag → registrere seg → registrere turen som gjennomført med vurdering → søke på nytt (UJ-1 og UJ-2).
+- **Kjerneflyt:** søke som gjest → få turforslag → lage konto → registrere turen som gjennomført med vurdering → søke på nytt (UJ-1 og UJ-2).
 - **Søk:** Det brukeren sender inn: varighet, dato, og eventuelt startpunkt, turtype og fritekstønske.
-- **Økt:** Perioden fra et søk sendes, til et nytt søk sendes eller siden lastes på nytt.
+- **Økt:** Perioden fra et søk sendes til et nytt søk sendes eller fanen lukkes (FR-7).
 - **Fritekstønske:** Valgfri tekst i vanlig språk, for eksempel «helst ved vann». Tolkes av KI.
 - **Turforslag:** Én tur vist som svar på et søk, med begrunnelse.
-- **Begrunnelse:** En kort tekst om hvorfor turen passer søket. Skrives av KI eller lages fra en fast mal.
+- **Turforslag fra historikken:** En tur brukeren selv åpner fra historikken. Den vises som et turforslag, men regnes ikke som et forslag fra tjenesten i FR-5, FR-19 og SM-C1 (FR-17).
+- **Begrunnelse:** En kort tekst om hvorfor turen passer søket. Skrives av KI eller lages fra en fast mal (FR-12, FR-13, FR-17).
 - **Estimert tid:** Gangtid for hele turen, beregnet med sveitsisk regel og påslag for nybegynnere (FR-3). Pauser er ikke inkludert.
 - **Bekledningstips:** Råd om klær og utstyr ut fra værvarselet for startpunktet og datoen (FR-9).
 - **Gjest:** En person som ikke er logget inn.
@@ -95,7 +108,7 @@ Systemet har en turdatabase med 20–30 turer i Oslo og Bærum. Gjelder UJ-1 og 
 - **Kilder:**
   - Rutelinjene kommer fra Turrutebasen fra Kartverket.
   - OpenStreetMap (OSM) brukes bare som supplement for turer som mangler i Turrutebasen. OSM-data hentes i ett håndplukket engangsuttrekk med færre enn 100 OSM-objekter totalt (ODbL, se addendum).
-  - Høydemeter og nedstigning beregnes fra Kartverkets høydedata med støyfiltrering. For minst tre turer kontrolleres verdiene mot en publisert høydeprofil.
+  - Høydemeter, nedstigning og høydeprofil beregnes fra Kartverkets høydedata med støyfiltrering når turdatabasen bygges (se addendum). For minst tre turer kontrolleres verdiene mot en publisert høydeprofil.
 - **Sammensetning:**
   - Flertallet av turene er grønne eller blå.
   - Databasen har minst én svart tur, minst tre toppturer og minst fem utsiktsturer.
@@ -131,7 +144,7 @@ Detaljer:
 
 ### 4.2 Søk
 
-**Beskrivelse:** Søkeskjemaet er kort og raskt å fylle ut på mobil. Gjest og bruker ser det samme skjemaet. Gjelder UJ-1.
+**Beskrivelse:** Søkeskjemaet er kort og raskt å fylle ut, både på PC og på mobil. Gjest og bruker ser det samme skjemaet. Gjelder UJ-1.
 
 #### FR-4: Søkeskjema
 Gjest eller bruker kan søke etter tur ved å oppgi:
@@ -141,7 +154,7 @@ Gjest eller bruker kan søke etter tur ved å oppgi:
 | Varighet | ja | Velges fra en liste med verdier fra 1 til 8 timer, i halvtimessteg |
 | Dato | ja | Standardverdi er i dag. Tillatt periode er fra i dag til 30 dager frem |
 | Startpunkt | nei | Velges fra en liste |
-| Turtype | nei | Én av turtypene |
+| Turtype | nei | Én av turtypene eller «Alle turtyper». «Alle turtyper» er forvalgt |
 | Fritekstønske | nei | Maks 200 tegn |
 
 - Alle felt har synlige etiketter.
@@ -159,32 +172,44 @@ Gjest eller bruker kan søke etter tur ved å oppgi:
    - Turen passer valgt turtype og valgt startpunkt, hvis brukeren har valgt dem.
 2. **Rangering, i denne rekkefølgen:**
    1. Turer brukeren ikke har gått, kommer foran gjennomførte turer. Gjennomførte turer med fornøydhet 1–2 kommer sist.
-   2. Turer som passer fritekstønsket (FR-11), kommer foran andre.
-   3. Turer med en foretrukket turtype (FR-20) kommer foran andre.
-   4. Står turene fortsatt likt, vinner turen som utnytter varigheten best, det vil si den med estimert tid nærmest varigheten.
-   5. Er turene fortsatt like, avgjør tur-ID-en, slik at rekkefølgen alltid er den samme.
+   2. Turer som passer fritekstønsket (FR-11), kommer foran andre. Et ønske som «helst en lett tur» går derfor foran punkt 3.
+   3. **Nivåheving:** I det første søket etter at nivåtaket er hevet (FR-19), kommer turer med turnivå lik det nye nivåtaket foran turer under det.
+   4. Turer med en foretrukket turtype (FR-20) kommer foran andre.
+   5. Står turene fortsatt likt, vinner turen med estimert tid nærmest varigheten.
+   6. Står turene fortsatt likt, avgjør tur-ID-en, slik at rekkefølgen alltid er den samme.
 - Rangeringen utelukker aldri gjennomførte turer helt.
+- «Nytt forslag» (FR-7) går videre nedover i rangeringen. Etter en nivåheving kan brukeren derfor fortsatt få grønne turer.
 
 #### FR-6: Visning av turforslag
 Turforslaget viser:
 - rutelinjen på kart
-- turnivå med farge **og** tekst, for eksempel «Blå – moderat», og en kort forklaring: «Beregnet av tjenesten etter Merkehåndbokas mal ut fra lengde og høydemeter. Terreng og føre er ikke vurdert.»
+- en turillustrasjon: en forenklet tegning av ruten og høydeprofilen, laget fra turdataene (FR-1)
+- turnivå med farge **og** tekst, for eksempel «Blå – moderat», og en kort forklaring: «Jeg har beregnet nivået etter Merkehåndbokas mal ut fra lengde og høydemeter. Terreng og føre er ikke vurdert.»
+- treff på valgt turtype, hvis brukeren har valgt en
 - om turen er tur-retur eller rundtur, tydelig merket
+- startpunktets navn, for eksempel «Start: Granvannet p-plass»
 - total lengde for hele turen
 - estimert tid med «pauser ikke inkludert»
 - bekledningstips (FR-9)
-- begrunnelsen (FR-12)
+- begrunnelsen med KI-merke og forklaringspanel (FR-12)
 - lenke til ut.no, hvis turen har en
-- kreditering av kart-, rute- og værdata (NFR-7).
+- kreditering av kart-, rute- og værdata (NFR-7)
+- «Kartet i tekst»: en synlig tekstbeskrivelse av ruten som minst nevner startpunkt, form, total lengde, høydemeter og laveste og høyeste punkt. Den er også kartets tekstalternativ for skjermlesere.
 
-Kartet har en tekstbeskrivelse for skjermlesere.
+Turillustrasjonen og «Kartet i tekst» lages av systemet fra turdataene, aldri av KI.
 
 #### FR-7: Nytt forslag
-Brukeren kan be om et nytt turforslag. Hen får da neste tur i rangeringen, aldri en tur som allerede er vist i samme økt. Er alle treff vist, viser systemet meldingen «Du har sett alle turene som passer søket», med forslag til hva hen kan endre (FR-8) og et valg om å starte fra første turforslag igjen.
+Brukeren kan be om et nytt turforslag. Hen får da neste tur i rangeringen, aldri en tur som allerede er vist i samme økt. Når alle treff er vist, kommer meldingen «Du har sett alle turene som passer søket», med forslag til hva hen kan endre (FR-8) og et valg om å starte fra første turforslag igjen.
+- **Økt (§3):** Ny innlasting av siden beholder turforslaget og listen over turer som er vist. Et turforslag lever bare i økten, og det finnes ingen delbar lenke til det. Å åpne et turforslag fra historikken endrer ikke økten.
 
 #### FR-8: Ingen treff og utsiktstur i stedet for topptur
 - **Ingen topptur passer varigheten:** Systemet viser en utsiktstur og meldingen «Toppturer krever mer tid enn du har oppgitt». Passer heller ingen utsiktstur, gjelder punktet om ingen treff.
-- **Bare turer over nivåtaket passer søket:** Systemet viser en melding om det, ikke en tur over nivåtaket. For gjester og brukere uten historikk sier meldingen: «Som ny bruker får du grønne turer. Lag konto og vurder turene dine for å låse opp lengre turer.»
+- **Bare turer over nivåtaket passer søket:** Systemet viser en melding om det, ikke en tur over nivåtaket. Meldingen tilpasses brukertypen:
+  - **Gjest:** «Som ny bruker får du grønne turer. Lag konto og vurder turene dine for å låse opp lengre turer.»
+  - **Bruker uten historikk:** Samme budskap, men meldingen ber brukeren registrere og vurdere turene hen går, i stedet for å lage konto.
+  - **Bruker med historikk:** Meldingen sier hvilket turnivå tjenesten nå foreslår turer opp til, og at ingen av disse turene passer søket.
+
+  Budskapet er et krav. Ordlyden for bruker uten historikk og bruker med historikk står i `EXPERIENCE.md` › Mikrotekst og er foreløpig (§10).
 - **Ingen treff i det hele tatt:** Systemet viser konkrete forslag til hva brukeren kan endre: lengre varighet, et annet startpunkt eller en annen turtype.
 
 ### 4.4 Vær og bekledning
@@ -192,7 +217,7 @@ Brukeren kan be om et nytt turforslag. Hen får da neste tur i rangeringen, aldr
 **Beskrivelse:** Systemet henter værvarsel fra MET (Yr) for startpunktet og datoen og bruker varselet til bekledningstips. MET-vilkårene krever tre ting: værdata hentes via appens egen server og mellomlagres, kallene har en identifiserende User-Agent, og koordinatene har maks 4 desimaler (detaljer i addendum). Gjelder UJ-1.
 
 #### FR-9: Bekledningstips
-Turforslaget viser bekledningstips ut fra værvarselet for startpunktet på dagtid (kl. 10–16) på den valgte datoen. Tipsene lages etter faste regler, ikke av KI. Flere tips kan vises samtidig.
+Turforslaget viser bekledningstips ut fra værvarselet for startpunktet på dagtid (kl. 10–16) på den valgte datoen. For et turforslag fra historikken gjelder tipsene i dag (FR-17). Tipsene lages etter faste regler, ikke av KI. Flere tips kan vises samtidig.
 
 | Vilkår | Bekledningstips |
 |---|---|
@@ -214,34 +239,48 @@ Hvis MET ikke har varsel for datoen (i praksis mer enn ca. 9–10 dager frem), e
 Når brukeren har skrevet et fritekstønske, får KI bare fritekstønsket og turene som har kommet gjennom filteret i FR-5. KI svarer med ID-ene til turene som passer ønsket, og svaret brukes som kriterium 2 i rangeringen. Fritekstønsket behandles som data og aldri som instruksjoner til systemet. Gjelder UJ-1.
 
 #### FR-12: Begrunnelse
-- Begrunnelsen nevner minst varigheten, og turtypen og fritekstønsket hvis brukeren har oppgitt dem.
-- Har en personaliseringsregel påvirket valget, nevner begrunnelsen regelen. Eksempel: «Du får en blå tur fordi de tre siste grønne turene var lette for deg.»
-- Tall som estimert tid, lengde og turnivå settes inn av systemet og skrives aldri av KI.
-- Når KI er tilgjengelig, skriver KI begrunnelsen, med maks 300 tegn. Ellers lages den fra en fast mal.
+- Begrunnelsen nevner minst varigheten, og turtypen og fritekstønsket hvis brukeren har oppgitt dem. Unntak: reservemalen nevner ikke fritekstønsket (FR-13).
+- Når KI er tilgjengelig, skriver KI begrunnelsen. Ellers lages den fra reservemalen (FR-13).
+- Begrunnelsen har maks 300 tegn. Grensen gjelder hele begrunnelsen slik brukeren ser den, etter innsetting av verdier og med personaliseringssetningen. Overskrides grensen, brukes reservemalen (FR-13).
+- Har en personaliseringsregel påvirket valget, legger systemet til en personaliseringssetning fra setningsmalen. Eksempel: «Du får en blå tur fordi de tre siste grønne turene var lette for deg.» En regel har påvirket valget når den valgte turen har et turnivå som bare er tillatt fordi nivåtaket er hevet (FR-19), eller når turen er prioritert av nivåhevingen i FR-5. Teksten ved sperre og turtypepreferanse er et åpent punkt (§10).
+- KI skriver aldri tall eller turnivå. KI-teksten har plassholderne `{tid}`, `{varighet}`, `{lengde}` og `{nivå}`, og systemet setter inn verdiene fra turdatabasen (FR-1 til FR-3) og søket (se addendum).
+- **KI-merke:** Rett over begrunnelsen står «✦ Skrevet med KI» når KI har skrevet den. Er begrunnelsen laget fra en mal, står «Begrunnelse fra mal» i stedet.
+- Turforslag fra historikken følger FR-17.
+- **Forklaringspanel:** Brukeren kan felle ut «Slik lager jeg forslaget». Panelet er lukket som standard, og teksten sier i jeg-form at
+  - ruten, tiden og nivået kommer fra Kartverkets turdata og faste formler, ikke fra KI
+  - KI tolker ønsket og skriver begrunnelsen, og KI kan ta feil
+  - tiden kan bomme med rundt 15 %, og nybegynnere bruker ofte lenger tid enn beregnet.
+
+  Ordlyden står i `EXPERIENCE.md` › Component Patterns (Forklaringspanel).
 
 #### FR-13: Validering og reserveløsning
 - Systemet forkaster et KI-svar som:
   - viser til en tur utenfor de filtrerte treffene
   - er tomt eller ugyldig
-  - har en begrunnelse over 300 tegn
+  - gir en begrunnelse over 300 tegn slik brukeren ser den, etter innsetting av verdier og med personaliseringssetningen (FR-12)
+  - har tall eller turnivå i begrunnelsen utenfor plassholderne (FR-12)
   - kommer etter tidsgrensen på 5 sekunder.
-- Da brukes reserveløsningen: fritekstønsket ignoreres, og begrunnelsen lages fra malen. Forkastede KI-svar logges, slik at de kan brukes i kvalitetssikringen.
+- Da brukes reserveløsningen: fritekstønsket ignoreres, og begrunnelsen lages fra reservemalen. Forkastede KI-svar logges, slik at de kan brukes i kvalitetssikringen.
 - Reserveløsningen brukes også når KI-nøkkelen mangler.
-- Har brukeren skrevet et fritekstønske som ble ignorert, viser systemet meldingen «Vi kunne ikke ta hensyn til ønsket ditt denne gangen». Malteksten viser aldri til fritekstønsket.
+- Har brukeren skrevet et fritekstønske som ble ignorert, viser systemet meldingen «Jeg kunne ikke ta hensyn til ønsket ditt denne gangen». KI-merket viser «Begrunnelse fra mal» (FR-12). Reservemalen viser aldri til fritekstønsket.
 
 ### 4.6 Konto
 
-**Beskrivelse:** Konto er valgfri. Den gir vurdering, historikk og personalisering. Gjelder UJ-2.
+**Beskrivelse:** Konto er valgfri. Den gir vurdering, historikk og personalisering. Gjelder UJ-1, UJ-2 og UJ-3.
 
-#### FR-14: Registrere, logge inn og logge ut
-- Gjest kan registrere seg med e-post og passord. Passordet må ha minst 8 tegn og lagres bare som hash.
-- Hvis e-posten allerede er registrert, viser systemet «Kunne ikke registrere – prøv å logge inn».
+#### FR-14: Lage konto, logge inn og logge ut
+- Gjest kan lage konto med e-post og passord. Passordet må ha minst 8 tegn og lagres bare som hash.
+- Hvis e-posten allerede er registrert, viser systemet «Kunne ikke lage konto – prøv å logge inn».
 - Ved feil innlogging viser systemet «Feil e-post eller passord», uten å si hvilket av dem som er feil.
 - Bruker kan logge ut.
-- Når en gjest prøver en funksjon som krever konto, blir hen bedt om å logge inn eller registrere seg. Turforslaget gjesten så på, beholdes gjennom registrering og innlogging.
+- Når en gjest prøver en funksjon som krever konto, blir hen bedt om å logge inn eller lage konto. Turforslaget gjesten så på, beholdes gjennom kontooppretting og innlogging.
+- En gjest som har trykket «Registrer gjennomført tur», går etter innlogging eller kontooppretting rett inn i registreringen av den turen (FR-16).
 
 #### FR-15: Slette konto
-Bruker kan slette kontoen sin etter å ha bekreftet det. All historikk slettes da permanent.
+Bruker kan slette kontoen sin etter å ha bekreftet det på en egen side. Gjelder UJ-3.
+- Da slettes kontoen permanent, sammen med e-post, passord-hash og all historikk og alle vurderinger. Brukeren blir logget ut og får som gjest en kvittering på at kontoen er slettet.
+- Feiler slettingen, slettes ingenting, og brukeren får en feilmelding med neste steg.
+- Avbryter brukeren, endres ingenting.
 
 ### 4.7 Vurdering og historikk
 
@@ -255,7 +294,16 @@ Bruker kan registrere en tur som gjennomført, enten direkte fra turforslaget el
 - Alle feltene er påkrevd.
 
 #### FR-17: Se historikk
-Bruker kan se historikken sin med tur, dato og vurdering, der brukt tid vises sammen med estimert tid. Bruker kan åpne en tur fra historikken og få den vist som turforslag på nytt. Gjelder UJ-2.
+Bruker kan se historikken sin med tur, dato og vurdering, der brukt tid vises sammen med estimert tid. Bruker kan åpne en tur fra historikken og få den vist som turforslag fra historikken (§3). Gjelder UJ-2.
+- **Over nivåtaket:** Bruker kan åpne en tur fra historikken også når turnivået er over det nåværende nivåtaket. Det er brukerens eget valg, så den harde grensen i FR-19 og kontrollen i SM-C1 gjelder ikke. Turforslaget viser da merknaden «Denne turen er over nivået jeg foreslår for deg nå.»
+- **Turforslag fra historikken** avviker fra et vanlig turforslag:
+  - Linjen «Fra historikken din» står i stedet for søkeoppsummeringen.
+  - Begrunnelsen lages fra en fast mal uten KI, for eksempel «Du gikk denne turen 12. oktober og ga den 5 av 5.» KI-merket viser «Begrunnelse fra mal» (FR-12), og kravet i FR-12 om å nevne varigheten gjelder ikke.
+  - Bekledningstipsene gjelder i dag (FR-9).
+  - «Nytt forslag» (FR-7) er byttet ut med «Finn en ny tur», som går til søket.
+
+#### FR-17.1: Fremgang mot neste nivå (P2, §7.1)
+Historikken kan vise hvor nær brukeren er neste nivåheving etter FR-19 og FR-5. Ordlyden står i `EXPERIENCE.md` › Mikrotekst. Gjelder UJ-2.
 
 ### 4.8 Personalisering
 
@@ -267,7 +315,7 @@ Gjest og bruker uten historikk har grønt nivåtak. De får altså bare grønne 
 #### FR-19: Nivåregler
 - **Heving:** Når tre gjennomførte turer med turnivå lik nivåtaket er vurdert *lett*, hever systemet nivåtaket ett nivå. Vurderingene trenger ikke komme etter hverandre, men telles fra siste nivåendring.
 - **Sperre:** Når en tur er vurdert *vanskelig*, senkes nivåtaket midlertidig til turnivået for den turen, hvis nivåtaket var høyere. Sperren oppheves når en tur, uansett hvilken, er vurdert *moderat*.
-- **Hard grense:** Turer over nivåtaket blir aldri foreslått (FR-5).
+- **Hard grense:** Turer over nivåtaket blir aldri foreslått (FR-5). Turforslag fra historikken følger FR-17.
 - **Gjentakelser:** Hver registrering av en gjennomført tur teller, også når samme tur registreres flere ganger.
 
 #### FR-20: Turtypepreferanse
@@ -289,39 +337,42 @@ Systemet leveres med en testbruker med oppdiktet historikk. Testbrukeren viser n
   - Appen tåler feil input, gjentatte handlinger og dobbel innsending uten å krasje.
   - Alle tilstander i §6 viser enten et turforslag eller en forklaring med neste steg.
 - **NFR-3 Mobil:**
-  - Siden fungerer ned til 360 px bredde uten horisontal rulling.
-  - På turforslaget er kart, turnivå, estimert tid og bekledningstips synlige uten mye rulling.
+  - Siden fungerer ned til 360 px bredde uten horisontal rulling. Bare kartet og historikktabellen kan rulle i egen beholder.
+  - På mobil er turnivået, den estimerte tiden og treff på valgt turtype synlige uten rulling. Kartet og bekledningstipsene nås med kort rulling. Rekkefølgen står i `EXPERIENCE.md` › Turforslag – rekkefølge.
   - Knapper er minst 44 × 44 px.
-- **NFR-4 Universell utforming:** WCAG 2.1 AA er målet. Det betyr:
+- **NFR-4 Universell utforming:** WCAG 2.1 AA er målet. Det betyr minst:
   - kontrast på minst 4,5:1
   - alle handlinger i kjerneflyten kan gjøres med tastatur
   - feilmeldinger er koblet til feltet og leses opp av skjermleser
   - kartet holder ikke på tastaturfokus
-  - informasjon gis aldri bare med farge.
+  - informasjon gis aldri bare med farge
+  - dynamisk tilpasning (reflow) ved 320 px bredde.
 
-  Kravet verifiseres med et automatisk verktøy og en manuell sjekkliste (SM-4).
+  Kravet verifiseres med et automatisk verktøy og sjekklisten i `EXPERIENCE.md` › Accessibility Floor (SM-4).
 - **NFR-5 Personvern:**
   - Systemet samler inn så lite data som mulig. Det lagrer bare e-post, passord som hash, historikk og vurderinger.
   - Systemet sporer ikke posisjon.
   - Ingen personopplysninger sendes til KI-leverandøren. KI får bare søket og turene som kan foreslås.
+  - Skjermen Konto viser en kort personverntekst i jeg-form om punktene over. Ordlyden står i `EXPERIENCE.md` › Mikrotekst og er foreløpig (§10).
 - **NFR-6 Sporbarhet:** Kode, tester, stories, commits og PR-er viser til FR- og NFR-ID-ene i denne PRD-en.
 - **NFR-7 Kreditering:** Appen viser kreditering slik lisensene krever, minst «© Kartverket», «© OpenStreetMap contributors» med lenke og «Data fra MET Norge» (MET anbefaler «Data from MET Norway»).
 - **NFR-8 Sikkerhet:**
   - En bruker kan bare se og endre sin egen historikk og konto.
   - All input valideres på serveren.
   - Fritekstønsket behandles som data og ikke som instruksjoner (FR-11). KI-svar valideres alltid (FR-13).
+- **NFR-9 Mørk modus (P2, §7.1):** Siden følger innstillingen for lys eller mørk modus på enheten. Det finnes ingen egen bryter.
 
 ## 6. Plattform, skjermer og tone
 
-Nettside på norsk. V1 har ingen mobilapp.
+Nettside på norsk. Den lages for PC først, med en enkel, stablet mobilutgave i v1. NFR-3 gjelder fullt ut, og mørk modus står i NFR-9. V1 har ingen mobilapp.
 
 **Skjermer:**
-- søk
-- turforslag
-- logg inn / registrer
-- registrer gjennomført tur
-- historikk
-- konto, med sletting
+- Søk
+- Turforslag
+- Logg inn / Lag konto
+- Registrer gjennomført tur
+- Historikk
+- Konto, med personverntekst (NFR-5) og sletting med egen bekreftelsesside (FR-15)
 
 **Tilstander som skal designes:**
 - laster
@@ -331,29 +382,38 @@ Nettside på norsk. V1 har ingen mobilapp.
 - uten værvarsel (FR-10)
 - reserveløsning (FR-13)
 - gjest som møter krav om konto (FR-14)
+- turforslag fra historikken, også over nivåtaket (FR-17)
+- turforslaget finnes ikke lenger, fordi fanen er lukket eller adressen er åpnet direkte (FR-7)
 
-Wireframes lages i UX-fasen, og PRD-en skal vise til dem når de finnes.
+**UX-spesifikasjon:** `DESIGN.md` og `EXPERIENCE.md` i `../../ux-designs/ux-G81-eriksen-2026-11-06/` er UX-spesifikasjonen. `EXPERIENCE.md` › Mikrotekst har tekstene i grensesnittet som PRD-en ikke gir. Wireframes:
+- [Skjermer, ruter og tilgang](../../ux-designs/ux-G81-eriksen-2026-11-06/wireframes/ia-2026-11-06.excalidraw)
+- [UJ-1, UJ-2 og kanttilstander](../../ux-designs/ux-G81-eriksen-2026-11-06/wireframes/flow-ola-2026-11-06.excalidraw)
 
-**Tone:** Innbydende og trygg. Tjenesten overselger ikke KI eller «læring», og forklarer alltid hvorfor en tur blir foreslått.
+**Stemme og tone:** Tjenesten snakker i jeg-form, og brukeren tiltales med du. Tonen er innbydende og trygg, og nøktern ved feil, innlogging og sletting. Tjenesten overselger ikke KI eller «læring» og forklarer alltid hvorfor en tur blir foreslått.
 
 ## 7. Scope
 
 ### 7.1 Med i v1
 
-Alle funksjonene i §4 (FR-1 til FR-21) og alle NFR-ene i §5.
+Alle funksjonene i §4 (FR-1 til FR-21 og FR-17.1) og alle NFR-ene i §5 (NFR-1 til NFR-9).
 
 **Prioritering:**
-- **P1, må leveres:** FR-1 til FR-8, FR-12 og FR-13 med begrunnelse fra fast mal og reserveløsning, FR-14 til FR-19, FR-21 og alle NFR-er.
+- **P1, må leveres:** FR-1 til FR-8, FR-12 og FR-13 (begrunnelse skrevet av KI og begrunnelse fra mal som reserveløsning, KI-merke og forklaringspanel), FR-14 til FR-19 (uten FR-17.1), FR-21 og NFR-1 til NFR-8.
 - **P2, kuttes først hvis tiden ikke strekker til**, i denne rekkefølgen:
-  1. FR-11 (KI-tolking av fritekstønske)
-  2. FR-9 og FR-10 (bekledningstips)
-  3. FR-20 (turtypepreferanse)
+  1. FR-17.1 (fremgang mot neste nivå)
+  2. NFR-9 (mørk modus)
+  3. FR-11 (KI-tolking av fritekstønske)
+  4. FR-9 og FR-10 (bekledningstips)
+  5. FR-20 (turtypepreferanse)
+- **Følger av kutt:**
+  - Kuttes FR-11, skjules fritekstfeltet, og forklaringspanelet mister setningen om at KI tolker ønsket. Etter en nivåheving (FR-5) får brukeren da grønne turer bare med «Nytt forslag».
+  - Kuttes et P2-krav, faller tilsvarende del av FR-21, SM-2 og NFR-3 bort, for eksempel turtypepreferansen hos testbrukeren og bekledningstipsene i NFR-3.
 - Hvert kutt føres i §9 og i endringsloggen, med årsak.
 
 ### 7.2 Utenfor v1
 
 - Turer utenfor Oslo-området
-- Ruter laget av KI, eller turer utenfor turdatabasen
+- Ruter laget av KI og turer utenfor turdatabasen
 - Henting av turdata mens appen kjører
 - Andre målgrupper enn nybegynnere
 - Værvarsling som egen tjeneste
@@ -366,8 +426,10 @@ Alle funksjonene i §4 (FR-1 til FR-21) og alle NFR-ene i §5.
 
 **Senere fase:**
 - Personlig justering av estimert tid ut fra brukt tid
-- Velge startpunkt ved å klikke i kartet
-- Glemt passord. Dette krever en e-posttjeneste, som ville blitt den femte eksterne avhengigheten.
+- Valg av startpunkt med klikk i kartet
+- Glemt passord, som krever en e-posttjeneste og ville blitt den femte eksterne avhengigheten
+- Sletting av enkeltregistreringer i historikken (v1 har bare full kontosletting, FR-15)
+- Redigering og angring av registreringer
 
 ## 8. Suksessmål
 
@@ -385,7 +447,7 @@ Alle funksjonene i §4 (FR-1 til FR-21) og alle NFR-ene i §5.
   - KI-validering og reserveløsning med KI mocket (FR-13)
   - startnivå, nivåregler og turtypepreferanse (FR-18 til FR-20).
 - **SM-3:** Hele kjerneflyten fungerer uten KI-nøkkel (FR-13, NFR-1).
-- **SM-4:** En manuell test av mobilvisning og universell utforming (UU) etter en dokumentert sjekkliste består (NFR-3, NFR-4). Personaliseringen demonstreres med testbrukeren (FR-21).
+- **SM-4:** Mobilvisning og universell utforming (UU) består en manuell test etter sjekklisten i `EXPERIENCE.md` › Accessibility Floor (NFR-3, NFR-4). Personaliseringen demonstreres med testbrukeren (FR-21).
 
 **Motmål (skal ikke optimaliseres)**
 - **SM-C1:** Hvor raskt brukere rykker opp i nivå. Tjenesten skal ikke presse nybegynnere oppover for å se «smart» ut. Kontrollen har to deler:
@@ -432,7 +494,15 @@ Alle funksjonene i §4 (FR-1 til FR-21) og alle NFR-ene i §5.
 
 ## 10. Antakelser og åpne spørsmål
 
-Alle antakelser og standardverdier ble bekreftet og godkjent av produkteier 2026-11-06. De står i kravene de gjelder. De åpne punktene om MET-vilkår og Kartverkets API-er ble lukket samme dag (§4.4 og addendum). Det er ingen åpne spørsmål igjen.
+Antakelsene og standardverdiene i kravene, endringene i v1.1 og rettingene etter gjennomgangen av v1.1 ble godkjent av produkteier 2026-11-06 (`.memlog.md`). Tekster merket `[ASSUMPTION]` i `EXPERIENCE.md` › Mikrotekst bekreftes under implementeringen. Disse punktene er fortsatt åpne:
+
+| Åpent punkt | Eier | Blokkerer stories |
+|---|---|---|
+| Ordlyden i tekster merket som antakelser i `EXPERIENCE.md` › Mikrotekst, blant annet nivåtakmeldingene (FR-8) og personverntekst (NFR-5). Budskapet er avgjort | UX | nei |
+| Tekst i begrunnelsen ved sperre (FR-19) og turtypepreferanse (FR-20), og om disse reglene regnes som å ha påvirket valget (FR-12) | UX | nei |
+| Ordlyden «låse opp lengre turer» i FR-8. Et høyere turnivå kan skyldes høydemeter og ikke bare lengde (FR-2), og teksten skal ikke presse nybegynnere (SM-C1) | PRD | nei |
+
+Åpne punkter som bare gjelder UX eller arkitektur, står i `EXPERIENCE.md` › Åpne punkter.
 
 ## Endringslogg
 
@@ -445,3 +515,4 @@ Alle antakelser og standardverdier ble bekreftet og godkjent av produkteier 2026
 | 0.5 | 2026-11-06 | Standardverdier for middels funn: sammensetning av turdatabasen, terskler for bekledningstips, grenser for KI-svar, kontoregler, målbare NFR-er, NFR-8 Sikkerhet, skjermer og tilstander, SM-4 og sporing fra briefen |
 | 0.6 | 2026-11-06 | MET-vilkår og Kartverkets API-er er verifisert, og de åpne punktene i §10 er lukket |
 | 1.0 | 2026-11-06 | Struktur- og språkgjennomgang. 41 språkfunn er vurdert: 40 er rettet, og «Scope» er beholdt som BMAD-begrep. PRD-en er markert som ferdig |
+| 1.1 | 2026-11-06 | Oppdatert etter UX-arbeidet (`ux-designs/ux-G81-eriksen-2026-11-06/`) og rettet etter gjennomgangen av v1.1 (`review-rubric-v1.1.md`, `reconcile-ux.md`). Berørt: UJ-1 til UJ-3 (UJ-3 er ny), §3, FR-1, FR-4 til FR-9, FR-12 til FR-17, FR-19, NFR-3 til NFR-5, §6, §7, SM-4, SM-C1, §10 og addendum. Struktur- og språkgjennomgang 2026-11-07 (`review-structure-v1.1.md`, `review-prose-v1.1.md`) med nye ID-er FR-17.1 og NFR-9 (begge P2). Beslutningene står i `.memlog.md` |
