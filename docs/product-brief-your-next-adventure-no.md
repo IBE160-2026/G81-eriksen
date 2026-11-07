@@ -1,5 +1,7 @@
 # Product Brief: Your Next Adventure
 
+> **Merk:** Denne briefen var utgangspunktet for PRD-en. Der briefen og [PRD-en](../_bmad-output/planning-artifacts/prds/prd-G81-eriksen-2026-10-29/prd.md) er uenige, er det PRD-en som gjelder.
+
 ## Executive Summary
 
 Your Next Adventure er en nettside som hjelper nybegynnere med å planlegge sin neste fottur i naturen i Oslo-området. I stedet for å lete gjennom generelle kart eller store turdatabaser, skriver brukeren rett og slett inn hvor de vil dra, hvor mye tid de har, og hva slags opplevelse de er ute etter — en topptur, en rolig skogstur, eller noe midt imellom. Tjenesten svarer med konkrete forslag: rute på kart, tidsbruk og praktiske tips.
