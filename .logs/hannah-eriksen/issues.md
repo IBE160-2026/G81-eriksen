@@ -20,5 +20,5 @@
 - [x] 2026-11-06 [bmad-ux](995-2026-11-06-17-42-55-bmad-ux.md) — rett bmad-ux-instruksen for Excalidraw (index på to tegn gir ugyldige filer over 62 elementer) (løst 2026-11-07 — se [issues-opprydding](994-2026-11-07-15-14-03-issues-opprydding.md))
 - [ ] 2026-11-07 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — bekreft endelig ordlyd for nivåtaktekster (FR-8) og personverntekst (NFR-5) i EXPERIENCE.md › Mikrotekst under implementering
 - [ ] 2026-11-07 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — lag tekster for sperre og turtypepreferanse (FR-19, FR-20)
-- [ ] 2026-11-07 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — vurder FR-8-ordlyden «låse opp lengre turer» mot SM-C1 og nivåheving på høydemeter
+- [x] 2026-11-07 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — vurder FR-8-ordlyden «låse opp lengre turer» mot SM-C1 og nivåheving på høydemeter (løst 2026-11-07 — valg C, se [issues-opprydding](994-2026-11-07-15-14-03-issues-opprydding.md))
 - [ ] 2026-11-07 [issues-opprydding](994-2026-11-07-15-14-03-issues-opprydding.md) — Excalidraw-rettelsen i `.claude/skills/bmad-ux/` kan overskrives ved BMAD-reinstallasjon/-oppdatering
