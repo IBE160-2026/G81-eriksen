@@ -2,7 +2,7 @@
 title: Your Next Adventure — EXPERIENCE
 status: final
 created: 2026-11-06
-updated: 2026-11-06
+updated: 2026-11-07
 name: Your Next Adventure
 description: Hvordan nettsiden virker — skjermer, tilstander, flyter, tilgjengelighet og tekster — for en rolig turkompis som gir nybegynnere ett turforslag om gangen i Oslo-området.
 sources:
@@ -17,12 +17,12 @@ sources:
 
 ## Foundation
 
-- **Form:** en nettside på norsk (`<html lang="nb">`). **Desktop først** (referanseskjerm 1280 × 800) **med en enkel, stablet mobilutgave i v1** (se Responsive & Platform). PRD NFR-3 (44 × 44 px knapper, mobil uten sidelengs rulling) og WCAG 2.1 AA (NFR-4) gjelder fullt ut. Utenfor v1: app, GPS-posisjon og offline.
+- **Form:** en nettside på norsk (`<html lang="nb">`). **PC først** (referanseskjerm 1280 × 800) **med en enkel, stablet mobilutgave i v1** (se Responsive & Platform). PRD NFR-3 (44 × 44 px knapper, mobil uten sidelengs rulling) og WCAG 2.1 AA (NFR-4) gjelder fullt ut. Utenfor v1: app, GPS-posisjon og offline.
 - **UI-system:** Ingen UI- eller kartbibliotek er valgt. Valget tas i arkitekturen.
 - **Visuell identitet:** `DESIGN.md` eier hvordan det ser ut (tokens, komponenter, kontrast). Denne filen eier hvordan det virker. Tokens refereres som `{colors.primary}` og så videre.
-- **Mørk modus:** med i v1. Den følger systeminnstillingen (`prefers-color-scheme`), og det finnes ingen egen bryter. Kartflisene og alt oppå dem forblir lyse.
-- **Kuttrekkefølge** hvis tiden blir knapp: (1) fremgang mot neste nivå i Historikk, (2) mørk modus, (3) Fritekstønske (FR-11): feltet skjules helt, (4) Bekledningstips (FR-9 og FR-10, P2): seksjonen forsvinner uten tomrom.
-- **Turforslagets levetid:** Et turforslag lever bare i økten, det vil si i fanen til den lukkes. Ny innlasting av samme fane beholder forslaget og listen over turer som er vist. Planlagte turer lagres ikke (PRD §9). Det finnes ingen delbar lenke til et turforslag.
+- **Mørk modus:** med i v1 (PRD NFR-9, P2). Den følger innstillingen for lys eller mørk modus på enheten (`prefers-color-scheme`), og det finnes ingen egen bryter. Kartflisene og alt oppå dem forblir lyse.
+- **Kuttrekkefølge** hvis tiden blir knapp (PRD §7.1, alle P2): (1) fremgang mot neste nivå i Historikk (FR-17.1), (2) mørk modus (NFR-9), (3) Fritekstønske (FR-11): feltet skjules helt, og Forklaringspanel mister setningen om at KI tolker ønsket, (4) Bekledningstips (FR-9 og FR-10): seksjonen forsvinner uten tomrom, (5) turtypepreferanse (FR-20): ingen egen visning forsvinner.
+- **Turforslagets levetid:** Et turforslag lever bare i økten, det vil si fra et søk sendes til et nytt søk sendes eller fanen lukkes (PRD §3 og FR-7). Ny innlasting av samme fane beholder forslaget og listen over turer som er vist. Planlagte turer lagres ikke (PRD §9). Det finnes ingen delbar lenke til et turforslag.
 - Ett turforslag om gangen. Konto er valgfri.
 
 ### Visuelle referanser
@@ -32,7 +32,7 @@ sources:
 | Fil | Viser | Status og kjente avvik |
 |---|---|---|
 | [mockups/key-sok.html](mockups/key-sok.html) | Søk, utfylt og med feil | Nøkkelskjerm. |
-| [mockups/key-turforslag.html](mockups/key-turforslag.html) | Turforslag på desktop og mobil, med folden | Nøkkelskjerm. |
+| [mockups/key-turforslag.html](mockups/key-turforslag.html) | Turforslag på desktop og mobil, med folden | Nøkkelskjerm. Nivåforklaringen og KI-begrunnelsen har eldre ordlyd. Mikrotekst gjelder. |
 | [mockups/key-historikk.html](mockups/key-historikk.html) | Historikk etter registrering | Nøkkelskjerm. Fremgangslinjen har eldre ordlyd og to rader («2 av 3»), mens UJ-2 steg 3 gir den tredje registreringen og teksten for «målet nådd». |
 | [wireframes/ia-2026-11-06.excalidraw](wireframes/ia-2026-11-06.excalidraw) | Skjermer, ruter og tilgang | Wireframe. |
 | [wireframes/flow-ola-2026-11-06.excalidraw](wireframes/flow-ola-2026-11-06.excalidraw) | UJ-1, UJ-2, kjerneflyten (skjerm 1–6) og kanttilstandene A–G | Wireframe. Viser fornøydhet «4 av 5» der brukerreisen sier 5. |
@@ -76,10 +76,10 @@ Stemmen og den estetiske holdningen står i `DESIGN.md` under Brand & Style. Her
 - **Sparsomt** med emoji og utropstegn. De eneste faste tegnene er ✦ i KI-merket, ↗ på lenker til andre nettsteder og 🎉 i fremgangslinjen når målet er nådd. Alle tre er `aria-hidden`. Lenker til andre nettsteder har i tillegg skjult tekst om hvor de går.
 - **Nøktern i alvorlige øyeblikk.** Ved feilmeldinger, innlogging, personvern og sletting av konto er tonen rolig og saklig, uten emoji og uten spøk.
 - **KI skal synes, men ikke overselges** (PRD §6). Reglene står i Component Patterns under KI-merke og Forklaringspanel. Tall (tid, lengde, nivå) settes alltid inn av systemet.
-- **Personalisering forklares med konkrete regler**, for eksempel «Når du har gått tre grønne turer som føltes lette, foreslår jeg litt lengre turer.» Teksten må aldri antyde at KI lærer, så «Neste tur blir enda mer din» er ikke lov.
+- **Personalisering forklares med konkrete regler**, for eksempel «Når du har gått tre grønne turer som føltes lette, foreslår jeg blå turer først neste gang du søker.» Teksten må aldri antyde at KI lærer, så «Neste tur blir enda mer din» er ikke lov.
 - **Domeneord ordrett fra PRD:** Tur, Turforslag, Begrunnelse, Bekledningstips, Gjennomført tur, Historikk, Nivåtak, Sperre, Gjest, Bruker. Handlingen heter «registrere gjennomført tur», ikke «lagre». Turtypene er *marka*, *utsikt* og *topptur*, aldri «skogstur».
 - **Faste formater:** «Grønn – lett», «ca. 1 t 35 min» med «pauser ikke inkludert» og «3,5 km totalt». Tur-retur og rundtur merkes alltid.
-- **Bevisste navneforskjeller:** «Finn tur» er menypunktet, «Finn en tur» sender søket, og «Finn en ny tur» er handlingen på et forslag åpnet fra Historikk. Alle tre fører til Søk. «Slett konto» åpner bekreftelsen, og «Slett kontoen» sletter. «Registrer gjennomført tur» er både lenken til siden og sendeknappen på siden (PRD).
+- **Bevisste navneforskjeller:** «Finn tur» er menypunktet, «Finn en tur» sender søket, og «Finn en ny tur» er handlingen på et turforslag fra historikken. Alle tre fører til Søk. «Slett konto» åpner bekreftelsen, og «Slett kontoen» sletter. «Registrer gjennomført tur» er både lenken til siden og sendeknappen på siden (PRD).
 
 ### Mikrotekst
 
@@ -104,29 +104,30 @@ Har en rad flere tekster med ulik kilde, står kilden per tekst.
 | Startpunkt, standardvalg | «Alle startpunkt» | Godkjent (mock) |
 | Søkeknapp | «Finn en tur» | Godkjent (mock) |
 | Søkeoppsummering | «Lørdag 7. nov. · 2 t · Utsikt» og «Endre søk» | Godkjent (mock) |
-| Åpnet fra Historikk | «Fra historikken din» | Godkjent (memlog) |
+| Turforslag fra historikken | «Fra historikken din» | PRD (FR-17) |
+| Turforslag fra historikken, over nivåtaket | «Denne turen er over nivået jeg foreslår for deg nå.» | PRD (FR-17) |
 | Lasting | «Finner en tur med utsikt som passer 2 timer …», «Kart lastes …» | [ASSUMPTION] |
 | Lasting, nytt forslag | «Finner et nytt forslag …» | [ASSUMPTION] |
 | Startpunkt i Infokolonne | «Start: Granvannet p-plass» | Godkjent (memlog) |
 | Turtype-treff | «{Turtype} – som du ba om», for eksempel «Utsikt – som du ba om» | Godkjent (mock) |
-| Nivåforklaring | «Beregnet av tjenesten etter Merkehåndbokas mal ut fra lengde og høydemeter. Terreng og føre er ikke vurdert.» | PRD |
+| Nivåforklaring | «Jeg har beregnet nivået etter Merkehåndbokas mal ut fra lengde og høydemeter. Terreng og føre er ikke vurdert.» | PRD (FR-6, jeg-form fra v1.1) |
 | Estimert tid | «ca. 1 t 35 min (pauser ikke inkludert)» | PRD (formatet) |
 | Knapper på turforslaget | «Nytt forslag», «Registrer gjennomført tur» | PRD |
-| Knapp, åpnet fra Historikk | «Finn en ny tur» | Godkjent (memlog) |
+| Knapp, turforslag fra historikken | «Finn en ny tur» | PRD (FR-17) |
 | ut.no-lenke | «Se turen på ut.no ↗», skjult tillegg «(åpnes på ut.no)» | Godkjent (mock) |
-| Begrunnelse (malen) | «Turen tar ca. 2 t og har utsikt, som du ba om» | PRD (eksempel på mal) |
-| Begrunnelse (KI, eksempel fra UJ-1) | «Turen tar ca. 1 t 35 min og passer de 2 timene du har. Den har utsikt, som du ba om, og er grønn, som passer når du er ny.» | Godkjent (mock) |
-| Begrunnelse (personalisering) | «Du får en blå tur fordi de tre siste grønne turene var lette for deg.» | PRD |
+| Begrunnelse (reservemalen) | «Turen tar ca. 2 t og har utsikt, som du ba om» | PRD (addendum, eksempel på reservemalen, FR-13) |
+| Begrunnelse (KI, eksempel fra UJ-1) | KI skriver «Turen tar {tid}, så den passer innenfor {varighet}. Den har utsikt, som du ba om, og er {nivå}, som passer når du er ny.» Systemet setter inn tallene og nivået, så brukeren ser «Turen tar ca. 1 t 35 min, så den passer innenfor 2 timer. Den har utsikt, som du ba om, og er grønn, som passer når du er ny.» | Godkjent (mock), rettet etter PRD FR-12: plassholderne `{tid}`, `{varighet}`, `{lengde}` og `{nivå}` settes inn av systemet |
+| Begrunnelse (personalisering) | «Du får en blå tur fordi de tre siste grønne turene var lette for deg.» (personaliseringssetning fra setningsmalen, lagt til av systemet) | PRD (FR-12) |
 | Begrunnelse (sperre) | «Du får en grønn tur igjen fordi den siste blå turen føltes vanskelig.» | [ASSUMPTION] |
-| Begrunnelse, åpnet fra Historikk | «Du gikk denne turen 12. oktober og ga den 5 av 5.» | Godkjent (memlog) |
-| KI-merke / malmerke | «✦ Skrevet med KI» / «Begrunnelse fra mal» | Godkjent (memlog) |
-| Forklaringspanel | Utløser «Slik lager jeg forslaget». Innholdet står under Forklaringspanel i Component Patterns. | Godkjent (memlog) |
-| Fritekst ignorert | «Jeg kunne ikke ta hensyn til ønsket ditt denne gangen» | PRD, jeg-form. Original: «Vi kunne ikke ta hensyn til ønsket ditt denne gangen» |
+| Begrunnelse, turforslag fra historikken | «Du gikk denne turen 12. oktober og ga den 5 av 5.» | PRD (FR-17) |
+| KI-merke / malmerke | «✦ Skrevet med KI» / «Begrunnelse fra mal» | PRD (FR-12) |
+| Forklaringspanel | Utløser «Slik lager jeg forslaget». Innholdet står under Forklaringspanel i Component Patterns. | Utløser: PRD (FR-12). Ordlyden i innholdet: Godkjent (memlog) |
+| Fritekst ignorert | «Jeg kunne ikke ta hensyn til ønsket ditt denne gangen» | PRD (FR-13, jeg-form fra v1.1) |
 | Topptur passer ikke | «Toppturer krever mer tid enn du har oppgitt» | PRD |
 | Topptur passer ikke, merke | «Utsikt i stedet for topptur» | [ASSUMPTION] |
 | Nivåtak, tittel | «Ingen grønne turer passer søket» | [ASSUMPTION] |
 | Nivåtak (gjest) | «Som ny bruker får du grønne turer. Lag konto og vurder turene dine for å låse opp lengre turer.» | PRD |
-| Nivåtak (innlogget uten historikk) | «Som ny bruker får du grønne turer. Registrer og vurder turene du går, for å låse opp lengre turer.» | [ASSUMPTION]. PRD gir samme tekst som for gjest. |
+| Nivåtak (innlogget uten historikk) | «Som ny bruker får du grønne turer. Registrer og vurder turene du går, for å låse opp lengre turer.» | [ASSUMPTION]. Budskapet står i PRD FR-8, og ordlyden er foreløpig (PRD §10). |
 | Nivåtak (bruker med historikk) | «Akkurat nå foreslår jeg turer opp til grønt nivå, og ingen av dem passer søket.» | [ASSUMPTION] |
 | Ingen treff | «Jeg fant ingen tur som passer søket ditt», «Prøv å endre søket:» | [ASSUMPTION] |
 | Alle forslag er vist | «Du har sett alle turene som passer søket» | PRD |
@@ -147,7 +148,7 @@ Har en rad flere tekster med ulik kilde, står kilden per tekst.
 | Knapper i Logg inn / Lag konto | «Logg inn», «Lag konto og fortsett» | «Logg inn»: Godkjent (memlog). «Lag konto og fortsett»: [ASSUMPTION] |
 | Passordhjelp | «Minst 8 tegn», bryter «Vis passord» | «Minst 8 tegn»: Godkjent (wireframe). «Vis passord»: [ASSUMPTION] |
 | Feil innlogging | «Feil e-post eller passord» | PRD |
-| E-posten finnes fra før | «Kunne ikke registrere – prøv å logge inn» | PRD |
+| E-posten finnes fra før | «Kunne ikke lage konto – prøv å logge inn» | PRD (FR-14) |
 | Feil i kontofelt | «Skriv inn e-postadressen din», «E-postadressen må ha med @, for eksempel ola@eksempel.no», «Passordet må ha minst 8 tegn» | [ASSUMPTION] |
 | Innlogging utløpt | «Du er logget ut fordi det har gått lang tid. Logg inn igjen, så tar jeg vare på det du har fylt inn.» | [ASSUMPTION] |
 | Registreringsskjema | «Alle fire felt er påkrevd.», «I dag eller tidligere», «10 min–24 t» | Godkjent (wireframe) |
@@ -159,8 +160,8 @@ Har en rad flere tekster med ulik kilde, står kilden per tekst.
 | Historikk, under tabellen | «Nye søk prioriterer turer du ikke har gått.» | Godkjent (mock) |
 | Historikktabell, kolonner | «Tur», «Dato», «Brukt tid», «Opplevd vanskelighet», «Fornøydhet» og skjult «Handlinger» | Godkjent (mock) |
 | Historikktabell, formater | Dato «7. nov.», brukt tid «1 t 50 min» med «estimert ca. 1 t 35 min» under, vanskelighet «Lett» / «Moderat» / «Vanskelig», fornøydhet «5 av 5» | Godkjent (mock) |
-| Fremgang (valgfri), underveis | «Du har gått 2 av 3 grønne turer som føltes lette. Etter én til foreslår jeg litt lengre turer.» (tallet følger historikken) | Godkjent (memlog) |
-| Fremgang (valgfri), målet nådd | «Tre grønne turer som føltes lette – godt gått! 🎉 Neste gang kan du få blå turer.» | Godkjent (memlog) |
+| Fremgang (valgfri), underveis | «Du har gått 2 av 3 grønne turer som føltes lette. Etter én til foreslår jeg blå turer først neste gang du søker.» (tallet følger historikken) | Godkjent (memlog). Krav: PRD FR-17.1 |
+| Fremgang (valgfri), målet nådd | «Tre grønne turer som føltes lette – godt gått! 🎉 Neste gang kan du få blå turer.» | Godkjent (memlog). Krav: PRD FR-17.1 |
 | Tom historikk | «Du har ikke registrert noen turer ennå.» og «Finn tur» | [ASSUMPTION] |
 | Personvern på Konto | «Jeg lagrer bare e-postadressen din, passordet ditt i sikret form og turene du registrerer. Jeg sporer ikke hvor du er, og KI-tjenesten får ingen personopplysninger om deg.» | Innhold: Godkjent (memlog). Ordlyd: [ASSUMPTION] |
 | Logget ut | «Du er logget ut.» | [ASSUMPTION] |
@@ -182,7 +183,7 @@ Her står hvordan komponentene oppfører seg. Det visuelle står i `DESIGN.md` u
 | Skjemafelt | Søk, Logg inn / Lag konto, Registrer gjennomført tur | Etiketten er alltid synlig. Feltene valideres ved innsending og på serveren. Feilmeldingen står rett under feltet og over hjelpeteksten. Feilmelding og hjelpetekst kobles begge med `aria-describedby`, i den rekkefølgen (feil først), og feltet får `aria-invalid="true"`. Feilteksten sier hvordan feilen rettes (se Mikrotekst). Fokus flyttes til det første feltet med feil. Søk har **ingen feiloppsummering** øverst: feil ved feltet og fokusflyttingen er nok ([mockups/key-sok.html](mockups/key-sok.html), feiltilstanden). Kontrolltypene står i tabellen under. |
 | Turtypekort | Søk | Ekte radiogruppe med fire valg: «Alle turtyper» (forvalgt), Marka, Utsikt og Topptur. Piltastene flytter valget, og alle valg kan nås med tastatur. Ordet «Valgt» har `aria-hidden="true"`, fordi tilstanden kommer fra radioknappen. |
 | Valggruppe | Registrer gjennomført tur | Én radiogruppe for opplevd vanskelighet (lett / moderat / vanskelig) og én for fornøydhet (1–5). Begge har `fieldset` og `legend` og er påkrevd. Fornøydhet har forklaringen fra Mikrotekst («Fornøydhet, forklaring») koblet til gruppen, og 1 og 5 har synlig ankertekst. |
-| Søkeoppsummering | Laster, Turforslag, tilstander | Viser søket som en linje, også under lasting. «Endre søk» går til Søk med skjemaet forhåndsutfylt. Når forslaget er åpnet fra Historikk, viser den «Fra historikken din» i stedet, uten «Endre søk». |
+| Søkeoppsummering | Laster, Turforslag, tilstander | Viser søket som en linje, også under lasting. «Endre søk» går til Søk med skjemaet forhåndsutfylt. Ved turforslag fra historikken viser den «Fra historikken din» i stedet, uten «Endre søk». |
 | Kart | Turforslag | Se Kart – oppførsel under tabellen. |
 | Kreditering | Turforslag (på kartet) | Alltid synlig på kartet. Lenkene er understreket: Kartverket til Kartverkets lisensside, «OpenStreetMap contributors» (`lang="en"`) til openstreetmap.org/copyright og «Data fra MET Norge» til MET Norge. |
 | Kartbeskrivelse | Turforslag | Overskrift «Kartet i tekst» (`h2`). Teksten **genereres fra turdata** og ikke av KI, med minst startpunktets navn, form, total lengde, høydemeter og laveste og høyeste punkt fra høydeprofilen. Eksempel med den oppdiktede eksempelturen: «Rundtur på 3,5 km totalt fra Granvannet p-plass. Ruten stiger ca. 130 høydemeter, fra 180 til 310 moh.» |
@@ -192,8 +193,8 @@ Her står hvordan komponentene oppfører seg. Det visuelle står i `DESIGN.md` u
 | Turtype-treff | Turforslag | Vises bare når brukeren har valgt en bestemt turtype og turen har den. Treffet nevnes også i begrunnelsen. Når en topptur blir erstattet av en utsiktstur, står merket fra Mikrotekst («Topptur passer ikke, merke») i stedet. |
 | Formmerke | Turforslag | «Rundtur» eller «Tur-retur». Vises alltid, sammen med linjen «Start: {startpunkt}». |
 | Faktarute | Turforslag | Total lengde, høydemeter og estimert tid med «pauser ikke inkludert». Tallene kommer fra systemet, aldri fra KI. |
-| Begrunnelse | Turforslag | Overskrift `h2` «Begrunnelse». Maks 300 tegn. Nevner varigheten, og turtypen og fritekstønsket hvis de er oppgitt. Har en personaliseringsregel påvirket valget, nevnes regelen. Eksempelet fra UJ-1 i Mikrotekst er ikke fast tekst, men viser tonen og hva en KI-skrevet begrunnelse skal nevne. |
-| KI-merke | Turforslag | Rett over Begrunnelse. Viser «✦ Skrevet med KI» når KI har skrevet begrunnelsen. Ved reserveløsning (FR-13), i testmodus uten API-nøkkel til KI-tjenesten og når forslaget er åpnet fra Historikk viser det «Begrunnelse fra mal» i stedet. |
+| Begrunnelse | Turforslag | Overskrift `h2` «Begrunnelse». Maks 300 tegn. Grensen gjelder hele begrunnelsen slik brukeren ser den, etter innsetting av verdier og med personaliseringssetningen. Overskrides grensen, brukes reservemalen (PRD FR-12, FR-13). Nevner varigheten, og turtypen og fritekstønsket hvis de er oppgitt. Reservemalen nevner aldri fritekstønsket. Har en personaliseringsregel påvirket valget, legger systemet til en personaliseringssetning fra setningsmalen (se Mikrotekst). Eksempelet fra UJ-1 i Mikrotekst er ikke fast tekst, men viser tonen og hva en KI-skrevet begrunnelse skal nevne. KI skriver aldri tall eller nivå. De står som plassholdere (`{tid}`, `{varighet}`, `{lengde}` og `{nivå}`) som systemet fyller inn (PRD FR-12). |
+| KI-merke | Turforslag | Rett over Begrunnelse. Viser «✦ Skrevet med KI» når KI har skrevet begrunnelsen. Ved reserveløsning (FR-13), i testmodus uten API-nøkkel til KI-tjenesten og ved turforslag fra historikken viser det «Begrunnelse fra mal» i stedet. |
 | Forklaringspanel | Turforslag | Utfellbar `<details>`/`<summary>` med utløseren «Slik lager jeg forslaget», lukket som standard. Innholdet sier i jeg-form: (1) Ruten, tiden og nivået kommer fra Kartverkets turdata og faste formler, ikke fra KI. (2) Tiden kan bomme med rundt 15 prosent, og nybegynnere bruker ofte lenger tid enn beregnet. (3) KI tolker ønsket ditt og skriver begrunnelsen, og den kan ta feil. |
 | Bekledningstips | Turforslag | Overskrift `h2` «Bekledningstips for {dag}», grunnlaget i én linje og ett eller flere tips etter FR-9, ordrett. «Gode sko og litt mat og drikke» vises alltid. Mangler værvarsel, byttes listen ut med en Melding (info) under samme overskrift. Kuttes seksjonen, se kuttrekkefølgen i Foundation. |
 | Melding | Alle skjermer | Info, advarsel, feil og suksess, alltid med ikon og tekst. En suksessmelding kan være bare en tittel når den sier alt (se Mikrotekst, «Etter registrering»). Den står der saken gjelder, aldri som en toast som forsvinner. Meldinger på samme side leses opp med `role="status"` / `role="alert"`. Meldinger som følger med en navigering, får fokus (se Accessibility Floor). |
@@ -272,15 +273,15 @@ Alle tilstandene fra PRD §6 er dekket. Hver tilstand viser enten et turforslag 
 | Henter nytt forslag (FR-7) | – | Det gamle forslaget står dempet, og «Nytt forslag» beholder fokus. Opplesing: se Accessibility Floor › Sidetitler og fokus. |
 | Alle turtyper | – | Turtype-treff vises ikke. Begrunnelsen nevner varigheten. |
 | Uten ut.no-lenke | – | Lenken skjules. |
-| Personalisering påvirket valget | – | Begrunnelsen nevner regelen konkret (FR-12), også ved sperre. |
+| Personalisering påvirket valget | – | Systemet legger til personaliseringssetningen fra setningsmalen, som nevner regelen konkret (FR-12). Teksten ved sperre er foreløpig (se Åpne punkter). |
 | Topptur passer ikke (FR-8) | G | En utsiktstur vises med merket fra Mikrotekst og Melding (advarsel) rett etter turnavnet. Passer heller ingen utsiktstur, gjelder Ingen treff. |
 | Bare turer over nivåtaket (FR-8) | C | Tilstandspanel uten tur. Tre tekstvarianter: gjest (PRD-teksten med lenken «Lag konto»), innlogget uten historikk (uten «Lag konto») og bruker med historikk. Neste steg er «Endre søk». |
 | Ingen treff (FR-8) | B | Tilstandspanel med konkrete endringsforslag: lengre varighet, et annet startpunkt og en annen turtype. |
 | Alle forslag er vist (FR-7) | D | Tilstandspanel med antall turer som fantes, konkrete endringsforslag, «Start fra første forslag igjen» og «Endre søk». Ingen tur vises to ganger i samme økt, med mindre brukeren velger «Start fra første forslag igjen». |
 | Uten værvarsel (FR-10) | E | Forslaget vises, men Bekledningstips er byttet ut med en Melding (info). To varianter: datoen er for langt frem, eller MET svarer ikke. |
-| Reserveløsning (FR-13) | F | KI-merket viser «Begrunnelse fra mal». Har brukeren skrevet et fritekstønske, står Melding (info) om det rett etter turnavnet. Testmodus uten nøkkel ser lik ut. |
-| Åpnet fra Historikk (FR-17) | – | «Fra historikken din» i stedet for Søkeoppsummering. Kart, illustrasjon og tall som vanlig. Ingen Turtype-treff. Bekledningstips for i dag. Begrunnelsen er en fast mal uten KI, og KI-merket viser «Begrunnelse fra mal». «Nytt forslag» er byttet ut med «Finn en ny tur», som går til Søk. |
-| Ny innlasting av fanen | – | Samme forslag og samme liste over viste turer. Økten varer til fanen lukkes. |
+| Reserveløsning (FR-13) | F | Begrunnelsen lages fra reservemalen, og KI-merket viser «Begrunnelse fra mal». Har brukeren skrevet et fritekstønske, står Melding (info) om det rett etter turnavnet. Testmodus uten nøkkel ser lik ut. |
+| Turforslag fra historikken (FR-17) | – | «Fra historikken din» i stedet for Søkeoppsummering. Kart, illustrasjon og tall som vanlig. Ingen Turtype-treff, fordi det ikke finnes et søk med valgt turtype (FR-6). Bekledningstips for i dag. Begrunnelsen er en fast mal uten KI og trenger ikke nevne varigheten, og KI-merket viser «Begrunnelse fra mal». Økten endres ikke (FR-7). «Nytt forslag» er byttet ut med «Finn en ny tur», som går til Søk. Er turen over det nåværende nivåtaket, vises den likevel, med Melding (info) fra Mikrotekst («Turforslag fra historikken, over nivåtaket») rett etter turnavnet (PRD FR-17). |
+| Ny innlasting av fanen | – | Samme forslag og samme liste over viste turer. Økten varer til et nytt søk sendes eller fanen lukkes (PRD §3). |
 | Fanen er lukket, eller adressen er åpnet direkte | – | Det finnes ikke noe forslag. Søk vises med Melding (info) fra Mikrotekst («Forslaget finnes ikke lenger»). |
 | Kartfliser lastes ikke | – | Kartflaten viser Melding (info) med «Prøv igjen» og lenke til Kartbeskrivelse. Turillustrasjon, Faktarute og Kartbeskrivelse vises uansett. |
 
@@ -307,7 +308,7 @@ Alle tilstandene fra PRD §6 er dekket. Hver tilstand viser enten et turforslag 
 | Tilstand | Skisse | Behandling |
 |---|---|---|
 | Registrert | 6 | Melding (suksess) står først rett under `h1` og får fokus. Den kan være bare tittelen. Så kommer fremgangslinjen (hvis den finnes) og tabellen. Den nye raden står øverst. |
-| Fremgang mot neste nivå (valgfri) | – | Én linje under `h1`, eller under suksessmeldingen når den vises, om hvor brukeren står mot neste nivå. To varianter, underveis og målet nådd (se Mikrotekst). Linjen er vanlig tekst og leses ikke opp av seg selv. Står først i kuttrekkefølgen (Foundation). |
+| Fremgang mot neste nivå (FR-17.1, valgfri) | – | Én linje under `h1`, eller under suksessmeldingen når den vises, om hvor brukeren står mot neste nivå. To varianter, underveis og målet nådd (se Mikrotekst). Linjen er vanlig tekst og leses ikke opp av seg selv. Står først i kuttrekkefølgen (Foundation). |
 | Tom historikk | – | Tilstandspanel-mønsteret med forklaring og «Finn tur». |
 | Laster / feil ved lasting (også Konto) | – | Samme rolige lastemønster som Turforslag. Ved feil: Melding (feil) med «Prøv igjen». |
 
@@ -369,7 +370,7 @@ Wireframe av UJ-1 og UJ-2 med kanttilstander: [wireframes/flow-ola-2026-11-06.ex
 2. Han velger Varighet «2 timer» og Dato «Lørdag 7. november». Under Turtype flytter han valget fra «Alle turtyper» til **Utsikt**, som viser «Valgt». Startpunkt og Fritekstønske hopper han over. Steg 1–2: [mockups/key-sok.html](mockups/key-sok.html).
 3. Han trykker «Finn en tur». Lastevisningen viser «Lørdag 7. nov. · 2 t · Utsikt» med en gang.
 4. Turforslaget kommer: «Granåsen rundt», «Grønn – lett» med forklaringen, «Utsikt – som du ba om», «Rundtur», «Start: Granvannet p-plass», «3,5 km totalt», «ca. 130 høydemeter» og «ca. 1 t 35 min (pauser ikke inkludert)».
-5. **Klimaks:** Uten å rulle ser Ola tre ting samtidig: den lille tegningen av runden og høydeprofilen, kartet og merket «Utsikt – som du ba om». Begrunnelsen under «✦ Skrevet med KI» sier det samme med egne ord, for eksempel «Turen tar ca. 1 t 35 min og passer de 2 timene du har. Den har utsikt, som du ba om, og er grønn, som passer når du er ny.» Kombinasjonen gjør at han tenker: *«Ja, den tar jeg.»* Steg 4–5, med folden: [mockups/key-turforslag.html](mockups/key-turforslag.html).
+5. **Klimaks:** Uten å rulle ser Ola tre ting samtidig: den lille tegningen av runden og høydeprofilen, kartet og merket «Utsikt – som du ba om». Begrunnelsen under «✦ Skrevet med KI» sier det samme med egne ord, for eksempel «Turen tar ca. 1 t 35 min, så den passer innenfor 2 timer. Den har utsikt, som du ba om, og er grønn, som passer når du er ny.» Tiden, varigheten og nivået er satt inn av systemet (Mikrotekst, «Begrunnelse (KI, eksempel fra UJ-1)»). Kombinasjonen gjør at han tenker: *«Ja, den tar jeg.»* Steg 4–5, med folden: [mockups/key-turforslag.html](mockups/key-turforslag.html).
 6. Han leser bekledningstipsene for lørdag og ser at «Se turen på ut.no» finnes hvis han vil vite mer.
 7. Han vil kunne registrere turen etterpå, så han trykker «Logg inn», velger «Lag konto» og lager konto med e-post og passord. Han kommer tilbake til det samme turforslaget (FR-14), og toppmenyen viser nå «Finn tur», «Historikk» og «Konto». Fanen lar han stå åpen.
 
@@ -383,7 +384,7 @@ Wireframe av UJ-1 og UJ-2 med kanttilstander: [wireframes/flow-ola-2026-11-06.ex
 - Han har bladd gjennom alle turene. Han får «Du har sett alle turene som passer søket» med konkrete endringsforslag.
 - Datoen er mer enn 9–10 dager frem. Forslaget vises uten bekledningstips og med en forklaring.
 - KI er nede, eller nøkkelen mangler. Han får «Begrunnelse fra mal».
-- E-posten er allerede registrert. Han får «Kunne ikke registrere – prøv å logge inn» og logger inn i stedet.
+- E-posten er allerede registrert. Han får «Kunne ikke lage konto – prøv å logge inn» og logger inn i stedet.
 
 #### Delflyt: Nytt forslag (FR-7)
 
@@ -399,9 +400,9 @@ Wireframe av UJ-1 og UJ-2 med kanttilstander: [wireframes/flow-ola-2026-11-06.ex
 1. Ola trykker «Registrer gjennomført tur» på turforslaget for Granåsen rundt.
 2. Han kommer rett inn i Registrer gjennomført tur. Der oppgir han dato (i dag), brukt tid «1 t 50 min», opplevd vanskelighet «lett» og fornøydhet 5, og trykker «Registrer gjennomført tur».
 3. Han lander i Historikk. Fokus står på suksessmeldingen «Turen er registrert i historikken din.», så den leses opp. Under den står fremgangslinjen. Dette er hans tredje grønne tur som føltes lett, så linjen viser «Tre grønne turer som føltes lette – godt gått! 🎉 Neste gang kan du få blå turer.» Den nye raden står øverst: «Granåsen rundt» med «Grønn – lett» under, «7. nov.», «1 t 50 min» med «estimert ca. 1 t 35 min» under, «Lett» og «5 av 5». Oppsettet: [mockups/key-historikk.html](mockups/key-historikk.html) (mocken viser underveis-varianten).
-4. Han trykker «Finn tur» og søker igjen. Forslaget er «Blå – moderat», og begrunnelsen sier: «Du får en blå tur fordi de tre siste grønne turene var lette for deg.»
+4. Han trykker «Finn tur» og søker igjen. Nivåtaket er nettopp hevet, så blå turer kommer først i dette søket (PRD FR-5). Forslaget er «Blå – moderat», og begrunnelsen sier: «Du får en blå tur fordi de tre siste grønne turene var lette for deg.» Hadde han heller villet ha en lett tur, kunne han skrevet «helst en lett tur» i Fritekstønske eller trykket «Nytt forslag», som også gir grønne turer.
 5. **Klimaks:** Ola ser at siden tar hensyn til ham, og han vet nøyaktig hvorfor. Regelen står i klartekst og er ikke et vagt løfte om «læring».
-6. Senere åpner han favoritturen fra Historikk med «Åpne som turforslag». Den vises under «Fra historikken din» med begrunnelsen «Du gikk denne turen 12. oktober og ga den 5 av 5.» og bekledningstips for i dag.
+6. Senere åpner han favoritturen fra Historikk med «Åpne som turforslag». Den vises som turforslag fra historikken under «Fra historikken din» med begrunnelsen «Du gikk denne turen 12. oktober og ga den 5 av 5.» og bekledningstips for i dag.
 
 **Feilveier:**
 
@@ -438,7 +439,7 @@ V1 har bare full kontosletting (FR-15). Enkeltturer kan ikke slettes.
 
 ## Responsive & Platform
 
-Desktop først, med en enkel, stablet mobilutgave i v1. Bredder og flytende regler står i DESIGN.md under Layout & Spacing.
+PC først, med en enkel, stablet mobilutgave i v1. Bredder og flytende regler står i DESIGN.md under Layout & Spacing.
 
 | Bredde | Oppførsel |
 |---|---|
@@ -450,24 +451,24 @@ Desktop først, med en enkel, stablet mobilutgave i v1. Bredder og flytende regl
 
 ## Avvik fra PRD
 
-Disse punktene må tas inn i PRD-oppdateringen (bmad-prd Update eller bmad-correct-course).
+Disse avvikene fra PRD v1.0 ble tatt inn i PRD v1.1 (2026-11-07). Listen står igjen som sporing, og hvert punkt viser hvor i PRD-en det står nå. Et punkt som ikke er løst i PRD-en, er merket «Åpent».
 
-1. **UJ-1: Grønn-nivået stemmer ikke.** UJ-1 viser «tur-retur, 7,2 km totalt … Grønn – lett», men FR-2 sier at Grønn er under 5 km. Eksemplet må rettes.
-2. **UJ-1 og UJ-2 er skrevet om.** Ola planlegger på PC i sofaen (2 t, lørdag, utsikt) i stedet for på mobilen på vei ut. Han lager konto på slutten av UJ-1, registrerer turen rett etter at han har gått den, og søker på nytt hvis fanen er lukket.
-3. **UJ-2 komprimerer «etter noen turer».** Etter FR-19 krever en blå tur tre registrerte grønne turer vurdert lett. Brukerreisen forutsetter at to av dem var registrert fra før, så registreringen i UJ-2 steg 2 er den tredje.
-4. **UJ-3 (slett konto) er ny.** Den finnes ikke i PRD-en.
-5. **PRD-tekster i jeg-form.** Tekster i vi-form vises i jeg-form (originalene står i kolonnen Kilde i Mikrotekst). PRD-en bør få jeg-formen, eller en regel om at stemmen er jeg-form.
-6. **Skjermnavn.** PRD §6 kaller skjermen «logg inn / registrer». Her heter den Logg inn / Lag konto, så kontoopprettelse ikke forveksles med «Registrer gjennomført tur».
-7. **«Åpne som turforslag» fra Historikk (FR-17)** avviker fra FR-7, FR-9 og FR-12, blant annet nevner begrunnelsen ikke varigheten. Se State Patterns › Åpnet fra Historikk.
-8. **Turforslaget lever bare i økten.** Økten varer til fanen lukkes, ikke «til siden lastes på nytt» (§3). Se Foundation.
-9. **«Alle turtyper»** er et eget, forvalgt valg i Turtype (FR-4), så brukeren kan gå tilbake til alle turtyper med tastatur (en radiogruppe kan ellers ikke nullstilles).
-10. **Startpunktets navn** står i Infokolonne («Start: …»). Det er et tillegg til FR-6.
-11. **Personverntekst på Konto** gjør NFR-5 synlig (se Mikrotekst).
-12. **Nivåtak (FR-8):** Innloggede uten historikk og brukere med historikk får egne tekster (se Mikrotekst). FR-8 gir i dag samme tekst til gjester og brukere uten historikk.
-13. **Turdata:** Høydeprofilen må beregnes fra høydedata og lagres når turdatabasen bygges, og startpunktets navn må lagres. Addendum-feltene (`kilde`, `lisens`, `lengde_km` …) har bare totalverdier, ikke høydeprofil. Utsiktspunkt og skrevet rutebeskrivelse trengs ikke.
-14. **Tillegg som ikke står i PRD-en:** mørk modus, KI-merke, Forklaringspanel med usikkerhetssetningen om tid og valgfri fremgang mot neste nivå i Historikk. Kuttrekkefølgen, også for FR-11, står i Foundation.
-15. **Tekster PRD-en ikke gir:** uten værvarsel, bekreftelse ved sletting, nivåtak, lasting, feilmeldinger med forslag til retting, tom historikk og innlogging utløpt (se Mikrotekst).
-16. **Wireframes i §6:** PRD §6 skal vise til `wireframes/ia-2026-11-06.excalidraw` og `wireframes/flow-ola-2026-11-06.excalidraw`.
+1. **UJ-1: Grønn-nivået stemmer ikke.** UJ-1 viser «tur-retur, 7,2 km totalt … Grønn – lett», men FR-2 sier at Grønn er under 5 km. Eksemplet må rettes. *Tatt inn i PRD v1.1 (UJ-1: rundtur, 3,5 km totalt).*
+2. **UJ-1 og UJ-2 er skrevet om.** Ola planlegger på PC i sofaen (2 t, lørdag, utsikt) i stedet for på mobilen på vei ut. Han lager konto på slutten av UJ-1, registrerer turen rett etter at han har gått den, og søker på nytt hvis fanen er lukket. *Tatt inn i PRD v1.1 (UJ-1, UJ-2, feilveiene i §2.3).*
+3. **UJ-2 komprimerer «etter noen turer».** Etter FR-19 krever en blå tur tre registrerte grønne turer vurdert lett. Brukerreisen forutsetter at to av dem var registrert fra før, så registreringen i UJ-2 steg 2 er den tredje. *Tatt inn i PRD v1.1 (UJ-2, FR-19).*
+4. **UJ-3 (slett konto) er ny.** Den fantes ikke i PRD-en. *Tatt inn i PRD v1.1 (UJ-3, FR-15).*
+5. **PRD-tekster i jeg-form.** Tekster i vi-form vises i jeg-form (originalene står i kolonnen Kilde i Mikrotekst). PRD-en bør få jeg-formen, eller en regel om at stemmen er jeg-form. *Tatt inn i PRD v1.1 (§6 Stemme og tone, jeg-form i FR-6, FR-13 og FR-17).*
+6. **Skjermnavn.** PRD §6 kaller skjermen «logg inn / registrer». Her heter den Logg inn / Lag konto, så kontoopprettelse ikke forveksles med «Registrer gjennomført tur». *Tatt inn i PRD v1.1 (§6).*
+7. **«Åpne som turforslag» fra Historikk (FR-17)** avviker fra FR-7, FR-9 og FR-12, blant annet nevner begrunnelsen ikke varigheten. Se State Patterns › Turforslag fra historikken. *Tatt inn i PRD v1.1 (§3 Turforslag fra historikken, FR-17).*
+8. **Turforslaget lever bare i økten.** Økten varer til fanen lukkes, ikke «til siden lastes på nytt» (§3). Se Foundation. *Tatt inn i PRD v1.1 (§3 Økt, FR-7).*
+9. **«Alle turtyper»** er et eget, forvalgt valg i Turtype (FR-4), så brukeren kan gå tilbake til alle turtyper med tastatur (en radiogruppe kan ellers ikke nullstilles). *Tatt inn i PRD v1.1 (FR-4).*
+10. **Startpunktets navn** står i Infokolonne («Start: …»). Det er et tillegg til FR-6. *Tatt inn i PRD v1.1 (FR-6).*
+11. **Personverntekst på Konto** gjør NFR-5 synlig (se Mikrotekst). *Tatt inn i PRD v1.1 (NFR-5).*
+12. **Nivåtak (FR-8):** Innloggede uten historikk og brukere med historikk får egne tekster (se Mikrotekst). FR-8 ga samme tekst til gjester og brukere uten historikk. *Tatt inn i PRD v1.1 (FR-8). Ordlyden er foreløpig (PRD §10).*
+13. **Turdata:** Høydeprofilen må beregnes fra høydedata og lagres når turdatabasen bygges, og startpunktets navn må lagres. Addendum-feltene (`kilde`, `lisens`, `lengde_km` …) har bare totalverdier, ikke høydeprofil. Utsiktspunkt og skrevet rutebeskrivelse trengs ikke. *Tatt inn i PRD v1.1 (§3 Tur, FR-1 og addendum: `hoydeprofil`, `startpunkt`).*
+14. **Tillegg som ikke sto i PRD-en:** mørk modus, KI-merke, Forklaringspanel med usikkerhetssetningen om tid og valgfri fremgang mot neste nivå i Historikk. Kuttrekkefølgen, også for FR-11, står i Foundation. *Tatt inn i PRD v1.1 (NFR-9, FR-12, FR-17.1 og kuttrekkefølgen i §7.1).*
+15. **Tekster PRD-en ikke gir:** uten værvarsel, bekreftelse ved sletting, nivåtak, lasting, feilmeldinger med forslag til retting, tom historikk og innlogging utløpt (se Mikrotekst). *Tatt inn i PRD v1.1 (§0 og §6: Mikrotekst eier ordlyden, bekreftelsessiden i FR-15). Ordlyden som er merket som antakelse, er foreløpig (PRD §10).*
+16. **Wireframes i §6:** PRD §6 skal vise til `wireframes/ia-2026-11-06.excalidraw` og `wireframes/flow-ola-2026-11-06.excalidraw`. *Tatt inn i PRD v1.1 (§6).*
 
 ## Åpne punkter
 
@@ -476,8 +477,7 @@ Disse punktene må tas inn i PRD-oppdateringen (bmad-prd Update eller bmad-corre
 | **Kartfliser og målinger.** Flis-kilden (Kartverket topo eller OSM) velges i arkitekturen. Før valget godkjennes, må `{colors.map-route}`, `{colors.map-marker-start}` og `{colors.map-focus-ring}` måles mot ekte fliser i skog, myr, vann og bebyggelse. Zoomgrensene for Kartverkets detaljerte kartdata (zoom 12–20) må også avklares. | Arkitektur | Kartfargene i DESIGN.md |
 | **Nettleserstøtte.** | Arkitektur | – |
 | **Innloggingsøktens lengde** (WCAG 2.2.1) og om utfylte felt kan beholdes gjennom ny innlogging. | Arkitektur | Tilstanden Innlogging utløpt |
-| **Glemt passord.** PRD §7.2 utsetter det, men NFR-2 krever et neste steg ved feil innlogging. | PRD | Tilstanden Feil innlogging |
-| **Endre eller angre siste registrering.** En feil vurdering styrer personaliseringen og kan ikke rettes. | PRD | – |
+| **Neste steg ved feil innlogging.** Glemt passord er utsatt til senere fase (PRD v1.1 §7.2), men NFR-2 krever likevel et neste steg i tilstanden Feil innlogging. | UX | Tilstanden Feil innlogging |
 | **Sperre og turtypepreferanse (FR-19, FR-20).** Teksten ved sperre er foreløpig. Preferansen har ingen tekst. | PRD og UX | Tekstene ved sperre og preferanse |
 | **«Låse opp lengre turer».** FR-8-teksten og turkompis-eksemplet sier «lengre», mens FR-19 hever nivået (lengde eller høydemeter). Ordlyden bør sjekkes mot SM-C1 (ikke presse nybegynnere). | PRD | Nivåtaktekstene |
 | **Turens turtyper** vises bare som treff. Med «Alle turtyper» får brukeren ikke vite at turen har utsikt. | UX | – |
