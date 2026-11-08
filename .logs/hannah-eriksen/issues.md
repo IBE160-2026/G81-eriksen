@@ -25,3 +25,5 @@
 - [ ] 2026-11-08 [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md) — registrer Anthropic-konto og sjekk startkreditten; mangler den, bytt til Gemini Flash-Lite via ny KI-variant
 - [ ] 2026-11-08 [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md) — neste BMAD-steg: bmad-spec eller bmad-create-epics-and-stories
 - [ ] 2026-11-08 [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md) — avgjør format på kurateringslista og testbrukerfila i første turdatabase-story
+- [ ] 2026-11-08 [readme-forste-del](992-2026-11-08-11-15-46-readme-forste-del.md) — fyll ut «Installasjon og kjøring» i README når koden finnes (AD-12 punkt 6), og oppdater status og mappestruktur
+- [ ] 2026-11-08 [readme-forste-del](992-2026-11-08-11-15-46-readme-forste-del.md) — test README i et rent miljø før innlevering (under 20 minutter, NFR-1)
