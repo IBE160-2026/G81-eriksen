@@ -2,7 +2,7 @@
 title: Your Next Adventure — EXPERIENCE
 status: final
 created: 2026-11-06
-updated: 2026-11-07
+updated: 2026-11-08
 name: Your Next Adventure
 description: Hvordan nettsiden virker — skjermer, tilstander, flyter, tilgjengelighet og tekster — for en rolig turkompis som gir nybegynnere ett turforslag om gangen i Oslo-området.
 sources:
@@ -102,6 +102,7 @@ Har en rad flere tekster med ulik kilde, står kilden per tekst.
 | Plassholder i fritekst | «For eksempel "rundt 5 km" eller "forbi et vann"» | Godkjent (mock) |
 | Hjelpetekst i fritekst | «Jeg prøver å ta hensyn til ønsket ditt.» | Godkjent (mock) |
 | Startpunkt, standardvalg | «Alle startpunkt» | Godkjent (mock) |
+| Hjelpetekst under Startpunkt | «Jeg har foreløpig bare turer i Oslo-området.» | PRD, jeg-form (FR-4: «turene dekker foreløpig bare Oslo-området») |
 | Søkeknapp | «Finn en tur» | Godkjent (mock) |
 | Søkeoppsummering | «Lørdag 7. nov. · 2 t · Utsikt» og «Endre søk» | Godkjent (mock) |
 | Turforslag fra historikken | «Fra historikken din» | PRD (FR-17) |
@@ -474,16 +475,16 @@ Disse avvikene fra PRD v1.0 ble tatt inn i PRD v1.1 (2026-11-07). Listen står i
 
 | Punkt | Avklares i | Blokkerer |
 |---|---|---|
-| **Kartfliser og målinger.** Flis-kilden (Kartverket topo eller OSM) velges i arkitekturen. Før valget godkjennes, må `{colors.map-route}`, `{colors.map-marker-start}` og `{colors.map-focus-ring}` måles mot ekte fliser i skog, myr, vann og bebyggelse. Zoomgrensene for Kartverkets detaljerte kartdata (zoom 12–20) må også avklares. | Arkitektur | Kartfargene i DESIGN.md |
-| **Nettleserstøtte.** | Arkitektur | – |
-| **Innloggingsøktens lengde** (WCAG 2.2.1) og om utfylte felt kan beholdes gjennom ny innlogging. | Arkitektur | Tilstanden Innlogging utløpt |
+| **Kartfliser og målinger.** Flis-kilden (Kartverket topo eller OSM) velges i arkitekturen. Før valget godkjennes, må `{colors.map-route}`, `{colors.map-marker-start}` og `{colors.map-focus-ring}` måles mot ekte fliser i skog, myr, vann og bebyggelse. Zoomgrensene for Kartverkets detaljerte kartdata (zoom 12–20) må også avklares. **Delvis løst 2026-11-08:** flisene er Kartverket topo, zoom høyst 18 (AD-8). Fargemålingen mot topo-flisene gjenstår. | Arkitektur: [ARCHITECTURE-SPINE.md](../../architecture/architecture-G81-eriksen-2026-11-07/ARCHITECTURE-SPINE.md) | Kartfargene i DESIGN.md |
+| **Nettleserstøtte.** **Løst 2026-11-08:** de to nyeste versjonene av Chrome, Edge, Firefox og Safari, også mobil. | Arkitektur: [ARCHITECTURE-SPINE.md](../../architecture/architecture-G81-eriksen-2026-11-07/ARCHITECTURE-SPINE.md) | – |
+| **Innloggingsøktens lengde** (WCAG 2.2.1) og om utfylte felt kan beholdes gjennom ny innlogging. **Delvis løst 2026-11-08:** innloggingen varer i to uker uten inaktivitetsgrense, og utløpt innlogging sender til Logg inn og tilbake (AD-6). Om utfylte felt beholdes, avgjøres i kontostoryen. | Arkitektur: [ARCHITECTURE-SPINE.md](../../architecture/architecture-G81-eriksen-2026-11-07/ARCHITECTURE-SPINE.md) | Tilstanden Innlogging utløpt |
 | **Neste steg ved feil innlogging.** Glemt passord er utsatt til senere fase (PRD v1.1 §7.2), men NFR-2 krever likevel et neste steg i tilstanden Feil innlogging. | UX | Tilstanden Feil innlogging |
 | **Sperre og turtypepreferanse (FR-19, FR-20).** Teksten ved sperre er foreløpig. Preferansen har ingen tekst. | PRD og UX | Tekstene ved sperre og preferanse |
-| **«Låse opp lengre turer».** FR-8-teksten og turkompis-eksemplet sier «lengre», mens FR-19 hever nivået (lengde eller høydemeter). Ordlyden bør sjekkes mot SM-C1 (ikke presse nybegynnere). | PRD | Nivåtaktekstene |
+| **«Låse opp lengre turer».** FR-8-teksten og turkompis-eksemplet sier «lengre», mens FR-19 hever nivået (lengde eller høydemeter). Ordlyden bør sjekkes mot SM-C1 (ikke presse nybegynnere). **Løst 2026-11-07:** ny ordlyd i PRD v1.2 FR-8 og Mikrotekst. | PRD | – |
 | **Turens turtyper** vises bare som treff. Med «Alle turtyper» får brukeren ikke vite at turen har utsikt. | UX | – |
 | **Hjelp til å tolke tall** («passer for nybegynnere», «slak stigning»), underlag (sti eller vei fra `ruteFølger`) og nedstigning i Faktarute. | UX | – |
 | **Finne igjen favoritter** i Historikk (sortering eller markering etter fornøydhet). | UX | – |
-| **Navn på turer.** 41 av 186 ruter heter «Ukjent» i kildedataene, og vi trenger en regel for turnavn. | Arkitektur | Turnavn i `h1` og sidetittel |
+| **Navn på turer.** 41 av 186 ruter heter «Ukjent» i kildedataene, og vi trenger en regel for turnavn. **Løst 2026-11-08:** turnavnet skrives for hånd i kurateringslista og hentes aldri fra kilden (AD-3). | Arkitektur: [ARCHITECTURE-SPINE.md](../../architecture/architecture-G81-eriksen-2026-11-07/ARCHITECTURE-SPINE.md) | – |
 | **Turillustrasjon uten reserve.** Den bærer klimakset i UJ-1. Hva vises hvis den må kuttes? | UX | Kuttrekkefølgen |
 | **Tekster merket [ASSUMPTION]** i Mikrotekst må godkjennes, særlig nivåtak, sperre, personvern, feilmeldinger og tilstandene uten værvarsel. | UX | Ferdig mikrotekst |
 | **Mykere statusflater** for Melding, og **ikonstil** for turtypekort, bekledningstips, meldinger og Nivåmerke. | UX (DESIGN.md) | – |

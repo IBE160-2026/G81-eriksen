@@ -2,7 +2,7 @@
 title: "PRD: Your Next Adventure"
 status: final
 created: 2026-10-29
-updated: 2026-11-07
+updated: 2026-11-08
 ---
 
 # PRD: Your Next Adventure
@@ -79,7 +79,7 @@ Ola vil ikke lenger bruke tjenesten. Han går til Konto og trykker «Slett konto
 - **Varighet:** Hvor lenge brukeren vil være ute, valgt i halvtimessteg (FR-4).
 - **Kjerneflyt:** søke som gjest → få turforslag → lage konto → registrere turen som gjennomført med vurdering → søke på nytt (UJ-1 og UJ-2).
 - **Søk:** Det brukeren sender inn: varighet, dato, og eventuelt startpunkt, turtype og fritekstønske.
-- **Økt:** Perioden fra et søk sendes til et nytt søk sendes eller fanen lukkes (FR-7).
+- **Økt:** Perioden fra et søk sendes til et nytt søk sendes eller fanen lukkes (FR-7). Hver fane har sin egen økt.
 - **Fritekstønske:** Valgfri tekst i vanlig språk, for eksempel «helst ved vann». Tolkes av KI.
 - **Turforslag:** Én tur vist som svar på et søk, med begrunnelse.
 - **Turforslag fra historikken:** En tur brukeren selv åpner fra historikken. Den vises som et turforslag, men regnes ikke som et forslag fra tjenesten i FR-5, FR-19 og SM-C1 (FR-17).
@@ -153,7 +153,7 @@ Gjest eller bruker kan søke etter tur ved å oppgi:
 |---|---|---|
 | Varighet | ja | Velges fra en liste med verdier fra 1 til 8 timer, i halvtimessteg |
 | Dato | ja | Standardverdi er i dag. Tillatt periode er fra i dag til 30 dager frem |
-| Startpunkt | nei | Velges fra en liste |
+| Startpunkt | nei | Velges fra en liste som bare viser startpunkter i turdatabasen. Under lista står en fast hjelpetekst om at turene foreløpig bare dekker Oslo-området |
 | Turtype | nei | Én av turtypene eller «Alle turtyper». «Alle turtyper» er forvalgt |
 | Fritekstønske | nei | Maks 200 tegn |
 
@@ -467,7 +467,7 @@ Alle funksjonene i §4 (FR-1 til FR-21 og FR-17.1) og alle NFR-ene i §5 (NFR-1 
 | Nivåtaket er en hard grense, ikke bare en rangering | Tryggest for nybegynnere |
 | Ett forslag om gangen, med mulighet for «Nytt forslag» | Raskere valg for brukeren |
 | Lenke til ut.no | Brukeren kan se mer om ruten |
-| Startpunkt velges fra en liste | Brukeren kan ikke havne utenfor Oslo-området, så feilmeldingen fra briefen om steder utenfor området trengs ikke |
+| Startpunkt velges fra en liste | Brukeren kan ikke havne utenfor Oslo-området, så feilmeldingen fra briefen om steder utenfor området trengs ikke. En fast hjelpetekst under lista sier at turene foreløpig bare dekker Oslo-området, slik at også den som skriver et annet sted i fritekstfeltet, får vite det. Teksten virker uten KI |
 | Turtypen «skogstur» er erstattet med «marka» | Faste turtyper: marka, utsikt og topptur |
 | Terskler og formel for estimert tid er fastsatt, med 15 % påslag for nybegynnere | Tersklene er verifisert mot Merkehåndboka. Sveitsisk regel passer nybegynnere. Formlene bommer med omtrent ±15 % |
 | Turrutebasen er primærkilde, og OSM er bare et supplement | Åpen lisens, oppdatert jevnlig, og den vant sammenligningen i researchen. ODbL begrenser bruken av OSM |
@@ -516,3 +516,4 @@ Antakelsene og standardverdiene i kravene, endringene i v1.1 og rettingene etter
 | 1.0 | 2026-11-06 | Struktur- og språkgjennomgang. 41 språkfunn er vurdert: 40 er rettet, og «Scope» er beholdt som BMAD-begrep. PRD-en er markert som ferdig |
 | 1.1 | 2026-11-06 | Oppdatert etter UX-arbeidet (`ux-designs/ux-G81-eriksen-2026-11-06/`) og rettet etter gjennomgangen av v1.1 (`review-rubric-v1.1.md`, `reconcile-ux.md`). Berørt: UJ-1 til UJ-3 (UJ-3 er ny), §3, FR-1, FR-4 til FR-9, FR-12 til FR-17, FR-19, NFR-3 til NFR-5, §6, §7, SM-4, SM-C1, §10 og addendum. Struktur- og språkgjennomgang 2026-11-07 (`review-structure-v1.1.md`, `review-prose-v1.1.md`) med nye ID-er FR-17.1 og NFR-9 (begge P2). Beslutningene står i `.memlog.md` |
 | 1.2 | 2026-11-07 | Ny gjestetekst i FR-8: «låse opp lengre turer» er erstattet, fordi et høyere turnivå også kan skyldes høydemeter (FR-2), og teksten ikke skal presse nybegynnere (SM-C1). Punktet er fjernet fra §10 |
+| 1.3 | 2026-11-08 | Fra arkitekturarbeidet: FR-4 Startpunkt har fått en fast hjelpetekst om at turene foreløpig bare dekker Oslo-området. Den dekker brukere som skriver et sted uten turer i fritekstfeltet, også når KI ikke er i bruk. Alternativet der KI oppdager stedet og gir en egen melding, er forkastet fordi det øker KI-omfanget og ikke virker uten nøkkel. §3 Økt: hver fane har sin egen økt (arkitekturen gir hvert søk en ID som bare virker i samme nettleser) |
