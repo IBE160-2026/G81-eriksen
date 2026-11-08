@@ -14,7 +14,7 @@
 - [ ] 2026-11-06 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — test nedlasting av Turrutebasen og støyfiltrering av høydedata når turdatabasen bygges
 - [ ] 2026-11-06 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — bruk egen kontakt-e-post fra .env i User-Agent mot MET
 - [x] 2026-11-06 [bmad-ux](995-2026-11-06-17-42-55-bmad-ux.md) — oppdater PRD med «Avvik fra PRD» fra EXPERIENCE.md (mobil i v1, UJ-1 7,2 km vs FR-2, UJ-3, jeg-form, «Logg inn / Lag konto», Historikk-visning, wireframe-referanse §6 m.m.) (løst 2026-11-07 — PRD v1.1, se [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md))
-- [ ] 2026-11-06 [bmad-ux](995-2026-11-06-17-42-55-bmad-ux.md) — neste BMAD-steg: bmad-architecture (kartfliser/bibliotek, økt og levetid for turforslag, beregning av høydeprofil, nettleserstøtte)
+- [x] 2026-11-06 [bmad-ux](995-2026-11-06-17-42-55-bmad-ux.md) — neste BMAD-steg: bmad-architecture (kartfliser/bibliotek, økt og levetid for turforslag, beregning av høydeprofil, nettleserstøtte) (løst 2026-11-08 — se [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md))
 - [ ] 2026-11-06 [bmad-ux](995-2026-11-06-17-42-55-bmad-ux.md) — mål kontrast for rutelinje, startmarkør og kartfokus mot ekte kartfliser når kartkilde er valgt
 - [ ] 2026-11-06 [bmad-ux](995-2026-11-06-17-42-55-bmad-ux.md) — avklar de 42 [ASSUMPTION] i EXPERIENCE.md (plassholdertekster og kontrollvalg) før/under implementering
 - [x] 2026-11-06 [bmad-ux](995-2026-11-06-17-42-55-bmad-ux.md) — rett bmad-ux-instruksen for Excalidraw (index på to tegn gir ugyldige filer over 62 elementer) (løst 2026-11-07 — se [issues-opprydding](994-2026-11-07-15-14-03-issues-opprydding.md))
@@ -22,3 +22,6 @@
 - [ ] 2026-11-07 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — lag tekster for sperre og turtypepreferanse (FR-19, FR-20)
 - [x] 2026-11-07 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — vurder FR-8-ordlyden «låse opp lengre turer» mot SM-C1 og nivåheving på høydemeter (løst 2026-11-07 — valg C, se [issues-opprydding](994-2026-11-07-15-14-03-issues-opprydding.md))
 - [ ] 2026-11-07 [issues-opprydding](994-2026-11-07-15-14-03-issues-opprydding.md) — Excalidraw-rettelsen i `.claude/skills/bmad-ux/` kan overskrives ved BMAD-reinstallasjon/-oppdatering
+- [ ] 2026-11-08 [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md) — registrer Anthropic-konto og sjekk startkreditten; mangler den, bytt til Gemini Flash-Lite via ny KI-variant
+- [ ] 2026-11-08 [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md) — neste BMAD-steg: bmad-spec eller bmad-create-epics-and-stories
+- [ ] 2026-11-08 [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md) — avgjør format på kurateringslista og testbrukerfila i første turdatabase-story
