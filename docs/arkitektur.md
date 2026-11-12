@@ -101,6 +101,8 @@ KI kan aldri velge en tur som ikke har bestått reglene, og den skriver aldri ta
 
 KI får bare søket og turene som kan foreslås. E-post, bruker-ID og historikk sendes aldri (NFR-5).
 
+Appen gjør maks 20 KI-kall per nettleser i timen og maks 200 per døgn. Over grensen brukes reservemalen, akkurat som uten nøkkel. Med ca. 0,0004 USD per kall koster et fullt døgn høyst ca. 0,08 USD (NFR-8, AD-10). Forkastede KI-svar logges lokalt med årsak, uten fritekst, e-post eller bruker-ID, og loggen slettes etter 30 dager (NFR-5).
+
 ## Personalisering
 
 Nivåtaket er det høyeste turnivået appen foreslår for en bruker. En sperre senker nivåtaket for en tid etter en tur som var vanskelig.
