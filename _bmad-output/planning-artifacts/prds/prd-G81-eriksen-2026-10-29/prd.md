@@ -19,7 +19,7 @@ Denne PRD-en beskriver versjon 1 (v1) av *Your Next Adventure*. Prosjektet er et
 
 Alle krav har faste ID-er: UJ for brukerreiser, FR for funksjonelle krav, NFR for ikke-funksjonelle krav og SM for suksessmål. Begrepene i §3 brukes konsekvent. Antakelser og åpne spørsmål samles i §10.
 
-Bakgrunnen for valgene og tekniske detaljer ligger i `addendum.md`, og verifiseringen av graderingsreglene ligger i `research-gradering.md`. Valg av språkmodell, kostnad og repostruktur avgjøres i arkitekturen.
+Bakgrunnen for valgene og tekniske detaljer ligger i `addendum.md`, og verifiseringen av graderingsreglene ligger i `research-gradering.md`. Valg av språkmodell og repostruktur avgjøres i arkitekturen. Kostnaden for KI begrenses av grensen for KI-kall i NFR-8.
 
 ## 1. Visjon
 
@@ -261,8 +261,8 @@ Når brukeren har skrevet et fritekstønske, får KI bare fritekstønsket og tur
   - gir en begrunnelse over 300 tegn slik brukeren ser den, etter innsetting av verdier og med personaliseringssetningen (FR-12)
   - har tall eller turnivå i begrunnelsen utenfor plassholderne (FR-12)
   - kommer etter tidsgrensen på 5 sekunder.
-- Da brukes reserveløsningen: fritekstønsket ignoreres, og begrunnelsen lages fra reservemalen. Forkastede KI-svar logges, slik at de kan brukes i kvalitetssikringen.
-- Reserveløsningen brukes også når KI-nøkkelen mangler.
+- Da brukes reserveløsningen: fritekstønsket ignoreres, og begrunnelsen lages fra reservemalen. Forkastede KI-svar logges, slik at de kan brukes i kvalitetssikringen. Hva loggen inneholder, står i NFR-5.
+- Reserveløsningen brukes også når KI-nøkkelen mangler, og når grensen for KI-kall er nådd (NFR-8).
 - Har brukeren skrevet et fritekstønske som ble ignorert, viser systemet meldingen «Jeg kunne ikke ta hensyn til ønsket ditt denne gangen». KI-merket viser «Begrunnelse fra mal» (FR-12). Reservemalen viser aldri til fritekstønsket.
 
 ### 4.6 Konto
@@ -374,6 +374,7 @@ Systemet leveres med en testbruker med oppdiktet historikk. Testbrukeren viser n
   - Systemet samler inn så lite data som mulig. Det lagrer bare e-post, passord som hash, historikk og vurderinger.
   - Systemet sporer ikke posisjon.
   - Ingen personopplysninger sendes til KI-leverandøren. KI får bare søket og turene som kan foreslås.
+  - **Logg over forkastede KI-svar (FR-13):** Loggen har tidspunkt, kalltype (tolking eller begrunnelse), årsak og KI-svaret. Den har aldri fritekstønsket, e-post eller bruker-ID. KI-svaret kan sitere ønsket, men kan ikke knyttes til en person. Loggen ligger bare lokalt, aldri i git, og linjer eldre enn 30 dager slettes.
   - Skjermen Konto viser en kort personverntekst i jeg-form om punktene over. Ordlyden står i `EXPERIENCE.md` › Mikrotekst og er foreløpig (§10).
 - **NFR-6 Sporbarhet:** Kode, tester, stories, commits og PR-er viser til FR- og NFR-ID-ene i denne PRD-en.
 - **NFR-7 Kreditering:** Appen viser kreditering slik lisensene krever, minst «© Kartverket», «© OpenStreetMap contributors» med lenke og «Data fra MET Norge» (MET anbefaler «Data from MET Norway»).
@@ -381,6 +382,7 @@ Systemet leveres med en testbruker med oppdiktet historikk. Testbrukeren viser n
   - En bruker kan bare se og endre sin egen historikk og konto.
   - All input valideres på serveren.
   - Fritekstønsket behandles som data og ikke som instruksjoner (FR-11). KI-svar valideres alltid (FR-13).
+  - **Grense for KI-kall:** Systemet gjør maks 20 KI-kall per nettleser de siste 60 minuttene og maks 200 KI-kall totalt per kalenderdøgn. Et kall teller når det sendes, også om svaret forkastes. Over en grense brukes reserveløsningen (FR-13) med de vanlige meldingene, uten egen feilmelding. Grensen begrenser også kostnaden.
 - **NFR-9 Mørk modus (P2, §7.1):** Siden følger innstillingen for lys eller mørk modus på enheten. Det finnes ingen egen bryter.
 
 ## 6. Plattform, skjermer og tone
@@ -465,7 +467,7 @@ Alle funksjonene i §4 (FR-1 til FR-21 og FR-17.1) og alle NFR-ene i §5 (NFR-1 
   - skjemavalidering (FR-4)
   - utvalg og rangering (FR-5)
   - nytt forslag og ingen treff (FR-7 og FR-8)
-  - KI-validering og reserveløsning med KI mocket (FR-13)
+  - KI-validering og reserveløsning med KI mocket (FR-13), også når grensen for KI-kall er nådd (NFR-8)
   - startnivå, nivåregler og turtypepreferanse (FR-18 til FR-20), med eksemplene i FR-19 som testtilfeller.
 - **SM-3:** Hele kjerneflyten fungerer uten KI-nøkkel (FR-13, NFR-1).
 - **SM-4:** Mobilvisning og universell utforming (UU) består en manuell test etter sjekklisten i `EXPERIENCE.md` › Accessibility Floor (NFR-3, NFR-4). Personaliseringen demonstreres med testbrukeren (FR-21).
@@ -540,3 +542,4 @@ Antakelsene og standardverdiene i kravene, endringene i v1.1 og rettingene etter
 | 1.2 | 2026-11-07 | Ny gjestetekst i FR-8: «låse opp lengre turer» er erstattet, fordi et høyere turnivå også kan skyldes høydemeter (FR-2), og teksten ikke skal presse nybegynnere (SM-C1). Punktet er fjernet fra §10 |
 | 1.3 | 2026-11-08 | Fra arkitekturarbeidet: FR-4 Startpunkt har fått en fast hjelpetekst om at turene foreløpig bare dekker Oslo-området. Den dekker brukere som skriver et sted uten turer i fritekstfeltet, også når KI ikke er i bruk. Alternativet der KI oppdager stedet og gir en egen melding, er forkastet fordi det øker KI-omfanget og ikke virker uten nøkkel. §3 Økt: hver fane har sin egen økt (arkitekturen gir hvert søk en ID som bare virker i samme nettleser) |
 | 1.4 | 2026-11-12 | Etter tilbakemeldingen på PRD-en (`tilbakemelding-prd.md` 4.1): FR-19 har fått grunnnivå, oppheving og rekkefølge som egne regler, og 12 eksempler som er testtilfeller i SM-2. Vanskelig gir sperre på nivået under turen, *lett* opphever også sperren, og vanskelig nullstiller telleren for heving. Nytt begrep i §3 (grunnnivå) og ny rad i §9. Valgt av produkteier 2026-11-12 |
+| 1.5 | 2026-11-12 | Etter tilbakemeldingen på PRD-en (4.3): NFR-8 har fått en grense for KI-kall (20 per nettleser per time, 200 per døgn) som også begrenser kostnaden, og NFR-5 sier hva loggen over forkastede KI-svar inneholder og at den slettes etter 30 dager. Berørt: §0, FR-13, NFR-5, NFR-8 og SM-2. Valgt av produkteier 2026-11-12 |
