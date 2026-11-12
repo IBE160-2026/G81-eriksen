@@ -7,7 +7,7 @@ paradigm: 'Lagdelt server-rendret monolitt (Django) med ren domenekjerne og adap
 scope: 'Your Next Adventure v1: hele systemet (nettside, turdatabase og byggeskript, KI, vær, konto, historikk og personalisering)'
 status: final
 created: '2026-11-07'
-updated: '2026-11-08'
+updated: '2026-11-12'
 binds: [FR-1, FR-2, FR-3, FR-4, FR-5, FR-6, FR-7, FR-8, FR-9, FR-10, FR-11, FR-12, FR-13, FR-14, FR-15, FR-16, FR-17, FR-17.1, FR-18, FR-19, FR-20, FR-21, NFR-1, NFR-2, NFR-3, NFR-4, NFR-5, NFR-6, NFR-7, NFR-8, NFR-9]
 sources:
   - _bmad-output/planning-artifacts/prds/prd-G81-eriksen-2026-10-29/prd.md
@@ -95,7 +95,7 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
 
 - **Binds:** all
 - **Prevents:** databaseserver som sensor må installere, og rå SQL eller databasespesifikke funksjoner.
-- **Rule:** All persistent tilstand (turer, brukere, registreringer, økter, værbuffer) ligger i én SQLite-fil via Django-modeller og migreringer. Ingen rå SQL. Databasefilen committes ikke.
+- **Rule:** All persistent tilstand (turer, brukere, registreringer, økter, værbuffer, KI-forbruk) ligger i én SQLite-fil via Django-modeller og migreringer. Ingen rå SQL. Databasefilen committes ikke.
 
 ### AD-5 — Hvert søk har en søke-ID og lever i Django-økten [ADOPTED]
 
@@ -136,7 +136,7 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
 ### AD-10 — KI-modulen har ett grensesnitt, tre varianter og en fast kallrekkefølge [ADOPTED]
 
 - **Binds:** FR-11, FR-12, FR-13, FR-17, NFR-1, NFR-5, NFR-8, SM-2, SM-3
-- **Prevents:** at kjerneflyten avhenger av en nøkkel, at KI velger turer utenfor treffene eller skriver tall og nivå, at personopplysninger sendes ut, at tester krever nett, og at ulike stories kaller KI ulikt.
+- **Prevents:** at kjerneflyten avhenger av en nøkkel, at KI velger turer utenfor treffene eller skriver tall og nivå, at personopplysninger sendes ut, at tester krever nett, at ulike stories kaller KI ulikt, og at KI-kostnaden ikke har noe tak.
 - **Rule:**
   1. Views kaller bare KI-grensesnittet i `tjenester/ki/`. Variantene er **ekte** (Anthropic), **reserve** (FR-13) og **falsk** (tester). Uten `ANTHROPIC_API_KEY` brukes reserve.
   2. **Kall A, tolking (FR-11):** én gang per gyldig søk, bare når det finnes fritekst og nøkkel, før rangeringen. Svar: hvilke av de filtrerte tur-ID-ene som passer ønsket.
@@ -145,7 +145,13 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
   5. KI får bare søket (varighet, dato, turtype, startpunkt, fritekst) og de filtrerte treffene (id, navn, turtyper, form). Aldri e-post, bruker-ID eller historikk. Fritekst legges i prompten som avgrenset data, ikke som instruksjoner. Prompten ligger i en fil i `tjenester/ki/` og versjoneres i git.
   6. Ekte klient: `timeout=5.0`, `max_retries=0`, lav effort, ingen sampling-parametere og ingen prefill.
   7. Hvert svar valideres av `domene/` (FR-13): ID-er innenfor treffene, bare plassholderne `{tid}`, `{varighet}`, `{lengde}`, `{nivå}`, ingen sifre, tallord eller nivåord utenfor dem, maks 300 tegn etter innsetting og med personaliseringssetningen. Forkastes kall A, ignoreres friteksten for hele søket. Forkastes kall B, brukes reservemalen for den turen.
-  8. Forkastede svar logges med svar og årsak, uten fritekst, e-post eller bruker-ID.
+  8. **Logg (FR-13, NFR-5):** Forkastede svar skrives til `logs/ki.log` med tidspunkt, kalltype (`tolking` eller `begrunnelse`), årsak og svaret. Aldri fritekst, søke-ID, e-post eller bruker-ID. Loggen roteres ved midnatt med `TimedRotatingFileHandler`. En liten underklasse sletter roterte filer med dato eldre enn 30 dager, både ved oppstart og ved hver rotasjon. `backupCount` brukes ikke, fordi den teller filer, ikke dager, og appen kjører ikke hver dag.
+  9. **Grense for KI-kall (NFR-8):** Før hvert kall A eller B sjekker `tjenester/ki/` grensene. Er en grense nådd, brukes reserve for det kallet, som når nøkkelen mangler: stoppes kall A, ignoreres friteksten for hele søket. Stoppes kall B, brukes reservemalen for den turen. Brukeren ser de vanlige meldingene fra FR-13.
+     - **Per nettleser:** maks 20 kall de siste 60 minuttene. Tidspunktene for sendte kall ligger i Django-økten under nøkkelen `"ki_kall"`, og eldre enn 60 minutter fjernes ved hver sjekk.
+     - **Totalt:** maks 200 kall per kalenderdøgn (Europe/Oslo). Tellingen ligger i modellen `KiForbruk(dato, antall)` og økes med `F("antall") + 1` i en transaksjon, så to samtidige kall ikke teller feil.
+     - Et kall teller når det sendes, også om svaret forkastes eller tidsgrensen går ut.
+     - Avgjørelsen er en ren funksjon i `domene/` som får tidspunktene, dagens antall og klokkeslettet inn (AD-2). Grensene ligger i `settings` (`KI_MAKS_PER_NETTLESER_TIME`, `KI_MAKS_PER_DOGN`), så tester kan senke dem.
+     - Første gang totalgrensen nås i et døgn, skrives én linje til `logs/ki.log`.
 
 ### AD-11 — Nivåstatus utledes av historikken i én funksjon
 
@@ -174,7 +180,7 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
 
 - **Binds:** SM-2, NFR-2, NFR-6
 - **Prevents:** tester som krever nett eller nøkler, og ulik formatering.
-- **Rule:** Alle tester kjøres med `python manage.py test` og ligger i `tests/`. Domenetester bruker ikke databasen. KI byttes med den falske varianten og MET med lagrede svar i `tests/fixtures/`; ingen test gjør nettverkskall. Ruff er linter og formatter (`pyproject.toml`). Logging bruker Pythons `logging` med én logger per modul; forkastede KI-svar skrives til `logs/ki.log` (lokalt, ikke i git).
+- **Rule:** Alle tester kjøres med `python manage.py test` og ligger i `tests/`. Domenetester bruker ikke databasen. KI byttes med den falske varianten og MET med lagrede svar i `tests/fixtures/`; ingen test gjør nettverkskall. Ruff er linter og formatter (`pyproject.toml`). Logging bruker Pythons `logging` med én logger per modul; forkastede KI-svar skrives til `logs/ki.log` (lokalt, ikke i git, rotasjon og sletting etter AD-10 punkt 8).
 
 ### AD-14 — Engangstoken mot dobbel registrering
 
@@ -267,6 +273,7 @@ erDiagram
     BRUKER ||--o{ REGISTRERING : "har"
     TUR ||--o{ REGISTRERING : "gjelder (PROTECT)"
     VAERBUFFER
+    KIFORBRUK
     SESSION
 ```
 
@@ -313,7 +320,7 @@ sequenceDiagram
 | FR-18–20 Personalisering | `domene/` | AD-2, AD-11 |
 | FR-21 Testbruker | `data/`, `lastinn` | AD-3, AD-11 |
 | NFR-1 Kjørbarhet | README, `.env.example`, kravfiler | AD-12 |
-| NFR-2 Stabilitet, NFR-8 Sikkerhet | alle views | AD-7, AD-14, konvensjon Skjema |
+| NFR-2 Stabilitet, NFR-8 Sikkerhet | alle views, `tjenester/ki/` (grense for KI-kall) | AD-7, AD-10, AD-14, konvensjon Skjema |
 | NFR-3, NFR-4, NFR-9 Mobil, UU, mørk modus | maler, CSS, `forbedring.js` | AD-1, AD-8, `EXPERIENCE.md` |
 | NFR-5 Personvern | `tjenester/ki/`, Bruker | AD-7, AD-10 |
 | NFR-6 Sporbarhet | all kode og alle tester | AD-2, konvensjon Sporbarhet |
