@@ -30,4 +30,4 @@
 - [x] 2026-11-12 [tilbakemelding-prd](991-2026-11-12-19-49-28-tilbakemelding-prd.md) — oppdater AD-10 i arkitekturen med grense for KI-kall (NFR-8) og sletting av KI-loggen etter 30 dager (NFR-5) (løst 2026-11-12)
 - [ ] 2026-11-12 [tilbakemelding-prd](991-2026-11-12-19-49-28-tilbakemelding-prd.md) — avklar opphav til `architecture/technology.md` (beskriver en annen stack enn arkitekturen) og om den skal fjernes
 - [x] 2026-11-12 [tilbakemelding-prd](991-2026-11-12-19-49-28-tilbakemelding-prd.md) — oppdater EXPERIENCE.md: åpent punkt «Turillustrasjon uten reserve» er besvart av PRD §7.1 (løst 2026-11-12)
-- [ ] 2026-11-12 [tilbakemelding-prd](991-2026-11-12-19-49-28-tilbakemelding-prd.md) — følg opp resten av tilbakemeldingen på PRD-en: mekaniske funn og refleksjonsspørsmålene (4.4 og 4.5 løst 2026-11-12)
+- [ ] 2026-11-12 [tilbakemelding-prd](991-2026-11-12-19-49-28-tilbakemelding-prd.md) — følg opp resten av tilbakemeldingen på PRD-en: refleksjonsspørsmålene (4.4, 4.5 og mekaniske funn løst 2026-11-12)
