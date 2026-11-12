@@ -27,7 +27,7 @@
 - [ ] 2026-11-08 [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md) — avgjør format på kurateringslista og testbrukerfila i første turdatabase-story
 - [ ] 2026-11-08 [readme-forste-del](992-2026-11-08-11-15-46-readme-forste-del.md) — fyll ut «Installasjon og kjøring» i README når koden finnes (AD-12 punkt 6), og oppdater status og mappestruktur
 - [ ] 2026-11-08 [readme-forste-del](992-2026-11-08-11-15-46-readme-forste-del.md) — test README i et rent miljø før innlevering (under 20 minutter, NFR-1)
-- [ ] 2026-11-12 [tilbakemelding-prd](991-2026-11-12-19-49-28-tilbakemelding-prd.md) — oppdater AD-10 i arkitekturen med grense for KI-kall (NFR-8) og sletting av KI-loggen etter 30 dager (NFR-5)
+- [x] 2026-11-12 [tilbakemelding-prd](991-2026-11-12-19-49-28-tilbakemelding-prd.md) — oppdater AD-10 i arkitekturen med grense for KI-kall (NFR-8) og sletting av KI-loggen etter 30 dager (NFR-5) (løst 2026-11-12)
 - [ ] 2026-11-12 [tilbakemelding-prd](991-2026-11-12-19-49-28-tilbakemelding-prd.md) — avklar opphav til `architecture/technology.md` (beskriver en annen stack enn arkitekturen) og om den skal fjernes
 - [ ] 2026-11-12 [tilbakemelding-prd](991-2026-11-12-19-49-28-tilbakemelding-prd.md) — oppdater EXPERIENCE.md: åpent punkt «Turillustrasjon uten reserve» er besvart av PRD §7.1
 - [ ] 2026-11-12 [tilbakemelding-prd](991-2026-11-12-19-49-28-tilbakemelding-prd.md) — følg opp resten av tilbakemeldingen på PRD-en: 4.4, 4.5, mekaniske funn og refleksjonsspørsmålene
