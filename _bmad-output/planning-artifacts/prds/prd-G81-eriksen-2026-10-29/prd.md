@@ -60,9 +60,9 @@ Han vil registrere turen etterpå, så han lager konto med e-post og passord. Ha
 **Kanttilfelle:** Hadde Ola bedt om *topptur*, og ingen topptur passet innenfor to timer, ville han fått en utsiktstur og en melding om at toppturer krever mer tid enn han har oppgitt (FR-8).
 
 **UJ-2. Ola kommer tilbake og får bedre forslag.**
-Lørdag ettermiddag, rett etter turen, sitter Ola hjemme ved PC-en, og fanen med turforslaget er fortsatt åpen. For å holde reisen kort antar vi at Ola allerede har registrert to grønne turer vurdert *lett*, fra søk han gjorde i andre faner.
+Lørdag ettermiddag, rett etter turen, sitter Ola hjemme ved PC-en, og fanen med turforslaget er fortsatt åpen. For å holde reisen kort antar vi at Ola allerede har registrert to grønne turer vurdert *lett*, fra søk han gjorde i andre faner. Testbrukeren (FR-21) viser den samme hevingen uten at noen må gå turer: der er den tredje turen alt registrert, så det første søket gir blå turer først.
 
-Han trykker «Registrer gjennomført tur» og oppgir dato, brukt tid (1 t 50 min), hvor vanskelig turen føltes (*lett / moderat / vanskelig*) og hvor fornøyd han var (1–5). Han velger *lett* og 5. I historikken står turen øverst, med brukt tid sammen med estimert tid. Dette er hans tredje grønne tur vurdert *lett*, så nivåtaket heves til blått (FR-19).
+Han trykker «Registrer gjennomført tur» (FR-16) og oppgir dato, brukt tid (1 t 50 min), hvor vanskelig turen føltes (*lett / moderat / vanskelig*) og hvor fornøyd han var (1–5). Han velger *lett* og 5. I historikken står turen øverst, med brukt tid sammen med estimert tid (FR-17). Dette er hans tredje grønne tur vurdert *lett*, så nivåtaket heves til blått (FR-19). Over tabellen står det at han har nådd neste nivå (FR-17.1, P2).
 
 Når han søker igjen, kommer blå turer først, fordi nivåtaket nettopp er hevet (FR-5). Han får en tur merket «Blå – moderat», og begrunnelsen sier: «Du får en blå tur fordi de tre siste grønne turene var lette for deg.» Tjenesten prioriterer turer han ikke har gått. Hadde Ola heller villet ha en lett tur, kunne han skrevet «helst en lett tur» som fritekstønske (FR-11, P2) eller trykket «Nytt forslag», som etter hvert også gir grønne turer. Senere åpner han favoritturen fra historikken. Den vises under «Fra historikken din», med bekledningstips for i dag (FR-9, P2), og han går den igjen (FR-17).
 
@@ -527,7 +527,7 @@ Alle funksjonene i §4 (FR-1 til FR-21 og FR-17.1) og alle NFR-ene i §5 (NFR-1 
 
 ## 10. Antakelser og åpne spørsmål
 
-Antakelsene og standardverdiene i kravene, endringene i v1.1 og rettingene etter gjennomgangen av v1.1 ble godkjent av produkteier 2026-11-06 (`.memlog.md`). Tekster merket `[ASSUMPTION]` i `EXPERIENCE.md` › Mikrotekst bekreftes under implementeringen. Disse punktene er fortsatt åpne:
+Antakelsene og standardverdiene i kravene, endringene i v1.1 og rettingene etter gjennomgangen av v1.1 ble godkjent av produkteier 2026-11-06 (`.memlog.md`). Tekster merket `[ASSUMPTION]` i `EXPERIENCE.md` › Mikrotekst bekreftes under implementeringen. Utenom tabellen under har PRD-en ingen åpne antakelser: krav uten merknad er besluttet. Beslutningene etter tilbakemeldingen på PRD-en (v1.4–v1.9) ble tatt av produkteier 2026-11-12. Disse punktene er fortsatt åpne:
 
 | Åpent punkt | Eier | Blokkerer stories |
 |---|---|---|
@@ -555,3 +555,4 @@ Antakelsene og standardverdiene i kravene, endringene i v1.1 og rettingene etter
 | 1.6 | 2026-11-12 | Etter tilbakemeldingen på PRD-en (4.2): turdatabasen er 15–30 turer, der 15 turer som oppfyller sammensetningen er P1, og tur 16–30 er P2. Turillustrasjonen i FR-6 er flyttet til P2 som nr. 3 i kutt-rekkefølgen, med følger av kutt. Berørt: §3, FR-1, FR-6, §7.1 og §9. Valgt av produkteier 2026-11-12 |
 | 1.7 | 2026-11-12 | Etter tilbakemeldingen på PRD-en (4.4): P2-deler som P1-krav og brukerreiser bygger på, er merket «P2» i UJ-1, UJ-2, FR-4, FR-5, FR-6, FR-17 og §6. «Følger av kutt» i §7.1 har én linje per P2-krav (FR-11, FR-9 og FR-10, FR-20, FR-17.1 og NFR-9) |
 | 1.8 | 2026-11-12 | Etter tilbakemeldingen på PRD-en (4.5): meldinger er beskrevet med budskap, og den ferdige teksten står bare i `EXPERIENCE.md` › Mikrotekst. Ny regel i §0 om hva som fortsatt står ordrett. Berørt: §0, UJ-1, FR-6, FR-7, FR-8, FR-13, FR-14 og FR-17 |
+| 1.9 | 2026-11-12 | Etter de mekaniske funnene i tilbakemeldingen på PRD-en (§5): UJ-2 viser til FR-16, FR-17 og FR-17.1 (P2) med ID og sier at testbrukeren (FR-21) viser den samme hevingen. §10 sier at krav uten merknad er besluttet, og at bare punktene i tabellen er åpne |
