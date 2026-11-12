@@ -72,7 +72,7 @@ Ola vil ikke lenger bruke tjenesten. Han går til Konto og trykker «Slett konto
 - **Tur:** En kuratert fottur i turdatabasen. Hver tur har navn, startpunkt, rutelinje, lengde, høydemeter, nedstigning, høydeprofil, form (tur-retur eller rundtur), turnivå, én eller flere turtyper, estimert tid og en valgfri ut.no-lenke.
 - **Tur-retur / rundtur:** En tur-retur går samme vei tilbake. Lengde, høydemeter og nedstigning lagres da for én vei. En rundtur går i ring. Da lagres verdiene for hele runden.
 - **Høydemeter:** Samlet stigning. **Nedstigning:** Samlet nedstigning.
-- **Turdatabase:** En samling på 20–30 turer i Oslo-området som er kuratert på forhånd.
+- **Turdatabase:** En samling på 15–30 turer i Oslo-området som er kuratert på forhånd.
 - **Startpunkt:** Et navngitt sted der en eller flere turer starter. Velges fra en liste.
 - **Turtype:** *marka*, *utsikt* eller *topptur*. En tur kan ha flere turtyper.
 - **Turnivå:** Farge (grønn, blå, rød eller svart) satt etter Merkehåndbokas graderingsmal (FR-2). Rekkefølgen er grønn < blå < rød < svart. Hver farge har et vurderingsord: grønn = *lett*, blå og rød = *moderat*, svart = *vanskelig*.
@@ -104,7 +104,7 @@ Ola vil ikke lenger bruke tjenesten. Han går til Konto og trykker «Slett konto
 **Beskrivelse:** All turdata kommer fra turdatabasen, som er kuratert og bygget på forhånd. Appen henter ingen turdata fra eksterne tjenester mens den kjører.
 
 #### FR-1: Kuratert turdatabase
-Systemet har en turdatabase med 20–30 turer i Oslo og Bærum. Gjelder UJ-1 og UJ-2.
+Systemet har en turdatabase med 15–30 turer i Oslo og Bærum. De første 15 turene er P1 og oppfyller alle kravene under *Sammensetning*. Tur 16–30 er P2 (§7.1). Gjelder UJ-1 og UJ-2.
 - **Felt:** Hver tur har alle feltene som er listet under *Tur* i §3. Kilde og lisens er registrert for hver tur.
 - **Kilder:**
   - Rutelinjene kommer fra Turrutebasen fra Kartverket.
@@ -184,7 +184,7 @@ Gjest eller bruker kan søke etter tur ved å oppgi:
 #### FR-6: Visning av turforslag
 Turforslaget viser:
 - rutelinjen på kart
-- en turillustrasjon: en forenklet tegning av ruten og høydeprofilen, laget fra turdataene (FR-1)
+- en turillustrasjon: en forenklet tegning av ruten og høydeprofilen, laget fra turdataene (FR-1). Turillustrasjonen er P2 (§7.1)
 - turnivå med farge **og** tekst, for eksempel «Blå – moderat», og en kort forklaring: «Jeg har beregnet nivået etter Merkehåndbokas mal ut fra lengde og høydemeter. Terreng og føre er ikke vurdert.»
 - treff på valgt turtype, hvis brukeren har valgt en
 - om turen er tur-retur eller rundtur, tydelig merket
@@ -421,14 +421,17 @@ Nettside på norsk. Den lages for PC først, med en enkel, stablet mobilutgave i
 Alle funksjonene i §4 (FR-1 til FR-21 og FR-17.1) og alle NFR-ene i §5 (NFR-1 til NFR-9).
 
 **Prioritering:**
-- **P1, må leveres:** FR-1 til FR-8, FR-12 og FR-13 (begrunnelse skrevet av KI og begrunnelse fra mal som reserveløsning, KI-merke og forklaringspanel), FR-14 til FR-19 (uten FR-17.1), FR-21 og NFR-1 til NFR-8.
+- **P1, må leveres:** FR-1 til FR-8 (FR-1 med 15 turer og FR-6 uten turillustrasjon), FR-12 og FR-13 (begrunnelse skrevet av KI og begrunnelse fra mal som reserveløsning, KI-merke og forklaringspanel), FR-14 til FR-19 (uten FR-17.1), FR-21 og NFR-1 til NFR-8.
 - **P2, kuttes først hvis tiden ikke strekker til**, i denne rekkefølgen:
   1. FR-17.1 (fremgang mot neste nivå)
   2. NFR-9 (mørk modus)
-  3. FR-11 (KI-tolking av fritekstønske)
-  4. FR-9 og FR-10 (bekledningstips)
-  5. FR-20 (turtypepreferanse)
+  3. Turillustrasjonen i FR-6
+  4. FR-11 (KI-tolking av fritekstønske)
+  5. FR-9 og FR-10 (bekledningstips)
+  6. FR-20 (turtypepreferanse)
+- **Tur 16–30 (FR-1)** er også P2. De legges til én og én når P1 er levert, og arbeidet kan stoppe ved et hvilket som helst antall.
 - **Følger av kutt:**
+  - Kuttes turillustrasjonen, viser turforslaget fortsatt kart og «Kartet i tekst», og Søk og turoppsummeringen vises uten illustrasjon. Høydeprofilen beregnes fortsatt (FR-1).
   - Kuttes FR-11, skjules fritekstfeltet, og forklaringspanelet mister setningen om at KI tolker ønsket. Etter en nivåheving (FR-5) får brukeren da grønne turer bare med «Nytt forslag».
   - Kuttes et P2-krav, faller tilsvarende del av FR-21, SM-2 og NFR-3 bort, for eksempel turtypepreferansen hos testbrukeren og bekledningstipsene i NFR-3.
 - Hvert kutt føres i §9 og i endringsloggen, med årsak.
@@ -488,6 +491,7 @@ Alle funksjonene i §4 (FR-1 til FR-21 og FR-17.1) og alle NFR-ene i §5 (NFR-1 
 | Vurderingen er *lett / moderat / vanskelig*, fornøydhet 1–5 og brukt tid, i stedet for *for lett / passe / for hard* og *likte / likte ikke* | Mer informasjon per tur. Nivåreglene beholdes med nye ord: *for lett* → *lett*, *passe* → *moderat*, *for hard* → *vanskelig*. «Likte» tilsvarer fornøydhet 4–5 (FR-19, FR-20) |
 | «Likte ikke» (fornøydhet 1–2) gjør at turen rangeres sist, men den utelukkes ikke | Brukeren kan ha endret mening, og turen finnes fortsatt i historikken |
 | Nivåtaket er en hard grense, ikke bare en rangering | Tryggest for nybegynnere |
+| Turdatabasen må ha minst 15 turer i P1, og tur 16–30 er P2. Briefen sier 20–30 | Å bygge turdatabasen kan ta like lang tid som resten av appen. 15 turer rommer kravene til sammensetning i FR-1 (tilbakemeldingen på PRD-en, 4.2) |
 | En tur vurdert *vanskelig* senker nivåtaket til nivået under turen, ikke til turens nivå. Sperren oppheves av *lett* eller *moderat*, ikke bare *passe* | Med briefens regel ga en vanskelig tur på nivåtaket ingen endring, selv om det er det vanligste tilfellet. En bruker som vurderte alle turer under sperren som *lett*, ble dessuten sittende fast (FR-19) |
 | Ett forslag om gangen, med mulighet for «Nytt forslag» | Raskere valg for brukeren |
 | Lenke til ut.no | Brukeren kan se mer om ruten |
@@ -543,3 +547,4 @@ Antakelsene og standardverdiene i kravene, endringene i v1.1 og rettingene etter
 | 1.3 | 2026-11-08 | Fra arkitekturarbeidet: FR-4 Startpunkt har fått en fast hjelpetekst om at turene foreløpig bare dekker Oslo-området. Den dekker brukere som skriver et sted uten turer i fritekstfeltet, også når KI ikke er i bruk. Alternativet der KI oppdager stedet og gir en egen melding, er forkastet fordi det øker KI-omfanget og ikke virker uten nøkkel. §3 Økt: hver fane har sin egen økt (arkitekturen gir hvert søk en ID som bare virker i samme nettleser) |
 | 1.4 | 2026-11-12 | Etter tilbakemeldingen på PRD-en (`tilbakemelding-prd.md` 4.1): FR-19 har fått grunnnivå, oppheving og rekkefølge som egne regler, og 12 eksempler som er testtilfeller i SM-2. Vanskelig gir sperre på nivået under turen, *lett* opphever også sperren, og vanskelig nullstiller telleren for heving. Nytt begrep i §3 (grunnnivå) og ny rad i §9. Valgt av produkteier 2026-11-12 |
 | 1.5 | 2026-11-12 | Etter tilbakemeldingen på PRD-en (4.3): NFR-8 har fått en grense for KI-kall (20 per nettleser per time, 200 per døgn) som også begrenser kostnaden, og NFR-5 sier hva loggen over forkastede KI-svar inneholder og at den slettes etter 30 dager. Berørt: §0, FR-13, NFR-5, NFR-8 og SM-2. Valgt av produkteier 2026-11-12 |
+| 1.6 | 2026-11-12 | Etter tilbakemeldingen på PRD-en (4.2): turdatabasen er 15–30 turer, der 15 turer som oppfyller sammensetningen er P1, og tur 16–30 er P2. Turillustrasjonen i FR-6 er flyttet til P2 som nr. 3 i kutt-rekkefølgen, med følger av kutt. Berørt: §3, FR-1, FR-6, §7.1 og §9. Valgt av produkteier 2026-11-12 |
