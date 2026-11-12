@@ -2,7 +2,7 @@
 title: "PRD: Your Next Adventure"
 status: final
 created: 2026-10-29
-updated: 2026-11-08
+updated: 2026-11-12
 ---
 
 # PRD: Your Next Adventure
@@ -92,7 +92,8 @@ Ola vil ikke lenger bruke tjenesten. Han går til Konto og trykker «Slett konto
 - **Vurdering:** Brukt tid, opplevd vanskelighet (*lett / moderat / vanskelig*) og fornøydhet (1–5).
 - **Historikk:** Brukerens liste over gjennomførte turer med vurderinger.
 - **Nivåtak:** Det høyeste turnivået systemet foreslår for en bruker. Nivåtaket er en hard grense (FR-19).
-- **Sperre:** En midlertidig senking av nivåtaket etter en tur vurdert *vanskelig* (FR-19).
+- **Grunnnivå:** Nivået brukeren har nådd gjennom hevinger. Nivåtaket er lik grunnnivået når ingen sperre er aktiv (FR-19).
+- **Sperre:** En midlertidig senking av nivåtaket under grunnnivået etter en tur vurdert *vanskelig* (FR-19).
 - **Reserveløsning:** Regelbasert oppførsel når KI mangler eller feiler (FR-13).
 - **Testbruker:** En ferdig konto med oppdiktet historikk som viser personaliseringen.
 
@@ -313,10 +314,30 @@ Historikken kan vise hvor nær brukeren er neste nivåheving etter FR-19 og FR-5
 Gjest og bruker uten historikk har grønt nivåtak. De får altså bare grønne turer.
 
 #### FR-19: Nivåregler
-- **Heving:** Når tre gjennomførte turer med turnivå lik nivåtaket er vurdert *lett*, hever systemet nivåtaket ett nivå. Vurderingene trenger ikke komme etter hverandre, men telles fra siste nivåendring.
-- **Sperre:** Når en tur er vurdert *vanskelig*, senkes nivåtaket midlertidig til turnivået for den turen, hvis nivåtaket var høyere. Sperren oppheves når en tur, uansett hvilken, er vurdert *moderat*.
+- **Nivåtak og grunnnivå:** Nivåtaket er lik grunnnivået, eller lik sperrenivået så lenge en sperre er aktiv. Grunnnivået starter på grønt (FR-18) og endres bare ved heving.
+- **Heving:** Når tre gjennomførte turer med turnivå lik grunnnivået er vurdert *lett* mens ingen sperre er aktiv, hever systemet grunnnivået ett nivå. Vurderingene trenger ikke komme etter hverandre. De telles fra siste heving eller siste tur vurdert *vanskelig*, det som kom sist. *Moderat* verken teller eller nullstiller. Svart er øverste nivå og heves ikke.
+- **Sperre:** Når en tur er vurdert *vanskelig*, nullstilles telleren for heving. Nivåtaket senkes midlertidig til nivået under turnivået for turen, men aldri under grønt, hvis det er lavere enn nivåtaket. Sperren endrer ikke grunnnivået.
+- **Oppheving:** Sperren oppheves når en tur, uansett hvilken, er vurdert *lett* eller *moderat*. Nivåtaket går da tilbake til grunnnivået. Registreringen som opphever sperren, teller ikke mot heving, og en opphevet sperre er ikke en heving (FR-5).
 - **Hard grense:** Turer over nivåtaket blir aldri foreslått (FR-5). Turforslag fra historikken følger FR-17.
 - **Gjentakelser:** Hver registrering av en gjennomført tur teller, også når samme tur registreres flere ganger.
+- **Rekkefølge:** Registreringene behandles i datorekkefølge, og registreringer med samme dato i den rekkefølgen de ble registrert. En registrering med en tidligere dato kan derfor endre nivåtaket.
+
+**Eksempler.** Hvert eksempel er et testtilfelle (SM-2). «Teller» er antall turer vurdert *lett* mot neste heving.
+
+| # | Før | Registrering | Etter |
+|---|---|---|---|
+| 1 | Grunnnivå grønt, teller 2 | Grønn tur, *lett* | Grunnnivå og nivåtak blått, teller 0 (UJ-2) |
+| 2 | Grunnnivå grønt, teller 1 | Grønn tur, *moderat* | Uendret: grunnnivå grønt, teller 1 |
+| 3 | Grunnnivå blått, teller 2 | Grønn tur, *lett* | Uendret. Bare turer med turnivå lik grunnnivået teller |
+| 4 | Grunnnivå blått, teller 2 | Blå tur, *vanskelig* | Sperre: nivåtak grønt, grunnnivå blått, teller 0 |
+| 5 | Som etter eksempel 4 | Grønn tur, *lett* | Sperren oppheves: nivåtak blått, teller 0 |
+| 6 | Som etter eksempel 4 | Grønn tur, *vanskelig* | Uendret: sperren er aktiv, nivåtak grønt |
+| 7 | Grunnnivå blått, teller 1 | Grønn tur, *vanskelig* | Sperre: nivåtak grønt, teller 0 |
+| 8 | Grunnnivå grønt, teller 2 | Grønn tur, *vanskelig* | Ingen sperre (allerede grønt), teller 0 |
+| 9 | Grunnnivå rødt | Blå tur, *vanskelig* | Sperre: nivåtak grønt, grunnnivå rødt |
+| 10 | Grunnnivå blått, teller 0 | Rød tur fra historikken (FR-17), *lett* | Uendret. Turer over grunnnivået teller ikke |
+| 11 | Grunnnivå svart, teller 2 | Svart tur, *lett* | Uendret: svart heves ikke |
+| 12 | Grunnnivå grønt, teller 0 | Samme grønne tur tre ganger, *lett* | Grunnnivå og nivåtak blått |
 
 #### FR-20: Turtypepreferanse
 Turtyper fra gjennomførte turer med fornøydhet 4–5 er foretrukne turtyper. Turer med slike turtyper rangeres høyere (FR-5).
@@ -445,7 +466,7 @@ Alle funksjonene i §4 (FR-1 til FR-21 og FR-17.1) og alle NFR-ene i §5 (NFR-1 
   - utvalg og rangering (FR-5)
   - nytt forslag og ingen treff (FR-7 og FR-8)
   - KI-validering og reserveløsning med KI mocket (FR-13)
-  - startnivå, nivåregler og turtypepreferanse (FR-18 til FR-20).
+  - startnivå, nivåregler og turtypepreferanse (FR-18 til FR-20), med eksemplene i FR-19 som testtilfeller.
 - **SM-3:** Hele kjerneflyten fungerer uten KI-nøkkel (FR-13, NFR-1).
 - **SM-4:** Mobilvisning og universell utforming (UU) består en manuell test etter sjekklisten i `EXPERIENCE.md` › Accessibility Floor (NFR-3, NFR-4). Personaliseringen demonstreres med testbrukeren (FR-21).
 
@@ -465,6 +486,7 @@ Alle funksjonene i §4 (FR-1 til FR-21 og FR-17.1) og alle NFR-ene i §5 (NFR-1 
 | Vurderingen er *lett / moderat / vanskelig*, fornøydhet 1–5 og brukt tid, i stedet for *for lett / passe / for hard* og *likte / likte ikke* | Mer informasjon per tur. Nivåreglene beholdes med nye ord: *for lett* → *lett*, *passe* → *moderat*, *for hard* → *vanskelig*. «Likte» tilsvarer fornøydhet 4–5 (FR-19, FR-20) |
 | «Likte ikke» (fornøydhet 1–2) gjør at turen rangeres sist, men den utelukkes ikke | Brukeren kan ha endret mening, og turen finnes fortsatt i historikken |
 | Nivåtaket er en hard grense, ikke bare en rangering | Tryggest for nybegynnere |
+| En tur vurdert *vanskelig* senker nivåtaket til nivået under turen, ikke til turens nivå. Sperren oppheves av *lett* eller *moderat*, ikke bare *passe* | Med briefens regel ga en vanskelig tur på nivåtaket ingen endring, selv om det er det vanligste tilfellet. En bruker som vurderte alle turer under sperren som *lett*, ble dessuten sittende fast (FR-19) |
 | Ett forslag om gangen, med mulighet for «Nytt forslag» | Raskere valg for brukeren |
 | Lenke til ut.no | Brukeren kan se mer om ruten |
 | Startpunkt velges fra en liste | Brukeren kan ikke havne utenfor Oslo-området, så feilmeldingen fra briefen om steder utenfor området trengs ikke. En fast hjelpetekst under lista sier at turene foreløpig bare dekker Oslo-området, slik at også den som skriver et annet sted i fritekstfeltet, får vite det. Teksten virker uten KI |
@@ -517,3 +539,4 @@ Antakelsene og standardverdiene i kravene, endringene i v1.1 og rettingene etter
 | 1.1 | 2026-11-06 | Oppdatert etter UX-arbeidet (`ux-designs/ux-G81-eriksen-2026-11-06/`) og rettet etter gjennomgangen av v1.1 (`review-rubric-v1.1.md`, `reconcile-ux.md`). Berørt: UJ-1 til UJ-3 (UJ-3 er ny), §3, FR-1, FR-4 til FR-9, FR-12 til FR-17, FR-19, NFR-3 til NFR-5, §6, §7, SM-4, SM-C1, §10 og addendum. Struktur- og språkgjennomgang 2026-11-07 (`review-structure-v1.1.md`, `review-prose-v1.1.md`) med nye ID-er FR-17.1 og NFR-9 (begge P2). Beslutningene står i `.memlog.md` |
 | 1.2 | 2026-11-07 | Ny gjestetekst i FR-8: «låse opp lengre turer» er erstattet, fordi et høyere turnivå også kan skyldes høydemeter (FR-2), og teksten ikke skal presse nybegynnere (SM-C1). Punktet er fjernet fra §10 |
 | 1.3 | 2026-11-08 | Fra arkitekturarbeidet: FR-4 Startpunkt har fått en fast hjelpetekst om at turene foreløpig bare dekker Oslo-området. Den dekker brukere som skriver et sted uten turer i fritekstfeltet, også når KI ikke er i bruk. Alternativet der KI oppdager stedet og gir en egen melding, er forkastet fordi det øker KI-omfanget og ikke virker uten nøkkel. §3 Økt: hver fane har sin egen økt (arkitekturen gir hvert søk en ID som bare virker i samme nettleser) |
+| 1.4 | 2026-11-12 | Etter tilbakemeldingen på PRD-en (`tilbakemelding-prd.md` 4.1): FR-19 har fått grunnnivå, oppheving og rekkefølge som egne regler, og 12 eksempler som er testtilfeller i SM-2. Vanskelig gir sperre på nivået under turen, *lett* opphever også sperren, og vanskelig nullstiller telleren for heving. Nytt begrep i §3 (grunnnivå) og ny rad i §9. Valgt av produkteier 2026-11-12 |
