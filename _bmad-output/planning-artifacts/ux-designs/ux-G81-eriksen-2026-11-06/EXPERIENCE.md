@@ -85,7 +85,8 @@ Stemmen og den estetiske holdningen står i `DESIGN.md` under Brand & Style. Her
 
 Tabellen er hjemmet for all tekst i grensesnittet. Kolonnen Kilde sier hvor teksten kommer fra:
 
-- «PRD»: teksten står ordrett i PRD-en.
+- «PRD»: teksten står ordrett i PRD-en. Det gjelder bare navn på knapper, merker og valg, bekledningstipsene og krediteringen (PRD §0).
+- «PRD-budskap»: PRD-en beskriver budskapet, og ordlyden står bare her. Endres ordlyden, må budskapet fortsatt stemme med PRD-en. Tekstene var ordrett i PRD-en til v1.7 og er godkjent.
 - «PRD, jeg-form»: PRD-teksten er skrevet om etter stemmen, og originalen står i samme celle.
 - «Godkjent (wireframe)», «Godkjent (mock)» og «Godkjent (memlog)»: teksten kommer fra en godkjent wireframe, mock eller memlog (beslutningsloggen fra UX-arbeidet). «Godkjent (mock, Turkort)» viser til den eldre retningsmocken Turkort.
 - [ASSUMPTION]: teksten er en plassholder.
@@ -106,12 +107,12 @@ Har en rad flere tekster med ulik kilde, står kilden per tekst.
 | Søkeknapp | «Finn en tur» | Godkjent (mock) |
 | Søkeoppsummering | «Lørdag 7. nov. · 2 t · Utsikt» og «Endre søk» | Godkjent (mock) |
 | Turforslag fra historikken | «Fra historikken din» | PRD (FR-17) |
-| Turforslag fra historikken, over nivåtaket | «Denne turen er over nivået jeg foreslår for deg nå.» | PRD (FR-17) |
+| Turforslag fra historikken, over nivåtaket | «Denne turen er over nivået jeg foreslår for deg nå.» | PRD-budskap (FR-17) |
 | Lasting | «Finner en tur med utsikt som passer 2 timer …», «Kart lastes …» | [ASSUMPTION] |
 | Lasting, nytt forslag | «Finner et nytt forslag …» | [ASSUMPTION] |
 | Startpunkt i Infokolonne | «Start: Granvannet p-plass» | Godkjent (memlog) |
 | Turtype-treff | «{Turtype} – som du ba om», for eksempel «Utsikt – som du ba om» | Godkjent (mock) |
-| Nivåforklaring | «Jeg har beregnet nivået etter Merkehåndbokas mal ut fra lengde og høydemeter. Terreng og føre er ikke vurdert.» | PRD (FR-6, jeg-form fra v1.1) |
+| Nivåforklaring | «Jeg har beregnet nivået etter Merkehåndbokas mal ut fra lengde og høydemeter. Terreng og føre er ikke vurdert.» | PRD-budskap (FR-6) |
 | Estimert tid | «ca. 1 t 35 min (pauser ikke inkludert)» | PRD (formatet) |
 | Knapper på turforslaget | «Nytt forslag», «Registrer gjennomført tur» | PRD |
 | Knapp, turforslag fra historikken | «Finn en ny tur» | PRD (FR-17) |
@@ -123,15 +124,15 @@ Har en rad flere tekster med ulik kilde, står kilden per tekst.
 | Begrunnelse, turforslag fra historikken | «Du gikk denne turen 12. oktober og ga den 5 av 5.» | PRD (FR-17) |
 | KI-merke / malmerke | «✦ Skrevet med KI» / «Begrunnelse fra mal» | PRD (FR-12) |
 | Forklaringspanel | Utløser «Slik lager jeg forslaget». Innholdet står under Forklaringspanel i Component Patterns. | Utløser: PRD (FR-12). Ordlyden i innholdet: Godkjent (memlog) |
-| Fritekst ignorert | «Jeg kunne ikke ta hensyn til ønsket ditt denne gangen» | PRD (FR-13, jeg-form fra v1.1) |
-| Topptur passer ikke | «Toppturer krever mer tid enn du har oppgitt» | PRD |
+| Fritekst ignorert | «Jeg kunne ikke ta hensyn til ønsket ditt denne gangen» | PRD-budskap (FR-13) |
+| Topptur passer ikke | «Toppturer krever mer tid enn du har oppgitt» | PRD-budskap (FR-8) |
 | Topptur passer ikke, merke | «Utsikt i stedet for topptur» | [ASSUMPTION] |
 | Nivåtak, tittel | «Ingen grønne turer passer søket» | [ASSUMPTION] |
-| Nivåtak (gjest) | «Som ny bruker får du grønne turer. Lag konto og vurder turene dine, så tilpasser jeg forslagene etter hvordan turene kjentes for deg.» | PRD |
+| Nivåtak (gjest) | «Som ny bruker får du grønne turer. Lag konto og vurder turene dine, så tilpasser jeg forslagene etter hvordan turene kjentes for deg.» | PRD-budskap (FR-8) |
 | Nivåtak (innlogget uten historikk) | «Som ny bruker får du grønne turer. Registrer og vurder turene du går, så tilpasser jeg forslagene etter hvordan turene kjentes for deg.» | [ASSUMPTION]. Budskapet står i PRD FR-8, og ordlyden er foreløpig (PRD §10). |
 | Nivåtak (bruker med historikk) | «Akkurat nå foreslår jeg turer opp til grønt nivå, og ingen av dem passer søket.» | [ASSUMPTION] |
 | Ingen treff | «Jeg fant ingen tur som passer søket ditt», «Prøv å endre søket:» | [ASSUMPTION] |
-| Alle forslag er vist | «Du har sett alle turene som passer søket» | PRD |
+| Alle forslag er vist | «Du har sett alle turene som passer søket» | PRD-budskap (FR-7) |
 | Alle forslag er vist, ingress | «Det var fire turer med utsikt som passer 2 timer.» / «Vil du prøve noe annet?» | Første: Godkjent (mock, Turkort). Andre: [ASSUMPTION] |
 | Endringsforslag | «Prøv 3 timer», «Velg startpunkt», «Prøv marka», «Start fra første forslag igjen» | Godkjent (mock, Turkort) |
 | Bekledningstips | De seks tipsene i FR-9, ordrett, for eksempel «Gode sko og litt mat og drikke» | PRD |
@@ -148,8 +149,8 @@ Har en rad flere tekster med ulik kilde, står kilden per tekst.
 | Krav om konto | «Logg inn for å registrere», «Turforslaget er tatt vare på.», lenken «Tilbake til turforslaget» | [ASSUMPTION] |
 | Knapper i Logg inn / Lag konto | «Logg inn», «Lag konto og fortsett» | «Logg inn»: Godkjent (memlog). «Lag konto og fortsett»: [ASSUMPTION] |
 | Passordhjelp | «Minst 8 tegn», bryter «Vis passord» | «Minst 8 tegn»: Godkjent (wireframe). «Vis passord»: [ASSUMPTION] |
-| Feil innlogging | «Feil e-post eller passord» | PRD |
-| E-posten finnes fra før | «Kunne ikke lage konto – prøv å logge inn» | PRD (FR-14) |
+| Feil innlogging | «Feil e-post eller passord» | PRD-budskap (FR-14) |
+| E-posten finnes fra før | «Kunne ikke lage konto – prøv å logge inn» | PRD-budskap (FR-14) |
 | Feil i kontofelt | «Skriv inn e-postadressen din», «E-postadressen må ha med @, for eksempel ola@eksempel.no», «Passordet må ha minst 8 tegn» | [ASSUMPTION] |
 | Innlogging utløpt | «Du er logget ut fordi det har gått lang tid. Logg inn igjen, så tar jeg vare på det du har fylt inn.» | [ASSUMPTION] |
 | Registreringsskjema | «Alle fire felt er påkrevd.», «I dag eller tidligere», «10 min–24 t» | Godkjent (wireframe) |

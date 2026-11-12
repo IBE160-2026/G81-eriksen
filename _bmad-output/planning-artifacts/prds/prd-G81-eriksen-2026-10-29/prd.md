@@ -17,6 +17,8 @@ Denne PRD-en beskriver versjon 1 (v1) av *Your Next Adventure*. Prosjektet er et
 
 **Der PRD-en avviker fra briefen, gjelder PRD-en.** Alle avvik står i §9. Avvik som oppstår under implementeringen, føres også i §9 og i endringsloggen, med henvisning til story eller PR. Ved motstrid gjelder PRD-en for krav og budskap, og `EXPERIENCE.md` › Mikrotekst for ordlyd.
 
+**Meldinger beskrives med budskap, ikke ordlyd.** Den ferdige teksten står bare i `EXPERIENCE.md` › Mikrotekst. Ordrett i PRD-en står bare navn på knapper, merker og valg (for eksempel «Nytt forslag» og «✦ Skrevet med KI»), eksempler merket som eksempler, bekledningstipsene i FR-9 og krediteringen i NFR-7.
+
 Alle krav har faste ID-er: UJ for brukerreiser, FR for funksjonelle krav, NFR for ikke-funksjonelle krav og SM for suksessmål. Begrepene i §3 brukes konsekvent. Antakelser og åpne spørsmål samles i §10.
 
 Bakgrunnen for valgene og tekniske detaljer ligger i `addendum.md`, og verifiseringen av graderingsreglene ligger i `research-gradering.md`. Valg av språkmodell og repostruktur avgjøres i arkitekturen. Kostnaden for KI begrenses av grensen for KI-kall i NFR-8.
@@ -55,7 +57,7 @@ Han får ett turforslag: «Granåsen rundt», med start på Granvannet p-plass. 
 
 Han vil registrere turen etterpå, så han lager konto med e-post og passord. Han kommer tilbake til det samme turforslaget (FR-14) og lar fanen stå åpen.
 
-**Kanttilfelle:** Hadde Ola bedt om *topptur*, og ingen topptur passet innenfor to timer, ville han fått en utsiktstur og meldingen «Toppturer krever mer tid enn du har oppgitt» (FR-8).
+**Kanttilfelle:** Hadde Ola bedt om *topptur*, og ingen topptur passet innenfor to timer, ville han fått en utsiktstur og en melding om at toppturer krever mer tid enn han har oppgitt (FR-8).
 
 **UJ-2. Ola kommer tilbake og får bedre forslag.**
 Lørdag ettermiddag, rett etter turen, sitter Ola hjemme ved PC-en, og fanen med turforslaget er fortsatt åpen. For å holde reisen kort antar vi at Ola allerede har registrert to grønne turer vurdert *lett*, fra søk han gjorde i andre faner.
@@ -185,7 +187,7 @@ Gjest eller bruker kan søke etter tur ved å oppgi:
 Turforslaget viser:
 - rutelinjen på kart
 - en turillustrasjon: en forenklet tegning av ruten og høydeprofilen, laget fra turdataene (FR-1). Turillustrasjonen er P2 (§7.1)
-- turnivå med farge **og** tekst, for eksempel «Blå – moderat», og en kort forklaring: «Jeg har beregnet nivået etter Merkehåndbokas mal ut fra lengde og høydemeter. Terreng og føre er ikke vurdert.»
+- turnivå med farge **og** tekst, for eksempel «Blå – moderat», og en kort forklaring på at nivået er beregnet etter Merkehåndbokas mal ut fra lengde og høydemeter, og at terreng og føre ikke er vurdert
 - treff på valgt turtype, hvis brukeren har valgt en
 - om turen er tur-retur eller rundtur, tydelig merket
 - startpunktets navn, for eksempel «Start: Granvannet p-plass»
@@ -200,17 +202,17 @@ Turforslaget viser:
 Turillustrasjonen og «Kartet i tekst» lages av systemet fra turdataene, aldri av KI.
 
 #### FR-7: Nytt forslag
-Brukeren kan be om et nytt turforslag. Hen får da neste tur i rangeringen, aldri en tur som allerede er vist i samme økt. Når alle treff er vist, kommer meldingen «Du har sett alle turene som passer søket», med forslag til hva hen kan endre (FR-8) og et valg om å starte fra første turforslag igjen.
+Brukeren kan be om et nytt turforslag. Hen får da neste tur i rangeringen, aldri en tur som allerede er vist i samme økt. Når alle treff er vist, kommer en melding om at brukeren har sett alle turene som passer søket, med forslag til hva hen kan endre (FR-8) og et valg om å starte fra første turforslag igjen.
 - **Økt (§3):** Ny innlasting av siden beholder turforslaget og listen over turer som er vist. Et turforslag lever bare i økten, og det finnes ingen delbar lenke til det. Å åpne et turforslag fra historikken endrer ikke økten.
 
 #### FR-8: Ingen treff og utsiktstur i stedet for topptur
-- **Ingen topptur passer varigheten:** Systemet viser en utsiktstur og meldingen «Toppturer krever mer tid enn du har oppgitt». Passer heller ingen utsiktstur, gjelder punktet om ingen treff.
+- **Ingen topptur passer varigheten:** Systemet viser en utsiktstur og en melding om at toppturer krever mer tid enn brukeren har oppgitt. Passer heller ingen utsiktstur, gjelder punktet om ingen treff.
 - **Bare turer over nivåtaket passer søket:** Systemet viser en melding om det, ikke en tur over nivåtaket. Meldingen tilpasses brukertypen:
-  - **Gjest:** «Som ny bruker får du grønne turer. Lag konto og vurder turene dine, så tilpasser jeg forslagene etter hvordan turene kjentes for deg.»
+  - **Gjest:** Som ny bruker får hen grønne turer. Lager hen konto og vurderer turene sine, tilpasses forslagene etter hvordan turene kjentes. Meldingen lover ikke lengre eller hardere turer (SM-C1).
   - **Bruker uten historikk:** Samme budskap, men meldingen ber brukeren registrere og vurdere turene hen går, i stedet for å lage konto.
   - **Bruker med historikk:** Meldingen sier hvilket turnivå tjenesten nå foreslår turer opp til, og at ingen av disse turene passer søket.
 
-  Budskapet er et krav. Ordlyden for bruker uten historikk og bruker med historikk står i `EXPERIENCE.md` › Mikrotekst og er foreløpig (§10).
+  Budskapet er et krav. Ordlyden står i `EXPERIENCE.md` › Mikrotekst og er foreløpig for bruker uten historikk og bruker med historikk (§10).
 - **Ingen treff i det hele tatt:** Systemet viser konkrete forslag til hva brukeren kan endre: lengre varighet, et annet startpunkt eller en annen turtype.
 
 ### 4.4 Vær og bekledning
@@ -263,7 +265,7 @@ Når brukeren har skrevet et fritekstønske, får KI bare fritekstønsket og tur
   - kommer etter tidsgrensen på 5 sekunder.
 - Da brukes reserveløsningen: fritekstønsket ignoreres, og begrunnelsen lages fra reservemalen. Forkastede KI-svar logges, slik at de kan brukes i kvalitetssikringen. Hva loggen inneholder, står i NFR-5.
 - Reserveløsningen brukes også når KI-nøkkelen mangler, og når grensen for KI-kall er nådd (NFR-8).
-- Har brukeren skrevet et fritekstønske som ble ignorert, viser systemet meldingen «Jeg kunne ikke ta hensyn til ønsket ditt denne gangen». KI-merket viser «Begrunnelse fra mal» (FR-12). Reservemalen viser aldri til fritekstønsket.
+- Har brukeren skrevet et fritekstønske som ble ignorert, viser systemet en melding om at ønsket ikke kunne tas hensyn til denne gangen. KI-merket viser «Begrunnelse fra mal» (FR-12). Reservemalen viser aldri til fritekstønsket.
 
 ### 4.6 Konto
 
@@ -271,8 +273,8 @@ Når brukeren har skrevet et fritekstønske, får KI bare fritekstønsket og tur
 
 #### FR-14: Lage konto, logge inn og logge ut
 - Gjest kan lage konto med e-post og passord. Passordet må ha minst 8 tegn og lagres bare som hash.
-- Hvis e-posten allerede er registrert, viser systemet «Kunne ikke lage konto – prøv å logge inn».
-- Ved feil innlogging viser systemet «Feil e-post eller passord», uten å si hvilket av dem som er feil.
+- Hvis e-posten allerede er registrert, viser systemet en melding om at kontoen ikke kunne lages, med forslag om å logge inn.
+- Ved feil innlogging viser systemet en melding om at e-post eller passord er feil, uten å si hvilket av dem som er feil.
 - Bruker kan logge ut.
 - Når en gjest prøver en funksjon som krever konto, blir hen bedt om å logge inn eller lage konto. Turforslaget gjesten så på, beholdes gjennom kontooppretting og innlogging.
 - En gjest som har trykket «Registrer gjennomført tur», går etter innlogging eller kontooppretting rett inn i registreringen av den turen (FR-16).
@@ -296,7 +298,7 @@ Bruker kan registrere en tur som gjennomført, enten direkte fra turforslaget el
 
 #### FR-17: Se historikk
 Bruker kan se historikken sin med tur, dato og vurdering, der brukt tid vises sammen med estimert tid. Bruker kan åpne en tur fra historikken og få den vist som turforslag fra historikken (§3). Gjelder UJ-2.
-- **Over nivåtaket:** Bruker kan åpne en tur fra historikken også når turnivået er over det nåværende nivåtaket. Det er brukerens eget valg, så den harde grensen i FR-19 og kontrollen i SM-C1 gjelder ikke. Turforslaget viser da merknaden «Denne turen er over nivået jeg foreslår for deg nå.»
+- **Over nivåtaket:** Bruker kan åpne en tur fra historikken også når turnivået er over det nåværende nivåtaket. Det er brukerens eget valg, så den harde grensen i FR-19 og kontrollen i SM-C1 gjelder ikke. Turforslaget viser da en merknad om at turen er over nivået tjenesten foreslår nå.
 - **Turforslag fra historikken** avviker fra et vanlig turforslag:
   - Linjen «Fra historikken din» står i stedet for søkeoppsummeringen.
   - Begrunnelsen lages fra en fast mal uten KI, for eksempel «Du gikk denne turen 12. oktober og ga den 5 av 5.» KI-merket viser «Begrunnelse fra mal» (FR-12), og kravet i FR-12 om å nevne varigheten gjelder ikke.
@@ -552,3 +554,4 @@ Antakelsene og standardverdiene i kravene, endringene i v1.1 og rettingene etter
 | 1.5 | 2026-11-12 | Etter tilbakemeldingen på PRD-en (4.3): NFR-8 har fått en grense for KI-kall (20 per nettleser per time, 200 per døgn) som også begrenser kostnaden, og NFR-5 sier hva loggen over forkastede KI-svar inneholder og at den slettes etter 30 dager. Berørt: §0, FR-13, NFR-5, NFR-8 og SM-2. Valgt av produkteier 2026-11-12 |
 | 1.6 | 2026-11-12 | Etter tilbakemeldingen på PRD-en (4.2): turdatabasen er 15–30 turer, der 15 turer som oppfyller sammensetningen er P1, og tur 16–30 er P2. Turillustrasjonen i FR-6 er flyttet til P2 som nr. 3 i kutt-rekkefølgen, med følger av kutt. Berørt: §3, FR-1, FR-6, §7.1 og §9. Valgt av produkteier 2026-11-12 |
 | 1.7 | 2026-11-12 | Etter tilbakemeldingen på PRD-en (4.4): P2-deler som P1-krav og brukerreiser bygger på, er merket «P2» i UJ-1, UJ-2, FR-4, FR-5, FR-6, FR-17 og §6. «Følger av kutt» i §7.1 har én linje per P2-krav (FR-11, FR-9 og FR-10, FR-20, FR-17.1 og NFR-9) |
+| 1.8 | 2026-11-12 | Etter tilbakemeldingen på PRD-en (4.5): meldinger er beskrevet med budskap, og den ferdige teksten står bare i `EXPERIENCE.md` › Mikrotekst. Ny regel i §0 om hva som fortsatt står ordrett. Berørt: §0, UJ-1, FR-6, FR-7, FR-8, FR-13, FR-14 og FR-17 |
