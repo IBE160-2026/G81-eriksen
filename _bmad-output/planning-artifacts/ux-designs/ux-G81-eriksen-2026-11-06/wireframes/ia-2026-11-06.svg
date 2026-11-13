@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="40 -2 2080 1262" width="2080" height="1262">
+<!-- Generert fra ia-2026-11-06.excalidraw -->
+<rect x="40" y="-2" width="2080" height="1262" fill="#ffffff"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="60" y="45.9">IA – Your Next Adventure (nettside, desktop, v1)</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="60" y="74.95">Skjermer, ruter og tilgang. Kilde: PRD §6 + .memlog 2026-11-06. Gjest og bruker ser samme søkeskjema.</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1660" y="30.95">Forklaring</tspan></text>
+<rect x="1660" y="44" width="30" height="18" rx="4.5" ry="4.5" fill="#e6f4ea" stroke="#1e1e1e" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1700" y="57.02">Åpen for alle (gjest og innlogget)</tspan></text>
+<rect x="1660" y="70" width="30" height="18" rx="4.5" ry="4.5" fill="#fde8d7" stroke="#1e1e1e" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1700" y="83.03">Kun innlogget (krever konto)</tspan></text>
+<rect x="1660" y="96" width="30" height="18" rx="4.5" ry="4.5" fill="#f1f3f5" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="8 9"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1700" y="109.03">Innlogging / registrering (port)</tspan></text>
+<rect x="1660" y="122" width="30" height="18" rx="4.5" ry="4.5" fill="#fff9db" stroke="#1e1e1e" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1700" y="135.03">Går igjen på tvers</tspan></text>
+<path d="M1660 157 L1690 157" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="8 9" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1678.22,162.49 1690,157 1678.22,151.51" fill="none" stroke="#1e1e1e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1700" y="161.03">Gjest-rute via innlogging</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="60" y="112.95">Toppmeny – gjest</tspan></text>
+<rect x="60" y="124" width="640" height="52" rx="13" ry="13" fill="#ffffff" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="76" y="138" width="24" height="24" rx="6" ry="6" fill="#ced4da" stroke="#1e1e1e" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="110" y="154.8">Your Next Adventure</tspan></text>
+<rect x="590" y="136" width="96" height="28" rx="7" ry="7" fill="#ffffff" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#2F5866" text-anchor="middle" xml:space="preserve"><tspan x="638" y="154.88">Logg inn</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="60" y="195.1">Logo → Søk  ·  «Logg inn» → Logg inn / Registrer (retur dit hen var)</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="780" y="112.95">Toppmeny – innlogget</tspan></text>
+<rect x="780" y="124" width="800" height="52" rx="13" ry="13" fill="#ffffff" stroke="#1e1e1e" stroke-width="1"/>
+<rect x="796" y="138" width="24" height="24" rx="6" ry="6" fill="#ced4da" stroke="#1e1e1e" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="830" y="154.8">Your Next Adventure</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#2F5866" text-anchor="start" xml:space="preserve"><tspan x="1290" y="154.88">Finn tur</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#2F5866" text-anchor="start" xml:space="preserve"><tspan x="1380" y="154.88">Historikk</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#2F5866" text-anchor="start" xml:space="preserve"><tspan x="1490" y="154.88">Konto</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="780" y="195.1">Logo og «Finn tur» → Søk  ·  «Historikk» → Historikk  ·  «Konto» → Konto</tspan></text>
+<rect x="60" y="330" width="380" height="260" rx="32" ry="32" fill="#e6f4ea" stroke="#1e1e1e" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="78" y="362.5">Søk (forside)</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="78" y="391.02">Søkeskjemaet møter brukeren direkte – ingen</tspan><tspan x="78" y="407.27">intro-side.</tspan><tspan x="78" y="423.52">• Varighet og Dato (påkrevd)</tspan><tspan x="78" y="439.77">• Turtype som illustrerte kort: marka · utsikt</tspan><tspan x="78" y="456.02">· topptur (valgfri)</tspan><tspan x="78" y="472.27">• Startpunkt og Fritekstønske (valgfritt)</tspan><tspan x="78" y="488.52">• Feilmelding ved feltet (FR-4)</tspan><tspan x="78" y="504.77">• Forhåndsutfylt når man kommer fra «Endre søk»</tspan></text>
+<rect x="580" y="330" width="420" height="300" rx="32" ry="32" fill="#e6f4ea" stroke="#1e1e1e" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="598" y="362.5">Turforslag (egen visning)</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="598" y="391.02">• Søkeoppsummering øverst: «Lørdag 7. nov · 2 t ·</tspan><tspan x="598" y="407.27">Utsikt» + «Endre søk»</tspan><tspan x="598" y="423.52">• «Stille kart»: stort kart til venstre, rolig</tspan><tspan x="598" y="439.77">infokolonne til høyre</tspan><tspan x="598" y="456.02">• Ett forslag om gangen</tspan><tspan x="598" y="472.27">• «Nytt forslag» – neste treff, blir i visningen</tspan><tspan x="598" y="488.52">• «Registrer gjennomført tur»</tspan><tspan x="598" y="504.77">• Tilstander: laster · ingen treff · nivåtak · alle</tspan><tspan x="598" y="521.02">vist · uten værvarsel · reserveløsning · topptur →</tspan><tspan x="598" y="537.27">utsikt</tspan></text>
+<rect x="1200" y="330" width="380" height="260" rx="32" ry="32" fill="#fde8d7" stroke="#1e1e1e" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1218" y="362.5">Registrer gjennomført tur</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1218" y="391.02">Egen side, ikke dialog (krever konto).</tspan><tspan x="1218" y="407.27">• Liten oppsummering øverst: turnavn +</tspan><tspan x="1218" y="423.52">illustrasjon</tspan><tspan x="1218" y="439.77">• Dato, Brukt tid, Opplevd vanskelighet,</tspan><tspan x="1218" y="456.02">Fornøydhet – alle påkrevd</tspan><tspan x="1218" y="472.27">• Etter registrering: suksessmelding og videre</tspan><tspan x="1218" y="488.52">til Historikk</tspan></text>
+<rect x="1720" y="330" width="380" height="260" rx="32" ry="32" fill="#fde8d7" stroke="#1e1e1e" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1738" y="362.5">Historikk</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1738" y="391.02">Kun innlogget. Nås fra «Historikk» i</tspan><tspan x="1738" y="407.27">toppmenyen.</tspan><tspan x="1738" y="423.52">• Tur, dato og vurdering</tspan><tspan x="1738" y="439.77">• Brukt tid vises sammen med estimert tid</tspan><tspan x="1738" y="456.02">• Åpne en tur som turforslag igjen</tspan><tspan x="1738" y="472.27">• «Registrer gjennomført tur» fra historikken</tspan><tspan x="1738" y="488.52">• Suksessmelding (ikon + tekst) etter</tspan><tspan x="1738" y="504.77">registrering</tspan></text>
+<rect x="1720" y="760" width="380" height="200" rx="32" ry="32" fill="#fde8d7" stroke="#1e1e1e" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1738" y="792.5">Konto</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1738" y="821.02">Kun innlogget. Nås fra «Konto» i toppmenyen.</tspan><tspan x="1738" y="837.27">• E-post</tspan><tspan x="1738" y="853.52">• «Logg ut» [ANTAKELSE: plassering]</tspan><tspan x="1738" y="869.77">• «Slett konto»</tspan></text>
+<rect x="1720" y="1060" width="380" height="180" rx="32" ry="32" fill="#fde8d7" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 10"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="18" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1738" y="1090.65">Bekreft sletting</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1738" y="1118.53">Bekreftelse før sletting. All historikk slettes</tspan><tspan x="1738" y="1134.78">permanent (FR-15).</tspan><tspan x="1738" y="1151.03">Ordlyd ikke gitt i PRD [ANTAKELSE].</tspan><tspan x="1738" y="1167.28">Etter sletting: forsiden som gjest [ANTAKELSE].</tspan></text>
+<rect x="820" y="780" width="420" height="250" rx="32" ry="32" fill="#f1f3f5" stroke="#1e1e1e" stroke-width="2" stroke-dasharray="8 10"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="838" y="812.5">Logg inn / Registrer</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="838" y="841.02">• E-post + passord (minst 8 tegn)</tspan><tspan x="838" y="857.27">• Feil: «Feil e-post eller passord»</tspan><tspan x="838" y="873.52">• Finnes fra før: «Kunne ikke registrere – prøv å</tspan><tspan x="838" y="889.77">logge inn»</tspan><tspan x="838" y="906.02">• Gjest som prøver en kontofunksjon havner her</tspan><tspan x="838" y="922.27">(FR-14)</tspan><tspan x="838" y="938.52">• Turforslaget beholdes gjennom innlogging</tspan><tspan x="838" y="954.77">• Nås også fra «Logg inn» i toppmenyen</tspan></text>
+<rect x="60" y="780" width="540" height="360" rx="32" ry="32" fill="#fff9db" stroke="#1e1e1e" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="78" y="812.5">Går igjen på tvers</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="78" y="841.02">• Kreditering på kartet i turforslaget: «© Kartverket» · «©</tspan><tspan x="78" y="857.27">OpenStreetMap contributors» (med lenke) · «Data fra MET Norge»</tspan><tspan x="78" y="873.52">• Lenke «Se turen på ut.no» – vises bare hvis turen har en; forslaget</tspan><tspan x="78" y="889.77">fungerer uten</tspan><tspan x="78" y="906.02">• Turnivå alltid med farge og tekst, f.eks. «Grønn – lett»</tspan><tspan x="78" y="922.27">• Estimert tid alltid med «pauser ikke inkludert»</tspan><tspan x="78" y="938.52">• Hver tilstand viser et turforslag eller en forklaring med neste</tspan><tspan x="78" y="954.77">steg (NFR-2)</tspan><tspan x="78" y="971.02">• Kun norsk. Mørk modus følger systeminnstillingen (lav prioritet)</tspan></text>
+<path d="M440 420 L580 420" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="565.5,426.76 580,420 565.5,413.24" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="middle" xml:space="preserve"><tspan x="510" y="395.1">«Finn en tur»</tspan><tspan x="510" y="410.1">(gyldig skjema)</tspan></text>
+<path d="M580 540 L440 540" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="454.5,533.24 440,540 454.5,546.76" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="middle" xml:space="preserve"><tspan x="510" y="559.1">«Endre søk»</tspan><tspan x="510" y="574.1">→ forhåndsutfylt</tspan></text>
+<path d="M900 330 L900 292 L680 292 L680 330" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="673.24,315.5 680,330 686.76,315.5" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="middle" xml:space="preserve"><tspan x="790" y="279.1">«Nytt forslag» – blir i visningen</tspan></text>
+<path d="M1910 330 L1910 232 L960 232 L960 330" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="953.24,315.5 960,330 966.76,315.5" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="middle" xml:space="preserve"><tspan x="1435" y="221.1">Åpne en tur fra historikken → vises som turforslag igjen</tspan></text>
+<path d="M1000 420 L1200 420" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1185.5,426.76 1200,420 1185.5,413.24" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="middle" xml:space="preserve"><tspan x="1100" y="395.1">«Registrer gjennomført tur»</tspan><tspan x="1100" y="410.1">(innlogget)</tspan></text>
+<path d="M1580 420 L1720 420" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1705.5,426.76 1720,420 1705.5,413.24" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="middle" xml:space="preserve"><tspan x="1650" y="395.1">Registrert →</tspan><tspan x="1650" y="410.1">suksessmelding</tspan></text>
+<path d="M1720 530 L1580 530" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1594.5,523.24 1580,530 1594.5,536.76" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="middle" xml:space="preserve"><tspan x="1650" y="549.1">Registrer fra</tspan><tspan x="1650" y="564.1">historikken</tspan></text>
+<path d="M880 630 L880 780" fill="none" stroke="#d9480f" stroke-width="2" stroke-dasharray="8 10" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="873.24,765.5 880,780 886.76,765.5" fill="none" stroke="#d9480f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="end" xml:space="preserve"><tspan x="868" y="675.1">«Registrer gjennomført tur»</tspan><tspan x="868" y="690.1">som gjest → logg inn / registrer</tspan></text>
+<path d="M980 780 L980 630" fill="none" stroke="#d9480f" stroke-width="2" stroke-dasharray="8 10" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="986.76,644.5 980,630 973.24,644.5" fill="none" stroke="#d9480f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="992" y="661.1">Logget inn av andre grunner:</tspan><tspan x="992" y="676.1">retur dit hen var,</tspan><tspan x="992" y="691.1">turforslaget beholdes</tspan></text>
+<path d="M1240 880 L1390 880 L1390 590" fill="none" stroke="#d9480f" stroke-width="2" stroke-dasharray="8 10" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1396.76,604.5 1390,590 1383.24,604.5" fill="none" stroke="#d9480f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="1402" y="701.1">Utløst av «Registrer</tspan><tspan x="1402" y="716.1">gjennomført tur»:</tspan><tspan x="1402" y="731.1">rett inn i registrering</tspan><tspan x="1402" y="746.1">av den turen</tspan></text>
+<path d="M1910 960 L1910 1060" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1903.24,1045.5 1910,1060 1916.76,1045.5" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="1922" y="1009.1">«Slett konto»</tspan></text>
+</svg>

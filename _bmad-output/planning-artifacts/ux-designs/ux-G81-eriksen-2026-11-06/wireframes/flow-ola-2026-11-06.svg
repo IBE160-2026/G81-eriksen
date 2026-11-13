@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 0 6656 1682" width="6656" height="1682">
+<!-- Generert fra flow-ola-2026-11-06.excalidraw -->
+<defs><pattern id="hatch0" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-41)"><line x1="0" y1="0" x2="0" y2="8" stroke="#dee2e6" stroke-width="1.5"/></pattern></defs>
+<rect x="20" y="0" width="6656" height="1682" fill="#ffffff"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="40" y="45.9">Flyt: Ola på sofaen vil på tur til helgen (gjest → konto)</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="40" y="74.03">Lav-fi wireframes, desktop 1280 × 800 skalert til 60 %, venstre → høyre. UI-tekst følger PRD-en der den finnes; [ANTAKELSE] = foreløpig plassholdertekst. Turen «Granåsen rundt» er et oppdiktet eksempel.</tspan></text>
+<rect x="40" y="440" width="260" height="250" rx="32" ry="32" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+<ellipse cx="82" cy="480" rx="22" ry="22" fill="#f1f3f5" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="18" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="116" y="482.65">Ola, på sofaen</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="60" y="527.1">Vil på tur til helgen. Ikke</tspan><tspan x="60" y="542.1">turvant, kjenner ikke marka</tspan><tspan x="60" y="557.1">godt. Vil ha en enkel måte å få</tspan><tspan x="60" y="572.1">forslag på.</tspan><tspan x="60" y="587.1"> </tspan><tspan x="60" y="602.1">Gjest (ikke innlogget) · PC</tspan></text>
+<path d="M300 570 L440 570" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="425.5,576.76 440,570 425.5,563.24" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#495057" text-anchor="middle" xml:space="preserve"><tspan x="370" y="555.77">Åpner siden</tspan></text>
+<rect x="440" y="330" width="768" height="480" fill="#ffffff" stroke="#495057" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="440" y="314.5">1  Søk (forside)</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="end" xml:space="preserve"><tspan x="1208" y="313.1">gjest</tspan></text>
+<rect x="440" y="330" width="768" height="34" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+<rect x="454" y="339" width="16" height="16" rx="4" ry="4" fill="#adb5bd" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="478" y="351.02">Your Next Adventure</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="end" xml:space="preserve"><tspan x="1192" y="351.1">Logg inn</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="22" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="488" y="402.35">Hvor lang tid har du?</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="488" y="426.18">Fyll inn varighet og dato, så får du ett turforslag om gangen.</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="488" y="460.18">Varighet</tspan></text>
+<rect x="488" y="466" width="140" height="28" rx="7" ry="7" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="496" y="483.18">2 timer ▾</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="488" y="506.32">1–8 timer</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="648" y="460.18">Dato</tspan></text>
+<rect x="648" y="466" width="160" height="28" rx="7" ry="7" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="656" y="483.18">Lørdag 7. november ▾</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="648" y="506.32">Fra i dag til 30 dager frem</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="488" y="534.17">Startpunkt (valgfritt)</tspan></text>
+<rect x="488" y="540" width="320" height="28" rx="7" ry="7" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="496" y="557.17">Alle startpunkt ▾</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="488" y="592.17">Fritekstønske (valgfritt)</tspan></text>
+<rect x="488" y="598" width="320" height="56" rx="14" ry="14" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#868e96" text-anchor="start" xml:space="preserve"><tspan x="496" y="614.25">For eksempel «rundt 5 km» eller «forbi et vann»</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="end" xml:space="preserve"><tspan x="808" y="666.33">0 / 200 tegn</tspan></text>
+<rect x="488" y="690" width="140" height="34" rx="8.5" ry="8.5" fill="#2F5866" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#ffffff" text-anchor="middle" xml:space="preserve"><tspan x="558" y="710.9">Finn en tur</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="844" y="460.18">Turtype (valgfritt)</tspan></text>
+<rect x="844" y="468" width="102" height="126" rx="25.5" ry="25.5" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<rect x="853" y="476" width="84" height="60" rx="15" ry="15" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<path d="M867 528 L876 492 L885 528 L867 528 Z" fill="none" stroke="#2F5866" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M889 528 L898 492 L907 528 L889 528 Z" fill="none" stroke="#2F5866" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M911 528 L920 492 L929 528 L911 528 Z" fill="none" stroke="#2F5866" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="895" y="555.1">Marka</tspan></text>
+<rect x="956" y="468" width="102" height="126" rx="25.5" ry="25.5" fill="#eef5ef" stroke="#2F5866" stroke-width="3"/>
+<rect x="965" y="476" width="84" height="60" rx="15" ry="15" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<path d="M969 530 L995 498 L1013 514 L1029 494 L1047 530" fill="none" stroke="#2F5866" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<ellipse cx="1029" cy="488" rx="6" ry="6" fill="none" stroke="#c0694a" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="1007" y="555.1">Utsikt</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#2F5866" text-anchor="middle" xml:space="preserve"><tspan x="1007" y="575.25">Valgt</tspan></text>
+<rect x="1068" y="468" width="102" height="126" rx="25.5" ry="25.5" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<rect x="1077" y="476" width="84" height="60" rx="15" ry="15" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<path d="M1083 530 L1119 484 L1155 530" fill="none" stroke="#2F5866" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1119 484 L1119 474 L1129 478 L1119 482" fill="none" stroke="#c0694a" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="1119" y="555.1">Topptur</tspan></text>
+<rect x="440" y="130" width="520" height="65" rx="16.25" ry="16.25" fill="#fff9db" stroke="#f08c00" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="452" y="151.1">Søkeskjemaet møter brukeren direkte. Ola velger Varighet 2 t, Dato lørdag</tspan><tspan x="452" y="166.1">og Turtype Utsikt (illustrerte kort). Startpunkt og Fritekstønske er</tspan><tspan x="452" y="181.1">valgfrie – han hopper over dem.</tspan></text>
+<path d="M1208 570 L1468 570" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1453.5,576.76 1468,570 1453.5,563.24" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#495057" text-anchor="middle" xml:space="preserve"><tspan x="1338" y="539.52">Velger 2 t, lørdag, Utsikt ·</tspan><tspan x="1338" y="555.77">trykker «Finn en tur»</tspan></text>
+<rect x="1468" y="330" width="768" height="480" fill="#ffffff" stroke="#495057" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1468" y="314.5">2  Laster</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="end" xml:space="preserve"><tspan x="2236" y="313.1">gjest</tspan></text>
+<rect x="1468" y="330" width="768" height="34" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+<rect x="1482" y="339" width="16" height="16" rx="4" ry="4" fill="#adb5bd" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1506" y="351.02">Your Next Adventure</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="end" xml:space="preserve"><tspan x="2220" y="351.1">Logg inn</tspan></text>
+<rect x="1468" y="364" width="768" height="26" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1484" y="381.1">Lørdag 7. nov · 2 t · Utsikt</tspan></text>
+<rect x="1468" y="390" width="440" height="420" fill="url(#hatch0)" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="1480" y="412.18">Kart lastes …</tspan></text>
+<ellipse cx="1945" cy="447" rx="17" ry="17" fill="none" stroke="#2F5866" stroke-width="3" stroke-dasharray="8 11"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1974" y="442.02">Finner en tur med utsikt som</tspan><tspan x="1974" y="458.27">passer 2 timer …</tspan></text>
+<rect x="1928" y="500" width="200" height="14" rx="3.5" ry="3.5" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<rect x="1928" y="530" width="140" height="14" rx="3.5" ry="3.5" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<rect x="1928" y="560" width="260" height="14" rx="3.5" ry="3.5" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<rect x="1928" y="590" width="180" height="14" rx="3.5" ry="3.5" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<rect x="1928" y="620" width="240" height="14" rx="3.5" ry="3.5" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<rect x="1928" y="650" width="120" height="14" rx="3.5" ry="3.5" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<rect x="1468" y="130" width="520" height="65" rx="16.25" ry="16.25" fill="#fff9db" stroke="#f08c00" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1480" y="151.1">Lastetilstand: innholdet er ikke spesifisert i PRD. Ordlyden er en</tspan><tspan x="1480" y="166.1">plassholder [ANTAKELSE]. Søkeoppsummeringen vises allerede, så Ola ser</tspan><tspan x="1480" y="181.1">hva som søkes etter.</tspan></text>
+<path d="M2236 570 L2496 570" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="2481.5,576.76 2496,570 2481.5,563.24" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#495057" text-anchor="middle" xml:space="preserve"><tspan x="2366" y="555.77">Forslaget er klart</tspan></text>
+<rect x="2496" y="330" width="768" height="480" fill="#ffffff" stroke="#495057" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="2496" y="314.5">3  Turforslag – «Stille kart»</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="end" xml:space="preserve"><tspan x="3264" y="313.1">gjest</tspan></text>
+<rect x="2496" y="330" width="768" height="34" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+<rect x="2510" y="339" width="16" height="16" rx="4" ry="4" fill="#adb5bd" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="2534" y="351.02">Your Next Adventure</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="end" xml:space="preserve"><tspan x="3248" y="351.1">Logg inn</tspan></text>
+<rect x="2496" y="364" width="768" height="26" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="2512" y="381.1">Lørdag 7. nov · 2 t · Utsikt</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="end" xml:space="preserve"><tspan x="3248" y="381.1">Endre søk</tspan></text>
+<path d="M3187.52 385 L3248 385" fill="none" stroke="#2F5866" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="2496" y="390" width="440" height="420" fill="#e9efe4" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="2508" y="409.25">Kart (Kartverket-fliser)</tspan></text>
+<ellipse cx="2796" cy="666" rx="50" ry="26" fill="#d0e1ea" stroke="#d0e1ea" stroke-width="1"/>
+<path d="M2623.5 674 C2619.33 657.67 2592.25 608.67 2598.5 576 C2604.75 543.33 2636 496.67 2661 478 C2686 459.33 2723.5 452.33 2748.5 464 C2773.5 475.67 2804.75 515.33 2811 548 C2817.25 580.67 2802.67 632 2786 660 C2769.33 688 2738.08 713.67 2711 716 C2683.92 718.33 2638.08 681 2623.5 674 Z" fill="none" stroke="#c0694a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<ellipse cx="2620" cy="675" rx="9" ry="9" fill="#ffffff" stroke="#c0694a" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="2620" y="678.25">S</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="2746" y="451.25">▲ Utsikt</tspan></text>
+<rect x="2902" y="402" width="22" height="22" rx="5.5" ry="5.5" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="2913" y="416.1">+</tspan></text>
+<rect x="2902" y="426" width="22" height="22" rx="5.5" ry="5.5" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="2913" y="440.1">−</tspan></text>
+<rect x="2496" y="790" width="440" height="20" fill="#ffffff" stroke="#495057" stroke-width="1" opacity="0.85"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="2504" y="802.33">© Kartverket · © OpenStreetMap contributors · Data fra MET Norge</tspan></text>
+<rect x="2500" y="394" width="432" height="392" rx="32" ry="32" fill="none" stroke="#d9480f" stroke-width="2" stroke-dasharray="8 10"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="18" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="2956" y="418.65">Granåsen rundt</tspan></text>
+<rect x="2956" y="432" width="96" height="22" rx="5.5" ry="5.5" fill="#1A7F37" stroke="#1A7F37" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle" xml:space="preserve"><tspan x="3004" y="447.1">Grønn – lett</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="2956" y="466.32">Beregnet av tjenesten etter Merkehåndbokas mal ut fra</tspan><tspan x="2956" y="477.57">lengde og høydemeter. Terreng og føre er ikke vurdert.</tspan></text>
+<rect x="2956" y="487.5" width="147.36" height="20" rx="5" ry="5" fill="#fbe3d4" stroke="#c0694a" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="3029.68" y="500.68">Utsikt – som du ba om</tspan></text>
+<rect x="2952" y="483.5" width="155.36" height="28" rx="7" ry="7" fill="none" stroke="#d9480f" stroke-width="2" stroke-dasharray="8 10"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="2956" y="526.6">Rundtur · 3,5 km totalt</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="2956" y="542.6">ca. 130 høydemeter</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="2956" y="558.6">ca. 1 t 35 min (pauser ikke inkludert)</tspan></text>
+<rect x="2956" y="569.5" width="290" height="62" rx="15.5" ry="15.5" fill="#f1f3f5" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="2962" y="580.83">Rute og høydeprofil (illustrasjon)</tspan></text>
+<path d="M2976.5 619.1 C2975.33 616.65 2967.75 609.3 2969.5 604.4 C2971.25 599.5 2980 592.5 2987 589.7 C2994 586.9 3004.5 585.85 3011.5 587.6 C3018.5 589.35 3027.25 595.3 3029 600.2 C3030.75 605.1 3026.67 612.8 3022 617 C3017.33 621.2 3008.58 625.05 3001 625.4 C2993.42 625.75 2980.58 620.15 2976.5 619.1 Z" fill="none" stroke="#c0694a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M3056 623.5 C3060.45 622 3072.32 617.2 3082.7 614.5 C3093.08 611.8 3107.92 611.2 3118.3 607.3 C3128.68 603.4 3136.99 592.6 3145 591.1 C3153.01 589.6 3157.46 594.7 3166.36 598.3 C3175.26 601.9 3187.13 608.5 3198.4 612.7 C3209.67 616.9 3228.07 621.7 3234 623.5" fill="none" stroke="#2F5866" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M3056 623.5 L3234 623.5" fill="none" stroke="#495057" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="2952" y="565.5" width="298" height="70" rx="17.5" ry="17.5" fill="none" stroke="#d9480f" stroke-width="2" stroke-dasharray="8 10"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="2956" y="649.67">Begrunnelse</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="2956" y="663.75">Turen tar ca. 1 t 35 min og har utsikt, som du ba</tspan><tspan x="2956" y="676.25">om. Den er grønn, som passer når du er ny.</tspan><tspan x="2956" y="688.75">[ANTAKELSE]</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="2956" y="708.17">Bekledningstips for lørdag</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="2956" y="722.25">• Ta med et ekstra lag</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="2956" y="736.25">• Gode sko og litt mat og drikke</tspan></text>
+<rect x="2956" y="745" width="120" height="26" rx="6.5" ry="6.5" fill="#2F5866" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#ffffff" text-anchor="middle" xml:space="preserve"><tspan x="3016" y="761.29">Nytt forslag</tspan></text>
+<rect x="3084" y="745" width="162" height="26" rx="6.5" ry="6.5" fill="#ffffff" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#2F5866" text-anchor="middle" xml:space="preserve"><tspan x="3165" y="761.29">Registrer gjennomført tur</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#2F5866" text-anchor="start" xml:space="preserve"><tspan x="2956" y="789.17">Se turen på ut.no ↗</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#495057" text-anchor="middle" xml:space="preserve"><tspan x="2880" y="828.17">— folden ved 1280 × 800: alt over er synlig uten rulling —</tspan></text>
+<rect x="2496" y="100" width="520" height="95" rx="23.75" ry="23.75" fill="#ffe8cc" stroke="#d9480f" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="2508" y="121.1">KLIMAKS – «ja, den tar jeg»</tspan><tspan x="2508" y="136.1">Illustrasjon (rute + høydeprofil), kart og turtype-treff («Utsikt – som</tspan><tspan x="2508" y="151.1">du ba om») er synlige samtidig over folden (stiplet oransje). Treffet</tspan><tspan x="2508" y="166.1">står også i begrunnelsen. Kreditering nederst på kartet; ut.no-lenken</tspan><tspan x="2508" y="181.1">vises bare hvis turen har en.</tspan></text>
+<path d="M3204 330 L3204 286 L3034 286 L3034 330" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="3027.24,315.5 3034,330 3040.76,315.5" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="middle" xml:space="preserve"><tspan x="3119" y="275.1">«Nytt forslag» → neste treff</tspan></text>
+<path d="M3264 570 L3524 570" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="3509.5,576.76 3524,570 3509.5,563.24" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#495057" text-anchor="middle" xml:space="preserve"><tspan x="3394" y="539.52">Trykker «Registrer gjennomført</tspan><tspan x="3394" y="555.77">tur» som gjest</tspan></text>
+<rect x="3524" y="330" width="768" height="480" fill="#ffffff" stroke="#495057" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="3524" y="314.5">4  Logg inn / Registrer</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="end" xml:space="preserve"><tspan x="4292" y="313.1">gjest → konto</tspan></text>
+<rect x="3524" y="330" width="768" height="34" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+<rect x="3538" y="339" width="16" height="16" rx="4" ry="4" fill="#adb5bd" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="3562" y="351.02">Your Next Adventure</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="end" xml:space="preserve"><tspan x="4276" y="351.1">Logg inn</tspan></text>
+<rect x="3738" y="380" width="340" height="418" rx="32" ry="32" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<rect x="3754" y="394" width="308" height="50" rx="12.5" ry="12.5" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<rect x="3762" y="400" width="50" height="38" rx="9.5" ry="9.5" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<path d="M3772.3 428.6 C3771.6 426.73 3767.05 421.13 3768.1 417.4 C3769.15 413.67 3774.4 408.33 3778.6 406.2 C3782.8 404.07 3789.1 403.27 3793.3 404.6 C3797.5 405.93 3802.75 410.47 3803.8 414.2 C3804.85 417.93 3802.4 423.8 3799.6 427 C3796.8 430.2 3791.55 433.13 3787 433.4 C3782.45 433.67 3774.75 429.4 3772.3 428.6 Z" fill="none" stroke="#c0694a" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="3822" y="410.18">Granåsen rundt · Grønn – lett</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="3822" y="426.32">Turforslaget er tatt vare på. [ANTAKELSE]</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="3754" y="468.02">Logg inn for å registrere [ANTAKELSE]</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="3754" y="497.1">Logg inn</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="start" xml:space="preserve"><tspan x="3848" y="497.1">Registrer</tspan></text>
+<path d="M3754 506 L4062 506" fill="none" stroke="#ced4da" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M3848 506 L3908.48 506" fill="none" stroke="#2F5866" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="3754" y="530.17">E-post</tspan></text>
+<rect x="3754" y="536" width="308" height="28" rx="7" ry="7" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#868e96" text-anchor="start" xml:space="preserve"><tspan x="3762" y="553.17">ola@eksempel.no</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="3754" y="586.17">Passord</tspan></text>
+<rect x="3754" y="592" width="308" height="28" rx="7" ry="7" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="3762" y="609.17">••••••••</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="3754" y="632.33">Minst 8 tegn</tspan></text>
+<rect x="3754" y="652" width="308" height="34" rx="8.5" ry="8.5" fill="#2F5866" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle" xml:space="preserve"><tspan x="3908" y="672.6">Lag konto og fortsett [ANTAKELSE]</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#2F5866" text-anchor="middle" xml:space="preserve"><tspan x="3908" y="710.17">Tilbake til turforslaget [ANTAKELSE]</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="3754" y="738.33">Feil ved innlogging: «Feil e-post eller passord»</tspan><tspan x="3754" y="749.58">E-post finnes: «Kunne ikke registrere – prøv å logge inn»</tspan></text>
+<rect x="3524" y="130" width="560" height="80" rx="20" ry="20" fill="#fff9db" stroke="#f08c00" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="3536" y="151.1">Krav om konto (FR-14): gjesten blir bedt om å logge inn eller registrere seg.</tspan><tspan x="3536" y="166.1">Turforslaget beholdes. Utløst av «Registrer gjennomført tur» → etter innlogging</tspan><tspan x="3536" y="181.1">rett inn i registrering av denne turen. (Logger man inn av andre grunner: retur</tspan><tspan x="3536" y="196.1">dit man var.)</tspan></text>
+<path d="M4292 570 L4552 570" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="4537.5,576.76 4552,570 4537.5,563.24" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#495057" text-anchor="middle" xml:space="preserve"><tspan x="4422" y="539.52">Lager konto (e-post + passord) →</tspan><tspan x="4422" y="555.77">rett inn i registreringen</tspan></text>
+<rect x="4552" y="330" width="768" height="480" fill="#ffffff" stroke="#495057" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4552" y="314.5">5  Registrer gjennomført tur</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="end" xml:space="preserve"><tspan x="5320" y="313.1">innlogget</tspan></text>
+<rect x="4552" y="330" width="768" height="34" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+<rect x="4566" y="339" width="16" height="16" rx="4" ry="4" fill="#adb5bd" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4590" y="351.02">Your Next Adventure</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="start" xml:space="preserve"><tspan x="5110" y="351.1">Finn tur</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="start" xml:space="preserve"><tspan x="5180" y="351.1">Historikk</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="start" xml:space="preserve"><tspan x="5260" y="351.1">Konto</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4600" y="396.5">Registrer gjennomført tur</tspan></text>
+<rect x="4600" y="412" width="672" height="50" rx="12.5" ry="12.5" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<rect x="4608" y="418" width="56" height="38" rx="9.5" ry="9.5" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<path d="M4619.2 446.6 C4618.4 444.73 4613.2 439.13 4614.4 435.4 C4615.6 431.67 4621.6 426.33 4626.4 424.2 C4631.2 422.07 4638.4 421.27 4643.2 422.6 C4648 423.93 4654 428.47 4655.2 432.2 C4656.4 435.93 4653.6 441.8 4650.4 445 C4647.2 448.2 4641.2 451.13 4636 451.4 C4630.8 451.67 4622 447.4 4619.2 446.6 Z" fill="none" stroke="#c0694a" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4676" y="432.02">Granåsen rundt</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="4676" y="447.25">Grønn – lett · Rundtur · 3,5 km totalt · ca. 1 t 35 min (pauser ikke inkludert)</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4600" y="488.18">Dato</tspan></text>
+<rect x="4600" y="494" width="200" height="28" rx="7" ry="7" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4608" y="511.18">Lørdag 7. november ▾</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="4600" y="534.33">I dag eller tidligere</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4840" y="488.18">Brukt tid</tspan></text>
+<rect x="4840" y="494" width="160" height="28" rx="7" ry="7" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4848" y="511.18">1 t 50 min</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="4840" y="534.33">10 min–24 t</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4600" y="562.17">Opplevd vanskelighet</tspan></text>
+<ellipse cx="4608" cy="580" rx="8" ry="8" fill="none" stroke="#495057" stroke-width="1"/>
+<ellipse cx="4608" cy="580" rx="4" ry="4" fill="#2F5866" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4624" y="583.1">lett</tspan></text>
+<ellipse cx="4718" cy="580" rx="8" ry="8" fill="none" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4734" y="583.1">moderat</tspan></text>
+<ellipse cx="4828" cy="580" rx="8" ry="8" fill="none" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4844" y="583.1">vanskelig</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4600" y="618.17">Fornøydhet (1–5)</tspan></text>
+<rect x="4600" y="626" width="36" height="30" rx="7.5" ry="7.5" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="4618" y="643.1">1</tspan></text>
+<rect x="4644" y="626" width="36" height="30" rx="7.5" ry="7.5" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="4662" y="643.1">2</tspan></text>
+<rect x="4688" y="626" width="36" height="30" rx="7.5" ry="7.5" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="4706" y="643.1">3</tspan></text>
+<rect x="4732" y="626" width="36" height="30" rx="7.5" ry="7.5" fill="#2F5866" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle" xml:space="preserve"><tspan x="4750" y="643.1">4</tspan></text>
+<rect x="4776" y="626" width="36" height="30" rx="7.5" ry="7.5" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="4794" y="643.1">5</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="4600" y="676.33">Alle fire felt er påkrevd.</tspan></text>
+<rect x="4600" y="696" width="210" height="34" rx="8.5" ry="8.5" fill="#2F5866" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle" xml:space="preserve"><tspan x="4705" y="716.6">Registrer gjennomført tur</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#2F5866" text-anchor="start" xml:space="preserve"><tspan x="4826" y="715.17">Avbryt [ANTAKELSE]</tspan></text>
+<rect x="4552" y="130" width="520" height="65" rx="16.25" ry="16.25" fill="#fff9db" stroke="#f08c00" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4564" y="151.1">Egen side, ikke dialog (bedre for tastatur og skjermleser). Liten</tspan><tspan x="4564" y="166.1">oppsummering av turen øverst. Alle fire felt er påkrevd (FR-16).</tspan><tspan x="4564" y="181.1">Handlingen heter «registrere gjennomført tur», ikke «lagre».</tspan></text>
+<path d="M5320 570 L5580 570" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="5565.5,576.76 5580,570 5565.5,563.24" fill="none" stroke="#1e1e1e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#495057" text-anchor="middle" xml:space="preserve"><tspan x="5450" y="539.52">Fyller ut feltene · trykker</tspan><tspan x="5450" y="555.77">«Registrer gjennomført tur»</tspan></text>
+<rect x="5580" y="330" width="768" height="480" fill="#ffffff" stroke="#495057" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5580" y="314.5">6  Historikk med suksessmelding</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="end" xml:space="preserve"><tspan x="6348" y="313.1">innlogget</tspan></text>
+<rect x="5580" y="330" width="768" height="34" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+<rect x="5594" y="339" width="16" height="16" rx="4" ry="4" fill="#adb5bd" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5618" y="351.02">Your Next Adventure</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="start" xml:space="preserve"><tspan x="6138" y="351.1">Finn tur</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="start" xml:space="preserve"><tspan x="6208" y="351.1">Historikk</tspan></text>
+<path d="M6208 357 L6268.48 357" fill="none" stroke="#2F5866" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="start" xml:space="preserve"><tspan x="6288" y="351.1">Konto</tspan></text>
+<rect x="5628" y="380" width="672" height="36" rx="9" ry="9" fill="#e3efe7" stroke="#2E4D3C" stroke-width="1"/>
+<ellipse cx="5648" cy="398" rx="10" ry="10" fill="#ffffff" stroke="#2E4D3C" stroke-width="2"/>
+<path d="M5643 398 L5647 402 L5654 393" fill="none" stroke="#2E4D3C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2E4D3C" text-anchor="start" xml:space="preserve"><tspan x="5668" y="401.1">Turen er registrert i historikken din. [ANTAKELSE]</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5628" y="448.5">Historikk</tspan></text>
+<rect x="5628" y="466" width="672" height="26" fill="#f1f3f5" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5638" y="481.25">Tur</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5818" y="481.25">Dato</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5918" y="481.25">Brukt tid / estimert tid</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="6098" y="481.25">Opplevd vanskelighet</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="6228" y="481.25">Fornøydhet</tspan></text>
+<rect x="5628" y="492" width="672" height="90" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5638" y="513.1">Granåsen rundt</tspan></text>
+<rect x="5638" y="522" width="80" height="18" rx="4.5" ry="4.5" fill="#1A7F37" stroke="#1A7F37" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#ffffff" text-anchor="middle" xml:space="preserve"><tspan x="5678" y="533.25">Grønn – lett</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5818" y="512.17">7. nov. 2026</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5918" y="513.1">1 t 50 min</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="5918" y="529.25">estimert ca. 1 t 35 min</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="6098" y="512.17">lett</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="6228" y="512.17">4 av 5</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#2F5866" text-anchor="start" xml:space="preserve"><tspan x="5638" y="564.17">Åpne som turforslag [ANTAKELSE]</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#2F5866" text-anchor="start" xml:space="preserve"><tspan x="5852.96" y="564.17">Registrer gjennomført tur</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="5628" y="607.25">Nye søk prioriterer turer du ikke har gått. [ANTAKELSE]</tspan></text>
+<rect x="5628" y="626" width="180" height="32" rx="8" ry="8" fill="#ffffff" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="middle" xml:space="preserve"><tspan x="5718" y="645.6">Finn en ny tur [ANTAKELSE]</tspan></text>
+<rect x="5580" y="130" width="520" height="65" rx="16.25" ry="16.25" fill="#fff9db" stroke="#f08c00" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5592" y="151.1">Suksessmelding med ikon + tekst (ikke bare farge). Brukt tid vises sammen</tspan><tspan x="5592" y="166.1">med estimert tid (FR-17). En tur kan åpnes som turforslag igjen eller</tspan><tspan x="5592" y="181.1">registreres på nytt. Neste steg i kjerneflyten: søke på nytt.</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="40" y="1032.2">Kanttilstander (lav-fi)</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="40" y="1056.03">Hver tilstand viser enten et turforslag eller en forklaring med neste steg (NFR-2).</tspan></text>
+<rect x="440" y="1140" width="768" height="480" fill="#ffffff" stroke="#495057" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="440" y="1124.5">A  Feil i skjemaet</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="end" xml:space="preserve"><tspan x="1208" y="1123.1">fra: Søk</tspan></text>
+<rect x="440" y="1140" width="768" height="34" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+<rect x="454" y="1149" width="16" height="16" rx="4" ry="4" fill="#adb5bd" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="478" y="1161.03">Your Next Adventure</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="end" xml:space="preserve"><tspan x="1192" y="1161.1">Logg inn</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="22" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="488" y="1212.35">Hvor lang tid har du?</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="488" y="1236.17">Fyll inn varighet og dato, så får du ett turforslag om gangen.</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="488" y="1270.17">Varighet</tspan></text>
+<rect x="488" y="1276" width="140" height="28" rx="7" ry="7" fill="#ffffff" stroke="#c92a2a" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="496" y="1293.17">Velg ▾</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#c92a2a" text-anchor="start" xml:space="preserve"><tspan x="488" y="1316.33">! Velg varighet [ANTAKELSE]</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="648" y="1270.17">Dato</tspan></text>
+<rect x="648" y="1276" width="160" height="28" rx="7" ry="7" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="656" y="1293.17">Lørdag 7. november ▾</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="648" y="1316.33">Fra i dag til 30 dager frem</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="488" y="1344.17">Startpunkt (valgfritt)</tspan></text>
+<rect x="488" y="1350" width="320" height="28" rx="7" ry="7" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="496" y="1367.17">Alle startpunkt ▾</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="488" y="1402.17">Fritekstønske (valgfritt)</tspan></text>
+<rect x="488" y="1408" width="320" height="56" rx="14" ry="14" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#868e96" text-anchor="start" xml:space="preserve"><tspan x="496" y="1424.25">For eksempel «rundt 5 km» eller «forbi et vann»</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="end" xml:space="preserve"><tspan x="808" y="1476.33">0 / 200 tegn</tspan></text>
+<rect x="488" y="1500" width="140" height="34" rx="8.5" ry="8.5" fill="#2F5866" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#ffffff" text-anchor="middle" xml:space="preserve"><tspan x="558" y="1520.91">Finn en tur</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="844" y="1270.17">Turtype (valgfritt)</tspan></text>
+<rect x="844" y="1278" width="102" height="126" rx="25.5" ry="25.5" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<rect x="853" y="1286" width="84" height="60" rx="15" ry="15" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<path d="M867 1338 L876 1302 L885 1338 L867 1338 Z" fill="none" stroke="#2F5866" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M889 1338 L898 1302 L907 1338 L889 1338 Z" fill="none" stroke="#2F5866" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M911 1338 L920 1302 L929 1338 L911 1338 Z" fill="none" stroke="#2F5866" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="895" y="1365.1">Marka</tspan></text>
+<rect x="956" y="1278" width="102" height="126" rx="25.5" ry="25.5" fill="#eef5ef" stroke="#2F5866" stroke-width="3"/>
+<rect x="965" y="1286" width="84" height="60" rx="15" ry="15" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<path d="M969 1340 L995 1308 L1013 1324 L1029 1304 L1047 1340" fill="none" stroke="#2F5866" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<ellipse cx="1029" cy="1298" rx="6" ry="6" fill="none" stroke="#c0694a" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="1007" y="1365.1">Utsikt</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#2F5866" text-anchor="middle" xml:space="preserve"><tspan x="1007" y="1385.25">Valgt</tspan></text>
+<rect x="1068" y="1278" width="102" height="126" rx="25.5" ry="25.5" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<rect x="1077" y="1286" width="84" height="60" rx="15" ry="15" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<path d="M1083 1340 L1119 1294 L1155 1340" fill="none" stroke="#2F5866" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1119 1294 L1119 1284 L1129 1288 L1119 1292" fill="none" stroke="#c0694a" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="1119" y="1365.1">Topptur</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="440" y="1643.1">Varighet mangler → feilmelding ved feltet, søket sendes ikke (FR-4). Feilen er koblet til feltet og leses opp av</tspan><tspan x="440" y="1658.1">skjermleser (NFR-4); «!» + tekst, ikke bare rød farge. Ordlyden er ikke gitt i PRD [ANTAKELSE].</tspan></text>
+<rect x="1348" y="1140" width="768" height="480" fill="#ffffff" stroke="#495057" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1348" y="1124.5">B  Ingen treff</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="end" xml:space="preserve"><tspan x="2116" y="1123.1">fra: Søk</tspan></text>
+<rect x="1348" y="1140" width="768" height="34" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+<rect x="1362" y="1149" width="16" height="16" rx="4" ry="4" fill="#adb5bd" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1386" y="1161.03">Your Next Adventure</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="end" xml:space="preserve"><tspan x="2100" y="1161.1">Logg inn</tspan></text>
+<rect x="1348" y="1174" width="768" height="26" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1364" y="1191.1">Lørdag 7. nov · 1 t · Marka · Sognsvann [ANTAKELSE]</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="end" xml:space="preserve"><tspan x="2100" y="1191.1">Endre søk</tspan></text>
+<path d="M2039.52 1195 L2100 1195" fill="none" stroke="#2F5866" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="1482" y="1230" width="500" height="264" rx="32" ry="32" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<ellipse cx="1520" cy="1268" rx="14" ry="14" fill="#f1f3f5" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="1520" y="1272.03">i</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="1548" y="1270.8">Vi fant ingen tur som passer søket ditt</tspan><tspan x="1548" y="1290.8">[ANTAKELSE]</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="1548" y="1314.17">Prøv å endre søket: [ANTAKELSE]</tspan></text>
+<rect x="1548" y="1329.75" width="221.12" height="24" rx="6" ry="6" fill="#f1f3f5" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#2F5866" text-anchor="middle" xml:space="preserve"><tspan x="1658.56" y="1344.92">Lengre varighet: 2 t [ANTAKELSE]</tspan></text>
+<rect x="1548" y="1359.75" width="141.04" height="24" rx="6" ry="6" fill="#f1f3f5" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#2F5866" text-anchor="middle" xml:space="preserve"><tspan x="1618.52" y="1374.92">Et annet startpunkt</tspan></text>
+<rect x="1548" y="1389.75" width="122.56" height="24" rx="6" ry="6" fill="#f1f3f5" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#2F5866" text-anchor="middle" xml:space="preserve"><tspan x="1609.28" y="1404.92">En annen turtype</tspan></text>
+<rect x="1548" y="1429.75" width="90.48" height="30" rx="7.5" ry="7.5" fill="#2F5866" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle" xml:space="preserve"><tspan x="1593.24" y="1448.35">Endre søk</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="1348" y="1643.1">Ingen treff: konkrete forslag til endringer – lengre varighet, et annet startpunkt eller en annen turtype (FR-8).</tspan></text>
+<rect x="2256" y="1140" width="768" height="480" fill="#ffffff" stroke="#495057" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="2256" y="1124.5">C  Kun turer over nivåtaket</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="end" xml:space="preserve"><tspan x="3024" y="1123.1">fra: Søk · gjest</tspan></text>
+<rect x="2256" y="1140" width="768" height="34" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+<rect x="2270" y="1149" width="16" height="16" rx="4" ry="4" fill="#adb5bd" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="2294" y="1161.03">Your Next Adventure</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="end" xml:space="preserve"><tspan x="3008" y="1161.1">Logg inn</tspan></text>
+<rect x="2256" y="1174" width="768" height="26" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="2272" y="1191.1">Lørdag 7. nov · 6 t · Topptur</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="end" xml:space="preserve"><tspan x="3008" y="1191.1">Endre søk</tspan></text>
+<path d="M2947.52 1195 L3008 1195" fill="none" stroke="#2F5866" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="2390" y="1230" width="500" height="168" rx="32" ry="32" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<ellipse cx="2428" cy="1268" rx="14" ry="14" fill="#f1f3f5" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="2428" y="1272.03">i</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="2456" y="1270.8">Ingen grønne turer passer søket [ANTAKELSE]</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="2456" y="1294.17">Som ny bruker får du grønne turer. Lag konto og vurder turene dine</tspan><tspan x="2456" y="1307.92">for å låse opp lengre turer.</tspan></text>
+<rect x="2456" y="1333.5" width="171.12" height="30" rx="7.5" ry="7.5" fill="#2F5866" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle" xml:space="preserve"><tspan x="2541.56" y="1352.1">Lag konto [ANTAKELSE]</tspan></text>
+<rect x="2639.12" y="1333.5" width="90.48" height="30" rx="7.5" ry="7.5" fill="#ffffff" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="middle" xml:space="preserve"><tspan x="2684.36" y="1352.1">Endre søk</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="2256" y="1643.1">Bare turer over nivåtaket passer: melding, ingen tur (FR-8). Teksten gjelder gjester og brukere uten historikk og</tspan><tspan x="2256" y="1658.1">er ordrett fra PRD. Tekst for brukere med historikk er ikke gitt [ANTAKELSE].</tspan></text>
+<rect x="3164" y="1140" width="768" height="480" fill="#ffffff" stroke="#495057" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="3164" y="1124.5">D  Alle forslag er vist</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="end" xml:space="preserve"><tspan x="3932" y="1123.1">fra: Turforslag</tspan></text>
+<rect x="3164" y="1140" width="768" height="34" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+<rect x="3178" y="1149" width="16" height="16" rx="4" ry="4" fill="#adb5bd" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="3202" y="1161.03">Your Next Adventure</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="end" xml:space="preserve"><tspan x="3916" y="1161.1">Logg inn</tspan></text>
+<rect x="3164" y="1174" width="768" height="26" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="3180" y="1191.1">Lørdag 7. nov · 2 t · Utsikt</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="end" xml:space="preserve"><tspan x="3916" y="1191.1">Endre søk</tspan></text>
+<path d="M3855.52 1195 L3916 1195" fill="none" stroke="#2F5866" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="3298" y="1230" width="500" height="214" rx="32" ry="32" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<ellipse cx="3336" cy="1268" rx="14" ry="14" fill="#f1f3f5" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="3336" y="1272.03">i</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="3364" y="1270.8">Du har sett alle turene som passer søket</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="3364" y="1294.17">Vil du prøve noe annet? [ANTAKELSE]</tspan></text>
+<rect x="3364" y="1309.75" width="116.4" height="24" rx="6" ry="6" fill="#f1f3f5" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#2F5866" text-anchor="middle" xml:space="preserve"><tspan x="3422.2" y="1324.92">Lengre varighet</tspan></text>
+<rect x="3364" y="1339.75" width="122.56" height="24" rx="6" ry="6" fill="#f1f3f5" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#2F5866" text-anchor="middle" xml:space="preserve"><tspan x="3425.28" y="1354.92">En annen turtype</tspan></text>
+<rect x="3364" y="1379.75" width="231.6" height="30" rx="7.5" ry="7.5" fill="#2F5866" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle" xml:space="preserve"><tspan x="3479.8" y="1398.35">Start fra første forslag igjen</tspan></text>
+<rect x="3607.6" y="1379.75" width="90.48" height="30" rx="7.5" ry="7.5" fill="#ffffff" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="middle" xml:space="preserve"><tspan x="3652.84" y="1398.35">Endre søk</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="3164" y="1643.1">Etter siste «Nytt forslag» (FR-7): melding, endringsforslag og valg om å starte fra første forslag igjen. Ingen</tspan><tspan x="3164" y="1658.1">tur vises to ganger i samme økt. Mønster fra «Turkort».</tspan></text>
+<rect x="4072" y="1140" width="768" height="480" fill="#ffffff" stroke="#495057" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4072" y="1124.5">E  Uten værvarsel</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="end" xml:space="preserve"><tspan x="4840" y="1123.1">fra: Søk</tspan></text>
+<rect x="4072" y="1140" width="768" height="34" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+<rect x="4086" y="1149" width="16" height="16" rx="4" ry="4" fill="#adb5bd" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4110" y="1161.03">Your Next Adventure</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="end" xml:space="preserve"><tspan x="4824" y="1161.1">Logg inn</tspan></text>
+<rect x="4072" y="1174" width="768" height="26" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4088" y="1191.1">Lørdag 28. nov · 2 t · Utsikt</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="end" xml:space="preserve"><tspan x="4824" y="1191.1">Endre søk</tspan></text>
+<path d="M4763.52 1195 L4824 1195" fill="none" stroke="#2F5866" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="4072" y="1200" width="440" height="420" fill="#e9efe4" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="4084" y="1219.25">Kart (Kartverket-fliser)</tspan></text>
+<ellipse cx="4372" cy="1476" rx="50" ry="26" fill="#d0e1ea" stroke="#d0e1ea" stroke-width="1"/>
+<path d="M4199.5 1484 C4195.33 1467.67 4168.25 1418.67 4174.5 1386 C4180.75 1353.33 4212 1306.67 4237 1288 C4262 1269.33 4299.5 1262.33 4324.5 1274 C4349.5 1285.67 4380.75 1325.33 4387 1358 C4393.25 1390.67 4378.67 1442 4362 1470 C4345.33 1498 4314.08 1523.67 4287 1526 C4259.92 1528.33 4214.08 1491 4199.5 1484 Z" fill="none" stroke="#c0694a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<ellipse cx="4196" cy="1485" rx="9" ry="9" fill="#ffffff" stroke="#c0694a" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="4196" y="1488.25">S</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="4322" y="1261.25">▲ Utsikt</tspan></text>
+<rect x="4478" y="1212" width="22" height="22" rx="5.5" ry="5.5" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="4489" y="1226.1">+</tspan></text>
+<rect x="4478" y="1236" width="22" height="22" rx="5.5" ry="5.5" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="4489" y="1250.1">−</tspan></text>
+<rect x="4072" y="1600" width="440" height="20" fill="#ffffff" stroke="#495057" stroke-width="1" opacity="0.85"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="4080" y="1612.33">© Kartverket · © OpenStreetMap contributors · Data fra MET Norge</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="18" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4532" y="1228.65">Granåsen rundt</tspan></text>
+<rect x="4532" y="1242" width="96" height="22" rx="5.5" ry="5.5" fill="#1A7F37" stroke="#1A7F37" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle" xml:space="preserve"><tspan x="4580" y="1257.1">Grønn – lett</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="4532" y="1276.33">Beregnet av tjenesten etter Merkehåndbokas mal ut fra</tspan><tspan x="4532" y="1287.58">lengde og høydemeter. Terreng og føre er ikke vurdert.</tspan></text>
+<rect x="4532" y="1297.5" width="147.36" height="20" rx="5" ry="5" fill="#fbe3d4" stroke="#c0694a" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="4605.68" y="1310.67">Utsikt – som du ba om</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4532" y="1336.6">Rundtur · 3,5 km totalt</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4532" y="1352.6">ca. 130 høydemeter</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4532" y="1368.6">ca. 1 t 35 min (pauser ikke inkludert)</tspan></text>
+<rect x="4532" y="1379.5" width="290" height="62" rx="15.5" ry="15.5" fill="#f1f3f5" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="4538" y="1390.83">Rute og høydeprofil (illustrasjon)</tspan></text>
+<path d="M4552.5 1429.1 C4551.33 1426.65 4543.75 1419.3 4545.5 1414.4 C4547.25 1409.5 4556 1402.5 4563 1399.7 C4570 1396.9 4580.5 1395.85 4587.5 1397.6 C4594.5 1399.35 4603.25 1405.3 4605 1410.2 C4606.75 1415.1 4602.67 1422.8 4598 1427 C4593.33 1431.2 4584.58 1435.05 4577 1435.4 C4569.42 1435.75 4556.58 1430.15 4552.5 1429.1 Z" fill="none" stroke="#c0694a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4632 1433.5 C4636.45 1432 4648.32 1427.2 4658.7 1424.5 C4669.08 1421.8 4683.92 1421.2 4694.3 1417.3 C4704.68 1413.4 4712.99 1402.6 4721 1401.1 C4729.01 1399.6 4733.46 1404.7 4742.36 1408.3 C4751.26 1411.9 4763.13 1418.5 4774.4 1422.7 C4785.67 1426.9 4804.07 1431.7 4810 1433.5" fill="none" stroke="#2F5866" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4632 1433.5 L4810 1433.5" fill="none" stroke="#495057" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4532" y="1459.67">Bekledningstips</tspan></text>
+<rect x="4532" y="1464.5" width="290" height="49.5" rx="12.38" ry="12.38" fill="#e7f0fa" stroke="#495057" stroke-width="1"/>
+<ellipse cx="4545" cy="1477.5" rx="7" ry="7" fill="none" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="4545" y="1478.83">i</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4558" y="1479.75">Vi har ikke værvarsel for lørdag 28. november</tspan><tspan x="4558" y="1492.25">ennå, så vi kan ikke gi bekledningstips.</tspan><tspan x="4558" y="1504.75">[ANTAKELSE]</tspan></text>
+<rect x="4532" y="1522" width="120" height="26" rx="6.5" ry="6.5" fill="#2F5866" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#ffffff" text-anchor="middle" xml:space="preserve"><tspan x="4592" y="1538.29">Nytt forslag</tspan></text>
+<rect x="4660" y="1522" width="162" height="26" rx="6.5" ry="6.5" fill="#ffffff" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#2F5866" text-anchor="middle" xml:space="preserve"><tspan x="4741" y="1538.29">Registrer gjennomført tur</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="4072" y="1643.1">MET har ikke varsel for datoen (mer enn ca. 9–10 dager frem) eller svarer ikke: turforslaget vises uten</tspan><tspan x="4072" y="1658.1">bekledningstips, med en melding om hvorfor (FR-10). Ordlyden er ikke gitt i PRD [ANTAKELSE].</tspan></text>
+<rect x="4980" y="1140" width="768" height="480" fill="#ffffff" stroke="#495057" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4980" y="1124.5">F  Reserveløsning</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="end" xml:space="preserve"><tspan x="5748" y="1123.1">fra: Søk · KI utilgjengelig</tspan></text>
+<rect x="4980" y="1140" width="768" height="34" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+<rect x="4994" y="1149" width="16" height="16" rx="4" ry="4" fill="#adb5bd" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5018" y="1161.03">Your Next Adventure</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="end" xml:space="preserve"><tspan x="5732" y="1161.1">Logg inn</tspan></text>
+<rect x="4980" y="1174" width="768" height="26" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="4996" y="1191.1">Lørdag 7. nov · 2 t · Utsikt · «forbi et vann»</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="end" xml:space="preserve"><tspan x="5732" y="1191.1">Endre søk</tspan></text>
+<path d="M5671.52 1195 L5732 1195" fill="none" stroke="#2F5866" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="4980" y="1200" width="440" height="420" fill="#e9efe4" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="4992" y="1219.25">Kart (Kartverket-fliser)</tspan></text>
+<ellipse cx="5280" cy="1476" rx="50" ry="26" fill="#d0e1ea" stroke="#d0e1ea" stroke-width="1"/>
+<path d="M5107.5 1484 C5103.33 1467.67 5076.25 1418.67 5082.5 1386 C5088.75 1353.33 5120 1306.67 5145 1288 C5170 1269.33 5207.5 1262.33 5232.5 1274 C5257.5 1285.67 5288.75 1325.33 5295 1358 C5301.25 1390.67 5286.67 1442 5270 1470 C5253.33 1498 5222.08 1523.67 5195 1526 C5167.92 1528.33 5122.08 1491 5107.5 1484 Z" fill="none" stroke="#c0694a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<ellipse cx="5104" cy="1485" rx="9" ry="9" fill="#ffffff" stroke="#c0694a" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="5104" y="1488.25">S</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="5230" y="1261.25">▲ Utsikt</tspan></text>
+<rect x="5386" y="1212" width="22" height="22" rx="5.5" ry="5.5" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="5397" y="1226.1">+</tspan></text>
+<rect x="5386" y="1236" width="22" height="22" rx="5.5" ry="5.5" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="5397" y="1250.1">−</tspan></text>
+<rect x="4980" y="1600" width="440" height="20" fill="#ffffff" stroke="#495057" stroke-width="1" opacity="0.85"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="4988" y="1612.33">© Kartverket · © OpenStreetMap contributors · Data fra MET Norge</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="18" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5440" y="1228.65">Granåsen rundt</tspan></text>
+<rect x="5440" y="1242" width="96" height="22" rx="5.5" ry="5.5" fill="#1A7F37" stroke="#1A7F37" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle" xml:space="preserve"><tspan x="5488" y="1257.1">Grønn – lett</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="5440" y="1276.33">Beregnet av tjenesten etter Merkehåndbokas mal ut fra</tspan><tspan x="5440" y="1287.58">lengde og høydemeter. Terreng og føre er ikke vurdert.</tspan></text>
+<rect x="5440" y="1297.5" width="147.36" height="20" rx="5" ry="5" fill="#fbe3d4" stroke="#c0694a" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="5513.68" y="1310.67">Utsikt – som du ba om</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5440" y="1336.6">Rundtur · 3,5 km totalt</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5440" y="1352.6">ca. 130 høydemeter</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5440" y="1368.6">ca. 1 t 35 min (pauser ikke inkludert)</tspan></text>
+<rect x="5440" y="1379.5" width="290" height="37" rx="9.25" ry="9.25" fill="#e7f0fa" stroke="#495057" stroke-width="1"/>
+<ellipse cx="5453" cy="1392.5" rx="7" ry="7" fill="none" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="5453" y="1393.83">i</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5466" y="1394.75">Vi kunne ikke ta hensyn til ønsket ditt denne</tspan><tspan x="5466" y="1407.25">gangen</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5440" y="1434.67">Begrunnelse</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5440" y="1448.75">Turen tar ca. 1 t 35 min og har utsikt, som du ba</tspan><tspan x="5440" y="1461.25">om</tspan></text>
+<rect x="5440" y="1470.5" width="120" height="26" rx="6.5" ry="6.5" fill="#2F5866" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#ffffff" text-anchor="middle" xml:space="preserve"><tspan x="5500" y="1486.79">Nytt forslag</tspan></text>
+<rect x="5568" y="1470.5" width="162" height="26" rx="6.5" ry="6.5" fill="#ffffff" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#2F5866" text-anchor="middle" xml:space="preserve"><tspan x="5649" y="1486.79">Registrer gjennomført tur</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#2F5866" text-anchor="start" xml:space="preserve"><tspan x="5440" y="1514.67">Se turen på ut.no ↗</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="4980" y="1643.1">KI-svaret forkastes, tidsavbrudd etter 5 s eller ingen nøkkel: fritekstønsket ignoreres og begrunnelsen lages fra</tspan><tspan x="4980" y="1658.1">mal (FR-13). Malteksten viser aldri til fritekstønsket.</tspan></text>
+<rect x="5888" y="1140" width="768" height="480" fill="#ffffff" stroke="#495057" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5888" y="1124.5">G  Topptur → utsiktstur</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="end" xml:space="preserve"><tspan x="6656" y="1123.1">fra: Søk</tspan></text>
+<rect x="5888" y="1140" width="768" height="34" fill="#f8f9fa" stroke="#495057" stroke-width="1"/>
+<rect x="5902" y="1149" width="16" height="16" rx="4" ry="4" fill="#adb5bd" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5926" y="1161.03">Your Next Adventure</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="end" xml:space="preserve"><tspan x="6640" y="1161.1">Logg inn</tspan></text>
+<rect x="5888" y="1174" width="768" height="26" fill="#f1f3f5" stroke="#f1f3f5" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="5904" y="1191.1">Lørdag 7. nov · 2 t · Topptur</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#2F5866" text-anchor="end" xml:space="preserve"><tspan x="6640" y="1191.1">Endre søk</tspan></text>
+<path d="M6579.52 1195 L6640 1195" fill="none" stroke="#2F5866" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="5888" y="1200" width="440" height="420" fill="#e9efe4" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="5900" y="1219.25">Kart (Kartverket-fliser)</tspan></text>
+<ellipse cx="6188" cy="1476" rx="50" ry="26" fill="#d0e1ea" stroke="#d0e1ea" stroke-width="1"/>
+<path d="M6015.5 1484 C6011.33 1467.67 5984.25 1418.67 5990.5 1386 C5996.75 1353.33 6028 1306.67 6053 1288 C6078 1269.33 6115.5 1262.33 6140.5 1274 C6165.5 1285.67 6196.75 1325.33 6203 1358 C6209.25 1390.67 6194.67 1442 6178 1470 C6161.33 1498 6130.08 1523.67 6103 1526 C6075.92 1528.33 6030.08 1491 6015.5 1484 Z" fill="none" stroke="#c0694a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<ellipse cx="6012" cy="1485" rx="9" ry="9" fill="#ffffff" stroke="#c0694a" stroke-width="2"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="6012" y="1488.25">S</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="6138" y="1261.25">▲ Utsikt</tspan></text>
+<rect x="6294" y="1212" width="22" height="22" rx="5.5" ry="5.5" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="6305" y="1226.1">+</tspan></text>
+<rect x="6294" y="1236" width="22" height="22" rx="5.5" ry="5.5" fill="#ffffff" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="6305" y="1250.1">−</tspan></text>
+<rect x="5888" y="1600" width="440" height="20" fill="#ffffff" stroke="#495057" stroke-width="1" opacity="0.85"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="5896" y="1612.33">© Kartverket · © OpenStreetMap contributors · Data fra MET Norge</tspan></text>
+<rect x="6348" y="1212" width="290" height="24.5" rx="6.12" ry="6.12" fill="#fff4e6" stroke="#495057" stroke-width="1"/>
+<ellipse cx="6361" cy="1225" rx="7" ry="7" fill="none" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="6361" y="1226.33">!</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="6374" y="1227.25">Toppturer krever mer tid enn du har oppgitt</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="18" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="6348" y="1261.15">Granåsen rundt</tspan></text>
+<rect x="6348" y="1274.5" width="96" height="22" rx="5.5" ry="5.5" fill="#1A7F37" stroke="#1A7F37" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle" xml:space="preserve"><tspan x="6396" y="1289.6">Grønn – lett</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="6348" y="1308.83">Beregnet av tjenesten etter Merkehåndbokas mal ut fra</tspan><tspan x="6348" y="1320.08">lengde og høydemeter. Terreng og føre er ikke vurdert.</tspan></text>
+<rect x="6348" y="1330" width="258.24" height="20" rx="5" ry="5" fill="#f1f3f5" stroke="#c0694a" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="6477.12" y="1343.17">Utsikt i stedet for topptur [ANTAKELSE]</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="6348" y="1369.1">Rundtur · 3,5 km totalt</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="6348" y="1385.1">ca. 130 høydemeter</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="6348" y="1401.1">ca. 1 t 35 min (pauser ikke inkludert)</tspan></text>
+<rect x="6348" y="1412" width="290" height="62" rx="15.5" ry="15.5" fill="#f1f3f5" stroke="#495057" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="6354" y="1423.33">Rute og høydeprofil (illustrasjon)</tspan></text>
+<path d="M6368.5 1461.6 C6367.33 1459.15 6359.75 1451.8 6361.5 1446.9 C6363.25 1442 6372 1435 6379 1432.2 C6386 1429.4 6396.5 1428.35 6403.5 1430.1 C6410.5 1431.85 6419.25 1437.8 6421 1442.7 C6422.75 1447.6 6418.67 1455.3 6414 1459.5 C6409.33 1463.7 6400.58 1467.55 6393 1467.9 C6385.42 1468.25 6372.58 1462.65 6368.5 1461.6 Z" fill="none" stroke="#c0694a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M6448 1466 C6452.45 1464.5 6464.32 1459.7 6474.7 1457 C6485.08 1454.3 6499.92 1453.7 6510.3 1449.8 C6520.68 1445.9 6528.99 1435.1 6537 1433.6 C6545.01 1432.1 6549.46 1437.2 6558.36 1440.8 C6567.26 1444.4 6579.13 1451 6590.4 1455.2 C6601.67 1459.4 6620.07 1464.2 6626 1466" fill="none" stroke="#2F5866" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M6448 1466 L6626 1466" fill="none" stroke="#495057" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="6348" y="1482" width="120" height="26" rx="6.5" ry="6.5" fill="#2F5866" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#ffffff" text-anchor="middle" xml:space="preserve"><tspan x="6408" y="1498.29">Nytt forslag</tspan></text>
+<rect x="6476" y="1482" width="162" height="26" rx="6.5" ry="6.5" fill="#ffffff" stroke="#2F5866" stroke-width="1"/>
+<text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#2F5866" text-anchor="middle" xml:space="preserve"><tspan x="6557" y="1498.29">Registrer gjennomført tur</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="5888" y="1643.1">Ingen topptur passer varigheten: en utsiktstur vises med meldingen ordrett fra PRD (FR-8, UJ-1). Passer heller</tspan><tspan x="5888" y="1658.1">ingen utsiktstur, gjelder «Ingen treff» (B).</tspan></text>
+</svg>
