@@ -38,6 +38,10 @@ db.sqlite3
 db.sqlite3-journal
 logs/
 
+# Vercel: collectstatic-output and local CLI link (AD-15)
+staticfiles/
+.vercel/
+
 # BMAD: keep shared framework, skills, plans and documentation
 _bmad/config.user.toml
 _bmad/custom/*.user.toml
