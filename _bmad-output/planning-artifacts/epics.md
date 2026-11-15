@@ -1,6 +1,6 @@
 ---
 status: draft
-stepsCompleted: [step-01-validate-prerequisites]
+stepsCompleted: [step-01-validate-prerequisites, step-02-design-epics]
 inputDocuments:
   - _bmad-output/planning-artifacts/prds/prd-G81-eriksen-2026-10-29/prd.md
   - _bmad-output/planning-artifacts/prds/prd-G81-eriksen-2026-10-29/addendum.md
@@ -284,3 +284,474 @@ Turillustrasjon, tur 16–30, mørk modus og fremgang mot neste nivå. Til slutt
 
 **FR dekket:** FR-6 (turillustrasjon), FR-1 (tur 16–30), FR-17.1
 **NFR:** NFR-9, NFR-1 (README-test), NFR-3 og NFR-4 (manuell test)
+
+## Epic 1: Ola finner en tur som passer tiden, på nett
+
+En gjest åpner den publiserte siden, fyller ut søket og får ett turforslag med kart, nivå, tid og begrunnelse fra mal. Gjesten kan be om nytt forslag og får hjelp når ingenting passer.
+
+### Story 1.1: Appen starter lokalt etter README
+
+Som sensor,
+vil jeg installere og starte appen lokalt bare ved hjelp av README,
+slik at jeg kan teste den uten nøkler, Node, Docker eller databaseserver.
+
+**Akseptansekriterier:**
+
+**Gitt** et rent miljø med Python 3.12–3.15
+**Når** jeg følger README: `python -m venv`, `pip install -r requirements.txt`, kopierer `.env.example` til `.env`, `python manage.py migrate` og `python manage.py runserver`
+**Så** starter appen på `http://127.0.0.1:8000/`, og forsiden viser `h1` «Hvor lang tid har du?»
+**Og** ingen steg krever nøkler, Node, Docker eller databaseserver (NFR-1, AR-1)
+
+**Gitt** repoet
+**Når** jeg ser på mappene
+**Så** finnes `config/`, `turforslag/`, `domene/`, `tjenester/`, `data/`, `skript/`, `tests/` og `docs/` som i spinen › Structural Seed
+**Og** en test sjekker at `domene/` bare importerer standardbiblioteket (AR-2)
+
+**Gitt** den første migreringen
+**Når** den kjøres
+**Så** finnes `turforslag.Bruker` med `username=None`, `USERNAME_FIELD="email"`, uten fornavn og etternavn, med egen manager og feltet `brukt_heving` (standard 0), og `AUTH_USER_MODEL` peker på den (AR-9)
+**Og** e-post lagres med små bokstaver, og passordvalideringen har bare minimumslengde 8
+
+**Gitt** at `.env` mangler, eller at `DJANGO_SECRET_KEY` er tom
+**Når** jeg starter appen
+**Så** stopper den med en norsk melding om å kopiere `.env.example` til `.env` (AD-12 punkt 3)
+
+**Gitt** `.env.example` kopiert uendret
+**Når** jeg leser den
+**Så** har den `DJANGO_SECRET_KEY` med en lokal utviklingsverdi, `DEBUG=True`, tom `ANTHROPIC_API_KEY` og `MET_USER_AGENT` med appnavn og repo-URL, uten personlig e-post
+**Og** `requirements.txt` har låste versjoner fra spinen › Stack, og `requirements-bygg.txt` har i tillegg `pyproj` 3.8.0
+
+**Gitt** at appen kjører
+**Når** jeg åpner en adresse som ikke finnes, sender et skjema med ugyldig CSRF-token eller serveren feiler
+**Så** vises norske feilsider (404, CSRF og 500) med lenke til Søk
+**Og** `LANGUAGE_CODE` er `"nb"` og `TIME_ZONE` er `"Europe/Oslo"` (AD-12 punkt 5)
+
+**Gitt** at appen kjører
+**Når** jeg ser på svarhodene for en side
+**Så** har den Content-Security-Policy etter konvensjonen i spinen (AR-17)
+
+**Gitt** repoet
+**Når** jeg kjører `python manage.py test`, `ruff check .` og `ruff format --check .`
+**Så** består alle, uten nettverkskall (AR-15)
+**Og** README › Installasjon og kjøring har kommandoene over, klare til å kopieres (AR-20)
+
+### Story 1.2: Appen er publisert på Vercel
+
+Som faglærer og sensor,
+vil jeg åpne appen på en adresse på nett,
+slik at jeg kan vurdere den uten å installere noe, og se hver endring i en forhåndsvisning.
+
+**Akseptansekriterier:**
+
+**Gitt** at koden fra story 1.1 er merget til `main`, og at Hannah har godkjent at prosjektet opprettes
+**Når** `vercel link` og `vercel git connect` kjøres
+**Så** finnes ett Vercel-prosjekt for repoet under teamet `hannah-eriksen`, med Djangos framework preset (AD-15 punkt 1)
+
+**Gitt** at Hannah har koblet til Neon fra Vercel Marketplace i Frankfurt, med forhåndsvisningsgrener
+**Når** appen kjører på Vercel
+**Så** bruker den Postgres via `DATABASE_URL` med `DISABLE_SERVER_SIDE_CURSORS = True`, og byggingen (`CI` er satt) bruker `DATABASE_URL_UNPOOLED`
+**Og** lokalt, uten `DATABASE_URL`, brukes SQLite som før (AR-6)
+
+**Gitt** en endring som merges til `main`
+**Når** Vercel bygger
+**Så** kjører byggesteget i `pyproject.toml` `python manage.py migrate --noinput`, Vercel kjører `collectstatic` med `STATIC_ROOT = staticfiles/`, og forsiden vises på `<prosjekt>.vercel.app` over HTTPS
+**Og** `.python-version` er `3.14`, `vercel.json` setter `"regions": ["fra1"]`, og `requirements.txt` har `psycopg[binary]` 3.3.9
+
+**Gitt** at `VERCEL` er satt
+**Når** appen starter
+**Så** er `DEBUG` alltid `False`, `ALLOWED_HOSTS` er `[".vercel.app"]`, `CSRF_TRUSTED_ORIGINS` er `["https://*.vercel.app"]`, `SECURE_PROXY_SSL_HEADER` er satt, og cookies for økt og CSRF er sikre
+**Og** mangler `DJANGO_SECRET_KEY`, eller er den lik verdien i `.env.example`, stopper appen med en norsk melding
+**Og** logging går til standard ut (AD-15 punkt 7)
+
+**Gitt** en test som setter `VERCEL` og en gyldig nøkkel
+**Når** `python manage.py test` kjører
+**Så** gir `python manage.py check --deploy` ingen advarsler uten en begrunnelse i en kommentar i settings
+
+**Gitt** en pull request
+**Når** Vercel lager forhåndsvisningen
+**Så** bruker den en egen Neon-gren, og den krever innlogging hos Vercel (AD-15 punkt 3)
+**Og** `ANTHROPIC_API_KEY` finnes bare i produksjon, og `DJANGO_SECRET_KEY` (ulik for produksjon og forhåndsvisning) og `MET_USER_AGENT` finnes i alle miljøer, uten at noen verdi står i repoet (NFR-10)
+
+**Gitt** README
+**Når** sensor leser den
+**Så** står adressen til den publiserte siden øverst, med en kort forklaring av publiseringen
+**Og** lokal kjøring virker fortsatt uten Vercel, Neon, Vercel CLI eller Node (NFR-1)
+
+### Story 1.3: Siden har et rolig og tilgjengelig grunnoppsett
+
+Som Ola, som er nybegynner,
+vil jeg ha en rolig og lesbar side som virker med tastatur og på mobil,
+slik at jeg føler meg trygg og finner fram.
+
+**Akseptansekriterier:**
+
+**Gitt** `DESIGN.md`
+**Når** stilarket lastes
+**Så** finnes alle tokens som CSS-variabler i én fil: farger med `-dark`-par, kartlag-tokens uten `-dark`-par, typografiroller med systemfonter, spacing, `rounded` og layoutverdier (UX-DR1)
+**Og** ingen komponent bruker fargeverdier direkte (`-dark`-verdiene tas i bruk med mørk modus i Epic 6)
+
+**Gitt** en hvilken som helst side
+**Når** den vises
+**Så** har den `<html lang="nb">`, `header` med `nav`, én `main` og en sidetittel som slutter på « – Your Next Adventure» (UX-DR2)
+**Og** toppmenyen har logoen, som fører til Søk. Den bryter til ny linje uten hamburgermeny, og det aktive punktet får `aria-current="page"` (UX-DR3; menypunktene kommer med kontofunksjonene i Epic 2)
+
+**Gitt** en primær- eller sekundærknapp
+**Når** den vises og brukes
+**Så** er den minst 44 × 44 px med 8 px hjørner, og det er høyst én primærknapp per visning (UX-DR4, NFR-3)
+**Og** under innsending får den `aria-disabled="true"`, beholder fokus og ignorerer nye klikk via `forbedring.js`, mens skjemaet fortsatt virker uten JavaScript (AR-18)
+
+**Gitt** tastaturbruk
+**Når** et element får fokus
+**Så** vises en fokusring med `outline` på 3 px i `focus-ring` og 2 px avstand ved `:focus-visible`, og den fjernes aldri (UX-DR5)
+
+**Gitt** komponenten Melding
+**Når** den vises som info, advarsel, feil eller suksess
+**Så** har den ikon og tittel, en 4 px venstrekant i statusfargen, står der saken gjelder og brukes aldri som toast (UX-DR21)
+**Og** på samme side bruker den `role="status"` eller `role="alert"`, og når den følger med en navigering, får den fokus i stedet for `h1`
+
+**Gitt** en bredde på 320 px, 200 % tekstzoom eller økt tekstavstand (WCAG 1.4.12)
+**Når** siden vises
+**Så** ruller ikke siden sidelengs, og ingen tekst klippes eller overlapper (NFR-4)
+**Og** Display og Stor overskrift er 28 px under 720 px
+
+**Gitt** `prefers-reduced-motion`
+**Når** siden vises
+**Så** er all bevegelse slått av (UX-DR33)
+
+**Gitt** forsiden
+**Når** et automatisk UU-verktøy kjøres
+**Så** finner det ingen feil, og resultatet står i PR-en (NFR-4)
+
+### Story 1.4: Turnivå og estimert tid regnes etter faste regler
+
+Som Ola,
+vil jeg at nivå og tid alltid regnes likt etter offentlige regler,
+slik at jeg kan stole på at turen passer meg.
+
+**Akseptansekriterier:**
+
+**Gitt** `domene.tur.Tur`
+**Når** en tur gjøres om med `til_geojson_feature()` og tilbake med `fra_geojson_feature()`
+**Så** er resultatet lik den opprinnelige turen, og dataklassen er frossen med feltene og enhetene i AD-3 punkt 1 (AR-3)
+
+**Gitt** gradering etter FR-2 og AR-19
+**Når** testene kjøres
+**Så** gir 4,9 km og 299 hm grønn, 5,0 km eller 300 hm blå (verdien på grensen graderes opp), 10,0 km eller 600 hm rød, og 20,0 km eller 1000 hm svart
+**Og** den strengeste fargen vinner (3 km og 650 hm gir rød)
+**Og** tur-retur graderes etter verdiene for én vei, og rundtur etter hele runden
+
+**Gitt** estimert tid etter FR-3
+**Når** regneeksempelet beregnes (tur-retur, 3 km én vei, 150 hm og 0 m nedstigning ut)
+**Så** blir tiden 142,3 min, som vises som «ca. 2 t 20 min»
+**Og** for tur-retur er høydemeterne tilbake lik nedstigningen ut og omvendt, påslaget er 15 %, og tiden avrundes til nærmeste 5 minutter
+
+**Gitt** formateringen i `domene/`
+**Når** verdier vises
+**Så** blir de «ca. 1 t 35 min», «ca. 45 min», «3,5 km totalt», «Grønn – lett», «Blå – moderat», «Rød – moderat» og «Svart – vanskelig» (UX-DR31)
+
+**Gitt** testene i `tests/domene/`
+**Når** de kjøres
+**Så** bruker de ikke databasen, og hver test viser til FR-2 eller FR-3 (AR-15, NFR-6)
+
+### Story 1.5: Byggeskriptet lager turdatabasen fra Kartverket
+
+Som Hannah, som bygger appen,
+vil jeg ha et byggeskript som henter rute og høyder og beregner verdiene,
+slik at turdatabasen blir lik hver gang, og appen aldri henter turdata mens den kjører.
+
+**Akseptansekriterier:**
+
+**Gitt** at formatet på kurateringslista er valgt (CSV, YAML eller TOML)
+**Når** jeg åpner `data/`
+**Så** har lista per tur `id`, navn, startpunkt (id, navn og koordinat), form, turtyper, kilde og kilde-ID og eventuell ut.no-URL, og formatet er beskrevet i en README i `data/` (AD-3 punkt 2)
+
+**Gitt** en kurateringsliste med 2–3 testturer
+**Når** jeg kjører `python -m skript.bygg_turdatabase`
+**Så** skrives `data/turer.geojson` med alle feltene i AD-3 punkt 1, geometri i WGS84 og verdier for én vei ved tur-retur
+**Og** turnavnet kommer bare fra kurateringslista
+
+**Gitt** høydedata fra Kartverket
+**Når** skriptet henter høyder
+**Så** sender det høyst 50 punkter per kall, med et punkt hvert 10–25 m, filtrerer støy (terskel 2–10 m eller glatting) og lager høydeprofilen fra de samme filtrerte punktene
+**Og** de valgte verdiene for terskel og punktavstand står i README-en i `data/` (spinen › Deferred)
+
+**Gitt** geometri i UTM (EPSG:25832 eller 25833)
+**Når** skriptet gjør den om
+**Så** blir den WGS84 med `pyproj`, og `pyproj` står bare i `requirements-bygg.txt`
+
+**Gitt** `data/osm-uttrekk.geojson` med ODbL-kreditering
+**Når** uttrekket har 100 objekter eller flere
+**Så** stopper skriptet med en melding (AD-3 punkt 3)
+
+**Gitt** en kilde-ID som ikke finnes, eller et API som ikke svarer
+**Når** skriptet kjører
+**Så** stopper det med en melding som sier hvilken tur det gjelder, og den gamle `turer.geojson` overskrives ikke
+
+**Gitt** testene for byggeskriptet
+**Når** de kjøres
+**Så** bruker de lagrede svar i `tests/fixtures/` uten nettverkskall, og beregningene går gjennom `domene/` (AR-2, AR-15)
+
+### Story 1.6: Turene lastes inn med én kommando
+
+Som sensor,
+vil jeg laste turdatabasen med én kommando,
+slik at appen har turer rett etter installasjonen.
+
+**Akseptansekriterier:**
+
+**Gitt** modellene for startpunkt og tur
+**Når** migreringen kjøres
+**Så** lagres geometri og høydeprofil i `JSONField`, uten GeoDjango eller SpatiaLite, og migreringen virker på både SQLite og Postgres (AR-6)
+
+**Gitt** `data/turer.geojson`
+**Når** jeg kjører `python manage.py lastinn` to ganger
+**Så** opprettes eller oppdateres turene etter `id`, og antallet er det samme etter andre kjøring (AR-5)
+**Og** en tur som mangler i fila, slettes ikke
+
+**Gitt** en ugyldig eller ødelagt fil
+**Når** `lastinn` kjøres
+**Så** stopper kommandoen med en norsk melding, og ingenting i databasen endres
+
+**Gitt** publiseringen på Vercel
+**Når** Vercel bygger
+**Så** kjører byggesteget `lastinn` etter `migrate` (AD-15 punkt 4)
+
+**Gitt** appen
+**Når** turene vises
+**Så** leses turnivå, høydemeter og estimert tid fra databasen og beregnes aldri på nytt (AR-6)
+**Og** README har `python manage.py lastinn` som eget steg
+
+### Story 1.7: Turdatabasen har 15 kontrollerte turer
+
+Som Ola,
+vil jeg kunne få forslag blant nok turer i Oslo og Bærum,
+slik at jeg finner en tur som passer tiden og turtypen.
+
+**Akseptansekriterier:**
+
+**Gitt** kurateringslista med 15 turer
+**Når** turdatabasen bygges
+**Så** er flertallet grønne eller blå. Den har minst én svart tur, minst tre toppturer og minst fem utsiktsturer, hver turtype har minst én grønn tur under 2 timer der terrenget gjør det mulig, og hvert startpunkt har minst to turer (FR-1)
+**Og** en test sjekker sammensetningen mot `data/turer.geojson`, og unntak på grunn av terrenget er begrunnet i README-en i `data/`
+
+**Gitt** hver rutelinje
+**Når** den kontrolleres manuelt mot kartet
+**Så** henger den sammen og starter ved riktig startpunkt, og kontrollen står med dato i en sjekkliste i `docs/`
+
+**Gitt** tre av turene
+**Når** høydemeterne og høydeprofilen sammenlignes med en publisert høydeprofil
+**Så** er avvikene dokumentert, og terskelen for støyfiltrering er justert om det trengs (FR-1)
+
+**Gitt** turene
+**Når** jeg ser på kilde og lisens
+**Så** har hver tur dem registrert, og OSM-uttrekket har færre enn 100 objekter totalt
+
+### Story 1.8: Systemet velger og rangerer turer som passer søket
+
+Som Ola,
+vil jeg at systemet bare foreslår turer som passer tiden, turtypen og startpunktet mitt,
+slik at jeg kan stole på forslaget.
+
+**Akseptansekriterier:**
+
+**Gitt** et søk (`domene.sok.Sok` med varighet, dato og eventuelt startpunkt og turtype), turene og et nivåtak
+**Når** `velg_turer` kalles
+**Så** returnerer den `Utvalg(status, rangerte_tur_ider)` uten database, nettverk eller klokke (AR-2, AR-13)
+
+**Gitt** filteret i FR-5
+**Når** turene filtreres
+**Så** er bare turer med estimert tid kortere enn eller lik varigheten med (en tur med tid lik varigheten er med), og turnivået er aldri høyere enn nivåtaket
+**Og** valgt turtype og valgt startpunkt filtreres når de er oppgitt
+
+**Gitt** flere treff
+**Når** de rangeres
+**Så** kommer turen med estimert tid nærmest varigheten først, og deretter avgjør tur-ID-en, så samme søk alltid gir samme rekkefølge (FR-5 punkt 5 og 6)
+
+**Gitt** en gjest eller en bruker uten historikk
+**Når** nivåtaket bestemmes
+**Så** er det grønt (FR-18)
+
+**Gitt** turtypen topptur, ingen topptur som passer, men minst én utsiktstur som passer
+**Når** `velg_turer` kalles
+**Så** er statusen `TOPPTUR_ERSTATTET`, og utsiktsturene er rangert (FR-8)
+**Og** passer heller ingen utsiktstur, er statusen `INGEN_TREFF`
+
+**Gitt** at turer passer alt unntatt nivåtaket
+**Når** `velg_turer` kalles
+**Så** er statusen `BARE_OVER_NIVATAK`, og ingen tur over nivåtaket er med (FR-8, SM-C1)
+
+**Gitt** at ingen tur passer, heller ikke over nivåtaket
+**Når** `velg_turer` kalles
+**Så** er statusen `INGEN_TREFF`
+
+**Gitt** testene i `tests/domene/`
+**Når** de kjøres
+**Så** dekker de hvert kriterium over og viser til FR-5, FR-8 og FR-18 (SM-2)
+
+### Story 1.9: Ola søker og får ett turforslag
+
+Som Ola, som gjest,
+vil jeg fylle ut varighet og dato og få ett konkret turforslag,
+slik at jeg raskt kan bestemme meg.
+
+**Akseptansekriterier:**
+
+**Gitt** Søk-skjermen
+**Når** den vises første gang
+**Så** har den `h1` «Hvor lang tid har du?», ingressen og feltene i rekkefølgen fra `DESIGN.md`: Varighet (`<select>` med «Velg» og 1–8 t i halvtimessteg), Dato (`<select>` med de 31 aktuelle dagene, i dag forvalgt), Turtype (Turtypekort, «Alle turtyper» forvalgt) og Startpunkt («Alle startpunkt» og hjelpeteksten om Oslo-området) (FR-4, UX-DR6, UX-DR7, UX-DR10)
+**Og** det finnes ikke noe fritekstfelt (det kommer i Epic 4)
+
+**Gitt** et søk uten varighet
+**Når** jeg trykker «Finn en tur»
+**Så** sendes ikke søket. «Velg varighet» står under feltet med «!», feltet har `aria-invalid="true"` og `aria-describedby` til feil og så hjelpetekst, og fokus står i feltet
+**Og** en dato utenfor perioden eller et ukjent startpunkt eller ukjent turtype i en manipulert POST gir feil ved feltet, uten krasj (FR-4, NFR-2, NFR-8)
+
+**Gitt** et gyldig søk
+**Når** jeg sender det
+**Så** lages en tilfeldig søke-ID, søketilstanden med frosset rangering lagres i økten under `"sok"` via `turforslag/okt.py`, og jeg sendes videre til `/forslag/<sok_id>/` uten søket i adressen (AR-7)
+**Og** økten beholder de 10 nyeste søkene
+
+**Gitt** turforslaget
+**Når** det vises
+**Så** står i rekkefølge: søkeoppsummering med «Endre søk» (til forhåndsutfylt skjema), turnavn som `h1`, Nivåmerke med nivåforklaring, Turtype-treff (bare når en turtype er valgt), Formmerke, «Start: …», Faktarute med «pauser ikke inkludert», ut.no-lenke (skjult uten URL), KI-merket «Begrunnelse fra mal», `h2` «Begrunnelse» og Forklaringspanel, lukket som standard (FR-6, FR-12, UX-DR11, UX-DR12, UX-DR16, UX-DR17, UX-DR19)
+**Og** sidetittelen er «{Turnavn} – Turforslag – Your Next Adventure»
+
+**Gitt** at det ikke finnes KI-nøkkel
+**Når** begrunnelsen lages
+**Så** kommer den fra reservemalen i `domene/`, nevner varigheten og eventuell turtype, er høyst 300 tegn og nevner aldri fritekst (FR-12, FR-13)
+
+**Gitt** et vist turforslag
+**Når** jeg laster siden på nytt
+**Så** vises samme tur uten ny rangering, og to faner med hvert sitt søk viser hvert sitt forslag (FR-7)
+
+**Gitt** en ukjent søke-ID, eller en tur som ikke lenger finnes
+**Når** jeg åpner adressen
+**Så** vises Søk med meldingen «Turforslaget er ikke lenger tilgjengelig. Søk på nytt for å få et forslag.», og meldingen får fokus
+
+**Gitt** en skjerm på 360 px
+**Når** turforslaget vises
+**Så** synes turnivå, estimert tid og Turtype-treff uten rulling, og alle trykkflater er minst 44 × 44 px (NFR-3)
+
+**Gitt** testene i `tests/web/`
+**Når** de kjøres
+**Så** dekker de validering, videresending, søketilstand, ny innlasting og ukjent søke-ID, og views regner eller formaterer ingenting selv (AR-2)
+
+### Story 1.10: Ola ser ruten på kart og i tekst
+
+Som Ola,
+vil jeg se ruten på et norsk turkart og kunne lese den som tekst,
+slik at jeg vet hvor turen går, også med tastatur eller skjermleser.
+
+**Akseptansekriterier:**
+
+**Gitt** turforslaget
+**Når** kartet lastes
+**Så** tegner `kart.js` ruten fra GeoJSON i `json_script` med Leaflet 1.9.4 fra `static/vendor/leaflet/`. Kartflisene kommer fra Kartverket topo (zoom høyst 18, uten nøkkel), rutelinjen er plommelilla (5 px på 9 px hvit kant), startmarkøren er «S», og hele ruten vises (AR-10, UX-DR13)
+**Og** nettleseren melder ingen CSP-brudd. Trenger Leaflet mer i CSP-en, er det begrunnet i beslutningsloggen (AR-17)
+
+**Gitt** en bredde på 720 px eller mer
+**Når** turforslaget vises
+**Så** står kartet i venstre kolonne med `position: sticky` og Infokolonne til høyre. Under 720 px står kartet innenfor sidemargen med høyde ca. 60 % av skjermen (UX-DR12)
+
+**Gitt** kartet
+**Når** det vises
+**Så** står lenken «Kartet i tekst» oppe til venstre, «Vis hele ruten» og zoom + og − oppe til høyre (44 px), målestokken nede til venstre og krediteringen nede til høyre. Krediteringen er alltid synlig, med understrekede lenker til Kartverket, OpenStreetMap (`lang="en"`) og MET Norge, uten Leaflets egen prefiks og med norske tekster på kontrollene (NFR-7, UX-DR14)
+
+**Gitt** tastaturbruk
+**Når** jeg tabber gjennom kartet
+**Så** er rekkefølgen «Kartet i tekst», «Vis hele ruten», zoom og krediteringslenker. Kartflaten har `tabindex="0"`, `role="region"` og `aria-label="Kart over {turnavn}"`, piltastene flytter kartet, og + og − zoomer
+**Og** Tab fører alltid videre ut av kartet, og markørene kan ikke få fokus (NFR-4)
+
+**Gitt** mus eller berøring
+**Når** jeg ruller med hjulet eller én finger over kartet
+**Så** ruller siden. Ctrl/Cmd + hjul zoomer, én finger viser hintet «Bruk to fingre for å flytte kartet», og to fingre flytter kartet
+**Og** dette løses med Leaflets innebygde valg. Går det ikke, er avviket begrunnet i beslutningsloggen (spinen › Deferred)
+
+**Gitt** turforslaget
+**Når** det vises
+**Så** står `h2` «Kartet i tekst» med en tekst laget i `domene/` som nevner startpunkt, form, total lengde, høydemeter og laveste og høyeste punkt (FR-6, UX-DR15)
+
+**Gitt** at kartflisene ikke lastes, eller at JavaScript er slått av
+**Når** turforslaget vises
+**Så** viser kartflaten en infomelding med «Prøv igjen» og lenke til «Kartet i tekst», og resten av forslaget vises som vanlig (AD-1)
+
+**Gitt** `prefers-reduced-motion`
+**Når** kartet flyttes
+**Så** skjer det uten animasjon
+
+### Story 1.11: Ola kan be om nytt forslag
+
+Som Ola,
+vil jeg kunne be om et nytt forslag uten å søke på nytt,
+slik at jeg kan velge en annen tur hvis den første ikke frister.
+
+**Akseptansekriterier:**
+
+**Gitt** et turforslag
+**Når** jeg trykker «Nytt forslag»
+**Så** vises neste tur i den frosne rangeringen, aldri en tur som alt er vist i dette søket, og POST følger Post/Redirect/Get (FR-7, AR-7)
+
+**Gitt** at alle treff er vist
+**Når** jeg trykker «Nytt forslag»
+**Så** vises Tilstandspanel med `h1` «Du har sett alle turene som passer søket», antallet turer, endringsforslag, «Start fra første forslag igjen» og «Endre søk» (FR-7, UX-DR22)
+
+**Gitt** Tilstandspanel for «alle vist»
+**Når** jeg trykker «Start fra første forslag igjen»
+**Så** vises første forslag igjen, og listen over viste turer starter på nytt
+
+**Gitt** et forslag etter «Nytt forslag»
+**Når** jeg laster siden på nytt
+**Så** vises samme forslag, og listen over viste turer er den samme. Et nytt søk eller en annen fane påvirker ikke dette søket
+
+**Gitt** JavaScript
+**Når** jeg trykker «Nytt forslag»
+**Så** henter `forbedring.js` et HTML-fragment fra serveren. Det gamle forslaget dempes, knappen beholder fokus, visningen får `aria-busy="true"`, og «Finner et nytt forslag …» leses opp i en `aria-live="polite"`-region utenfor
+**Og** etter byttet er `document.title` oppdatert, fokus står på nytt `h1`, og kartet viser den nye ruten (UX-DR23, UX-DR24, UX-DR25)
+**Og** uten JavaScript gir knappen en vanlig sideinnlasting med samme resultat
+
+**Gitt** et søk som sendes
+**Når** forslaget hentes
+**Så** vises lasteindikatoren med søkeoppsummeringen, en tom kartflate og «Kart lastes …», uten spinner ved `prefers-reduced-motion` (UX-DR23)
+
+**Gitt** et dobbeltklikk på «Nytt forslag»
+**Når** det sendes
+**Så** går forslaget bare ett steg videre (NFR-2)
+
+**Gitt** testene
+**Når** de kjøres
+**Så** dekker de rekkefølge, ingen gjentakelse, «alle vist», start på nytt og ny innlasting (SM-2)
+
+### Story 1.12: Ola får hjelp når ingen tur passer
+
+Som Ola,
+vil jeg få vite hvorfor jeg ikke får en tur og hva jeg kan endre,
+slik at jeg ikke står fast.
+
+**Akseptansekriterier:**
+
+**Gitt** status `TOPPTUR_ERSTATTET`
+**Når** forslaget vises
+**Så** vises en utsiktstur med merket «Utsikt i stedet for topptur» og Melding (advarsel) «Toppturer krever mer tid enn du har oppgitt» rett etter turnavnet (FR-8, UX-DR17)
+
+**Gitt** status `INGEN_TREFF`
+**Når** forslaget vises
+**Så** vises Tilstandspanel med `h1` «Jeg fant ingen tur som passer søket ditt», «Prøv å endre søket:» og konkrete endringsforslag for lengre varighet, et annet startpunkt og en annen turtype (FR-8, UX-DR22)
+**Og** et forslag vises bare når endringen gir minst ett treff. Det avgjøres av en ren funksjon i `domene/`
+
+**Gitt** et endringsforslag som «Prøv 3 timer» eller «Prøv marka»
+**Når** jeg trykker på det
+**Så** kjøres søket på nytt med én endring og en ny søke-ID
+**Og** «Velg startpunkt» går til det forhåndsutfylte skjemaet med fokus på Startpunkt
+
+**Gitt** status `BARE_OVER_NIVATAK` for en gjest
+**Når** forslaget vises
+**Så** vises Tilstandspanel med `h1` «Ingen grønne turer passer søket» og gjesteteksten fra Mikrotekst, uten løfte om lengre eller hardere turer (FR-8, SM-C1)
+**Og** lenken «Lag konto» i teksten legges til i Epic 2, når kontoopprettelsen finnes
+
+**Gitt** et Tilstandspanel
+**Når** det vises
+**Så** er `document.title` lik overskriften, fokus står på `h1`, og «Endre søk» er alltid med (UX-DR25, NFR-2)
+
+**Gitt** testene i `tests/web/`
+**Når** de kjøres
+**Så** dekker de hver status og endringsforslagene (SM-2)
