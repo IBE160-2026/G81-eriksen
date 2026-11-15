@@ -42,3 +42,5 @@
 - [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — sjekk at forhåndsvisningene på Vercel har innloggingsvern, fordi Neon-grenene er kopier av produksjonsdataene (AD-15 punkt 3)
 - [x] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — fortsett bmad-create-epics-and-stories fra steg 1 ([C]) på planlegging/epics-og-stories etter at publiseringsendringene er merget (løst 2026-11-15 — steg 1 og 2 godkjent, se [epics-og-stories](987-2026-11-15-14-08-10-epics-og-stories.md))
 - [ ] 2026-11-15 [epics-og-stories](987-2026-11-15-14-08-10-epics-og-stories.md) — fortsett bmad-create-epics-and-stories på planlegging/epics-og-stories fra menyen i steg 2 ([C] → steg 3: stories med akseptansekriterier)
+- [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — kjør MCP-sjekkene fra Vercel-guiden (`search_vercel_documentation`, `list_teams`) etter omstart av Claude Code
+- [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — slå på totrinnsbekreftelse (2FA) på Vercel-kontoen
