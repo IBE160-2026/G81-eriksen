@@ -49,6 +49,7 @@ Brukeren ba meg rette manglene (H-1 til H-5) fra verifiseringen av `technology.m
 - Spinen har `updated: 2026-11-15`. Beslutningen står i `.memlog.md`. `docs/arkitektur.md` › Sikkerhet og `verifisering-technology.md` (nytt kapittel om rettelsene) er oppdatert.
 - `lint_spine.py`: bare de seks gamle falske treffene på plassholdere, ingen nye.
 - De fem åpne punktene fra forrige seksjon er lukket i `issues.md`.
+- PR #19 er merget til `main` med merge-commit `4db817a` (2026-11-15 kl. 13:26). Branchen `planlegging/verifiser-technology` er beholdt på `origin`, som de tidligere branchene.
 
 ### Åpne punkter
 - Sjekk i kartstoryen at Leaflet virker med CSP-en, og utvid den med begrunnelse hvis det trengs.
