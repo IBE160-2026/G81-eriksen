@@ -755,3 +755,216 @@ slik at jeg ikke står fast.
 **Gitt** testene i `tests/web/`
 **Når** de kjøres
 **Så** dekker de hver status og endringsforslagene (SM-2)
+
+## Epic 2: Ola lager konto og registrerer turene sine
+
+Gjesten lager konto uten å miste forslaget, registrerer gjennomførte turer med vurdering, ser historikken, åpner en tur fra historikken og kan slette kontoen. Innloggingen har en grense for mislykkede forsøk, og registreringen tåler dobbeltklikk.
+
+### Story 2.1: Ola lager konto, logger inn og logger ut
+
+Som Ola, som gjest,
+vil jeg lage konto med e-post og passord og kunne logge inn og ut,
+slik at jeg senere kan registrere turene mine.
+
+**Akseptansekriterier:**
+
+**Gitt** skjermen Logg inn / Lag konto
+**Når** den åpnes fra «Logg inn» i toppmenyen
+**Så** vises visningen «Logg inn» med e-post (`type="email"`, `autocomplete="email"`), passord (`autocomplete="current-password"`), primærknappen «Logg inn» og lenken «Har du ikke konto? Lag konto». Visningen «Lag konto» har `autocomplete="new-password"`, hjelpeteksten «Minst 8 tegn» og primærknappen «Lag konto og fortsett» (UX-DR26)
+**Og** «Vis passord» kommer fra `forbedring.js`, og skjemaet virker uten JavaScript (AR-18)
+
+**Gitt** en ny e-post og et passord på minst 8 tegn
+**Når** jeg lager konto
+**Så** lagres e-posten med små bokstaver og passordet bare som hash, jeg blir logget inn og kommer tilbake dit jeg var (FR-14, AR-9)
+**Og** et turforslag jeg så på som gjest, er det samme etter innloggingen, fordi Djangos `login()` beholder økten (AR-7)
+
+**Gitt** en e-post som allerede har konto
+**Når** jeg prøver å lage konto med den
+**Så** vises Melding (feil) «Kunne ikke lage konto – prøv å logge inn», og ingen konto lages (FR-14)
+**Og** et passord under 8 tegn eller en ugyldig e-post gir feil ved feltet, med teksten fra Mikrotekst
+
+**Gitt** feil e-post eller feil passord
+**Når** jeg logger inn
+**Så** vises «Feil e-post eller passord», uten å si hvilket felt som er feil, og e-posten står fortsatt i feltet (FR-14)
+
+**Gitt** at jeg er innlogget
+**Når** jeg ser på toppmenyen
+**Så** viser den logo, «Finn tur» og «Konto», og gjester ser logo og «Logg inn» (UX-DR3). «Historikk» kommer i story 2.3
+
+**Gitt** skjermen Konto
+**Når** jeg åpner den
+**Så** viser den e-posten min, `h2` «Personvern» med personverntekst fra Mikrotekst og knappen «Logg ut» (NFR-5, UX-DR30)
+**Og** «Logg ut» er en POST som tømmer økten, og jeg havner på Søk med «Du er logget ut.», som får fokus (AD-6)
+
+**Gitt** innloggingen
+**Når** jeg ikke gjør noe på lenge
+**Så** varer innloggingen i to uker uten grense for inaktivitet (AD-6)
+
+**Gitt** nivåtakmeldingen for gjester fra story 1.12
+**Når** den vises
+**Så** har den lenken «Lag konto» til visningen «Lag konto»
+
+**Gitt** testene i `tests/web/`
+**Når** de kjøres
+**Så** dekker de kontooppretting, duplisert e-post, feil innlogging, utlogging og at turforslaget beholdes gjennom innloggingen (NFR-6)
+
+### Story 2.2: Innloggingen har en grense for mislykkede forsøk
+
+Som Ola,
+vil jeg at ingen kan prøve ut passordet mitt i det uendelige,
+slik at kontoen min er trygg på den publiserte siden.
+
+**Akseptansekriterier:**
+
+**Gitt** modellen `Innloggingsforsok(epost, tidspunkt)`
+**Når** en innlogging mislykkes
+**Så** lagres forsøket med e-posten i små bokstaver, også når e-posten ikke har konto (AR-9)
+
+**Gitt** 5 mislykkede forsøk med samme e-post de siste 15 minuttene
+**Når** jeg prøver å logge inn igjen med den e-posten
+**Så** kalles ikke `authenticate()`, og Melding (feil) viser «Det har vært for mange forsøk på å logge inn med denne e-postadressen. Vent 15 minutter, og prøv igjen.», uten å si om e-posten har konto (NFR-8)
+**Og** e-posten står fortsatt i feltet, men passordet er tømt
+
+**Gitt** at grensen er nådd
+**Når** 15 minutter har gått siden det eldste av de fem forsøkene
+**Så** kan jeg prøve igjen
+
+**Gitt** en vellykket innlogging
+**Når** den skjer
+**Så** slettes forsøkene for e-posten, og forsøk eldre enn sperretiden slettes ved hver sjekk
+
+**Gitt** avgjørelsen
+**Når** den tas
+**Så** gjøres den av en ren funksjon i `domene/`, som får tidspunktene og klokkeslettet inn, med `INNLOGGING_MAKS_FORSOK` og `INNLOGGING_SPERRETID_MIN` fra `settings` (AR-2)
+**Og** testene dekker grensen, at sperren slutter, og at den gjelder like mye for e-poster uten konto
+
+### Story 2.3: Ola registrerer en gjennomført tur og ser den i historikken
+
+Som Ola, som er innlogget,
+vil jeg registrere en tur jeg har gått, med hvordan den kjentes,
+slik at tjenesten kan bruke vurderingen og jeg kan finne turen igjen.
+
+**Akseptansekriterier:**
+
+**Gitt** et turforslag mens jeg er innlogget
+**Når** jeg trykker «Registrer gjennomført tur»
+**Så** åpnes en egen side på `/registrer/<tur_id>/` med Turoppsummering øverst (navn, nivå, form, lengde og estimert tid), «Alle fire felt er påkrevd.» og feltene dato (`<input type="date">`, i dag forvalgt, `max` i dag), brukt tid (`fieldset` med Timer og Minutter, hjelpetekst «10 min–24 t»), opplevd vanskelighet og fornøydhet som Valggruppe med `fieldset` og `legend` (FR-16, UX-DR8, UX-DR27, UX-DR28)
+**Og** «Registrer gjennomført tur» er sekundærknapp på turforslaget, og «Nytt forslag» er primær
+
+**Gitt** en dato frem i tid, brukt tid under 10 minutter eller over 24 timer, eller et felt som mangler
+**Når** jeg sender skjemaet
+**Så** lagres ingenting, feilen står ved feltet med teksten fra Mikrotekst, og fokus går til første felt med feil (FR-16, NFR-2)
+
+**Gitt** et gyldig skjema
+**Når** jeg sender det
+**Så** lagres en `Registrering` for meg og turen, med `on_delete=PROTECT` mot turen, og jeg sendes til Historikk med Melding (suksess) «Turen er registrert i historikken din.», som får fokus (AR-5, UX-DR21)
+**Og** tur-ID-en tas fra URL-en, aldri fra økten (AR-7)
+
+**Gitt** et engangstoken i økten
+**Når** jeg dobbeltklikker eller sender samme skjema to ganger
+**Så** blir det bare én registrering, og et brukt eller ukjent token sender meg til Historikk uten å lagre noe (AD-14, AR-14)
+
+**Gitt** Historikk
+**Når** jeg åpner den fra «Historikk» i toppmenyen
+**Så** viser en ekte `<table>` registreringene mine, nyeste først, med én rad per registrering, også når samme tur er gått flere ganger. Kolonnene er Tur (`<th scope="row">`, med Nivåmerke under), Dato, Brukt tid (med «estimert ca. …» under), Opplevd vanskelighet og Fornøydhet («5 av 5»), og handlingskolonnen har skjult overskrift «Handlinger» (FR-17, UX-DR29)
+**Og** under 720 px ruller tabellen sidelengs i egen beholder (`role="region"`, `aria-label="Historikk"`, `tabindex="0"`), og under tabellen står «Nye søk prioriterer turer du ikke har gått.»
+
+**Gitt** at jeg ikke har registrert noen turer
+**Når** jeg åpner Historikk
+**Så** vises Tilstandspanel med «Du har ikke registrert noen turer ennå.» og «Finn tur»
+
+**Gitt** en annen brukers registrering
+**Når** jeg prøver å se den
+**Så** ser jeg den ikke, fordi alt hentes filtrert på `request.user` (NFR-8)
+
+**Gitt** en tur med registreringer som mangler i `turer.geojson`
+**Når** `lastinn` kjøres
+**Så** stopper kommandoen med en melding som sier hvilken tur det gjelder, og ingenting slettes (AD-3 punkt 4)
+
+### Story 2.4: Ola åpner en tur fra historikken
+
+Som Ola,
+vil jeg kunne åpne en tur jeg har gått før og registrere den igjen,
+slik at jeg lett kan gå favoritturene mine på nytt.
+
+**Akseptansekriterier:**
+
+**Gitt** en rad i Historikk
+**Når** jeg trykker «Åpne som turforslag»
+**Så** vises turen som turforslag fra historikken, med «Fra historikken din» i stedet for søkeoppsummeringen, uten Turtype-treff, og med kart og tall som vanlig (FR-17)
+**Og** handlingene har skjulte tillegg, for eksempel «– Granåsen rundt, 7. nov.» (UX-DR29)
+
+**Gitt** et turforslag fra historikken
+**Når** begrunnelsen vises
+**Så** kommer den fra en fast mal uten KI, for eksempel «Du gikk denne turen 12. oktober og ga den 5 av 5.», og KI-merket viser «Begrunnelse fra mal» (FR-17, FR-12)
+**Og** «Nytt forslag» er byttet ut med «Finn en ny tur», som går til Søk
+
+**Gitt** en tur over nivåtaket mitt
+**Når** jeg åpner den fra historikken
+**Så** vises den likevel, med Melding (info) «Denne turen er over nivået jeg foreslår for deg nå.» rett etter turnavnet (FR-17)
+
+**Gitt** et pågående søk i en fane
+**Når** jeg åpner en tur fra historikken
+**Så** endres ikke søketilstanden for søket (FR-7)
+
+**Gitt** en rad i Historikk
+**Når** jeg trykker «Registrer gjennomført tur»
+**Så** åpnes registreringen for den turen (FR-16)
+
+### Story 2.5: Gjesten blir bedt om å logge inn og kommer rett tilbake
+
+Som Ola, som gjest,
+vil jeg kunne trykke «Registrer gjennomført tur» før jeg har konto,
+slik at jeg ikke mister turen jeg nettopp har valgt.
+
+**Akseptansekriterier:**
+
+**Gitt** et turforslag som gjest
+**Når** jeg trykker «Registrer gjennomført tur»
+**Så** kommer jeg til Logg inn / Lag konto med Turoppsummering, «Logg inn for å registrere», «Turforslaget er tatt vare på.» og lenken «Tilbake til turforslaget» (FR-14, UX-DR26)
+
+**Gitt** den siden
+**Når** jeg logger inn eller lager konto
+**Så** går jeg rett inn i registreringen av den samme turen (FR-14)
+**Og** «Tilbake til turforslaget» viser det samme forslaget som før
+
+**Gitt** at jeg er gjest
+**Når** jeg åpner Historikk, Konto eller en registreringsside direkte
+**Så** sendes jeg til Logg inn med `next`, og etter innloggingen tilbake dit (AD-6)
+
+**Gitt** at innloggingen har utløpt
+**Når** jeg åpner en side som krever konto
+**Så** sendes jeg til Logg inn og tilbake til samme side etterpå. Om utfylte felt beholdes, avgjøres og dokumenteres i denne storyen (åpent punkt i `EXPERIENCE.md`)
+
+**Gitt** en `next`-adresse til et annet nettsted
+**Når** jeg logger inn
+**Så** sendes jeg til Søk i stedet, så ingen kan bruke innloggingen til å sende brukere videre (NFR-8)
+
+### Story 2.6: Ola sletter kontoen
+
+Som Ola,
+vil jeg kunne slette kontoen og alt jeg har registrert,
+slik at jeg bestemmer over dataene mine.
+
+**Akseptansekriterier:**
+
+**Gitt** Konto
+**Når** jeg trykker «Slett konto»
+**Så** åpnes en egen side med `h1` «Vil du slette kontoen?», «All historikken din slettes for godt, og det kan ikke angres.», primærknappen «Slett kontoen» og «Avbryt» (FR-15, UX-DR30)
+**Og** «Slett kontoen» står ikke på samme sted som «Slett konto» på Konto, siden har ingen rød flate, og jeg må ikke skrive inn e-posten
+
+**Gitt** bekreftelsessiden
+**Når** jeg trykker «Avbryt»
+**Så** kommer jeg tilbake til Konto, og ingenting er endret
+
+**Gitt** bekreftelsessiden
+**Når** jeg trykker «Slett kontoen»
+**Så** slettes brukeren, e-posten, passord-hashen og alle registreringer i én transaksjon. Deretter kalles `logout()`, og jeg havner på Søk som gjest med «Kontoen din er slettet.», som får fokus (FR-15, AR-9)
+
+**Gitt** at slettingen feiler
+**Når** transaksjonen rulles tilbake
+**Så** slettes ingenting, og jeg får Melding (feil) med «Prøv igjen» (FR-15, NFR-2)
+
+**Gitt** testene
+**Når** de kjøres
+**Så** dekker de sletting, avbryt og feil i transaksjonen, og at en annen brukers data ikke påvirkes (NFR-8)
