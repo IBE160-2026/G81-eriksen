@@ -245,7 +245,9 @@ Når brukeren har skrevet et fritekstønske, får KI bare fritekstønsket og tur
 - Begrunnelsen nevner minst varigheten, og turtypen og fritekstønsket hvis brukeren har oppgitt dem. Unntak: reservemalen nevner ikke fritekstønsket (FR-13).
 - Når KI er tilgjengelig, skriver KI begrunnelsen. Ellers lages den fra reservemalen (FR-13).
 - Begrunnelsen har maks 300 tegn. Grensen gjelder hele begrunnelsen slik brukeren ser den, etter innsetting av verdier og med personaliseringssetningen. Overskrides grensen, brukes reservemalen (FR-13).
-- Har en personaliseringsregel påvirket valget, legger systemet til en personaliseringssetning fra setningsmalen. Eksempel: «Du får en blå tur fordi de tre siste grønne turene var lette for deg.» En regel har påvirket valget når den valgte turen har et turnivå som bare er tillatt fordi nivåtaket er hevet (FR-19), eller når turen er prioritert av nivåhevingen i FR-5. Teksten ved sperre og turtypepreferanse er et åpent punkt (§10).
+- Har en personaliseringsregel påvirket valget, legger systemet til en personaliseringssetning fra setningsmalen. En regel har påvirket valget når den valgte turen har et turnivå som bare er tillatt fordi nivåtaket er hevet (FR-19), eller når turen er prioritert av nivåhevingen i FR-5. Setningen avhenger av når hevingen skjedde:
+  - I det første søket etter en heving (FR-5 punkt 2.3) forklarer setningen hevingen. Eksempel: «Du får en blå tur fordi de tre siste grønne turene var lette for deg.»
+  - I senere søk forklarer setningen nivået, fordi de tre lette turene da kan ligge langt tilbake. Eksempel: «Du får en blå tur fordi du har nådd blått nivå.» Teksten ved sperre og turtypepreferanse er et åpent punkt (§10).
 - KI skriver aldri tall eller turnivå. KI-teksten har plassholderne `{tid}`, `{varighet}`, `{lengde}` og `{nivå}`, og systemet setter inn verdiene fra turdatabasen (FR-1 til FR-3) og søket (se addendum).
 - **KI-merke:** Rett over begrunnelsen står «✦ Skrevet med KI» når KI har skrevet den. Er begrunnelsen laget fra en mal, står «Begrunnelse fra mal» i stedet.
 - Turforslag fra historikken følger FR-17.
@@ -266,6 +268,7 @@ Når brukeren har skrevet et fritekstønske, får KI bare fritekstønsket og tur
 - Da brukes reserveløsningen: fritekstønsket ignoreres, og begrunnelsen lages fra reservemalen. Forkastede KI-svar logges, slik at de kan brukes i kvalitetssikringen. Hva loggen inneholder, står i NFR-5.
 - Reserveløsningen brukes også når KI-nøkkelen mangler, og når grensen for KI-kall er nådd (NFR-8).
 - Har brukeren skrevet et fritekstønske som ble ignorert, viser systemet en melding om at ønsket ikke kunne tas hensyn til denne gangen. KI-merket viser «Begrunnelse fra mal» (FR-12). Reservemalen viser aldri til fritekstønsket.
+- Ønsket regnes som ignorert bare når tolkingen (FR-11) forkastes eller ikke kan gjøres. Forkastes bare begrunnelsen for en tur, brukes reservemalen for den turen uten melding, fordi ønsket alt er brukt i rangeringen.
 
 ### 4.6 Konto
 
@@ -566,3 +569,5 @@ Antakelsene og standardverdiene i kravene, endringene i v1.1 og rettingene etter
 | 1.8 | 2026-11-12 | Etter tilbakemeldingen på PRD-en (4.5): meldinger er beskrevet med budskap, og den ferdige teksten står bare i `EXPERIENCE.md` › Mikrotekst. Ny regel i §0 om hva som fortsatt står ordrett. Berørt: §0, UJ-1, FR-6, FR-7, FR-8, FR-13, FR-14 og FR-17 |
 | 1.9 | 2026-11-12 | Etter de mekaniske funnene i tilbakemeldingen på PRD-en (§5): UJ-2 viser til FR-16, FR-17 og FR-17.1 (P2) med ID og sier at testbrukeren (FR-21) viser den samme hevingen. §10 sier at krav uten merknad er besluttet, og at bare punktene i tabellen er åpne |
 | 1.10 | 2026-11-15 | Faglærer krever at appen publiseres på Vercel for å bli vurdert. Nytt NFR-10 Publisering (P1): publisering fra `main`, adressen i README, testbruker som lages på nytt ved hver publisering, KI innenfor NFR-8 og forhåndsvisning med egen database per PR. NFR-1 står uendret. NFR-5: data i EU, og KI-loggen på Vercel slettes etter 1 time. NFR-8: ny grense for innloggingsforsøk. Berørt: §6, §7.1 og §9. Valgt av produkteier 2026-11-15. Arkitekturen er oppdatert samme dag (AD-4, AD-10, AD-12 og ny AD-15) |
+| 1.11 | 2026-11-15 | Funnet da stories for Epic 3 ble skrevet (`epics.md`, story 3.3): Med FR-12 fikk alle turer over grønt setningen om de tre lette turene for alltid, også lenge etter hevingen. FR-12 har nå to setninger: én om hevingen i første søk etter hevingen, og én om nådd nivå i senere søk. Ordlyden står i `EXPERIENCE.md` › Mikrotekst. Valgt av produkteier 2026-11-15 |
+| 1.12 | 2026-11-15 | Funnet i sluttvalideringen av `epics.md`: FR-13 sier nå når et fritekstønske regnes som ignorert. Det gjelder bare når tolkingen forkastes eller ikke kan gjøres, ikke når bare begrunnelsen for en tur forkastes. Presisering uten ny regel, godkjent av produkteier 2026-11-15 |

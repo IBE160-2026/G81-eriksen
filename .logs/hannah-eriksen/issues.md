@@ -12,7 +12,7 @@
 - [x] 2026-11-06 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — neste BMAD-steg: bmad-ux (wireframes for PRD §6), deretter bmad-architecture (løst 2026-11-06 — bmad-ux fullført, se [bmad-ux](995-2026-11-06-17-42-55-bmad-ux.md))
 - [x] 2026-11-06 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — legg note i product brief om at PRD-en gjelder ved avvik (løst 2026-11-07 — se [issues-opprydding](994-2026-11-07-15-14-03-issues-opprydding.md))
 - [ ] 2026-11-06 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — test nedlasting av Turrutebasen og støyfiltrering av høydedata når turdatabasen bygges
-- [ ] 2026-11-06 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — bruk egen kontakt-e-post fra .env i User-Agent mot MET
+- [x] 2026-11-06 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — bruk egen kontakt-e-post fra .env i User-Agent mot MET (løst 2026-11-15 — forkastet: AD-12 punkt 3 har appnavn og repo-URL uten personlig e-post, som MET-vilkårene godtar; se story 5.2 i epics.md)
 - [x] 2026-11-06 [bmad-ux](995-2026-11-06-17-42-55-bmad-ux.md) — oppdater PRD med «Avvik fra PRD» fra EXPERIENCE.md (mobil i v1, UJ-1 7,2 km vs FR-2, UJ-3, jeg-form, «Logg inn / Lag konto», Historikk-visning, wireframe-referanse §6 m.m.) (løst 2026-11-07 — PRD v1.1, se [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md))
 - [x] 2026-11-06 [bmad-ux](995-2026-11-06-17-42-55-bmad-ux.md) — neste BMAD-steg: bmad-architecture (kartfliser/bibliotek, økt og levetid for turforslag, beregning av høydeprofil, nettleserstøtte) (løst 2026-11-08 — se [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md))
 - [ ] 2026-11-06 [bmad-ux](995-2026-11-06-17-42-55-bmad-ux.md) — mål kontrast for rutelinje, startmarkør og kartfokus mot ekte kartfliser når kartkilde er valgt
@@ -24,7 +24,7 @@
 - [ ] 2026-11-07 [issues-opprydding](994-2026-11-07-15-14-03-issues-opprydding.md) — Excalidraw-rettelsen i `.claude/skills/bmad-ux/` kan overskrives ved BMAD-reinstallasjon/-oppdatering
 - [ ] 2026-11-08 [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md) — registrer Anthropic-konto og sjekk startkreditten; mangler den, bytt til Gemini Flash-Lite via ny KI-variant
 - [x] 2026-11-08 [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md) — neste BMAD-steg: bmad-spec eller bmad-create-epics-and-stories (løst 2026-11-15 — bmad-create-epics-and-stories startet, se [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md))
-- [ ] 2026-11-08 [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md) — avgjør format på kurateringslista og testbrukerfila i første turdatabase-story
+- [ ] 2026-11-08 [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md) — avgjør format på kurateringslista og testbrukerfila i første turdatabase-story (testbrukerfila: TOML, story 3.4; kurateringslista avgjøres i story 1.5)
 - [ ] 2026-11-08 [readme-forste-del](992-2026-11-08-11-15-46-readme-forste-del.md) — fyll ut «Installasjon og kjøring» i README når koden finnes (AD-12 punkt 6), og oppdater status og mappestruktur
 - [ ] 2026-11-08 [readme-forste-del](992-2026-11-08-11-15-46-readme-forste-del.md) — test README i et rent miljø før innlevering (under 20 minutter, NFR-1)
 - [x] 2026-11-12 [tilbakemelding-prd](991-2026-11-12-19-49-28-tilbakemelding-prd.md) — oppdater AD-10 i arkitekturen med grense for KI-kall (NFR-8) og sletting av KI-loggen etter 30 dager (NFR-5) (løst 2026-11-12)
@@ -40,4 +40,8 @@
 - [ ] 2026-11-15 [verifiser-technology](989-2026-11-15-13-18-36-verifiser-technology.md) — sjekk i kartstoryen at Leaflet virker med CSP-en fra spinen, og utvid den med begrunnelse hvis det trengs
 - [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — opprett Vercel-prosjektet (Hobby) og koble til Neon fra Vercel Marketplace i Frankfurt, med forhåndsvisningsgrener (AD-15)
 - [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — sjekk at forhåndsvisningene på Vercel har innloggingsvern, fordi Neon-grenene er kopier av produksjonsdataene (AD-15 punkt 3)
-- [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — fortsett bmad-create-epics-and-stories fra steg 1 ([C]) på planlegging/epics-og-stories etter at publiseringsendringene er merget
+- [x] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — fortsett bmad-create-epics-and-stories fra steg 1 ([C]) på planlegging/epics-og-stories etter at publiseringsendringene er merget (løst 2026-11-15 — steg 1 og 2 godkjent, se [epics-og-stories](987-2026-11-15-14-08-10-epics-og-stories.md))
+- [x] 2026-11-15 [epics-og-stories](987-2026-11-15-14-08-10-epics-og-stories.md) — fortsett bmad-create-epics-and-stories på planlegging/epics-og-stories fra menyen i steg 2 ([C] → steg 3: stories med akseptansekriterier) (løst 2026-11-15 — epics.md er final med 41 stories)
+- [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — kjør MCP-sjekkene fra Vercel-guiden (`search_vercel_documentation`, `list_teams`) etter omstart av Claude Code
+- [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — slå på totrinnsbekreftelse (2FA) på Vercel-kontoen
+- [ ] 2026-11-15 [epics-og-stories](987-2026-11-15-14-08-10-epics-og-stories.md) — neste BMAD-steg: bmad-sprint-planning (sjekker at planen er klar og lager statusfila for sprinten)
