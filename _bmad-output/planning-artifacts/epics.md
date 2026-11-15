@@ -968,3 +968,270 @@ slik at jeg bestemmer over dataene mine.
 **Gitt** testene
 **Når** de kjøres
 **Så** dekker de sletting, avbryt og feil i transaksjonen, og at en annen brukers data ikke påvirkes (NFR-8)
+
+## Epic 3: Forslagene tilpasser seg nivået til Ola
+
+Vurderingene styrer nivåtaket med heving, sperre og oppheving. Søket prioriterer det nye nivået og turer brukeren ikke har gått, og begrunnelsen forklarer regelen. Testbrukeren viser alt dette uten at noen må gå turer. Turtypepreferansen (P2) er siste story.
+
+### Story 3.1: Vurderingene bestemmer nivåtaket etter faste regler
+
+Som Ola, som er innlogget,
+vil jeg at vurderingene mine bestemmer hvilket nivå jeg får forslag på, etter faste regler,
+slik at forslagene følger hvordan turene faktisk kjentes for meg.
+
+**Akseptansekriterier:**
+
+**Gitt** `domene.niva`
+**Når** `vurder_historikk(registreringer)` kalles
+**Så** returnerer den en frossen dataklasse `NivaStatus` med `nivatak`, `grunnniva`, `sperre`, `antall_hevinger` og `teller`, uten database, nettverk eller klokke (AR-2, AR-13)
+**Og** hver registrering er en frossen dataklasse `domene.niva.Registrering` med `id`, `dato`, `tur_id`, `turniva` (`gronn`, `bla`, `rod` eller `svart`), `vanskelighet` (`lett`, `moderat` eller `vanskelig`) og `fornoydhet` (1–5)
+**Og** `sperre` er `None` uten aktiv sperre. Ellers har den sperrenivået og turnivået til turen som ga sperren (brukes i begrunnelsen i story 3.3)
+
+**Gitt** ingen registreringer
+**Når** `vurder_historikk` kalles
+**Så** er nivåtaket og grunnnivået grønt, uten sperre, med 0 hevinger og teller 0 (FR-18, AD-11 punkt 1)
+
+**Gitt** de 12 eksemplene i FR-19
+**Når** testene kjøres
+**Så** er hvert eksempel et eget testtilfelle med eksempelnummeret i navnet, og hvert viser til FR-19 (SM-2, NFR-6)
+**Og** tilstanden «Før» bygges av registreringer. Testen sjekker først «Før» og så «Etter» med den nye registreringen (eksempel 9 bygger grunnnivå rødt med tre grønne og tre blå turer vurdert *lett*)
+
+**Gitt** tre registreringer med turnivå lik grunnnivået, vurdert *lett* uten aktiv sperre
+**Når** `vurder_historikk` kalles
+**Så** er grunnnivået hevet ett nivå, `antall_hevinger` har økt med 1, og telleren er 0 (FR-19, eksempel 1)
+**Og** registreringene trenger ikke komme etter hverandre: *moderat* imellom verken teller eller nullstiller, og turer under eller over grunnnivået teller ikke (eksempel 2, 3 og 10)
+**Og** grunnnivå svart heves ikke (eksempel 11)
+
+**Gitt** en registrering vurdert *vanskelig*
+**Når** `vurder_historikk` kalles
+**Så** er telleren 0. Er nivået under turens nivå (aldri under grønt) lavere enn nivåtaket, blir det nivåtak som sperre, og grunnnivået er uendret (FR-19, eksempel 4, 7, 8 og 9)
+**Og** er det ikke lavere, endres verken nivåtaket eller sperren (eksempel 6)
+
+**Gitt** en aktiv sperre
+**Når** neste registrering er vurdert *lett* eller *moderat*, uansett turnivå
+**Så** er sperren opphevet og nivåtaket lik grunnnivået. Registreringen teller ikke mot heving, og `antall_hevinger` er uendret, fordi en opphevet sperre ikke er en heving (FR-19, eksempel 5, AR-13)
+
+**Gitt** registreringer i tilfeldig rekkefølge
+**Når** `vurder_historikk` kalles
+**Så** behandles de etter dato og deretter registrerings-ID, og resultatet er det samme uansett rekkefølgen de kommer inn i (FR-19, AD-11 punkt 1)
+**Og** en test viser at en ny registrering med tidligere dato enn de andre kan endre nivåtaket
+**Og** samme tur registrert flere ganger teller hver gang (eksempel 12)
+
+**Gitt** en registrering med ukjent turnivå eller vanskelighet, eller fornøydhet utenfor 1–5
+**Når** `vurder_historikk` kalles
+**Så** kaster den `ValueError` med en norsk melding, og ingen nivåstatus returneres (NFR-2)
+
+**Gitt** testene i `tests/domene/`
+**Når** de kjøres
+**Så** bruker de ikke databasen og viser til FR-18 og FR-19 (AR-15, SM-2)
+
+### Story 3.2: Søket bruker nivåtaket og historikken
+
+Som Ola, som er innlogget,
+vil jeg at søket bruker nivået mitt og prioriterer turer jeg ikke har gått,
+slik at jeg får nye turer på riktig nivå og prøver det nye nivået når jeg har rykket opp.
+
+**Akseptansekriterier:**
+
+**Gitt** en innlogget bruker
+**Når** et gyldig søk sendes
+**Så** hentes registreringene filtrert på `request.user`, gjøres om til `domene.niva.Registrering` med turens turnivå og sendes til `vurder_historikk`, og filteret i `velg_turer` bruker `NivaStatus.nivatak` (FR-5, FR-19, NFR-8)
+**Og** omgjøringen ligger i `turforslag/`, og viewet regner eller filtrerer ikke selv (AR-2)
+**Og** en gjest får ingen registreringer og dermed grønt nivåtak (FR-18)
+
+**Gitt** grunnnivå blått uten sperre
+**Når** brukeren søker
+**Så** kan forslagene være blå eller grønne, aldri røde eller svarte (FR-19)
+**Og** med aktiv sperre er bare turer til og med sperrenivået med, også når grunnnivået er høyere
+
+**Gitt** `velg_turer` fra story 1.8
+**Når** den utvides
+**Så** får den bare de nye nøkkelordargumentene `registreringer` (standard tom) og `nivaheving` (standard `False`), og kall og tester fra Epic 1 virker uendret (AR-13)
+
+**Gitt** treff der noen turer er gått
+**Når** de rangeres
+**Så** kommer turer som ikke er gått, først, så gåtte turer med fornøydhet 3–5 og til sist gåtte turer med fornøydhet 1–2 (FR-5 punkt 1)
+**Og** er en tur gått flere ganger, gjelder fornøydheten i siste registrering (dato, deretter registrerings-ID)
+**Og** er alle treff gått, er statusen fortsatt `TREFF`, og ingen tur er utelukket. Det gjelder også utsiktsturene ved `TOPPTUR_ERSTATTET`
+
+**Gitt** `nivaheving=True`
+**Når** treffene rangeres
+**Så** kommer turer med turnivå lik nivåtaket foran turer under det, etter punkt 1 og før punkt 5 og 6 (FR-5 punkt 3)
+**Og** en test viser at en grønn tur som ikke er gått, kommer foran en blå tur som er gått
+
+**Gitt** et gyldig søk fra en innlogget bruker
+**Når** nivåhevingen avgjøres
+**Så** gjør en ren funksjon i `domene.niva` det ut fra `NivaStatus` og `brukt_heving`: `antall_hevinger > brukt_heving` uten aktiv sperre gir `nivaheving=True`, ellers `False` (AD-11 punkt 2)
+**Og** `brukt_heving` lagres som `antall_hevinger` i samme forespørsel, også når søket gir `INGEN_TREFF` eller `BARE_OVER_NIVATAK`
+**Og** `nivaheving` lagres i søketilstanden og fryses med rangeringen (AD-5)
+
+**Gitt** et kanttilfelle for nivåhevingen
+**Når** søket sendes
+**Så** gjelder dette: med aktiv sperre regnes hevingen som brukt, men søket får `nivaheving=False`, så turer på sperrenivået ikke prioriteres som et nytt nivå. Har en registrering med tidligere dato fjernet en heving (`antall_hevinger < brukt_heving`), er `nivaheving` `False`, og `brukt_heving` settes ned, så neste heving gir prioritet. En gjest har alltid `False`, og ingenting lagres (AR-13)
+
+**Gitt** et ugyldig søk, ny innlasting, «Nytt forslag», «Start fra første forslag igjen» eller et turforslag fra historikken
+**Når** det vises
+**Så** endres verken `brukt_heving` eller rangeringen (FR-7, AD-5)
+**Og** et endringsforslag som «Prøv 3 timer» er et nytt gyldig søk (story 1.12), og neste gyldige søk etter en brukt heving har `nivaheving=False`
+
+**Gitt** et vist søk
+**Når** brukeren registrerer en tur i en annen fane
+**Så** er rangeringen for søket uendret til et nytt søk sendes (FR-7, AD-5)
+
+**Gitt** sluttilstanden i hvert av de 12 eksemplene i FR-19 og en rekke søk
+**Når** `velg_turer` kalles
+**Så** er ingen tur over nivåtaket med i noe utvalg, og statusen er `BARE_OVER_NIVATAK` når bare slike turer passer (FR-8, SM-C1)
+**Og** testene i `tests/domene/` og `tests/web/` dekker kriteriene over, også at `brukt_heving` lagres, og viser til FR-5, FR-19 og SM-C1 (SM-2)
+
+### Story 3.3: Begrunnelsen forklarer nivået
+
+Som Ola,
+vil jeg få vite når forslaget er tilpasset vurderingene mine, og hvorfor,
+slik at jeg forstår regelen og kan stole på den.
+
+**Akseptansekriterier:**
+
+**Gitt** et turforslag fra det første søket etter en heving (`nivaheving=True`), der turens nivå bare er tillatt fordi nivåtaket er hevet, eller der turen er prioritert av nivåhevingen (FR-12)
+**Når** begrunnelsen lages
+**Så** legges hevingssetningen fra setningsmalen til etter malteksten: «Du får en blå tur fordi de tre siste grønne turene var lette for deg.», med turens nivå og nivået under (FR-12, UX-DR31)
+**Og** for en rød tur blir den «Du får en rød tur fordi de tre siste blå turene var lette for deg.»
+**Og** KI-merket er fortsatt «Begrunnelse fra mal»
+
+**Gitt** et turforslag fra et senere søk (`nivaheving=False`), der turens nivå bare er tillatt fordi nivåtaket er hevet
+**Når** begrunnelsen lages
+**Så** legges setningen om nådd nivå til i stedet: «Du får en blå tur fordi du har nådd blått nivå.», med turens nivå ([ASSUMPTION] i Mikrotekst, FR-12)
+**Og** hevingssetningen og setningen om nådd nivå vises aldri samtidig
+
+**Gitt** en grønn tur uten aktiv sperre, en gjest eller et turforslag fra historikken
+**Når** begrunnelsen lages
+**Så** har den ingen personaliseringssetning (FR-12, FR-17)
+
+**Gitt** en aktiv sperre
+**Når** begrunnelsen for et turforslag fra et søk lages
+**Så** brukes sperresetningen «Du får en grønn tur igjen fordi den siste blå turen føltes vanskelig.», med turens nivå og turnivået til turen som ga sperren, i stedet for hevingssetningen (FR-19)
+**Og** teksten er [ASSUMPTION] i Mikrotekst. Den brukes, men står som foreløpig i Mikrotekst, i en kommentar i koden og i PR-en til produkteier har godkjent den (PRD §10)
+**Og** hevingssetningen og sperresetningen vises aldri samtidig
+
+**Gitt** setningsmalene
+**Når** nivåordene settes inn
+**Så** bøyes de i `domene/` (grønn/grønne/grønt, blå/blå/blått, rød/røde/rødt, svart/svarte/svart), og malene har ingen tall (AR-16)
+
+**Gitt** reservemalen med personaliseringssetning
+**Når** begrunnelsen lages
+**Så** er hele begrunnelsen høyst 300 tegn slik brukeren ser den, og en test sjekker den lengste kombinasjonen av mal, turtype, varighet og setning (FR-12)
+
+**Gitt** et søk
+**Når** det sendes
+**Så** lagres grunnlaget for setningen og nivåtakmeldingen (nivåtak, grunnnivå, sperre, `nivaheving` og om brukeren har historikk) i søketilstanden, så ny innlasting og «Nytt forslag» gir samme tekst, også etter en ny registrering i en annen fane (AD-5, FR-7)
+
+**Gitt** status `BARE_OVER_NIVATAK` for en innlogget bruker uten registreringer
+**Når** forslaget vises
+**Så** vises Tilstandspanel med `h1` «Ingen grønne turer passer søket» og «Som ny bruker får du grønne turer. Registrer og vurder turene du går, så tilpasser jeg forslagene etter hvordan turene kjentes for deg.», uten «Lag konto», og med «Endre søk» (FR-8, UX-DR22)
+
+**Gitt** status `BARE_OVER_NIVATAK` for en bruker med minst én registrering
+**Når** forslaget vises
+**Så** står det «Akkurat nå foreslår jeg turer opp til grønt nivå, og ingen av dem passer søket.», med nivåtaket i intetkjønn (for eksempel «blått nivå»). Med aktiv sperre er det sperrenivået som nevnes (FR-8)
+**Og** overskriften er «Ingen grønne turer passer søket» ved grønt nivåtak. Ved høyere nivåtak er den «Ingen turer opp til blått nivå passer søket» med nivåtaket, som står i Mikrotekst som [ASSUMPTION]
+**Og** `document.title` er lik overskriften, og fokus står på `h1` (UX-DR25)
+
+**Gitt** alle nivåtakmeldingene og personaliseringssetningene
+**Når** de vises
+**Så** lover ingen av dem lengre eller hardere turer, og gjesteteksten fra story 1.12 og 2.1 er uendret (SM-C1)
+**Og** PR-en lister tekstene merket [ASSUMPTION] som storyen tar i bruk (UX-DR31)
+
+**Gitt** testene
+**Når** de kjøres
+**Så** dekker `tests/domene/` når setningene legges til, bøyningen og lengden, og `tests/web/` dekker de tre variantene av nivåtakmeldingen (FR-8, FR-12, SM-2)
+
+### Story 3.4: Testbrukeren viser personaliseringen
+
+Som sensor,
+vil jeg logge inn som en testbruker med ferdig historikk,
+slik at jeg kan se nivåheving, sperre og prioritering uten å gå turer.
+
+**Akseptansekriterier:**
+
+**Gitt** `data/`
+**Når** jeg åpner testbrukerfila
+**Så** er den `data/testbruker.toml`, som leses med `tomllib` fra standardbiblioteket uten ny avhengighet. Den har e-post, passord og registreringene (tur-ID, dato, brukt tid, opplevd vanskelighet og fornøydhet), med en kommentar per registrering om hva den viser (AR-5)
+**Og** formatet og begrunnelsen for valget står i README-en i `data/`
+
+**Gitt** testbrukerens historikk
+**Når** `vurder_historikk` kjøres på den
+**Så** er grunnnivået blått, ingen sperre er aktiv, og `antall_hevinger` er 1 (FR-19, FR-21)
+**Og** historikken har i rekkefølge tre grønne turer vurdert *lett* (én av dem registrert to ganger) som gir heving, en blå tur vurdert *vanskelig* som gir sperre, og en tur vurdert *moderat* som opphever den
+**Og** minst én gått tur har fornøydhet 1–2, så punkt 1 i rangeringen synes, og alle datoene er faste og ligger i fortiden. En test sjekker dette
+
+**Gitt** `python manage.py lastinn`
+**Når** den kjøres
+**Så** lastes turene først. Deretter slettes testbrukeren med registreringene og lages på nytt fra fila, med passordet bare som hash (AR-5, FR-14)
+**Og** `brukt_heving` settes til `antall_hevinger` − 1 fra `vurder_historikk`, aldri under 0 (AD-11 punkt 3)
+**Og** to kjøringer gir én testbruker med de samme registreringene, og andre brukere og registreringene deres endres ikke
+
+**Gitt** en testbrukerfil som mangler, er ødelagt eller har ukjent tur-ID, dato frem i tid, ugyldige verdier etter FR-16 eller passord under 8 tegn
+**Når** `lastinn` kjøres
+**Så** stopper kommandoen med en norsk melding som sier hva som er feil, og ingenting i databasen endres (NFR-2)
+
+**Gitt** publiseringen på Vercel
+**Når** Vercel bygger produksjon eller en forhåndsvisning
+**Så** lages testbrukeren på nytt av `lastinn` i byggesteget, og endringer andre har gjort i den, også sletting av kontoen, forsvinner (NFR-10, AD-15 punkt 4)
+
+**Gitt** at jeg logger inn som testbrukeren etter `lastinn`
+**Når** jeg gjør søket som README beskriver
+**Så** kommer en blå tur først, og begrunnelsen har hevingssetningen (FR-5 punkt 3, FR-12)
+**Og** i neste søk er hevingen brukt, og Historikk viser alle registreringene (FR-17)
+
+**Gitt** README
+**Når** sensor leser den
+**Så** står testbrukerens e-post og passord der, hva historikken viser, at testbrukeren lages på nytt ved hver kjøring og publisering, og hvordan sperren kan vises: registrer en blå tur som *vanskelig* og søk på nytt (FR-21, AR-20)
+**Og** passordet er ikke en hemmelighet og brukes ikke til noe annet (NFR-1)
+
+**Gitt** testene i `tests/web/`
+**Når** de kjøres
+**Så** laster de testbrukeren, gjør søket fra README og sjekker den blå turen og setningen, og at en ny registrering vurdert *vanskelig* gir sperresetningen i neste søk (FR-21, SM-2, SM-4)
+
+### Story 3.5 (P2): Turtyper Ola har vært fornøyd med, kommer først
+
+Som Ola,
+vil jeg at turtypene jeg har vært fornøyd med, kommer først i forslagene,
+slik at jeg oftere får turer jeg liker.
+
+**Akseptansekriterier:**
+
+**Gitt** registreringer
+**Når** `vurder_historikk` kalles
+**Så** har `NivaStatus` også `foretrukne_turtyper`: turtypene til turer med minst én registrering med fornøydhet 4–5 (FR-20, AR-13)
+**Og** `Registrering` får feltet `turtyper`, og omgjøringen i `turforslag/` fyller det fra turen
+**Og** fornøydhet 1–3 gir ingen preferanse, ingen registreringer og gjester gir et tomt sett, og en senere lav fornøydhet fjerner ikke en preferanse
+
+**Gitt** `velg_turer`
+**Når** den utvides
+**Så** får den bare nøkkelordargumentet `foretrukne_turtyper` (standard tomt sett), og tester fra story 1.8 og 3.2 virker uendret
+**Og** turer med minst én foretrukket turtype kommer foran andre, etter punkt 1 og 3 og før punkt 5 og 6 (FR-5 punkt 4). Punkt 2 (fritekst) kommer i Epic 4
+**Og** en test viser at nivåhevingen fortsatt går foran preferansen, og at gåtte turer med fornøydhet 1–2 fortsatt kommer sist
+
+**Gitt** en vist tur som er prioritert av preferansen, det vil si at turen har en foretrukket turtype og minst ett annet treff i søket ikke har det
+**Når** begrunnelsen lages
+**Så** legges setningen «Du får en utsiktstur fordi du har vært fornøyd med utsiktsturer før.» til etter en eventuell nivåsetning, med markatur, utsiktstur eller topptur etter første foretrukne turtype i rekkefølgen marka, utsikt, topptur (FR-12, FR-20)
+**Og** teksten er [ASSUMPTION]. Den føres inn i Mikrotekst og står som foreløpig i koden og i PR-en til produkteier har godkjent den (PRD §10)
+
+**Gitt** at alle treff har en foretrukket turtype, en gjest eller et turforslag fra historikken
+**Når** begrunnelsen lages
+**Så** har den ingen preferansesetning (FR-12)
+
+**Gitt** reservemalen med nivåsetning og preferansesetning
+**Når** begrunnelsen lages
+**Så** er hele begrunnelsen høyst 300 tegn, og en test sjekker den lengste kombinasjonen (FR-12)
+
+**Gitt** testbrukerfila
+**Når** den utvides
+**Så** gir registreringene med fornøydhet 4–5 tydelige foretrukne turtyper (for eksempel bare utsikt), uten at nivåstatusen fra story 3.4 endres (FR-21)
+**Og** README beskriver et søk som viser preferansen, og en test i `tests/web/` kjører det søket og sjekker setningen
+
+**Gitt** at FR-20 kuttes (AR-22)
+**Når** storyen tas ut
+**Så** faller punkt 4, preferansesetningen og preferansen hos testbrukeren bort, og testene for story 3.1–3.4 består uendret (PRD §7.1)
+
+**Gitt** testene i `tests/domene/`
+**Når** de kjøres
+**Så** dekker de foretrukne turtyper, rangeringen og setningen og viser til FR-20 og FR-5 (SM-2)

@@ -119,7 +119,9 @@ Har en rad flere tekster med ulik kilde, står kilden per tekst.
 | ut.no-lenke | «Se turen på ut.no ↗», skjult tillegg «(åpnes på ut.no)» | Godkjent (mock) |
 | Begrunnelse (reservemalen) | «Turen tar ca. 2 t og har utsikt, som du ba om» | PRD (addendum, eksempel på reservemalen, FR-13) |
 | Begrunnelse (KI, eksempel fra UJ-1) | KI skriver «Turen tar {tid}, så den passer innenfor {varighet}. Den har utsikt, som du ba om, og er {nivå}, som passer når du er ny.» Systemet setter inn tallene og nivået, så brukeren ser «Turen tar ca. 1 t 35 min, så den passer innenfor 2 timer. Den har utsikt, som du ba om, og er grønn, som passer når du er ny.» | Godkjent (mock), rettet etter PRD FR-12: plassholderne `{tid}`, `{varighet}`, `{lengde}` og `{nivå}` settes inn av systemet |
-| Begrunnelse (personalisering) | «Du får en blå tur fordi de tre siste grønne turene var lette for deg.» (personaliseringssetning fra setningsmalen, lagt til av systemet) | PRD (FR-12) |
+| Begrunnelse (personalisering) | «Du får en blå tur fordi de tre siste grønne turene var lette for deg.» (personaliseringssetning fra setningsmalen, lagt til av systemet i første søk etter en heving) | PRD (FR-12) |
+| Begrunnelse (nådd nivå) | «Du får en blå tur fordi du har nådd blått nivå.» (i senere søk etter en heving, med turens nivå) | [ASSUMPTION]. Regelen står i PRD FR-12 (v1.11) |
+| Begrunnelse (turtypepreferanse, P2) | «Du får en utsiktstur fordi du har vært fornøyd med utsiktsturer før.» | [ASSUMPTION]. Regelen står i PRD FR-20 |
 | Begrunnelse (sperre) | «Du får en grønn tur igjen fordi den siste blå turen føltes vanskelig.» | [ASSUMPTION] |
 | Begrunnelse, turforslag fra historikken | «Du gikk denne turen 12. oktober og ga den 5 av 5.» | PRD (FR-17) |
 | KI-merke / malmerke | «✦ Skrevet med KI» / «Begrunnelse fra mal» | PRD (FR-12) |
@@ -128,6 +130,7 @@ Har en rad flere tekster med ulik kilde, står kilden per tekst.
 | Topptur passer ikke | «Toppturer krever mer tid enn du har oppgitt» | PRD-budskap (FR-8) |
 | Topptur passer ikke, merke | «Utsikt i stedet for topptur» | [ASSUMPTION] |
 | Nivåtak, tittel | «Ingen grønne turer passer søket» | [ASSUMPTION] |
+| Nivåtak, tittel (nivåtak over grønt) | «Ingen turer opp til blått nivå passer søket» (med nivåtaket) | [ASSUMPTION] |
 | Nivåtak (gjest) | «Som ny bruker får du grønne turer. Lag konto og vurder turene dine, så tilpasser jeg forslagene etter hvordan turene kjentes for deg.» | PRD-budskap (FR-8) |
 | Nivåtak (innlogget uten historikk) | «Som ny bruker får du grønne turer. Registrer og vurder turene du går, så tilpasser jeg forslagene etter hvordan turene kjentes for deg.» | [ASSUMPTION]. Budskapet står i PRD FR-8, og ordlyden er foreløpig (PRD §10). |
 | Nivåtak (bruker med historikk) | «Akkurat nå foreslår jeg turer opp til grønt nivå, og ingen av dem passer søket.» | [ASSUMPTION] |
