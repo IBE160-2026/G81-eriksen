@@ -28,7 +28,7 @@ companions: []
 | --- | --- | --- | --- |
 | Web | `turforslag/` | Django-app: URL-er, views, skjemaer, modeller, maler, statiske filer (Leaflet, `kart.js`, `forbedring.js`, CSS) | `domene/`, `tjenester/` |
 | Domene | `domene/` | Ren Python: turdatatypen, gradering, tidsestimat, utvalg og rangering, nivåstatus, turtypepreferanse, bekledningstips, KI-validering, tekstmaler og formatering | bare standardbiblioteket |
-| Tjenester | `tjenester/` | Adaptere mot omverdenen: MET-proxy og KI-modul | `domene/` |
+| Tjenester | `tjenester/` | Adaptere mot omverdenen: MET-proxy og KI-modul. Egen Django-app som eier modellene tjenestene bruker (`Vaerbuffer` og `KiForbruk` i `tjenester/models.py`) | `domene/` og Django, aldri `turforslag/` |
 | Bygg | `skript/` | Byggeskriptet for turdatabasen, kjøres utenfor appen | `domene/` |
 
 ```mermaid

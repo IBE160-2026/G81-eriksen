@@ -1,6 +1,6 @@
 ---
 status: draft
-stepsCompleted: [step-01-validate-prerequisites, step-02-design-epics]
+stepsCompleted: [step-01-validate-prerequisites, step-02-design-epics, step-03-create-stories]
 inputDocuments:
   - _bmad-output/planning-artifacts/prds/prd-G81-eriksen-2026-10-29/prd.md
   - _bmad-output/planning-artifacts/prds/prd-G81-eriksen-2026-10-29/addendum.md
@@ -1413,7 +1413,7 @@ slik at kostnaden er begrenset, og appen virker som vanlig over taket.
 **Så** kan det sendes. Med 200 kall kan det ikke sendes, uansett nettleser (NFR-8)
 **Og** døgnet er kalenderdøgnet i Europe/Oslo, så tellingen begynner på nytt kl. 00.00, også på dagene med overgang til sommertid eller vintertid
 
-**Gitt** modellen `KiForbruk(dato, antall)` med unik `dato`
+**Gitt** modellen `KiForbruk(dato, antall)` med unik `dato`, i `tjenester/models.py`, så `tjenester/` ikke importerer `turforslag/` (AR-2)
 **Når** et kall telles
 **Så** hentes eller lages døgnets rad med `get_or_create` og økes med `F("antall") + 1` i én transaksjon, så to kall gir antall 2 og bare én rad, også når raden ikke fantes fra før (AD-10 punkt 9)
 **Og** migreringen virker på både SQLite og Postgres (AR-6)
@@ -1587,3 +1587,613 @@ slik at forslaget passer det jeg har lyst på.
 **Når** Hannah prøver minst 10 ønsker, blant dem «rundt 5 km», «forbi et vann», «helst en lett tur» og et forsøk på å gi KI instruksjoner
 **Så** står det i den manuelle testplanen i `docs/` hvilke turer KI valgte, hvilke svar som ble forkastet og hvorfor, og om begrunnelsen nevnte ønsket
 **Og** kontrollen krever kontoen (åpent punkt). Storyen kan merges uten den
+
+## Epic 5: Ola får bekledningstips ut fra været
+
+Turforslaget viser tips for startpunktet kl. 10–16 på valgt dato, også for turforslag fra historikken (for i dag), og forklarer hvorfor når varselet mangler. Hele epicen er P2 og er punkt 5 i kuttlista (AR-22).
+
+### Story 5.1: Bekledningstipsene lages etter faste regler
+
+Som Ola,
+vil jeg at bekledningstipsene alltid lages likt fra værvarselet,
+slik at jeg kan stole på rådene og vet hva jeg skal ta med.
+
+**Akseptansekriterier:**
+
+**Gitt** `domene/tips.py`
+**Når** jeg åpner den
+**Så** har den de frosne dataklassene `Timeverdi` (tidspunkt i UTC, temperatur i °C, vind i m/s og nedbør i mm for perioden som starter ved tidspunktet, eller tom), `Varsel` (timeverdier) og `IngenVarsel(grunn)` med `Grunn.FOR_LANGT_FREM` og `Grunn.UTILGJENGELIG` (AD-9, AR-11)
+**Og** et `Varsel` uten timeverdier gir `ValueError`
+**Og** modulen importerer bare standardbiblioteket, og en test sjekker det (AR-2)
+
+**Gitt** en tidsserie og en dato
+**Når** `timeverdier_for_dag(timeverdier, dato)` kalles
+**Så** får den bare tidspunktene fra kl. 10.00 til og med kl. 16.00 Europe/Oslo den datoen, regnet om med `zoneinfo` (FR-9, AR-11)
+**Og** testene viser at 09.00–15.00 UTC er med om vinteren og 08.00–14.00 UTC om sommeren, at 16.00 UTC om vinteren ikke er med, og at dagene med overgang til sommertid (28. mars 2027) og vintertid (31. oktober 2027) gir riktig tidsrom
+**Og** en tidsserie uten tidspunkter i tidsrommet gir en tom tuple
+
+**Gitt** timeverdiene for dagen
+**Når** `lag_bekledningstips(timeverdier)` kalles
+**Så** er nedbøren summen for tidspunktene fra kl. 10.00 til og med kl. 15.00 (periodene som starter i tidsrommet), laveste og høyeste temperatur er minste og største verdi kl. 10–16, og vinden er største verdi kl. 10–16 (FR-9)
+**Og** et tidspunkt uten nedbørsverdi teller som 0 mm
+
+**Gitt** verdiene for dagen
+**Når** tipsene lages
+**Så** er de ordrett fra FR-9, i tabellens rekkefølge: «Fare for nedbør – husk regntøy» ved nedbør ≥ 0,5 mm, «Kaldt – ta med lue, votter og et varmt mellomlag» ved laveste temperatur under 5 °C, «Ta med et ekstra lag» ved laveste temperatur 5–15 °C, «Varmt – ta med drikke og solbeskyttelse» ved høyeste temperatur over 20 °C, «Mye vind – ta med vindtett jakke» ved vind ≥ 8 m/s og til slutt alltid «Gode sko og litt mat og drikke» (FR-9, UX-DR31)
+
+**Gitt** grenseverdiene
+**Når** testene kjøres
+**Så** gir 0,4 mm ikke regntøytipset, og 0,5 mm gir det
+**Og** laveste temperatur 4,9 °C gir «Kaldt …», 5,0 °C og 15,0 °C gir «Ta med et ekstra lag», og 15,1 °C gir ingen av dem («5–15 °C» leses med begge grensene)
+**Og** høyeste temperatur 20,0 °C gir ikke «Varmt …», og 20,1 °C gir det
+**Og** vind 7,9 m/s gir ikke vindtipset, og 8,0 m/s gir det (FR-9)
+
+**Gitt** en dag med laveste temperatur 3 °C, høyeste 21 °C, 2 mm nedbør og 9 m/s
+**Når** tipsene lages
+**Så** vises fem tips samtidig: nedbør, kaldt, varmt, vind og gode sko (FR-9)
+**Og** en rolig dag (laveste 16 °C, høyeste 19 °C, 0 mm, 3 m/s) gir bare «Gode sko og litt mat og drikke»
+**Og** «Kaldt …» og «Ta med et ekstra lag» vises aldri samtidig
+
+**Gitt** valgt dato og nåtidspunktet, som sendes inn (AR-2)
+**Når** `varselplan(dato, naa)` kalles
+**Så** gir den `HENT`, `FOR_LANGT_FREM` når datoen er mer enn 10 dager etter i dag, eller `PASSERT` når datoen er før i dag, eller er i dag og klokka er 16.00 eller senere Europe/Oslo (FR-9, FR-10)
+**Og** testene viser at i dag kl. 15.59 gir `HENT`, i dag kl. 16.00 gir `PASSERT`, i går gir `PASSERT`, i dag + 10 dager gir `HENT` og i dag + 11 dager gir `FOR_LANGT_FREM`
+
+**Gitt** testene i `tests/domene/`
+**Når** de kjøres
+**Så** bruker de ikke databasen, nett eller klokke, og hver test viser til FR-9 eller FR-10 (AR-15, NFR-6)
+
+### Story 5.2: Værvarselet hentes fra MET via en buffer
+
+Som Hannah, som bygger appen,
+vil jeg at all kontakt med MET går gjennom én bufrende tjeneste,
+slik at appen følger MET-vilkårene, og et MET-avbrudd aldri stopper turforslaget.
+
+**Akseptansekriterier:**
+
+**Gitt** `tjenester/met.py`
+**Når** jeg åpner den
+**Så** har den `hent_varsel(lat, lon, hoyde_m, dato)`, som gir `Varsel` med timeverdiene for datoen fra `timeverdier_for_dag` (story 5.1), eller `IngenVarsel` (AD-9, AR-11)
+**Og** en test sjekker at adressen `api.met.no` bare står i `tjenester/met.py`, og at `tjenester/` ikke importerer `turforslag/` (AR-2)
+
+**Gitt** et startpunkt
+**Når** tjenesten kaller MET
+**Så** går kallet til Locationforecast 2.0 (`compact`) med `lat` og `lon` rundet til 4 desimaler og `altitude` lik `startpunkt_hoyde_m` i hele meter (AR-11, addendum › MET: vilkår)
+**Og** en test viser at 59.912345 blir 59.9123, og at adressen aldri har 5 desimaler eller flere
+
+**Gitt** `MET_USER_AGENT` i `config/settings.py`
+**Når** kallet sendes
+**Så** er User-Agent lik verdien, med appnavn og repo-URL og uten personlig e-post (AD-12 punkt 3, AR-16)
+**Og** mangler verdien, eller er den tom, sender tjenesten ingen kall, gir `IngenVarsel(UTILGJENGELIG)` og logger en advarsel
+
+**Gitt** modellen `Vaerbuffer`
+**Når** migreringen kjøres
+**Så** har den avrundet `lat` og `lon` (`DecimalField` med 4 desimaler), `hoyde_m`, hele tidsserien som timeverdier i `JSONField`, `expires`, `last_modified` og tidspunktet for siste feil, med unik nøkkel på `lat`, `lon` og `hoyde_m` (AD-4, AD-9)
+**Og** modellen ligger i `tjenester/` som egen Django-app, så `tjenester/` ikke importerer `turforslag/` (AR-2)
+**Og** migreringen virker på både SQLite og Postgres, og storyen lager ingen andre tabeller (AR-6)
+
+**Gitt** en rad der `expires` er frem i tid
+**Når** samme koordinat spørres, også for en annen dato
+**Så** brukes bufferen, og MET kalles ikke (AD-9, addendum › MET: vilkår)
+
+**Gitt** en rad der `expires` er passert
+**Når** koordinaten spørres
+**Så** sendes kallet med `If-Modified-Since` lik lagret `Last-Modified`
+**Og** et 304-svar beholder timeverdiene og oppdaterer `expires` (og `last_modified` hvis svaret har den), så neste forespørsel ikke kaller MET
+**Og** et 200-svar erstatter timeverdiene, `expires` og `last_modified`
+
+**Gitt** et 200-svar
+**Når** det tolkes
+**Så** blir hvert tidspunkt en `Timeverdi` med tidspunkt i UTC, `air_temperature`, `wind_speed` og nedbør fra `next_1_hours`, eller fra `next_6_hours` når timeverdien mangler (AR-11)
+**Og** et lagret svar med bare 6-timersverdier for datoen gir de tidspunktene som faller kl. 10–16 Europe/Oslo
+**Og** et 203-svar (produktet er på vei ut) brukes som et 200-svar, og tjenesten logger en advarsel
+
+**Gitt** et gyldig svar uten tidspunkter kl. 10–16 for datoen
+**Når** tjenesten svarer
+**Så** gir den `IngenVarsel(FOR_LANGT_FREM)` (FR-10)
+
+**Gitt** at MET bruker mer enn 5 sekunder, ikke kan nås, svarer med en feilstatus (for eksempel 403, 429, 500 eller 503) eller gir et svar som ikke kan tolkes
+**Når** tjenesten svarer
+**Så** gir den `IngenVarsel(UTILGJENGELIG)` og kaster aldri videre til view (FR-10, AD-9, AR-16)
+**Og** et utløpt svar i bufferen brukes ikke til tips, men blir stående for neste `If-Modified-Since`, og et ugyldig svar lagres ikke
+**Og** feilen logges med statuskode eller årsak, uten personopplysninger (AR-15)
+
+**Gitt** en feil mot en koordinat
+**Når** samme koordinat spørres innen 60 sekunder
+**Så** kalles ikke MET, og tjenesten gir `IngenVarsel(UTILGJENGELIG)`, så en side ikke venter 5 sekunder på hver forespørsel under et MET-avbrudd (NFR-2)
+**Og** ventetiden ligger i `settings` som `MET_VENTETID_ETTER_FEIL_S = 60`, så tester kan endre den
+
+**Gitt** publiseringen på Vercel, der bufferen ligger i Neon og deles av alle funksjonsinstanser (AD-4, AD-15)
+**Når** to forespørsler mot samme koordinat kommer samtidig, og bufferen er tom eller utløpt
+**Så** kan begge kalle MET, men ingen transaksjon eller lås holdes mens kallet pågår, og skrivingen med `update_or_create` på den unike nøkkelen gir én rad uten krasj (NFR-2)
+**Og** en test lager raden mellom lesing og skriving og viser at tjenesten likevel gir `Varsel`, og at bare én rad finnes
+**Og** de få ekstra kallene godtas, fordi trafikken uansett holder seg langt under 20 forespørsler per sekund (addendum › MET: vilkår)
+
+**Gitt** lokal kjøring etter README
+**Når** et varsel hentes
+**Så** virker det uten nøkkel og uten konto, med `MET_USER_AGENT` fra `.env.example` (NFR-1)
+
+**Gitt** testene i `tests/tjenester/`
+**Når** de kjøres
+**Så** bruker de lagrede svar i `tests/fixtures/met/` (200 med timeverdier, 200 med bare 6-timersverdier, 304, 429, 500 og ugyldig JSON) og en falsk HTTP-transport som teller kallene, uten nettverkskall (AD-13, AR-15)
+**Og** de dekker avrunding, User-Agent, buffer, `If-Modified-Since`, ventetid etter feil og samtidig skriving og viser til FR-9 og FR-10 (SM-2)
+
+### Story 5.3: Ola ser bekledningstips på turforslaget
+
+Som Ola,
+vil jeg se hva jeg bør ta med ut fra været der turen starter,
+slik at jeg er kledd for turen.
+
+**Akseptansekriterier:**
+
+**Gitt** et turforslag med status `TREFF` eller `TOPPTUR_ERSTATTET` og en dato med varsel
+**Når** det vises
+**Så** står Bekledningstips som punkt 8 i rekkefølgen fra UX-DR12, etter Forklaringspanel og før knappene, med `h2` «Bekledningstips for {dag}», grunnlagslinjen «Etter værvarselet for startpunktet kl. 10–16.» i `caption` og tipsene fra story 5.1 som liste med aprikos-prikker (FR-6, FR-9, UX-DR20)
+**Og** {dag} er ukedagen med små bokstaver, for eksempel «lørdag», formatert i `domene/` (AR-16)
+**Og** prikkene kommer fra CSS, uten `style`-attributter i malen (AR-17)
+
+**Gitt** viewet for turforslaget
+**Når** tipsene lages
+**Så** kaller det `varselplan` med nåtidspunktet, `hent_varsel` med startpunktets koordinat og høyde og den valgte datoen, og `lag_bekledningstips`, og regner, filtrerer eller formaterer ingenting selv (AR-2, AR-11)
+**Og** været lagres ikke i søketilstanden, og `Soketilstand` får ingen nye felt (AD-5)
+
+**Gitt** et vist turforslag
+**Når** jeg laster siden på nytt før `Expires`
+**Så** vises de samme tipsene fra bufferen uten nytt MET-kall (AD-9, FR-7)
+
+**Gitt** «Nytt forslag», med eller uten JavaScript
+**Når** neste tur vises
+**Så** har både HTML-fragmentet og den vanlige siden tipsene for startpunktet til den nye turen (UX-DR24)
+
+**Gitt** en dato mer enn 10 dager frem, eller et MET-svar uten verdier for datoen (`FOR_LANGT_FREM`)
+**Når** turforslaget vises
+**Så** står `h2` «Bekledningstips for {dag}» med Melding (info) «Jeg har ikke værvarsel for {dato} ennå, så jeg kan ikke gi bekledningstips. Varselet kommer omtrent 9–10 dager før.» i stedet for grunnlagslinjen og lista, der {dato} for eksempel er «lørdag 28. november», formatert i `domene/` (FR-10, UX-DR20, UX-DR21)
+**Og** resten av turforslaget vises som vanlig (NFR-2)
+
+**Gitt** at MET ikke svarer (`UTILGJENGELIG`)
+**Når** turforslaget vises
+**Så** står `h2` «Bekledningstips for {dag}» med Melding (info) «Jeg får ikke hentet værvarselet akkurat nå, så jeg kan ikke gi bekledningstips.» i stedet for grunnlagslinjen og lista (FR-10, UX-DR20)
+**Og** turforslaget vises når tidsavbruddet på 5 sekunder er nådd, og resten av forslaget er som vanlig (AD-9, NFR-2)
+
+**Gitt** en av de to meldingene uten værvarsel
+**Når** den vises
+**Så** har den ikon og fet tekst som tittel uten brødtekst, ikke farge alene, og `role="status"`, og fokus står fortsatt på `h1` (UX-DR21, UX-DR25, NFR-4)
+**Og** begge tekstene er [ASSUMPTION] i Mikrotekst. De brukes, men står som foreløpige i koden og i PR-en til produkteier har godkjent dem (UX-DR31, PRD §10)
+
+**Gitt** et turforslag fra historikken (story 2.4)
+**Når** det vises
+**Så** gjelder tipsene for i dag (`timezone.localdate()`), `h2` har dagens ukedag, og seksjonen står på samme plass som i et vanlig turforslag, også for en tur over nivåtaket (FR-17, FR-9)
+**Og** åpningen endrer ikke søketilstanden, og KI kalles ikke (FR-7, AR-12)
+
+**Gitt** at `varselplan` gir `PASSERT`, for eksempel et turforslag for i dag åpnet kl. 16.00 eller senere, eller et lagret søk der datoen er passert
+**Når** turforslaget vises
+**Så** vises ikke seksjonen, MET kalles ikke, og malen lager ikke noe tomt element, så det blir ikke tomrom mellom Forklaringspanel og knappene (FR-9, UX-DR12)
+
+**Gitt** Tilstandspanel for ingen treff, nivåtak eller «alle vist»
+**Når** det vises
+**Så** har det ingen bekledningstips, og MET kalles ikke (UX-DR22)
+
+**Gitt** et turforslag med bekledningstips eller med en melding uten værvarsel
+**Når** siden vises
+**Så** finnes bare den felles krediteringslinjen fra story 1.10, med «Data fra MET Norge» som lenke til MET Norge, og storyen legger ikke til en ny kreditering (NFR-7, AR-16)
+**Og** en test sjekker at «Data fra MET Norge» står nøyaktig én gang på siden, også i turforslag fra historikken
+
+**Gitt** en skjerm på 360 px
+**Når** turforslaget vises
+**Så** brytes tipsene og meldingene uten sidelengs rulling, og seksjonen nås med kort rulling (NFR-3)
+
+**Gitt** at FR-9 og FR-10 kuttes, eller at Epic 5 ikke bygges (AR-22)
+**Når** turforslaget vises
+**Så** finnes verken seksjonen, meldingene uten værvarsel eller MET-kall, og det blir ikke tomrom (PRD §7.1, UX-DR20)
+**Og** krediteringen fra story 1.10 står uendret, og testene fra Epic 1–4 består uendret
+
+**Gitt** testene i `tests/web/`
+**Når** de kjøres
+**Så** dekker de tips, begge meldingene uten værvarsel, `PASSERT`, turforslag fra historikken, «Nytt forslag», ny innlasting uten nytt kall, Tilstandspanel og krediteringen
+**Og** MET byttes med de lagrede svarene fra story 5.2, uten nettverkskall, og testene viser til FR-9, FR-10, FR-17 og NFR-7 (AR-15, SM-2)
+
+## Epic 6: Rikere turforslag og klar for sensor
+
+Turillustrasjon, tur 16–30, mørk modus og fremgang mot neste nivå. Til slutt måling av kartfarger mot ekte fliser, brukertest (SM-1), UU- og mobiltest (SM-4) og README testet i et rent miljø.
+
+### Story 6.1 (P2): Turforslaget viser en turillustrasjon
+
+Som Ola,
+vil jeg se en enkel tegning av ruten og høydeprofilen,
+slik at jeg skjønner formen på turen og hvor mye den stiger, før jeg går.
+
+**Akseptansekriterier:**
+
+**Gitt** en tur med rutelinje og høydeprofil
+**Når** illustrasjonen lages
+**Så** regner en ren funksjon i `domene/` ut punktene for ruten og høydeprofilen i en fast `viewBox`, uten database, nettverk eller klokke, og samme tur gir alltid samme tegning (FR-6, AR-2, AD-8)
+**Og** ruten tegnes med nord opp og lik målestokk på begge akser (lengdegraden justert for breddegraden), så formen ikke strekkes
+**Og** hver linje har høyst 200 punkter. Første og siste punkt og laveste og høyeste punkt i profilen er alltid med
+
+**Gitt** en flat høydeprofil (laveste punkt lik høyeste), en tur-retur som går samme vei tilbake, eller en rute som bare går rett nord–sør
+**Når** illustrasjonen lages
+**Så** tegnes den innenfor `viewBox` uten deling på null (NFR-2)
+
+**Gitt** en tur der rutelinjen eller høydeprofilen har færre enn to punkter
+**Når** turforslaget vises
+**Så** vises ingen illustrasjon og ingen tom flate, og resten av turforslaget vises som vanlig (NFR-2)
+
+**Gitt** et turforslag, også turforslag fra historikken og HTML-fragmentet etter «Nytt forslag»
+**Når** det vises
+**Så** står Turillustrasjon på plass 5 i rekkefølgen: etter Formmerke, «Start: …», Faktarute og ut.no-lenke og før kartet (UX-DR12)
+**Og** den er en `figure` med `figcaption` og en inline SVG med `aria-hidden="true"` og `focusable="false"`, uten `<title>` (UX-DR18)
+**Og** bildeteksten er «Rundtur. Laveste punkt 180 moh, høyeste 310 moh.» eller «Tur-retur. Laveste punkt … moh, høyeste … moh.» med turens verdier. Tallene er de samme som i «Kartet i tekst», fordi begge bruker samme funksjon i `domene/` (FR-6, UX-DR15)
+**Og** formatet står bare som eksempel i `EXPERIENCE.md` › Component Patterns. Det føres inn i Mikrotekst og merkes [ASSUMPTION] til produkteier har godkjent det (UX-DR31)
+
+**Gitt** SVG-en
+**Når** den tegnes
+**Så** har profilen fyll i `profile-fill` og en 3 px linje i `primary`, åsene er i `gradient-2` med 28 % dekkevne, solen er i `sun`, og startpunktet er en prikk i `primary` med kant i `surface`. Flaten er `surface-alt` med 1 px `border` og `rounded.md` (DESIGN.md › Turillustrasjon)
+**Og** fargene kommer fra CSS-klasser som bruker tokenene. SVG-en har ingen fargeverdier og ingen `style`-attributter, så mørk modus kan bytte fargene senere (UX-DR1, AR-17)
+**Og** SVG-en har ingen skript, lenker eller eksterne ressurser, og nettleseren melder ingen CSP-brudd (AR-17)
+
+**Gitt** at JavaScript er slått av, eller at kartflisene ikke lastes
+**Når** turforslaget vises
+**Så** vises illustrasjonen likevel, fordi den lages på serveren (AD-1, AR-18)
+
+**Gitt** referanseskjermen 1280 × 800 med 100 % zoom, et søk med valgt turtype og det lengste turnavnet i turdatabasen
+**Når** turforslaget vises
+**Så** synes turnavn, Turtype-treff, Faktarute, Turillustrasjon og kartet uten rulling (DESIGN.md › Layout & Spacing, folden)
+**Og** det er nådd uten faste høyder og uten `overflow: hidden`, og et skjermbilde står i PR-en
+
+**Gitt** en bredde på 320 eller 360 px
+**Når** turforslaget vises
+**Så** skalerer illustrasjonen med bredden og beholder sideforholdet, og siden ruller ikke sidelengs (NFR-4)
+**Og** turnivå, estimert tid og Turtype-treff synes fortsatt uten rulling, og kartet nås med kort rulling. Et skjermbilde på 360 × 640 står i PR-en (NFR-3)
+
+**Gitt** Søk-skjermen på 720 px eller bredere
+**Når** den vises
+**Så** står den store pyntvarianten til høyre for skjemaet, høyst `side-illustration-max-width` bred, med `rounded.xl`, uten bildetekst og med `aria-hidden="true"` (UX-DR10, UX-DR18)
+**Og** den tegner én fast tur, med tur-ID-en i én konstant. Finnes ikke turen, vises ingen pyntillustrasjon og ingen feil
+**Og** under 720 px er den skjult og tar ingen plass
+
+**Gitt** Turoppsummering på Registrer gjennomført tur og på Logg inn / Lag konto ved krav om konto
+**Når** den vises
+**Så** har den den lille varianten, uten bildetekst og med `aria-hidden="true"`, fordi navn, nivå, form, lengde og estimert tid står som tekst i kortet (UX-DR28)
+
+**Gitt** at turillustrasjonen kuttes (AR-22)
+**Når** storyen tas ut
+**Så** viser turforslaget kart og «Kartet i tekst» uten tomrom, og Søk og Turoppsummering vises uten illustrasjon. Høydeprofilen beregnes fortsatt av byggeskriptet, og testene fra tidligere stories består uendret (PRD §7.1)
+
+**Gitt** testene
+**Når** de kjøres
+**Så** dekker `tests/domene/` punktene, målestokken, forenklingen og kanttilfellene over, og `tests/web/` dekker `figure`, `figcaption` og `aria-hidden` på turforslaget, i fragmentet, på turforslag fra historikken, på Søk og i Turoppsummering. Testene viser til FR-6 (SM-2, NFR-6)
+
+### Story 6.2 (P2): Turdatabasen får tur 16–30
+
+Som Ola,
+vil jeg få forslag blant flere turer,
+slik at jeg oftere får en ny tur som passer tiden, turtypen og startpunktet mitt.
+
+**Akseptansekriterier:**
+
+**Gitt** kurateringslista med 15 turer fra story 1.7
+**Når** en ny tur legges til
+**Så** legges den til alene, i en egen commit, med rutelinje fra Turrutebasen eller fra OSM-uttrekket når den mangler der, og med turnavnet skrevet for hånd (FR-1, AR-4)
+**Og** startpunktet ligger i Oslo eller Bærum, og turdatabasen har aldri mer enn 30 turer (FR-1, AR-23)
+
+**Gitt** en tur med et nytt startpunkt
+**Når** den legges til
+**Så** legges den til sammen med tur nummer to fra samme startpunkt i samme commit, så kravet om minst to turer per startpunkt holder hele veien (FR-1)
+
+**Gitt** en ny tur
+**Når** byggeskriptet har kjørt
+**Så** endrer `data/turer.geojson` seg bare med den nye turen, og verdiene for de andre turene er like, så lenge terskelen for støyfiltrering ikke er endret (AD-3)
+**Og** eksisterende tur-ID-er endres eller slettes aldri, fordi registreringer og testbrukeren viser til dem (AR-5)
+
+**Gitt** en ny tur
+**Når** den kontrolleres
+**Så** er rutelinjen kontrollert manuelt mot kartet for sammenheng og riktig startpunkt, og kontrollen står med dato i sjekklisten i `docs/` fra story 1.7 (FR-1)
+**Og** laveste og høyeste punkt er sammenlignet med høydetallene på kartet, og avviket står i sjekklisten
+**Og** kilde og lisens er registrert, og OSM-uttrekket har fortsatt færre enn 100 objekter totalt. Ellers stopper byggeskriptet (AR-4)
+
+**Gitt** sammensetningstesten fra story 1.7
+**Når** den kjøres etter hver ny tur
+**Så** består den: flertallet er grønne eller blå, minst én svart tur, minst tre toppturer, minst fem utsiktsturer, en grønn tur under 2 timer per turtype der terrenget gjør det mulig, og minst to turer per startpunkt (FR-1)
+**Og** en tur som ville gjort at testen feiler, for eksempel en rød tur når grønne og blå turer bare så vidt er i flertall, legges ikke til før en annen tur gjør at testen består
+
+**Gitt** en ny tur i `turer.geojson`
+**Når** `lastinn` kjøres lokalt, eller Vercel bygger
+**Så** opprettes turen, og andre turer, brukere og registreringer endres ikke (AR-5, AD-15 punkt 4)
+**Og** turen kan foreslås, vises med kart, «Kartet i tekst» og Turillustrasjon (hvis story 6.1 er levert) og registreres. Et nytt startpunkt står i lista på Søk uten endring i koden (FR-4, FR-6)
+
+**Gitt** testbrukeren og søket i README
+**Når** turdatabasen har fått nye turer
+**Så** gir søket fortsatt en blå tur først med hevingssetningen, og testene fra story 3.4 (og 3.5 hvis den er levert) består (FR-21)
+**Og** nevner README en bestemt tur, er navnet oppdatert hvis en ny tur nå kommer først
+
+**Gitt** testene
+**Når** de kjøres
+**Så** består alle, og ingen test forutsetter nøyaktig 15 turer. Tester som gjorde det, leser antallet fra `turer.geojson` (SM-2)
+
+**Gitt** at arbeidet stopper før 30 turer
+**Når** epicen avsluttes
+**Så** står antallet turer i README og i README-en i `data/`, og alle kriteriene over holder for det antallet (PRD §7.1)
+**Og** antallet er ført i PRD §9 og i endringsloggen (AR-22)
+
+### Story 6.3 (P2): Siden følger mørk modus på enheten
+
+Som Ola, som har mørk modus på telefonen,
+vil jeg at siden følger innstillingen min,
+slik at den er behagelig å lese og ikke blender om kvelden.
+
+**Akseptansekriterier:**
+
+**Gitt** at enheten er satt til mørk modus
+**Når** en hvilken som helst side vises, også feilsidene for 404, 500 og CSRF
+**Så** brukes `-dark`-tokenene fra story 1.3 via `@media (prefers-color-scheme: dark)` i token-fila, og ingen komponent har egne fargeverdier for mørk modus (NFR-9, UX-DR1, UX-DR32)
+**Og** `color-scheme` er satt, så nedtrekkslister, datofelt, tallfelt og rullefelt også blir mørke
+**Og** det finnes ingen bryter, ingen JavaScript og ingen lagret innstilling for modus, og siden vises i riktig modus fra første innlasting, uten å blinke lyst først
+
+**Gitt** at innstillingen på enheten endres mens siden er åpen
+**Når** modusen byttes
+**Så** følger siden etter uten ny innlasting
+
+**Gitt** kartet i mørk modus
+**Når** turforslaget vises
+**Så** er kartflisene uendret, uten filter eller invertering, og alt oppå flisene bruker kartlag-tokenene: rutelinje, startmarkør, «Kartet i tekst»-lenken, «Vis hele ruten», zoom, målestokk, Kreditering og fokusringen på kartet (DESIGN.md › Kartlag, UX-DR32)
+**Og** ingen `-dark`-token brukes oppå flisene (DESIGN.md › Do's and Don'ts)
+**Og** lasteflaten og meldingen når flisene ikke lastes, ligger ikke oppå fliser og følger mørk modus
+
+**Gitt** Nivåmerket i mørk modus
+**Når** det vises
+**Så** bruker hvert merke `level-*-dark` med `level-*-on-dark`, og nivået vises fortsatt med farge og tekst (UX-DR16)
+**Og** Svart har en innvendig kant (`inset 0 0 0 1.5px` i `text-muted-dark`), så merket skiller seg fra flaten
+
+**Gitt** Turillustrasjon (hvis story 6.1 er levert), Turtypekort, logomerket og Bekledningstips (hvis Epic 5 er levert)
+**Når** de vises i mørk modus
+**Så** bruker de `-dark`-tokenene (`profile-fill-dark`, `sun-dark`, `gradient-*-dark` og `accent-*-dark`) uten egne endringer, fordi fargene kommer fra CSS-klasser med tokener (UX-DR1)
+
+**Gitt** kontrastmålene i `DESIGN.md` › Colors, kolonnen Mørk
+**Når** de kontrolleres på Søk, Turforslag, Tilstandspanel, Logg inn / Lag konto med feil, Registrer gjennomført tur med feil, Historikk og Konto
+**Så** har tekst minst 4,5:1, og fokusring, feltkanter og profillinjen har minst 3:1 (NFR-4)
+**Og** det automatiske UU-verktøyet finner ingen kontrastfeil i mørk modus, og resultatet står i PR-en med skjermbilder av de samme skjermene i begge moduser
+
+**Gitt** lys modus
+**Når** siden vises
+**Så** ser den ut som før storyen
+
+**Gitt** stilarkene
+**Når** testene kjøres
+**Så** sjekker en test at fargeverdier (`#…`, `rgb(…)`, `hsl(…)`) bare står i token-fila (UX-DR1)
+
+**Gitt** at NFR-9 kuttes (AR-22)
+**Når** storyen tas ut
+**Så** er siden alltid lys, `-dark`-tokenene står ubrukt i token-fila, og ingen P1-krav påvirkes (PRD §7.1)
+
+### Story 6.4 (P2): Historikken viser fremgangen mot neste nivå
+
+Som Ola, som er innlogget,
+vil jeg se hvor nær jeg er neste nivå,
+slik at jeg forstår hvordan vurderingene mine styrer forslagene.
+
+**Akseptansekriterier:**
+
+**Gitt** `NivaStatus` fra story 3.1
+**Når** fremgangen avgjøres
+**Så** gjør en ren funksjon i `domene.niva` det ut fra `grunnniva`, `sperre`, `teller` og `antall_hevinger` i `NivaStatus` og brukerens `brukt_heving`, uten database, nettverk eller klokke (FR-17.1, AR-2, AR-13)
+**Og** `NivaStatus` trenger ingen nye felt. Antallet lette turer som gir heving (3), ligger i én konstant i `domene.niva`, som også `vurder_historikk` bruker
+**Og** funksjonen gir én av tre verdier: underveis, målet nådd eller ingen linje
+
+**Gitt** at `antall_hevinger` er større enn `brukt_heving`, og at ingen sperre er aktiv
+**Når** Historikk vises
+**Så** står «Tre grønne turer som føltes lette – godt gått! 🎉 Neste gang kan du få blå turer.», med nivået under grunnnivået og grunnnivået, og 🎉 er `aria-hidden` (FR-17.1, UX-DR29, UX-DR31)
+**Og** varianten vises til hevingen er brukt i et søk (story 3.2), også om brukeren har registrert nye lette turer i mellomtiden
+
+**Gitt** ingen ubrukt heving, ingen aktiv sperre, grunnnivå under svart og telleren 1 eller 2
+**Når** Historikk vises
+**Så** står «Du har gått 2 av 3 grønne turer som føltes lette. Etter én til foreslår jeg blå turer først neste gang du søker.», med telleren, grunnnivået og nivået over (FR-17.1, UX-DR29)
+**Og** med telleren 1 står «Du har gått 1 av 3 grønne turer som føltes lette. Etter to til foreslår jeg blå turer først neste gang du søker.» «Etter to til» er [ASSUMPTION]. Den føres inn i Mikrotekst og står som foreløpig i koden og i PR-en til produkteier har godkjent den (PRD §10)
+**Og** nivåordene bøyes med funksjonen fra story 3.3 (grønne, blå, røde og svarte turer) (AR-16)
+
+**Gitt** en aktiv sperre, grunnnivå svart, telleren 0 uten ubrukt heving, eller `antall_hevinger` mindre enn `brukt_heving` etter en registrering med tidligere dato
+**Når** Historikk vises
+**Så** står ingen fremgangslinje og ingen tom plass, fordi ingen av tekstene stemmer da (FR-19)
+**Og** tom historikk viser Tilstandspanel som før, uten linje
+
+**Gitt** fremgangslinjen
+**Når** den vises
+**Så** står den rett under `h1`, eller rett under Melding (suksess) når brukeren kommer fra en registrering, i `body-lg`, med `spacing.3` fra meldingen og `spacing.5` til tabellen (DESIGN.md › Layout & Spacing › Historikk)
+**Og** den er et vanlig avsnitt uten `aria-live`, `role="status"` eller fokus, så den ikke leses opp av seg selv. Etter en registrering står fokus fortsatt på suksessmeldingen (UX-DR21, EXPERIENCE.md › State Patterns)
+
+**Gitt** en registrering i en annen fane
+**Når** Historikk lastes på nytt
+**Så** regnes linjen ut fra registreringene akkurat da, ikke fra søketilstanden
+
+**Gitt** den tredje lette turen på grunnnivået
+**Når** brukeren registrerer den og så søker
+**Så** står målet nådd-varianten i Historikk, og neste søk har `nivaheving=True` og ingen tur over nivåtaket (FR-5 punkt 3, SM-C1)
+**Og** ingen variant lover lengre turer eller turer over nivåtaket (SM-C1)
+
+**Gitt** testbrukeren etter `lastinn`
+**Når** jeg åpner Historikk før første søk
+**Så** står målet nådd-varianten fra grønt til blått, og etter søket fra README er den borte (FR-21)
+**Og** README sier dette
+
+**Gitt** at FR-17.1 kuttes (AR-22)
+**Når** storyen tas ut
+**Så** har Historikk ingen fremgangslinje og ingen tom plass, og ingen P1-krav påvirkes (PRD §7.1)
+
+**Gitt** testene
+**Når** de kjøres
+**Så** dekker `tests/domene/` hver variant og hvert kanttilfelle over, og `tests/web/` dekker plasseringen, at linjen ikke er en live-region, og testbrukeren. Testene viser til FR-17.1 og FR-19 (SM-2)
+
+### Story 6.5: Kartfargene er målt mot ekte kartfliser
+
+Som Ola,
+vil jeg se ruten og startpunktet tydelig, enten turen går gjennom skog, myr, langs vann eller gjennom bebyggelse,
+slik at jeg kan følge ruten på kartet.
+
+**Akseptansekriterier:**
+
+**Gitt** Kartverket topo-fliser fra adressen i AR-10
+**Når** flisfargene måles
+**Så** er fargen for skog, myr, vann og bebyggelse målt med en fargeplukker på minst to steder i turområdene og på minst to zoomnivåer som turforslaget bruker (UX-DR35)
+**Og** målingen krever ingen ny pakke i `requirements.txt` eller `requirements-bygg.txt`
+**Og** flisadressene (`z/x/y`) og de målte fargeverdiene står i en tabell i `docs/`. Skjermbilder av kartet har «© Kartverket» (NFR-7)
+
+**Gitt** de målte flisfargene
+**Når** kontrasten regnes ut med WCAG relativ luminans
+**Så** står forholdet for `map-route`, `map-marker-start` og `map-focus-ring` mot hver flate i tabellen, og kravet er minst 3:1 (WCAG 1.4.11, NFR-4)
+**Og** skjermbilder viser ruten mot stier, veier og vann i kartet, og en kort vurdering av om den skiller seg fra dem står i `docs/` (DESIGN.md › Kartlag)
+
+**Gitt** at alle forholdene er minst 3:1
+**Når** målingen er ferdig
+**Så** erstattes de antatte flisfargene og OSM-stedfortrederne i tabellen Kontrastmål i `DESIGN.md` med de målte verdiene, og fotnoten sier når og hvordan de ble målt
+
+**Gitt** at et forhold er under 3:1
+**Når** fargen justeres
+**Så** endres tokenverdien i `DESIGN.md` (frontmatter, Kartlag og Kontrastmål) og i token-fila fra story 1.3, og ingen andre steder (UX-DR1)
+**Og** ny `map-route` er fortsatt plommelilla, verken rød, oransje eller blå, og har minst 3:1 mot alle flatene og den hvite kanten. Ny `map-marker-start` har i tillegg minst 4,5:1 mot den hvite «S»-en
+**Og** produkteier har godkjent endringen i PR-en, og PR-en har skjermbilder av ruten i skog, myr, vann og bebyggelse før og etter
+
+**Gitt** mørk modus (hvis story 6.3 er levert)
+**Når** kartet vises
+**Så** gjelder de samme målingene, fordi flisene og kartlaget er like i begge moduser (DESIGN.md › Kartlag)
+
+**Gitt** `EXPERIENCE.md` › Åpne punkter
+**Når** målingen er dokumentert
+**Så** er punktet «Kartfliser og målinger» merket som løst, med dato og lenke til målingen i `docs/`
+
+### Story 6.6: UU og mobil er testet og dokumentert
+
+Som Ola, som bruker tastatur, skjermleser eller mobil,
+vil jeg at hele kjerneflyten virker for meg,
+slik at jeg kan finne, velge og registrere turer uten hjelp.
+
+**Akseptansekriterier:**
+
+**Gitt** en testplan i `docs/`, skrevet før testen
+**Når** den leses
+**Så** lister den skjermene og tilstandene som testes, verktøyene med versjon, enhetene og nettleserne, og sjekklisten fra `EXPERIENCE.md` › Accessibility Floor punkt for punkt (SM-4, UX-DR34)
+
+**Gitt** det automatiske UU-verktøyet fra story 1.3
+**Når** det kjøres på den publiserte siden
+**Så** er det kjørt på Søk (første visning og med feil), Turforslag (vanlig, `TOPPTUR_ERSTATTET` og fra historikken), Tilstandspanel (ingen treff, nivåtak og alle vist), Logg inn / Lag konto (med feil og ved krav om konto), Registrer gjennomført tur (med feil), Historikk (tom og med rader), Konto, Bekreft sletting og 404-siden (NFR-4)
+**Og** det er kjørt i begge moduser hvis story 6.3 er levert
+**Og** verktøyet finner ingen feil. En feil som står igjen, er begrunnet i dokumentasjonen, for eksempel som en feil i verktøyet
+
+**Gitt** sjekklisten i Accessibility Floor
+**Når** den gås gjennom manuelt
+**Så** har hvert punkt resultat, dato og testmåte: reflow ved 320 px, 200 % tekstzoom, tekstavstand etter WCAG 1.4.12, hele kjerneflyten med bare tastatur, synlig fokusring, at kartet ikke holder på fokus, feilmeldinger koblet til feltet og lest opp, aldri bare farge, sidetitler og fokus ved hver visningsendring, meldinger etter navigering og `prefers-reduced-motion` (NFR-4)
+**Og** kjerneflyten er testet med en skjermleser på PC (for eksempel NVDA) og en på mobil (VoiceOver eller TalkBack)
+
+**Gitt** en ekte mobil og den publiserte siden
+**Når** kjerneflyten gjennomføres
+**Så** er det kontrollert og dokumentert med skjermbilder at siden ikke ruller sidelengs ned til 360 px, at turnivå, estimert tid og Turtype-treff synes uten rulling, at kartet (og Bekledningstips hvis Epic 5 er levert) nås med kort rulling, at trykkflatene er minst 44 × 44 px, at én finger over kartet ruller siden og viser hintet, og at Historikktabell ruller i egen beholder (NFR-3, UX-DR13)
+**Og** enheten, operativsystemet og nettleseren med versjon står i dokumentasjonen
+
+**Gitt** testbrukeren
+**Når** søket fra README gjøres på mobil
+**Så** vises nivåhevingen, og sperren kan vises slik README beskriver (SM-4, FR-21)
+
+**Gitt** et funn
+**Når** det dokumenteres
+**Så** har det skjerm, WCAG-kriterium eller NFR-ID, alvorlighet og hva som skjedde
+**Og** et funn som bryter NFR-3 eller NFR-4, rettes i en PR som viser til funnet, og testen gjentas for det punktet (NFR-6)
+**Og** et funn som ikke rettes, har en issue og en begrunnelse i dokumentasjonen
+
+**Gitt** dokumentasjonen
+**Når** sensor leser den
+**Så** har den konkrete eksempler på feil som ble funnet og rettet, med lenke til PR-en, og README lenker til den (AR-21)
+
+### Story 6.7: Nybegynnere har testet kjerneflyten
+
+Som produkteier,
+vil jeg se 3–5 nybegynnere bruke appen uten hjelp,
+slik at jeg vet om turforslagene er relevante og ikke for vanskelige.
+
+**Akseptansekriterier:**
+
+**Gitt** en testplan i `docs/`, skrevet før første test
+**Når** den leses
+**Så** har den oppgaven (kjerneflyten: søke som gjest, få turforslag, lage konto, registrere turen som gjennomført med vurdering og søke på nytt), hva som regnes som hjelp, spørsmålene og målet i SM-1 (SM-1, PRD §3)
+**Og** alt testlederen sier eller viser om appen etter at oppgaven er gitt, regnes som hjelp
+
+**Gitt** 3–5 testere
+**Når** de velges
+**Så** er hver av dem nybegynner etter målgruppen i PRD §2, ingen er med i gruppen eller har brukt appen før, og hver har sagt ja etter å ha fått vite hva som noteres
+**Og** testerne har koder (T1–T5) i dokumentasjonen, og ingen navn, e-post eller opptak ligger i repoet (NFR-5)
+
+**Gitt** en tester
+**Når** testen gjennomføres på den publiserte siden
+**Så** lager testeren konto med en test-e-post fra testlederen, for eksempel `tester1@eksempel.no`, og kontoen slettes med «Slett konto» etter testen (FR-14, FR-15)
+**Og** dato, enhet, hvilke turer som ble foreslått og om KI-merket viste «✦ Skrevet med KI» eller «Begrunnelse fra mal», står i dokumentasjonen
+
+**Gitt** første turforslag i testen
+**Når** testeren har sett det
+**Så** svarer testeren, før registreringen, på om forslaget er relevant (ja eller nei) og hvor vanskelig turen virker (*lett*, *moderat* eller *vanskelig*) (SM-1, SM-C1)
+**Og** vurderingen i registreringen telles ikke i SM-C1, fordi testeren ikke har gått turen
+
+**Gitt** resultatene
+**Når** de summeres
+**Så** har en tester nådd målet når hen gjennomførte kjerneflyten uten hjelp og vurderte første forslag som relevant. SM-1 er nådd med 3 av 3, 3 av 4 eller 4 av 5 testere, altså minst 75 % (SM-1)
+**Og** SM-C1 er oppfylt når ingen tester vurderte første forslag som *vanskelig* (SM-C1)
+
+**Gitt** dokumentasjonen i `docs/`
+**Når** sensor leser den
+**Så** har den dato, antall testere, en tabell per tester (uten hjelp ja/nei, hvor det stoppet, relevant og vanskelighet), sitater uten navn, funn og konklusjonen mot SM-1 og SM-C1, og README lenker til den (AR-21)
+
+**Gitt** at SM-1 ikke er nådd, eller at en tester vurderte første forslag som *vanskelig*
+**Når** resultatet er dokumentert
+**Så** står resultatet slik det ble, og hvert funn har en issue med tiltak. Rettinger kommer i PR-er som viser til funnet
+**Og** en ny runde med nye testere dokumenteres på samme måte, hvis den gjøres
+
+**Gitt** et funn om en tekst
+**Når** det følges opp
+**Så** endres teksten først i Mikrotekst og så i koden (AR-16)
+
+### Story 6.8: Repoet og README er klare for sensor
+
+Som sensor,
+vil jeg klone repoet, starte appen etter README og finne det jeg skal vurdere,
+slik at jeg kan vurdere appen og prosessen uten avvik.
+
+**Akseptansekriterier:**
+
+**Gitt** en ny klone av siste commit på `main`, i en mappe uten `venv`, `.env` og database, på en maskin eller brukerkonto som ikke er brukt i utviklingen, med Python 3.14
+**Når** README følges ordrett fra start, uten annen hjelp
+**Så** kjører appen lokalt med turdatabasen og testbrukeren på under 20 minutter, uten nøkler (NFR-1, AR-20)
+**Og** `python manage.py test`, `ruff check .` og `ruff format --check .` består i det samme miljøet (AR-15)
+**Og** dato, tid brukt, operativsystem, Python-versjon og hvert avvik står i `docs/`. Hvert avvik er rettet i README, og testen er gjort på nytt etter rettingen
+
+**Gitt** kommandoene i README
+**Når** de er ulike på Windows og macOS/Linux, for eksempel aktivering av `venv` og kopiering av `.env.example`
+**Så** står begge variantene, klare til å kopieres (AR-20)
+
+**Gitt** adressen øverst i README
+**Når** den åpnes i et privat nettleservindu
+**Så** virker den publiserte siden med søk som gjest, turforslag med kart, innlogging som testbrukeren og søket fra README (NFR-10, FR-21)
+**Og** produksjonen er bygd fra samme commit som innleveringen
+
+**Gitt** README
+**Når** sensor leser den
+**Så** har den alt i AR-20 og AD-12 punkt 6 og i tillegg status: hvilke P2-krav som er levert og hvilke som er kuttet, med lenke til PRD §9, antallet turer og lenker til dokumentasjonen fra story 6.5–6.7 (AR-22)
+**Og** mappeoversikten stemmer med mappene i repoet, og alle lenker virker
+
+**Gitt** Mikrotekst i `EXPERIENCE.md`
+**Når** den gås gjennom med produkteier
+**Så** er hver tekst merket [ASSUMPTION] enten godkjent, med ny kilde og dato, eller fortsatt merket som foreløpig med en kort begrunnelse (UX-DR31, PRD §10)
+**Og** tekstene i koden er like tekstene i Mikrotekst, og kommentarer om foreløpig tekst er fjernet for de godkjente
+
+**Gitt** repoet og hele git-historikken
+**Når** de kontrolleres
+**Så** finnes ingen `.env`, nøkler, `node_modules`, `venv`, byggefiler, `db.sqlite3`, `logs/`, `staticfiles/` eller `.vercel/`, og `.gitignore` dekker dem (NFR-1, AR-20)
+**Og** kontrollen er gjort med `git log --all` på filnavn og et søk etter nøkkelmønstre (for eksempel `sk-ant-`) i hele historikken, og kommandoene og resultatet står i `docs/`
+**Og** finnes en hemmelighet i historikken, er nøkkelen trukket tilbake og byttet, og det står i dokumentasjonen hvordan det ble gjort
+
+**Gitt** rotmappen
+**Når** sensor ser på den
+**Så** har den bare filene i spinen › Structural Seed og mappene for prosessdokumentasjon, og ingen løse filer (AR-20)
+
+**Gitt** planleggingsdokumentene
+**Når** de sammenlignes med koden
+**Så** er hvert kutt ført i PRD §9 og endringsloggen, kuttede stories er merket i `epics.md`, og avvik fra planen er forklart (AR-22)
+
+**Gitt** den siste endringen før innlevering
+**Når** den er merget til `main`
+**Så** består alle testene, og det automatiske UU-verktøyet finner ingen nye feil på Søk, Turforslag og Historikk (NFR-4, SM-2)
