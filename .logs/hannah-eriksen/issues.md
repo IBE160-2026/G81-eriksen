@@ -32,3 +32,9 @@
 - [x] 2026-11-12 [tilbakemelding-prd](991-2026-11-12-19-49-28-tilbakemelding-prd.md) — oppdater EXPERIENCE.md: åpent punkt «Turillustrasjon uten reserve» er besvart av PRD §7.1 (løst 2026-11-12)
 - [x] 2026-11-12 [tilbakemelding-prd](991-2026-11-12-19-49-28-tilbakemelding-prd.md) — følg opp resten av tilbakemeldingen på PRD-en: refleksjonsspørsmålene (4.4, 4.5 og mekaniske funn løst 2026-11-12) (utkast laget 2026-11-12)
 - [ ] 2026-11-12 [tilbakemelding-prd](991-2026-11-12-19-49-28-tilbakemelding-prd.md) — les og skriv om utkastet til refleksjonsspørsmålene (`refleksjon-tilbakemelding-prd.md`) med egne ord
+- [x] 2026-11-15 [verifiser-technology](989-2026-11-15-13-18-36-verifiser-technology.md) — rett `.gitignore` etter AD-12 punkt 4 (databasefil, `logs/`) og fjern Node-blokken (H-1) (løst 2026-11-15)
+- [x] 2026-11-15 [verifiser-technology](989-2026-11-15-13-18-36-verifiser-technology.md) — avgjør om Deferred i spinen skal utvides med sikring før en eventuell deploy (H-2) (løst 2026-11-15)
+- [x] 2026-11-15 [verifiser-technology](989-2026-11-15-13-18-36-verifiser-technology.md) — avgjør om appen skal ha en CSP (H-3) (løst 2026-11-15)
+- [x] 2026-11-15 [verifiser-technology](989-2026-11-15-13-18-36-verifiser-technology.md) — presiser opprettelsen av døgnets `KiForbruk`-rad i storyen for KI-grensen (H-4) (løst 2026-11-15)
+- [x] 2026-11-15 [verifiser-technology](989-2026-11-15-13-18-36-verifiser-technology.md) — avgjør oppførsel når `.env` mangler, i storyen for oppsett (H-5) (løst 2026-11-15)
+- [ ] 2026-11-15 [verifiser-technology](989-2026-11-15-13-18-36-verifiser-technology.md) — sjekk i kartstoryen at Leaflet virker med CSP-en fra spinen, og utvid den med begrunnelse hvis det trengs

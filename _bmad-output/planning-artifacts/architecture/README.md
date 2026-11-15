@@ -6,6 +6,7 @@
 | [`architecture-G81-eriksen-2026-11-07/.memlog.md`](architecture-G81-eriksen-2026-11-07/.memlog.md) | Beslutningsloggen: begrunnelser og alternativer som ble forkastet | Nei, bakgrunn |
 | [`architecture-G81-eriksen-2026-11-07/reviews/`](architecture-G81-eriksen-2026-11-07/reviews/) | Gjennomgangene av arkitekturen | Nei, bakgrunn |
 | [`technology.md`](technology.md) | Referanse fra faglærer: teknologi og arkitektur for en **annen app** (`pytagoras-website-v2`) | **Nei** |
+| [`verifisering-technology.md`](verifisering-technology.md) | Sjekk av hvert valg i `technology.md` mot PRD, UX og spinen, med fem hull (H-1 til H-5) | Nei, bakgrunn |
 
 Forklaringen for sensor står i [`docs/arkitektur.md`](../../../docs/arkitektur.md).
 

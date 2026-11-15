@@ -7,7 +7,7 @@ paradigm: 'Lagdelt server-rendret monolitt (Django) med ren domenekjerne og adap
 scope: 'Your Next Adventure v1: hele systemet (nettside, turdatabase og byggeskript, KI, vær, konto, historikk og personalisering)'
 status: final
 created: '2026-11-07'
-updated: '2026-11-12'
+updated: '2026-11-15'
 binds: [FR-1, FR-2, FR-3, FR-4, FR-5, FR-6, FR-7, FR-8, FR-9, FR-10, FR-11, FR-12, FR-13, FR-14, FR-15, FR-16, FR-17, FR-17.1, FR-18, FR-19, FR-20, FR-21, NFR-1, NFR-2, NFR-3, NFR-4, NFR-5, NFR-6, NFR-7, NFR-8, NFR-9]
 sources:
   - _bmad-output/planning-artifacts/prds/prd-G81-eriksen-2026-10-29/prd.md
@@ -95,7 +95,7 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
 
 - **Binds:** all
 - **Prevents:** databaseserver som sensor må installere, og rå SQL eller databasespesifikke funksjoner.
-- **Rule:** All persistent tilstand (turer, brukere, registreringer, økter, værbuffer, KI-forbruk) ligger i én SQLite-fil via Django-modeller og migreringer. Ingen rå SQL. Databasefilen committes ikke.
+- **Rule:** All persistent tilstand (turer, brukere, registreringer, økter, værbuffer, KI-forbruk) ligger i én SQLite-fil via Django-modeller og migreringer. Ingen rå SQL. Databasefilen heter `db.sqlite3` (Djangos standard) og committes ikke.
 
 ### AD-5 — Hvert søk har en søke-ID og lever i Django-økten [ADOPTED]
 
@@ -148,7 +148,7 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
   8. **Logg (FR-13, NFR-5):** Forkastede svar skrives til `logs/ki.log` med tidspunkt, kalltype (`tolking` eller `begrunnelse`), årsak og svaret. Aldri fritekst, søke-ID, e-post eller bruker-ID. Loggen roteres ved midnatt med `TimedRotatingFileHandler`. En liten underklasse sletter roterte filer med dato eldre enn 30 dager, både ved oppstart og ved hver rotasjon. `backupCount` brukes ikke, fordi den teller filer, ikke dager, og appen kjører ikke hver dag.
   9. **Grense for KI-kall (NFR-8):** Før hvert kall A eller B sjekker `tjenester/ki/` grensene. Er en grense nådd, brukes reserve for det kallet, som når nøkkelen mangler: stoppes kall A, ignoreres friteksten for hele søket. Stoppes kall B, brukes reservemalen for den turen. Brukeren ser de vanlige meldingene fra FR-13.
      - **Per nettleser:** maks 20 kall de siste 60 minuttene. Tidspunktene for sendte kall ligger i Django-økten under nøkkelen `"ki_kall"`, og eldre enn 60 minutter fjernes ved hver sjekk.
-     - **Totalt:** maks 200 kall per kalenderdøgn (Europe/Oslo). Tellingen ligger i modellen `KiForbruk(dato, antall)` og økes med `F("antall") + 1` i en transaksjon, så to samtidige kall ikke teller feil.
+     - **Totalt:** maks 200 kall per kalenderdøgn (Europe/Oslo). Tellingen ligger i modellen `KiForbruk(dato, antall)`, der `dato` er unik. I én transaksjon hentes eller lages døgnets rad med `get_or_create`, og deretter økes den med `F("antall") + 1`, så to samtidige kall ikke teller feil eller lager to rader.
      - Et kall teller når det sendes, også om svaret forkastes eller tidsgrensen går ut.
      - Avgjørelsen er en ren funksjon i `domene/` som får tidspunktene, dagens antall og klokkeslettet inn (AD-2). Grensene ligger i `settings` (`KI_MAKS_PER_NETTLESER_TIME`, `KI_MAKS_PER_DOGN`), så tester kan senke dem.
      - Første gang totalgrensen nås i et døgn, skrives én linje til `logs/ki.log`.
@@ -170,8 +170,8 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
 - **Rule:**
   1. Installasjon: `python -m venv`, `pip install -r requirements.txt`, kopier `.env.example` til `.env`, `python manage.py migrate`, `python manage.py lastinn`, `python manage.py runserver`.
   2. `requirements.txt` har låste versjoner og bare det appen trenger; `requirements-bygg.txt` har i tillegg `pyproj`.
-  3. `.env.example` virker uten endring: `DJANGO_SECRET_KEY` (en lokal utviklingsverdi), `DEBUG=True`, `ANTHROPIC_API_KEY=` (tom) og `MET_USER_AGENT` med appnavn og repo-URL (ingen personlig e-post). Den leses med `python-dotenv` i `config/settings.py`.
-  4. `.gitignore` har `.env`, `venv/`, databasefilen og `logs/`.
+  3. `.env.example` virker uten endring: `DJANGO_SECRET_KEY` (en lokal utviklingsverdi), `DEBUG=True`, `ANTHROPIC_API_KEY=` (tom) og `MET_USER_AGENT` med appnavn og repo-URL (ingen personlig e-post). Den leses med `python-dotenv` i `config/settings.py`. Mangler `.env` eller `DJANGO_SECRET_KEY`, stopper `config/settings.py` med en norsk melding om å kopiere `.env.example` til `.env`, ikke med Djangos engelske feil. Verdiene ligger bare i `.env.example`, ikke som reserve i koden.
+  4. `.gitignore` har `.env`, `venv/`, `db.sqlite3` og `logs/`. `logs/` dekker også de roterte KI-loggene (`ki.log.<dato>`), som `*.log` ikke fanger.
   5. Innstillinger: `LANGUAGE_CODE="nb"`, `TIME_ZONE="Europe/Oslo"`, egne norske maler for 404, 500 og CSRF-feil.
   6. README har: krav (Python 3.12–3.15, testet på 3.14), installasjonen over, testbrukerens innlogging, `python manage.py test`, mappeoversikt, hvordan KI-nøkkel legges inn, og lenker til PRD, UX og denne arkitekturen.
   7. Ingen produksjonsdeploy i v1.
@@ -199,6 +199,7 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
 | Enheter og formatering | Meter og hele minutter overalt i data. Formatering til «ca. 1 t 35 min», «3,5 km» og «grønn» skjer bare i `domene/` |
 | Datoer og tid | `datetime.date` i domenet; dagens dato sendes inn. Tidssone Europe/Oslo |
 | Skjema og validering | Django-skjemaer validerer alt på serveren. Alle POST følger Post/Redirect/Get. CSRF er på |
+| Content-Security-Policy | Djangos innebygde CSP (`ContentSecurityPolicyMiddleware`, `SECURE_CSP`) med `default-src 'self'`, `img-src 'self' https://cache.kartverket.no`, `object-src 'none'`, `base-uri 'self'`, `form-action 'self'` og `frame-ancestors 'none'`. Ingen inline-skript og ingen `style`-attributter i maler. Turdata til `kart.js` sendes med `json_script`. Trenger Leaflet mer, utvides policyen i kartstoryen med en begrunnelse i beslutningsloggen |
 | Feil fra eksterne tjenester | `tjenester/` kaster aldri videre til view; de returnerer typede resultater (`IngenVarsel`, reserve), og visningen viser teksten fra Mikrotekst |
 | Konfigurasjon | Miljøverdier leses bare i `config/settings.py` |
 | Kreditering | Én felles krediteringslinje i basismalen med «© Kartverket», «© OpenStreetMap contributors» og «Data fra MET Norge», med lenker. Leaflets egen attribution-prefiks er slått av |
@@ -335,6 +336,6 @@ sequenceDiagram
 | Terskler for støyfiltrering (2–10 m) og punktavstand (10–25 m) | Settes når byggeskriptet testes mot publiserte høydeprofiler (FR-1) |
 | Kartets zoomgrenser og bevegelser (Ctrl + rullehjul, to fingre) | Løses i kartstoryen med Leaflets innebygde valg etter `EXPERIENCE.md`; ingen plugin uten ny beslutning |
 | Om utfylte felt beholdes gjennom ny innlogging | UX-punktet er `[ASSUMPTION]`; avgjøres i kontostoryen |
-| Produksjonsdeploy, HTTPS, e-postutsending og passordtilbakestilling | Utenfor v1; sensor kjører lokalt (NFR-1) |
+| Produksjonsdeploy, HTTPS, e-postutsending og passordtilbakestilling | Utenfor v1; sensor kjører lokalt (NFR-1). Før en eventuell deploy må tre ting på plass: appen nekter å starte med `DEBUG=False` og utviklingsverdien for `DJANGO_SECRET_KEY` (og `python manage.py check --deploy` er uten advarsler), innlogging får en grense for antall forsøk, og `lastinn` laster ikke testbrukeren, siden passordet står i README (FR-21) |
 | Leverandørbytte for KI (Gemini Flash-Lite) | Bare hvis Anthropic-startkreditten ikke finnes; krever én ny variant i `tjenester/ki/` (AD-10) |
 | Turer utenfor Oslo og Bærum | FR-1 avgrenser v1; dekningen sjekkes per tur hvis lista utvides |
