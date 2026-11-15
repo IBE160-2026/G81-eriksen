@@ -126,6 +126,7 @@ Har en rad flere tekster med ulik kilde, står kilden per tekst.
 | Begrunnelse, turforslag fra historikken | «Du gikk denne turen 12. oktober og ga den 5 av 5.» | PRD (FR-17) |
 | KI-merke / malmerke | «✦ Skrevet med KI» / «Begrunnelse fra mal» | PRD (FR-12) |
 | Forklaringspanel | Utløser «Slik lager jeg forslaget». Innholdet står under Forklaringspanel i Component Patterns. | Utløser: PRD (FR-12). Ordlyden i innholdet: Godkjent (memlog) |
+| Forklaringspanel, setning 3 uten fritekst | «KI skriver begrunnelsen, og den kan ta feil.» (brukes til fritekstfeltet finnes, og hvis FR-11 kuttes) | [ASSUMPTION]. Laget av setning 3 i Component Patterns (PRD §7.1) |
 | Fritekst ignorert | «Jeg kunne ikke ta hensyn til ønsket ditt denne gangen» | PRD-budskap (FR-13) |
 | Topptur passer ikke | «Toppturer krever mer tid enn du har oppgitt» | PRD-budskap (FR-8) |
 | Topptur passer ikke, merke | «Utsikt i stedet for topptur» | [ASSUMPTION] |
