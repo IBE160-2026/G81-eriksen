@@ -47,7 +47,7 @@ FR-11 (P2): KI tolker fritekstønsket og får bare ønsket og de filtrerte turen
 
 FR-12: Begrunnelsen nevner minst varigheten, og turtypen og fritekstønsket hvis de er oppgitt (reservemalen nevner aldri ønsket). Den er maks 300 tegn slik brukeren ser den. KI skriver den når KI er tilgjengelig, ellers brukes reservemalen. KI bruker plassholderne `{tid}`, `{varighet}`, `{lengde}` og `{nivå}`, og systemet setter inn verdiene. Har en personaliseringsregel påvirket valget, legges en personaliseringssetning til. KI-merket viser «✦ Skrevet med KI» eller «Begrunnelse fra mal». Forklaringspanelet «Slik lager jeg forslaget» er lukket som standard og sier at rute, tid og nivå kommer fra Kartverkets turdata og faste formler, at KI tolker og skriver og kan ta feil, og at tiden kan bomme med rundt 15 %.
 
-FR-13: Et KI-svar forkastes hvis det viser til en tur utenfor treffene, er tomt eller ugyldig, gir en begrunnelse over 300 tegn, har tall eller turnivå utenfor plassholderne eller kommer etter 5 sekunder. Da ignoreres fritekstønsket, og begrunnelsen lages fra reservemalen. Reserveløsningen brukes også uten nøkkel og når grensen for KI-kall er nådd. Forkastede svar logges. Ble et fritekstønske ignorert, vises en melding om det.
+FR-13: Et KI-svar forkastes hvis det viser til en tur utenfor treffene, er tomt eller ugyldig, gir en begrunnelse over 300 tegn, har tall eller turnivå utenfor plassholderne, ikke nevner valgt turtype (AD-10 punkt 7) eller kommer etter 5 sekunder. Forkastes tolkingen av ønsket, ignoreres fritekstønsket for hele søket, og begrunnelsen lages fra reservemalen. Forkastes bare begrunnelsen for en tur, brukes reservemalen for den turen uten melding, fordi ønsket alt er brukt i rangeringen (PRD v1.12). Reserveløsningen brukes også uten nøkkel og når grensen for KI-kall er nådd. Forkastede svar logges. Ble et fritekstønske ignorert, vises en melding om det.
 
 FR-14: En gjest kan lage konto med e-post og passord (minst 8 tegn, lagres bare som hash), logge inn og logge ut. En e-post som finnes fra før, gir en melding med forslag om å logge inn. Feil innlogging sier ikke hvilket felt som er feil. En gjest som bruker en kontofunksjon, blir bedt om å logge inn, og turforslaget beholdes. En gjest som har trykket «Registrer gjennomført tur», går etter innlogging rett inn i registreringen av den turen.
 
@@ -218,14 +218,14 @@ UX-DR35 Kartfarger: `map-route`, `map-marker-start` og `map-focus-ring` måles m
 FR-1: Epic 1 – turdatabase med 15 turer (P1). Epic 6 – tur 16–30 (P2)
 FR-2: Epic 1 – gradering etter Merkehåndboka
 FR-3: Epic 1 – estimert tid med sveitsisk regel og påslag
-FR-4: Epic 1 – søkeskjema uten fritekst. Epic 4 – fritekstfeltet (P2, med FR-11)
-FR-5: Epic 1 – filter og rangering (punkt 5 og 6). Epic 3 – gåtte turer, nivåheving og preferanse (punkt 1, 3 og 4). Epic 4 – fritekst (punkt 2, P2)
+FR-4: Epic 1 – søkeskjema uten fritekst. Epic 4 – fritekstfeltet (P2, med FR-11: feltet i story 4.6, vist fra story 4.7)
+FR-5: Epic 1 – filter og rangering (punkt 5 og 6). Epic 3 – gåtte turer, nivåheving og preferanse (punkt 1, 3 og 4). Epic 4 – fritekst (punkt 2, P2, story 4.7)
 FR-6: Epic 1 – visning med kart, nivå, fakta, «Kartet i tekst», ut.no og kreditering. Epic 5 – bekledningstips (P2). Epic 6 – turillustrasjon (P2)
 FR-7: Epic 1 – nytt forslag, økt og «alle forslag er vist»
 FR-8: Epic 1 – topptur erstattet, ingen treff og nivåtak for gjest. Epic 3 – nivåtak for innloggede
 FR-9: Epic 5 – bekledningstips (P2)
 FR-10: Epic 5 – mangler værvarsel (P2)
-FR-11: Epic 4 – KI-tolking av fritekstønske (P2)
+FR-11: Epic 4 – fritekstfeltet (story 4.6) og KI-tolking av fritekstønske (story 4.7) (P2)
 FR-12: Epic 1 – begrunnelse fra mal, KI-merke og forklaringspanel. Epic 3 – personaliseringssetning. Epic 4 – KI-skrevet begrunnelse
 FR-13: Epic 1 – reserve uten nøkkel. Epic 4 – validering, logg og reserve ved feil eller grense
 FR-14: Epic 2 – lage konto, logge inn og ut, turforslaget beholdes
@@ -238,11 +238,22 @@ FR-19: Epic 3 – nivåregler
 FR-20: Epic 3 – turtypepreferanse (P2)
 FR-21: Epic 3 – testbruker
 
-**NFR:** NFR-1 og NFR-10 i Epic 1 (ferdig README i Epic 6). NFR-2, NFR-3, NFR-4 og NFR-6 i alle epics (manuell UU- og mobiltest i Epic 6). NFR-5 i Epic 2 og 4. NFR-7 i Epic 1 (MET-kreditering i Epic 5). NFR-8 i Epic 2 (innlogging) og Epic 4 (KI). NFR-9 i Epic 6.
+**NFR:** NFR-1 og NFR-10 i Epic 1 (ferdig README i Epic 6). NFR-2, NFR-3, NFR-4 og NFR-6 i alle epics (manuell UU- og mobiltest og kontroll av NFR-6 i Epic 6). NFR-5 i Epic 2 og 4. NFR-7 i Epic 1: all kreditering, også «Data fra MET Norge», finnes fra story 1.10, og Epic 5 legger ikke til ny kreditering. NFR-8 i Epic 2 (innlogging) og Epic 4 (KI). NFR-9 i Epic 6.
 
 ## Epic-liste
 
-Rekkefølgen følger PRD §7.1: P1 først, og P2 sist i motsatt rekkefølge av kuttlista, så det som kuttes først, bygges sist. Ingen epic trenger en senere epic for å virke, og hver epic kan publiseres når den er ferdig.
+Epicene står etter tema. Storyene bygges i rekkefølgen i avsnittet Byggerekkefølge under, som følger PRD §7.1. Ingen epic trenger en senere epic for å virke, og hver epic kan publiseres når den er ferdig.
+
+### Byggerekkefølge
+
+Storyene bygges i denne rekkefølgen, uansett rekkefølgen i dokumentet:
+
+1. **P1:** story 1.1–1.10, så 6.5 (kartfargene, rett etter kartet), så 1.11–1.12, Epic 2 (2.1–2.6), 3.1–3.4 og 4.1–4.5.
+2. **P2**, i motsatt rekkefølge av kuttlista i PRD §7.1, så det som kuttes først, bygges sist: 3.5 (FR-20) → Epic 5 (5.1–5.3, FR-9 og FR-10) → 4.6 og 4.7 (FR-11) → 6.1 (turillustrasjonen) → 6.3 (mørk modus, NFR-9) → 6.4 (FR-17.1).
+3. **Tur 16–30 (6.2)** legges til én og én når storyene i punkt 1 er levert, og arbeidet kan stoppe ved et hvilket som helst antall.
+4. **Kvalitetssikringen (6.6, 6.7 og 6.8) er P1 og kuttes aldri.** Den gjøres til slutt, og P2-arbeidet stopper i tide, så den rekkes før fristen.
+
+Ingen P1-story bygger på en P2-story. Nevner en P1-story en P2-del, gjelder kriteriet bare hvis P2-delen er levert.
 
 ### Epic 1: Ola finner en tur som passer tiden, på nett (P1)
 
@@ -266,7 +277,7 @@ Vurderingene styrer nivåtaket med heving, sperre og oppheving. Søket prioriter
 
 ### Epic 4: KI skriver begrunnelsen og forstår ønsket (P1, med P2 sist)
 
-Med nøkkel skriver KI begrunnelsen. Svaret valideres alltid, reserven tar over ved feil, og kostnaden har et tak. KI får aldri personopplysninger. Tolking av fritekstønsket (P2) er siste story.
+Med nøkkel skriver KI begrunnelsen. Svaret valideres alltid, reserven tar over ved feil, og kostnaden har et tak. KI får aldri personopplysninger. Fritekstønsket (P2) er de to siste storyene: feltet (4.6) og tolkingen (4.7).
 
 **FR dekket:** FR-12 (KI), FR-13 (validering, logg og reserve), FR-11 og fritekstfeltet i FR-4 (P2)
 **NFR:** NFR-5 (prompt og logg), NFR-8 (grense for KI-kall)
@@ -276,14 +287,14 @@ Med nøkkel skriver KI begrunnelsen. Svaret valideres alltid, reserven tar over 
 Turforslaget viser tips for startpunktet kl. 10–16 på valgt dato, også for turforslag fra historikken (for i dag), og forklarer hvorfor når varselet mangler.
 
 **FR dekket:** FR-9, FR-10, FR-6 og FR-17 (bekledningstips)
-**NFR:** NFR-7 (MET-kreditering)
+**NFR:** ingen nye. MET-krediteringen (NFR-7) finnes fra story 1.10, og Epic 5 legger ikke til ny kreditering
 
-### Epic 6: Rikere turforslag og klar for sensor (P2 og kvalitetssikring)
+### Epic 6: Rikere turforslag og klar for sensor (P2, og kvalitetssikring som er P1)
 
-Turillustrasjon, tur 16–30, mørk modus og fremgang mot neste nivå. Til slutt måling av kartfarger mot ekte fliser, brukertest (SM-1), UU- og mobiltest (SM-4) og README testet i et rent miljø.
+Turillustrasjon, tur 16–30, mørk modus og fremgang mot neste nivå (P2). Story 6.5–6.8 er P1 og kuttes aldri: måling av kartfarger mot ekte fliser (bygges rett etter story 1.10), og til slutt brukertest (SM-1), UU- og mobiltest (SM-4) og README testet i et rent miljø.
 
 **FR dekket:** FR-6 (turillustrasjon), FR-1 (tur 16–30), FR-17.1
-**NFR:** NFR-9, NFR-1 (README-test), NFR-3 og NFR-4 (manuell test)
+**NFR:** NFR-9, NFR-1 (README-test), NFR-3 og NFR-4 (manuell test), NFR-6 (kontroll)
 
 ## Epic 1: Ola finner en tur som passer tiden, på nett
 
@@ -345,36 +356,36 @@ slik at jeg kan vurdere den uten å installere noe, og se hver endring i en forh
 
 **Gitt** at koden fra story 1.1 er merget til `main`, og at Hannah har godkjent at prosjektet opprettes
 **Når** `vercel link` og `vercel git connect` kjøres
-**Så** finnes ett Vercel-prosjekt for repoet under teamet `hannah-eriksen`, med Djangos framework preset (AD-15 punkt 1)
+**Så** finnes ett Vercel-prosjekt for repoet under teamet `hannah-eriksen`, med Djangos framework preset (AD-15 punkt 1, AR-24)
 
 **Gitt** at Hannah har koblet til Neon fra Vercel Marketplace i Frankfurt, med forhåndsvisningsgrener
 **Når** appen kjører på Vercel
 **Så** bruker den Postgres via `DATABASE_URL` med `DISABLE_SERVER_SIDE_CURSORS = True`, og byggingen (`CI` er satt) bruker `DATABASE_URL_UNPOOLED`
-**Og** lokalt, uten `DATABASE_URL`, brukes SQLite som før (AR-6)
+**Og** lokalt, uten `DATABASE_URL`, brukes SQLite som før (AR-6, AR-24)
 
 **Gitt** en endring som merges til `main`
 **Når** Vercel bygger
 **Så** kjører byggesteget i `pyproject.toml` `python manage.py migrate --noinput`, Vercel kjører `collectstatic` med `STATIC_ROOT = staticfiles/`, og forsiden vises på `<prosjekt>.vercel.app` over HTTPS
-**Og** `.python-version` er `3.14`, `vercel.json` setter `"regions": ["fra1"]`, og `requirements.txt` har `psycopg[binary]` 3.3.9
+**Og** `.python-version` er `3.14`, `vercel.json` setter `"regions": ["fra1"]`, og `requirements.txt` har `psycopg[binary]` 3.3.9 (AR-24)
 
 **Gitt** at `VERCEL` er satt
 **Når** appen starter
 **Så** er `DEBUG` alltid `False`, `ALLOWED_HOSTS` er `[".vercel.app"]`, `CSRF_TRUSTED_ORIGINS` er `["https://*.vercel.app"]`, `SECURE_PROXY_SSL_HEADER` er satt, og cookies for økt og CSRF er sikre
 **Og** mangler `DJANGO_SECRET_KEY`, eller er den lik verdien i `.env.example`, stopper appen med en norsk melding
-**Og** logging går til standard ut (AD-15 punkt 7)
+**Og** logging går til standard ut (AD-15 punkt 7, AR-24)
 
 **Gitt** en test som setter `VERCEL` og en gyldig nøkkel
 **Når** `python manage.py test` kjører
-**Så** gir `python manage.py check --deploy` ingen advarsler uten en begrunnelse i en kommentar i settings
+**Så** gir `python manage.py check --deploy` ingen advarsler uten en begrunnelse i en kommentar i settings (AR-24)
 
 **Gitt** en pull request
 **Når** Vercel lager forhåndsvisningen
-**Så** bruker den en egen Neon-gren, og den krever innlogging hos Vercel (AD-15 punkt 3)
-**Og** `ANTHROPIC_API_KEY` finnes bare i produksjon, og `DJANGO_SECRET_KEY` (ulik for produksjon og forhåndsvisning) og `MET_USER_AGENT` finnes i alle miljøer, uten at noen verdi står i repoet (NFR-10)
+**Så** bruker den en egen Neon-gren, og den krever innlogging hos Vercel (AD-15 punkt 3, AR-24)
+**Og** `ANTHROPIC_API_KEY` finnes bare i produksjon, og `DJANGO_SECRET_KEY` (ulik for produksjon og forhåndsvisning) og `MET_USER_AGENT` finnes i alle miljøer, uten at noen verdi står i repoet (NFR-10, AR-24)
 
 **Gitt** README
 **Når** sensor leser den
-**Så** står adressen til den publiserte siden øverst, med en kort forklaring av publiseringen
+**Så** står adressen til den publiserte siden øverst, med en kort forklaring av publiseringen (NFR-10, AR-24)
 **Og** lokal kjøring virker fortsatt uten Vercel, Neon, Vercel CLI eller Node (NFR-1)
 
 ### Story 1.3: Siden har et rolig og tilgjengelig grunnoppsett
@@ -599,7 +610,7 @@ slik at jeg raskt kan bestemme meg.
 **Gitt** Søk-skjermen
 **Når** den vises første gang
 **Så** har den `h1` «Hvor lang tid har du?», ingressen og feltene i rekkefølgen fra `DESIGN.md`: Varighet (`<select>` med «Velg» og 1–8 t i halvtimessteg), Dato (`<select>` med de 31 aktuelle dagene, i dag forvalgt), Turtype (Turtypekort, «Alle turtyper» forvalgt) og Startpunkt («Alle startpunkt» og hjelpeteksten om Oslo-området) (FR-4, UX-DR6, UX-DR7, UX-DR10)
-**Og** det finnes ikke noe fritekstfelt (det kommer i Epic 4)
+**Og** det finnes ikke noe fritekstfelt (det kommer i story 4.6 og vises fra story 4.7)
 
 **Gitt** et søk uten varighet
 **Når** jeg trykker «Finn en tur»
@@ -627,6 +638,7 @@ slik at jeg raskt kan bestemme meg.
 **Gitt** en ukjent søke-ID, eller en tur som ikke lenger finnes
 **Når** jeg åpner adressen
 **Så** vises Søk med meldingen «Turforslaget er ikke lenger tilgjengelig. Søk på nytt for å få et forslag.», og meldingen får fokus
+**Og** teksten er [ASSUMPTION] i Mikrotekst. Den brukes, men står som foreløpig i Mikrotekst, i en kommentar i koden og i PR-en til produkteier har godkjent den (UX-DR31, PRD §10)
 
 **Gitt** en skjerm på 360 px
 **Når** turforslaget vises
@@ -652,6 +664,11 @@ slik at jeg vet hvor turen går, også med tastatur eller skjermleser.
 **Gitt** en bredde på 720 px eller mer
 **Når** turforslaget vises
 **Så** står kartet i venstre kolonne med `position: sticky` og Infokolonne til høyre. Under 720 px står kartet innenfor sidemargen med høyde ca. 60 % av skjermen (UX-DR12)
+
+**Gitt** referanseskjermen 1280 × 800 med 100 % zoom, et søk med valgt turtype og det lengste turnavnet i turdatabasen
+**Når** turforslaget vises
+**Så** synes turnavn, Turtype-treff, Faktarute og kartet uten rulling, uten turillustrasjonen, som er P2 og kommer i story 6.1 (DESIGN.md › Layout & Spacing, UX-DR12)
+**Og** det er nådd uten faste høyder og uten `overflow: hidden`, og et skjermbilde står i PR-en
 
 **Gitt** kartet
 **Når** det vises
@@ -798,7 +815,11 @@ slik at jeg senere kan registrere turene mine.
 
 **Gitt** innloggingen
 **Når** jeg ikke gjør noe på lenge
-**Så** varer innloggingen i to uker uten grense for inaktivitet (AD-6)
+**Så** varer innloggingen i to uker uten grense for inaktivitet (AD-6, AR-8)
+
+**Gitt** en `next`-adresse til et annet nettsted
+**Når** jeg logger inn eller lager konto
+**Så** sendes jeg til Søk i stedet, så ingen kan bruke innloggingen til å sende brukere videre (NFR-8, AR-8)
 
 **Gitt** nivåtakmeldingen for gjester fra story 1.12
 **Når** den vises
@@ -806,7 +827,7 @@ slik at jeg senere kan registrere turene mine.
 
 **Gitt** testene i `tests/web/`
 **Når** de kjøres
-**Så** dekker de kontooppretting, duplisert e-post, feil innlogging, utlogging og at turforslaget beholdes gjennom innloggingen (NFR-6)
+**Så** dekker de kontooppretting, duplisert e-post, feil innlogging, utlogging, `next` til et annet nettsted og at turforslaget beholdes gjennom innloggingen (NFR-6)
 
 ### Story 2.2: Innloggingen har en grense for mislykkede forsøk
 
@@ -902,6 +923,7 @@ slik at jeg lett kan gå favoritturene mine på nytt.
 **Gitt** en tur over nivåtaket mitt
 **Når** jeg åpner den fra historikken
 **Så** vises den likevel, med Melding (info) «Denne turen er over nivået jeg foreslår for deg nå.» rett etter turnavnet (FR-17)
+**Og** til Epic 3 er nivåtaket grønt for alle (FR-18), så merknaden gjelder turer over grønt. Story 3.2 bytter til nivåtaket fra historikken
 
 **Gitt** et pågående søk i en fane
 **Når** jeg åpner en tur fra historikken
@@ -930,15 +952,15 @@ slik at jeg ikke mister turen jeg nettopp har valgt.
 
 **Gitt** at jeg er gjest
 **Når** jeg åpner Historikk, Konto eller en registreringsside direkte
-**Så** sendes jeg til Logg inn med `next`, og etter innloggingen tilbake dit (AD-6)
+**Så** sendes jeg til Logg inn med `next`, og etter innloggingen tilbake dit (AD-6, AR-8)
 
 **Gitt** at innloggingen har utløpt
 **Når** jeg åpner en side som krever konto
-**Så** sendes jeg til Logg inn og tilbake til samme side etterpå. Om utfylte felt beholdes, avgjøres og dokumenteres i denne storyen (åpent punkt i `EXPERIENCE.md`)
+**Så** sendes jeg til Logg inn og tilbake til samme side etterpå (AR-8). Om utfylte felt beholdes, avgjøres og dokumenteres i denne storyen (åpent punkt i `EXPERIENCE.md`)
 
 **Gitt** en `next`-adresse til et annet nettsted
-**Når** jeg logger inn
-**Så** sendes jeg til Søk i stedet, så ingen kan bruke innloggingen til å sende brukere videre (NFR-8)
+**Når** jeg logger inn fra en side som krever konto
+**Så** gjelder sjekken fra story 2.1, og jeg sendes til Søk (NFR-8, AR-8)
 
 ### Story 2.6: Ola sletter kontoen
 
@@ -1004,8 +1026,8 @@ slik at forslagene følger hvordan turene faktisk kjentes for meg.
 
 **Gitt** en registrering vurdert *vanskelig*
 **Når** `vurder_historikk` kalles
-**Så** er telleren 0. Er nivået under turens nivå (aldri under grønt) lavere enn nivåtaket, blir det nivåtak som sperre, og grunnnivået er uendret (FR-19, eksempel 4, 7, 8 og 9)
-**Og** er det ikke lavere, endres verken nivåtaket eller sperren (eksempel 6)
+**Så** er telleren 0. Er nivået under turens nivå (aldri under grønt) lavere enn nivåtaket, blir det nivåtak som sperre, og grunnnivået er uendret (FR-19, eksempel 4, 7 og 9)
+**Og** er det ikke lavere, endres verken nivåtaket eller sperren (eksempel 6, og eksempel 8, som ikke gir sperre fordi nivåtaket allerede er grønt)
 
 **Gitt** en aktiv sperre
 **Når** neste registrering er vurdert *lett* eller *moderat*, uansett turnivå
@@ -1064,10 +1086,11 @@ slik at jeg får nye turer på riktig nivå og prøver det nye nivået når jeg 
 **Så** gjør en ren funksjon i `domene.niva` det ut fra `NivaStatus` og `brukt_heving`: `antall_hevinger > brukt_heving` uten aktiv sperre gir `nivaheving=True`, ellers `False` (AD-11 punkt 2)
 **Og** `brukt_heving` lagres som `antall_hevinger` i samme forespørsel, også når søket gir `INGEN_TREFF` eller `BARE_OVER_NIVATAK`
 **Og** `nivaheving` lagres i søketilstanden og fryses med rangeringen (AD-5)
+**Og** en søketilstand fra før denne storyen, uten `nivaheving`, leses uten feil, med standardverdien `False` (NFR-2, AD-5)
 
 **Gitt** et kanttilfelle for nivåhevingen
 **Når** søket sendes
-**Så** gjelder dette: med aktiv sperre regnes hevingen som brukt, men søket får `nivaheving=False`, så turer på sperrenivået ikke prioriteres som et nytt nivå. Har en registrering med tidligere dato fjernet en heving (`antall_hevinger < brukt_heving`), er `nivaheving` `False`, og `brukt_heving` settes ned, så neste heving gir prioritet. En gjest har alltid `False`, og ingenting lagres (AR-13)
+**Så** gjelder dette: med aktiv sperre regnes hevingen som brukt, men søket får `nivaheving=False`, så turer på sperrenivået ikke prioriteres som et nytt nivå. Har en registrering med tidligere dato fjernet en heving (`antall_hevinger < brukt_heving`), er `nivaheving` `False`, og `brukt_heving` settes ned, så neste heving gir prioritet. En gjest har alltid `False`, og ingenting lagres (AR-13, AD-11)
 
 **Gitt** et ugyldig søk, ny innlasting, «Nytt forslag», «Start fra første forslag igjen» eller et turforslag fra historikken
 **Når** det vises
@@ -1077,6 +1100,10 @@ slik at jeg får nye turer på riktig nivå og prøver det nye nivået når jeg 
 **Gitt** et vist søk
 **Når** brukeren registrerer en tur i en annen fane
 **Så** er rangeringen for søket uendret til et nytt søk sendes (FR-7, AD-5)
+
+**Gitt** et turforslag fra historikken (story 2.4)
+**Når** det vises
+**Så** bruker merknaden «Denne turen er over nivået jeg foreslår for deg nå.» `NivaStatus.nivatak` fra `vurder_historikk`, også med aktiv sperre, i stedet for grønt nivåtak (FR-17)
 
 **Gitt** sluttilstanden i hvert av de 12 eksemplene i FR-19 og en rekke søk
 **Når** `velg_turer` kalles
@@ -1123,6 +1150,7 @@ slik at jeg forstår regelen og kan stole på den.
 **Gitt** et søk
 **Når** det sendes
 **Så** lagres grunnlaget for setningen og nivåtakmeldingen (nivåtak, grunnnivå, sperre, `nivaheving` og om brukeren har historikk) i søketilstanden, så ny innlasting og «Nytt forslag» gir samme tekst, også etter en ny registrering i en annen fane (AD-5, FR-7)
+**Og** en søketilstand fra før denne storyen, uten dette grunnlaget, leses uten feil, med standardverdier (grønt nivåtak, ingen sperre, `nivaheving=False` og ingen historikk), så begrunnelsen ikke får noen personaliseringssetning (NFR-2, AD-5)
 
 **Gitt** status `BARE_OVER_NIVATAK` for en innlogget bruker uten registreringer
 **Når** forslaget vises
@@ -1207,7 +1235,7 @@ slik at jeg oftere får turer jeg liker.
 **Gitt** `velg_turer`
 **Når** den utvides
 **Så** får den bare nøkkelordargumentet `foretrukne_turtyper` (standard tomt sett), og tester fra story 1.8 og 3.2 virker uendret
-**Og** turer med minst én foretrukket turtype kommer foran andre, etter punkt 1 og 3 og før punkt 5 og 6 (FR-5 punkt 4). Punkt 2 (fritekst) kommer i Epic 4
+**Og** turer med minst én foretrukket turtype kommer foran andre, etter punkt 1 og 3 og før punkt 5 og 6 (FR-5 punkt 4). Punkt 2 (fritekst) kommer i story 4.7
 **Og** en test viser at nivåhevingen fortsatt går foran preferansen, og at gåtte turer med fornøydhet 1–2 fortsatt kommer sist
 
 **Gitt** en vist tur som er prioritert av preferansen, det vil si at turen har en foretrukket turtype og minst ett annet treff i søket ikke har det
@@ -1222,6 +1250,11 @@ slik at jeg oftere får turer jeg liker.
 **Gitt** reservemalen med nivåsetning og preferansesetning
 **Når** begrunnelsen lages
 **Så** er hele begrunnelsen høyst 300 tegn, og en test sjekker den lengste kombinasjonen (FR-12)
+
+**Gitt** et søk der preferansen har påvirket rangeringen
+**Når** søket lagres
+**Så** fryses de foretrukne turtypene i søketilstanden sammen med resten av grunnlaget fra story 3.3, så ny innlasting og «Nytt forslag» gir samme tekst, også etter en ny registrering i en annen fane (AD-5, FR-7)
+**Og** et søk som allerede ligger i økten uten feltet, leses uten feil, med en tom liste som standardverdi (NFR-2)
 
 **Gitt** testbrukerfila
 **Når** den utvides
@@ -1238,7 +1271,7 @@ slik at jeg oftere får turer jeg liker.
 
 ## Epic 4: KI skriver begrunnelsen og forstår ønsket
 
-Med nøkkel skriver KI begrunnelsen. Svaret valideres alltid, reserven tar over ved feil, og kostnaden har et tak. KI får aldri personopplysninger. Tolking av fritekstønsket (P2) er siste story.
+Med nøkkel skriver KI begrunnelsen. Svaret valideres alltid, reserven tar over ved feil, og kostnaden har et tak. KI får aldri personopplysninger. Fritekstønsket (P2) er de to siste storyene: feltet (4.6) og tolkingen (4.7).
 
 ### Story 4.1: KI-tjenesten har ett grensesnitt med tre varianter
 
@@ -1300,7 +1333,7 @@ slik at jeg kan stole på det jeg leser, også når KI har skrevet teksten.
 **Gitt** `domene/`
 **Når** en KI-tekst for begrunnelsen valideres
 **Så** gjør én ren funksjon det, uten database, nettverk eller klokke, og den returnerer enten den ferdige teksten eller en forkastelse med årsak (AR-2, AR-12)
-**Og** stegene går i rekkefølgen fra addendumet: plassholdere, sifre, tallord og nivåord, så innsetting av verdier, så personaliseringssetning og til sist grensen på 300 tegn (FR-13)
+**Og** stegene går i rekkefølgen fra addendumet: plassholdere, sifre, tallord og nivåord (og turtype, se under), så innsetting av verdier, så personaliseringssetning og til sist grensen på 300 tegn (FR-13)
 
 **Gitt** en tom tekst eller en tekst med bare mellomrom
 **Når** den valideres
@@ -1327,6 +1360,13 @@ slik at jeg kan stole på det jeg leser, også når KI har skrevet teksten.
 **Så** forkastes den med årsaken `nivaord` (FR-12, FR-13)
 **Og** ord der nivåordet bare er en del, som «Svartkulp» og «blåbær», er lov
 
+**Gitt** et søk med valgt turtype
+**Når** KI-teksten valideres
+**Så** forkastes den med årsaken `turtype` hvis ingen ord inneholder «marka», «utsikt» eller «topptur» for turtypen, uansett store og små bokstaver og bøyning, for eksempel «Nordmarka», «markatur», «utsikten» og «toppturer» (FR-12, FR-13)
+**Og** ved `TOPPTUR_ERSTATTET` må teksten nevne utsikt, fordi turen er en utsiktstur (FR-8). Med «Alle turtyper» sjekkes ingen turtype
+**Og** sjekken går før innsettingen, sammen med de andre sjekkene av KI-teksten, og ordene ligger i én konstant i `domene/`
+**Og** om teksten nevner fritekstønsket, kan ikke sjekkes sikkert. Det er en bevisst begrensning: prompten ber KI nevne ønsket, og det sjekkes manuelt i testplanen fra story 4.5, som story 4.7 utvider (FR-12)
+
 **Gitt** en tekst som har bestått sjekkene
 **Når** verdiene settes inn
 **Så** erstattes `{tid}` med estimert tid, `{varighet}` med varigheten i søket, `{lengde}` med total lengde og `{nivå}` med turnivået, i de faste formatene fra `domene/` som reservemalen også bruker, for eksempel «ca. 1 t 35 min», «2 timer» og «grønn» (FR-12, AR-16)
@@ -1335,7 +1375,7 @@ slik at jeg kan stole på det jeg leser, også når KI har skrevet teksten.
 
 **Gitt** at en personaliseringsregel har påvirket valget
 **Når** verdiene er satt inn
-**Så** legges samme personaliseringssetning til etter KI-teksten som reservemalen ville fått, laget av funksjonene fra story 3.3 og 3.5 (FR-12)
+**Så** legges samme personaliseringssetning til etter KI-teksten som reservemalen ville fått, laget av funksjonene fra story 3.3, og fra 3.5 hvis den er levert (FR-12)
 **Og** personaliseringssetningen sjekkes ikke for tall og nivåord, fordi systemet lager den
 
 **Gitt** den ferdige teksten
@@ -1413,10 +1453,15 @@ slik at kostnaden er begrenset, og appen virker som vanlig over taket.
 **Så** kan det sendes. Med 200 kall kan det ikke sendes, uansett nettleser (NFR-8)
 **Og** døgnet er kalenderdøgnet i Europe/Oslo, så tellingen begynner på nytt kl. 00.00, også på dagene med overgang til sommertid eller vintertid
 
-**Gitt** modellen `KiForbruk(dato, antall)` med unik `dato`, i `tjenester/models.py`, så `tjenester/` ikke importerer `turforslag/` (AR-2)
+**Gitt** modellen `KiForbruk(dato, antall)` med unik `dato`, som er den første modellen i `tjenester/`
+**Når** den lages
+**Så** blir `tjenester` her en Django-app med `apps.py`, står i `INSTALLED_APPS` og har egne migreringer, og modellen ligger i `tjenester/models.py` (AR-6)
+**Og** `tjenester/` importerer aldri `turforslag/`, og en test sjekker det (AR-2)
+**Og** migreringen virker på både SQLite og Postgres (AR-6)
+
+**Gitt** `KiForbruk`
 **Når** et kall telles
 **Så** hentes eller lages døgnets rad med `get_or_create` og økes med `F("antall") + 1` i én transaksjon, så to kall gir antall 2 og bare én rad, også når raden ikke fantes fra før (AD-10 punkt 9)
-**Og** migreringen virker på både SQLite og Postgres (AR-6)
 
 **Gitt** at grensene tillater kallet
 **Når** `tjenester/ki/` sender det
@@ -1479,7 +1524,7 @@ slik at jeg forstår hvorfor turen passer, og ser at KI har skrevet den.
 **Når** jeg laster siden på nytt, ser turen igjen etter «Start fra første forslag igjen» eller får fragmentet fra `forbedring.js`
 **Så** brukes begrunnelsen og merket som er lagret i søketilstanden, og KI kalles ikke på nytt (AD-5, AD-10 punkt 3, FR-7)
 **Og** også en reservebegrunnelse etter et forkastet svar lagres, så ny innlasting ikke prøver igjen
-**Og** en søketilstand fra før denne storyen, uten lagrede begrunnelser, leses uten feil
+**Og** en søketilstand fra før denne storyen, uten lagrede begrunnelser, leses uten feil (NFR-2, AD-5)
 
 **Gitt** et turforslag fra historikken, eller status `INGEN_TREFF`, `BARE_OVER_NIVATAK` eller «alle vist»
 **Når** det vises
@@ -1491,7 +1536,7 @@ slik at jeg forstår hvorfor turen passer, og ser at KI har skrevet den.
 
 **Gitt** Forklaringspanelet
 **Når** det åpnes
-**Så** har det setning 1 og 2 fra `EXPERIENCE.md` › Component Patterns, og setning 3 er «KI skriver begrunnelsen, og den kan ta feil.» til fritekstfeltet finnes i story 4.6 (FR-12, PRD §7.1)
+**Så** har det setning 1 og 2 fra `EXPERIENCE.md` › Component Patterns, og setning 3 er «KI skriver begrunnelsen, og den kan ta feil.» til fritekstfeltet vises med story 4.7 (FR-12, PRD §7.1)
 **Og** teksten er [ASSUMPTION] i Mikrotekst, laget av setning 3 uten delen om å tolke ønsket, og står som foreløpig i PR-en til produkteier har godkjent den
 
 **Gitt** at `ANTHROPIC_API_KEY` mangler, lokalt eller i en forhåndsvisning på Vercel
@@ -1508,15 +1553,21 @@ slik at jeg forstår hvorfor turen passer, og ser at KI har skrevet den.
 **Så** står det i en manuell testplan i `docs/` hvor mange begrunnelser som fikk «✦ Skrevet med KI», hvor mange som ble forkastet og hvorfor (fra `logs/ki.log`), og om de godkjente nevner varigheten og turtypen
 **Og** kontrollen krever kontoen (åpent punkt). Storyen kan merges uten den, fordi alle andre kriterier testes med den falske varianten
 
-### Story 4.6 (P2): KI tolker fritekstønsket
+### Story 4.6 (P2): Ola kan skrive et fritekstønske
 
 Som Ola,
-vil jeg kunne skrive et ønske med egne ord, for eksempel «forbi et vann»,
-slik at forslaget passer det jeg har lyst på.
+vil jeg kunne skrive et ønske med egne ord i søket, for eksempel «forbi et vann»,
+slik at jeg kan si hva jeg har lyst på.
 
 **Akseptansekriterier:**
 
-**Gitt** Søk-skjermen
+**Gitt** innstillingen `FRITEKST_AKTIV` i `settings`
+**Når** storyen er levert
+**Så** er den `False`, så feltet ikke vises på Søk, og skjemaet på serveren ikke har feltet, til story 4.7 setter den til `True` (FR-4, PRD §7.1)
+**Og** med `False` er Søk og søket som før, og en manipulert POST med ønske gir ingen feil og lagrer ikke ønsket (NFR-2, NFR-8)
+**Og** testene i denne storyen slår feltet på med `override_settings`
+
+**Gitt** Søk-skjermen med feltet slått på
 **Når** den vises
 **Så** står Fritekstønske etter Startpunkt som `<textarea>` med etiketten «Fritekstønske (valgfritt)», plassholderen «For eksempel "rundt 5 km" eller "forbi et vann"» og hjelpeteksten «Jeg prøver å ta hensyn til ønsket ditt.» (FR-4, UX-DR9, UX-DR10)
 **Og** feltet har ikke `maxlength`, så inntastingen stopper ikke ved 200 tegn
@@ -1532,6 +1583,36 @@ slik at forslaget passer det jeg har lyst på.
 **Så** sendes det ikke, og feltet får feilen «Ønsket kan ha høyst 200 tegn. Nå har det {n}.» med «!», `aria-invalid="true"` og fokus, også uten JavaScript og i en manipulert POST (FR-4, UX-DR6, NFR-8)
 **Og** feilteksten er [ASSUMPTION] i Mikrotekst og står som foreløpig til produkteier har godkjent den
 **Og** serveren gjør `\r\n` om til `\n` og fjerner mellomrom først og sist før tellingen, så 200 tegn i nettleseren også er 200 tegn på serveren. Et ønske med bare mellomrom regnes som tomt
+
+**Gitt** et gyldig søk med ønske og feltet slått på
+**Når** søket sendes
+**Så** valideres ønsket, men denne storyen lagrer det ikke og bruker det ikke: rangeringen, begrunnelsen og Forklaringspanelet er som før, og ingen melding om ignorert ønske vises (FR-4)
+**Og** `Soketilstand` får ingen nye felt i denne storyen (AD-5)
+
+**Gitt** at FR-11 kuttes etter denne storyen (AR-22)
+**Når** story 4.7 ikke bygges
+**Så** er `FRITEKST_AKTIV` fortsatt `False`, fritekstfeltet vises ikke, og testene for story 4.1–4.5 består uendret (PRD §7.1)
+
+**Gitt** testene i `tests/web/`
+**Når** de kjøres
+**Så** dekker de feltet, grensen på 200 tegn (også `\r\n` og mellomrom), manipulert POST og at feltet er skjult med `False`. Testene viser til FR-4 (SM-2)
+
+### Story 4.7 (P2): KI tolker fritekstønsket
+
+Som Ola,
+vil jeg at forslaget tar hensyn til ønsket jeg har skrevet,
+slik at forslaget passer det jeg har lyst på.
+
+**Akseptansekriterier:**
+
+**Gitt** feltet fra story 4.6
+**Når** denne storyen er levert
+**Så** er `FRITEKST_AKTIV` `True`, så Fritekstønske vises på Søk (FR-4, FR-11)
+
+**Gitt** et gyldig søk med ønske
+**Når** det sendes
+**Så** lagres ønsket og tolkningen i søketilstanden via `turforslag/okt.py` (AD-5)
+**Og** en søketilstand fra før denne storyen, uten ønske og tolkning, leses uten feil, med standardverdier (tomt ønske, tom tolkning og ingen melding om ignorert ønske) (NFR-2, AD-5)
 
 **Gitt** et gyldig søk med ønske, nøkkel og minst ett treff, og grensen er ikke nådd
 **Når** søket sendes
@@ -1553,7 +1634,7 @@ slik at forslaget passer det jeg har lyst på.
 **Når** treffene rangeres
 **Så** får `velg_turer` bare det nye nøkkelordargumentet `onsket_tur_ider` (standard tomt sett), og turer som passer ønsket, kommer etter punkt 1 og før punkt 3 til 6 (FR-5 punkt 2)
 **Og** tolkningen fryses med rangeringen i søketilstanden, så ny innlasting og «Nytt forslag» ikke sender kall A på nytt (AD-5)
-**Og** en test viser at en grønn tur som passer «helst en lett tur», kommer foran en blå tur ved nivåheving, og testene fra story 1.8, 3.2 og 3.5 består uendret
+**Og** en test viser at en grønn tur som passer «helst en lett tur», kommer foran en blå tur ved nivåheving, og testene fra story 1.8 og 3.2 (og 3.5 hvis den er levert) består uendret
 
 **Gitt** et ønske, og kall A er forkastet, tidsavbrutt, har feilet eller er stoppet av grensen, eller nøkkelen mangler
 **Når** turforslaget vises
@@ -1564,7 +1645,7 @@ slik at forslaget passer det jeg har lyst på.
 **Gitt** et godkjent svar på kall A
 **Når** kall B sendes for en vist tur
 **Så** får KI også ønsket og om turen er blant turene som passer det, og prompten ber KI nevne ønsket uten å påstå at turen passer når den ikke gjør det (FR-12)
-**Og** forkastes kall B, brukes reservemalen for den turen, uten meldingen om ignorert ønske, fordi ønsket er brukt i rangeringen (FR-13)
+**Og** forkastes bare kall B, brukes reservemalen for den turen, og ingen melding om ignorert ønske vises, fordi ønsket alt er brukt i rangeringen (FR-13, som får en presisering om dette i PRD v1.12)
 **Og** en test viser at en KI-tekst som gjentar «rundt 5 km» fra ønsket, forkastes på grunn av sifferet
 
 **Gitt** «Endre søk»
@@ -1572,27 +1653,27 @@ slik at forslaget passer det jeg har lyst på.
 **Så** står ønsket i feltet, og et endringsforslag som «Prøv 3 timer» beholder ønsket og sender et nytt kall A (UX-DR10, story 1.12)
 
 **Gitt** Forklaringspanelet
-**Når** fritekstfeltet finnes
-**Så** er setning 3 «KI tolker ønsket ditt og skriver begrunnelsen, og den kan ta feil.» fra `EXPERIENCE.md` › Component Patterns (FR-12, UX-DR19)
+**Når** fritekstfeltet vises
+**Så** er setning 3 hele setningen «KI tolker ønsket ditt og skriver begrunnelsen, og den kan ta feil.» fra `EXPERIENCE.md` › Component Patterns (FR-12, UX-DR19)
 
 **Gitt** at FR-11 kuttes (AR-22)
 **Når** storyen tas ut
-**Så** finnes verken fritekstfeltet, punkt 2 i rangeringen eller kall A, meldingen om ignorert ønske vises aldri, og Forklaringspanelet beholder setning 3 fra story 4.5. Testene for story 4.1–4.5 består uendret (PRD §7.1)
+**Så** er `FRITEKST_AKTIV` `False`, så fritekstfeltet vises ikke, punkt 2 i rangeringen og kall A finnes ikke, meldingen om ignorert ønske vises aldri, og Forklaringspanelet beholder setning 3 fra story 4.5. Testene for story 4.1–4.5, og 4.6 hvis den er levert, består uendret (PRD §7.1)
 
 **Gitt** testene
 **Når** de kjøres med den falske varianten
-**Så** dekker `tests/domene/` valideringen av kall A og punkt 2, og `tests/web/` dekker feltet, grensen på 200 tegn, godkjent og forkastet kall A, nådd grense og meldingen. Testene viser til FR-4, FR-5, FR-11 og FR-13 (SM-2)
+**Så** dekker `tests/domene/` valideringen av kall A og punkt 2, og `tests/web/` dekker lagringen av ønsket, eldre søketilstand, godkjent og forkastet kall A, forkastet kall B uten melding, nådd grense og meldingen. Testene viser til FR-5, FR-11 og FR-13 (SM-2)
 
 **Gitt** at Anthropic-kontoen er registrert, og nøkkelen er lagt inn
 **Når** Hannah prøver minst 10 ønsker, blant dem «rundt 5 km», «forbi et vann», «helst en lett tur» og et forsøk på å gi KI instruksjoner
-**Så** står det i den manuelle testplanen i `docs/` hvilke turer KI valgte, hvilke svar som ble forkastet og hvorfor, og om begrunnelsen nevnte ønsket
+**Så** står det i den manuelle testplanen i `docs/` fra story 4.5 hvilke turer KI valgte, hvilke svar som ble forkastet og hvorfor, og om begrunnelsen nevnte ønsket (FR-12)
 **Og** kontrollen krever kontoen (åpent punkt). Storyen kan merges uten den
 
 ## Epic 5: Ola får bekledningstips ut fra været
 
 Turforslaget viser tips for startpunktet kl. 10–16 på valgt dato, også for turforslag fra historikken (for i dag), og forklarer hvorfor når varselet mangler. Hele epicen er P2 og er punkt 5 i kuttlista (AR-22).
 
-### Story 5.1: Bekledningstipsene lages etter faste regler
+### Story 5.1 (P2): Bekledningstipsene lages etter faste regler
 
 Som Ola,
 vil jeg at bekledningstipsene alltid lages likt fra værvarselet,
@@ -1643,7 +1724,7 @@ slik at jeg kan stole på rådene og vet hva jeg skal ta med.
 **Når** de kjøres
 **Så** bruker de ikke databasen, nett eller klokke, og hver test viser til FR-9 eller FR-10 (AR-15, NFR-6)
 
-### Story 5.2: Værvarselet hentes fra MET via en buffer
+### Story 5.2 (P2): Værvarselet hentes fra MET via en buffer
 
 Som Hannah, som bygger appen,
 vil jeg at all kontakt med MET går gjennom én bufrende tjeneste,
@@ -1669,7 +1750,7 @@ slik at appen følger MET-vilkårene, og et MET-avbrudd aldri stopper turforslag
 **Gitt** modellen `Vaerbuffer`
 **Når** migreringen kjøres
 **Så** har den avrundet `lat` og `lon` (`DecimalField` med 4 desimaler), `hoyde_m`, hele tidsserien som timeverdier i `JSONField`, `expires`, `last_modified` og tidspunktet for siste feil, med unik nøkkel på `lat`, `lon` og `hoyde_m` (AD-4, AD-9)
-**Og** modellen ligger i `tjenester/` som egen Django-app, så `tjenester/` ikke importerer `turforslag/` (AR-2)
+**Og** `Vaerbuffer` legges til i den samme appen `tjenester` fra story 4.4 (AR-2)
 **Og** migreringen virker på både SQLite og Postgres, og storyen lager ingen andre tabeller (AR-6)
 
 **Gitt** en rad der `expires` er frem i tid
@@ -1718,7 +1799,7 @@ slik at appen følger MET-vilkårene, og et MET-avbrudd aldri stopper turforslag
 **Så** bruker de lagrede svar i `tests/fixtures/met/` (200 med timeverdier, 200 med bare 6-timersverdier, 304, 429, 500 og ugyldig JSON) og en falsk HTTP-transport som teller kallene, uten nettverkskall (AD-13, AR-15)
 **Og** de dekker avrunding, User-Agent, buffer, `If-Modified-Since`, ventetid etter feil og samtidig skriving og viser til FR-9 og FR-10 (SM-2)
 
-### Story 5.3: Ola ser bekledningstips på turforslaget
+### Story 5.3 (P2): Ola ser bekledningstips på turforslaget
 
 Som Ola,
 vil jeg se hva jeg bør ta med ut fra været der turen starter,
@@ -1785,7 +1866,7 @@ slik at jeg er kledd for turen.
 **Gitt** at FR-9 og FR-10 kuttes, eller at Epic 5 ikke bygges (AR-22)
 **Når** turforslaget vises
 **Så** finnes verken seksjonen, meldingene uten værvarsel eller MET-kall, og det blir ikke tomrom (PRD §7.1, UX-DR20)
-**Og** krediteringen fra story 1.10 står uendret, og testene fra Epic 1–4 består uendret
+**Og** krediteringen fra story 1.10 står uendret, og testene for de leverte storyene i Epic 1–4 består uendret
 
 **Gitt** testene i `tests/web/`
 **Når** de kjøres
@@ -1794,7 +1875,7 @@ slik at jeg er kledd for turen.
 
 ## Epic 6: Rikere turforslag og klar for sensor
 
-Turillustrasjon, tur 16–30, mørk modus og fremgang mot neste nivå. Til slutt måling av kartfarger mot ekte fliser, brukertest (SM-1), UU- og mobiltest (SM-4) og README testet i et rent miljø.
+Turillustrasjon, tur 16–30, mørk modus og fremgang mot neste nivå (P2). Story 6.5–6.8 er P1 og kuttes aldri: måling av kartfarger mot ekte fliser (bygges rett etter story 1.10), og til slutt brukertest (SM-1), UU- og mobiltest (SM-4) og README testet i et rent miljø (se Byggerekkefølge).
 
 ### Story 6.1 (P2): Turforslaget viser en turillustrasjon
 
@@ -1975,7 +2056,7 @@ slik at jeg forstår hvordan vurderingene mine styrer forslagene.
 
 **Gitt** `NivaStatus` fra story 3.1
 **Når** fremgangen avgjøres
-**Så** gjør en ren funksjon i `domene.niva` det ut fra `grunnniva`, `sperre`, `teller` og `antall_hevinger` i `NivaStatus` og brukerens `brukt_heving`, uten database, nettverk eller klokke (FR-17.1, AR-2, AR-13)
+**Så** gjør en ren funksjon i `domene.niva` det ut fra `grunnniva`, `sperre`, `teller` og `antall_hevinger` i `NivaStatus` og brukerens `brukt_heving`, uten database, nettverk eller klokke (FR-17.1, AR-2, AR-13, AD-11)
 **Og** `NivaStatus` trenger ingen nye felt. Antallet lette turer som gir heving (3), ligger i én konstant i `domene.niva`, som også `vurder_historikk` bruker
 **Og** funksjonen gir én av tre verdier: underveis, målet nådd eller ingen linje
 
@@ -1992,7 +2073,7 @@ slik at jeg forstår hvordan vurderingene mine styrer forslagene.
 
 **Gitt** en aktiv sperre, grunnnivå svart, telleren 0 uten ubrukt heving, eller `antall_hevinger` mindre enn `brukt_heving` etter en registrering med tidligere dato
 **Når** Historikk vises
-**Så** står ingen fremgangslinje og ingen tom plass, fordi ingen av tekstene stemmer da (FR-19)
+**Så** står ingen fremgangslinje og ingen tom plass, fordi ingen av tekstene stemmer da (FR-19, AD-11)
 **Og** tom historikk viser Tilstandspanel som før, uten linje
 
 **Gitt** fremgangslinjen
@@ -2051,9 +2132,7 @@ slik at jeg kan følge ruten på kartet.
 **Og** ny `map-route` er fortsatt plommelilla, verken rød, oransje eller blå, og har minst 3:1 mot alle flatene og den hvite kanten. Ny `map-marker-start` har i tillegg minst 4,5:1 mot den hvite «S»-en
 **Og** produkteier har godkjent endringen i PR-en, og PR-en har skjermbilder av ruten i skog, myr, vann og bebyggelse før og etter
 
-**Gitt** mørk modus (hvis story 6.3 er levert)
-**Når** kartet vises
-**Så** gjelder de samme målingene, fordi flisene og kartlaget er like i begge moduser (DESIGN.md › Kartlag)
+**Merknad:** Målingene gjelder også i mørk modus (story 6.3, som bygges senere), fordi flisene og kartlaget er like i begge moduser. Story 6.3 trenger derfor ingen ny måling (DESIGN.md › Kartlag).
 
 **Gitt** `EXPERIENCE.md` › Åpne punkter
 **Når** målingen er dokumentert
@@ -2193,6 +2272,16 @@ slik at jeg kan vurdere appen og prosessen uten avvik.
 **Gitt** planleggingsdokumentene
 **Når** de sammenlignes med koden
 **Så** er hvert kutt ført i PRD §9 og endringsloggen, kuttede stories er merket i `epics.md`, og avvik fra planen er forklart (AR-22)
+
+**Gitt** commitene på `main` og PR-ene
+**Når** de kontrolleres
+**Så** viser commit-meldingene og PR-beskrivelsene til FR- og NFR-ID-ene de gjelder, og kontrollen står i `docs/` med eksempler (NFR-6)
+**Og** en commit eller PR uten ID er listet med en kort begrunnelse, for eksempel en ren endring i dokumentasjonen
+
+**Gitt** den publiserte siden
+**Når** kjerneflyten testes
+**Så** virker den i de to nyeste versjonene av Chrome, Edge, Firefox og Safari, også på mobil, uten polyfills (AR-16)
+**Og** nettleserne og enhetene med versjon og resultatet står i `docs/`
 
 **Gitt** den siste endringen før innlevering
 **Når** den er merget til `main`
