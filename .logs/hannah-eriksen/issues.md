@@ -23,7 +23,7 @@
 - [x] 2026-11-07 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — vurder FR-8-ordlyden «låse opp lengre turer» mot SM-C1 og nivåheving på høydemeter (løst 2026-11-07 — valg C, se [issues-opprydding](994-2026-11-07-15-14-03-issues-opprydding.md))
 - [ ] 2026-11-07 [issues-opprydding](994-2026-11-07-15-14-03-issues-opprydding.md) — Excalidraw-rettelsen i `.claude/skills/bmad-ux/` kan overskrives ved BMAD-reinstallasjon/-oppdatering
 - [ ] 2026-11-08 [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md) — registrer Anthropic-konto og sjekk startkreditten; mangler den, bytt til Gemini Flash-Lite via ny KI-variant
-- [ ] 2026-11-08 [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md) — neste BMAD-steg: bmad-spec eller bmad-create-epics-and-stories
+- [x] 2026-11-08 [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md) — neste BMAD-steg: bmad-spec eller bmad-create-epics-and-stories (løst 2026-11-15 — bmad-create-epics-and-stories startet, se [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md))
 - [ ] 2026-11-08 [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md) — avgjør format på kurateringslista og testbrukerfila i første turdatabase-story
 - [ ] 2026-11-08 [readme-forste-del](992-2026-11-08-11-15-46-readme-forste-del.md) — fyll ut «Installasjon og kjøring» i README når koden finnes (AD-12 punkt 6), og oppdater status og mappestruktur
 - [ ] 2026-11-08 [readme-forste-del](992-2026-11-08-11-15-46-readme-forste-del.md) — test README i et rent miljø før innlevering (under 20 minutter, NFR-1)
@@ -38,3 +38,6 @@
 - [x] 2026-11-15 [verifiser-technology](989-2026-11-15-13-18-36-verifiser-technology.md) — presiser opprettelsen av døgnets `KiForbruk`-rad i storyen for KI-grensen (H-4) (løst 2026-11-15)
 - [x] 2026-11-15 [verifiser-technology](989-2026-11-15-13-18-36-verifiser-technology.md) — avgjør oppførsel når `.env` mangler, i storyen for oppsett (H-5) (løst 2026-11-15)
 - [ ] 2026-11-15 [verifiser-technology](989-2026-11-15-13-18-36-verifiser-technology.md) — sjekk i kartstoryen at Leaflet virker med CSP-en fra spinen, og utvid den med begrunnelse hvis det trengs
+- [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — opprett Vercel-prosjektet (Hobby) og koble til Neon fra Vercel Marketplace i Frankfurt, med forhåndsvisningsgrener (AD-15)
+- [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — sjekk at forhåndsvisningene på Vercel har innloggingsvern, fordi Neon-grenene er kopier av produksjonsdataene (AD-15 punkt 3)
+- [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — fortsett bmad-create-epics-and-stories fra steg 1 ([C]) på planlegging/epics-og-stories etter at publiseringsendringene er merget

@@ -2,25 +2,25 @@
 
 Dette dokumentet forklarer hvordan *Your Next Adventure* er bygget opp, og hvorfor. Det er skrevet for sensor og andre lesere som vil forstå løsningen uten å lese koden.
 
-Den bindende arkitekturen står i [ARCHITECTURE-SPINE.md](../_bmad-output/planning-artifacts/architecture/architecture-G81-eriksen-2026-11-07/ARCHITECTURE-SPINE.md). Der er hver beslutning nummerert (AD-1 til AD-14). Begrunnelsene og alternativene som ble vurdert, står i [beslutningsloggen](../_bmad-output/planning-artifacts/architecture/architecture-G81-eriksen-2026-11-07/.memlog.md). Kravene står i [PRD-en](../_bmad-output/planning-artifacts/prds/prd-G81-eriksen-2026-10-29/prd.md), og designet i [EXPERIENCE.md](../_bmad-output/planning-artifacts/ux-designs/ux-G81-eriksen-2026-11-06/EXPERIENCE.md).
+Den bindende arkitekturen står i [ARCHITECTURE-SPINE.md](../_bmad-output/planning-artifacts/architecture/architecture-G81-eriksen-2026-11-07/ARCHITECTURE-SPINE.md). Der er hver beslutning nummerert (AD-1 til AD-15). Begrunnelsene og alternativene som ble vurdert, står i [beslutningsloggen](../_bmad-output/planning-artifacts/architecture/architecture-G81-eriksen-2026-11-07/.memlog.md). Kravene står i [PRD-en](../_bmad-output/planning-artifacts/prds/prd-G81-eriksen-2026-10-29/prd.md), og designet i [EXPERIENCE.md](../_bmad-output/planning-artifacts/ux-designs/ux-G81-eriksen-2026-11-06/EXPERIENCE.md).
 
 ## Utgangspunktet
 
 Tre forhold styrte valgene mer enn noe annet:
 
-1. **Sensor skal kunne kjøre appen lokalt på under 20 minutter, uten nøkler** (tilgangskoder til eksterne tjenester, NFR-1). Derfor er det ingen databaseserver, ingen Node, ingen Docker og ingen tjenester som krever innlogging for at kjerneflyten skal virke.
+1. **Sensor skal kunne kjøre appen lokalt på under 20 minutter, uten nøkler** (tilgangskoder til eksterne tjenester, NFR-1). Derfor trenger lokal kjøring ingen databaseserver, ingen Node, ingen Docker og ingen tjenester som krever innlogging for at kjerneflyten skal virke. Publiseringen på Vercel (NFR-10) kommer i tillegg og endrer ikke dette.
 2. **Én utvikler uten programmeringserfaring bygger appen med hjelp av KI.** Derfor er det ett språk (Python), én prosess, ett kjent rammeverk og få verktøy. Arkitekturreglene er skrevet slik at to KI-økter som bygger hver sin del, lager deler som passer sammen.
 3. **Personaliseringen skal være faste regler som kan testes** (FR-5, FR-18–20, SM-2). Derfor ligger alle reglene på ett sted, uten kobling til nettsiden eller databasen.
 
 ## Oversikt
 
-Appen er én Django-nettside som kjører lokalt på maskinen. Nettleseren får ferdige HTML-sider fra serveren. Bare kartet og noen små forbedringer bruker JavaScript.
+Appen er én Django-nettside. Den publiseres på Vercel, og den kan også kjøres lokalt på maskinen etter README. Nettleseren får ferdige HTML-sider fra serveren. Bare kartet og noen små forbedringer bruker JavaScript.
 
 ```mermaid
 flowchart LR
-    bruker["Nettleser"] -->|"HTML-sider, skjema"| app["Django-app (lokal)"]
+    bruker["Nettleser"] -->|"HTML-sider, skjema"| app["Django-app (lokalt eller på Vercel)"]
     bruker -->|"kartfliser"| kv["Kartverket topo"]
-    app --> db[("SQLite")]
+    app --> db[("SQLite lokalt / Neon Postgres på Vercel")]
     app -->|"via mellomlager"| met["MET (værvarsel)"]
     app -->|"valgfritt, med nøkkel"| ki["Anthropic (KI)"]
 ```
@@ -120,7 +120,19 @@ Testbrukeren har en oppdiktet historikk som viser nivåheving, sperre og turtype
 - Innloggingen varer i to uker. Brukeren blir ikke logget ut midt i en utfylling (AD-6, NFR-4, WCAG 2.2.1).
 - Nettleseren får bare kjøre JavaScript fra appen selv og bare hente kartbilder fra Kartverket. Det styres av en Content-Security-Policy, og et innsmuglet skript i en tekst blir derfor ikke kjørt (konvensjon Content-Security-Policy i spinen, NFR-8).
 - Nøkler ligger i `.env`, som aldri legges i git. Det gjør heller ikke databasen eller loggene. `.env.example` virker uten endring. Har sensor glemt å kopiere den til `.env`, sier appen det på norsk (AD-12, NFR-1).
-- Før appen eventuelt publiseres på internett, må det på plass en grense for innloggingsforsøk og en sperre mot utviklingsnøkkelen, og testbrukeren må fjernes (spinen › Deferred).
+- Etter 5 mislykkede innlogginger med samme e-post på 15 minutter avviser appen nye forsøk med den e-posten en stund. Meldingen sier ikke om e-posten har en konto (AD-7, NFR-8).
+
+## Publisering på Vercel
+
+Faglærer krever at appen er publisert på Vercel for å bli vurdert (NFR-10). Lokal kjøring etter README virker likevel som før (NFR-1).
+
+- **Database:** Vercel kjører appen uten varig disk, så en SQLite-fil ville mistet alle kontoer og all historikk. Den publiserte appen bruker derfor Postgres hos Neon, koblet til fra Vercel. Lokalt brukes fortsatt SQLite. Det går fordi appen bare bruker Djangos ORM og aldri rå SQL (AD-4).
+- **Publisering:** Hver endring i `main` publiseres automatisk. Under byggingen kjøres migreringene og `lastinn`, så testbrukeren lages på nytt hver gang (FR-21).
+- **Forhåndsvisning:** Hver pull request får en egen adresse og en egen kopi av databasen, så en PR kan testes uten å endre den publiserte siden.
+- **Sikkerhet:** På Vercel er feilsider med detaljer alltid slått av, og appen starter ikke med utviklingsnøkkelen. Nøklene ligger bare hos Vercel. KI-nøkkelen finnes bare i produksjon, så forhåndsvisningene bruker malen.
+- **Personvern:** Appen og databasen kjører i Frankfurt, så personopplysningene lagres i EU. KI-loggen går til kjøreloggen hos Vercel, som slettes etter 1 time (NFR-5).
+
+Detaljene står i AD-15 i spinen.
 
 ## Testing
 
@@ -131,7 +143,8 @@ Alle tester kjøres med `python manage.py test` (AD-13) og trenger verken intern
 | Valg | Hvorfor | Forkastet |
 | --- | --- | --- |
 | **Django, én nettside der serveren lager alle sidene** (AD-1) | Ett språk og én prosess. Innlogging, skjemaer, database og sikkerhet følger med, så utvikleren skriver mindre sikkerhetskode selv | React-frontend med eget API (to språk, Node for sensor), Flask (mer må settes sammen selv), Next.js (ikke Python) |
-| **SQLite** (AD-4) | Én fil, følger med Python, krever ingen installasjon | PostgreSQL (databaseserver for sensor) |
+| **SQLite lokalt, Postgres (Neon) på Vercel** (AD-4, AD-15) | Lokalt: én fil som følger med Python og ikke krever installasjon. På Vercel: varig lagring, som SQLite ikke kan gi der. Samme kode for begge | PostgreSQL også lokalt (databaseserver for sensor), SQLite på Vercel (data forsvinner) |
+| **Vercel og Neon for publisering** (AD-15) | Den eneste publiseringsløsningen emnet tilbyr. Neon kobles til fra Vercel og gir hver PR sin egen database | Railway, Supabase og andre tjenester (ingen støtte i emnet) |
 | **Turdatabase bygget på forhånd** (AD-3) | Ingen avhengighet til Kartverket når appen kjører, og like verdier hver gang | Henting av turdata mens appen kjører (utenfor omfanget i PRD-en) |
 | **Kartverket topo + Leaflet** (AD-8) | Norske turkart med stier, ingen nøkkel, åpen lisens. Leaflet ligger i repoet, så ingen CDN eller npm | OpenStreetMap-fliser (bruksvilkår og mindre turdetalj) |
 | **MET via eget mellomlager** (AD-9) | MET krever at nettlesere ikke kaller API-et direkte, at svar mellomlagres og at appen identifiserer seg | Kall direkte fra nettleseren (brudd på vilkårene) |
@@ -151,8 +164,9 @@ Alle tester kjøres med `python manage.py test` (AD-13) og trenger verken intern
 | python-dotenv | 1.2.4 |
 | pyproj (bare byggeskriptet) | 3.8.0 |
 | Ruff (kodestil) | 0.17.4 |
+| psycopg[binary] (bare på Vercel) | 3.3.9 |
 
-Eksterne tjenester: Kartverket topo (kartfliser), Kartverkets høyde-API (bare byggeskriptet), MET Locationforecast 2.0 og Anthropic API.
+Eksterne tjenester: Kartverket topo (kartfliser), Kartverkets høyde-API (bare byggeskriptet), MET Locationforecast 2.0 og Anthropic API. For publisering: Vercel og Neon.
 
 Versjonene ble sjekket mot PyPI, npm og leverandørenes dokumentasjon 2026-11-08.
 
@@ -173,6 +187,6 @@ G81-eriksen/
 
 ## Hva som ikke er med i v1
 
-- Appen publiseres ikke på internett. Den kjøres lokalt etter README.
 - E-post og tilbakestilling av passord er ikke med.
+- Appen har ikke eget domene, bare adressen fra Vercel.
 - Turer utenfor Oslo og Bærum er ikke med.

@@ -2,7 +2,7 @@
 title: "PRD: Your Next Adventure"
 status: final
 created: 2026-10-29
-updated: 2026-11-12
+updated: 2026-11-15
 ---
 
 # PRD: Your Next Adventure
@@ -376,7 +376,8 @@ Systemet leveres med en testbruker med oppdiktet historikk. Testbrukeren viser n
   - Systemet samler inn så lite data som mulig. Det lagrer bare e-post, passord som hash, historikk og vurderinger.
   - Systemet sporer ikke posisjon.
   - Ingen personopplysninger sendes til KI-leverandøren. KI får bare søket og turene som kan foreslås.
-  - **Logg over forkastede KI-svar (FR-13):** Loggen har tidspunkt, kalltype (tolking eller begrunnelse), årsak og KI-svaret. Den har aldri fritekstønsket, e-post eller bruker-ID. KI-svaret kan sitere ønsket, men kan ikke knyttes til en person. Loggen ligger bare lokalt, aldri i git, og linjer eldre enn 30 dager slettes.
+  - **Logg over forkastede KI-svar (FR-13):** Loggen har tidspunkt, kalltype (tolking eller begrunnelse), årsak og KI-svaret. Den har aldri fritekstønsket, e-post eller bruker-ID. KI-svaret kan sitere ønsket, men kan ikke knyttes til en person. Lokalt ligger loggen i en fil som aldri legges i git, og linjer eldre enn 30 dager slettes. På den publiserte siden (NFR-10) går loggen til kjøreloggen hos Vercel, som slettes etter 1 time. Kvalitetssikringen av KI-svar gjøres derfor lokalt.
+  - På den publiserte siden lagres dataene i en database i EU (NFR-10).
   - Skjermen Konto viser en kort personverntekst i jeg-form om punktene over. Ordlyden står i `EXPERIENCE.md` › Mikrotekst og er foreløpig (§10).
 - **NFR-6 Sporbarhet:** Kode, tester, stories, commits og PR-er viser til FR- og NFR-ID-ene i denne PRD-en.
 - **NFR-7 Kreditering:** Appen viser kreditering slik lisensene krever, minst «© Kartverket», «© OpenStreetMap contributors» med lenke og «Data fra MET Norge» (MET anbefaler «Data from MET Norway»).
@@ -385,11 +386,18 @@ Systemet leveres med en testbruker med oppdiktet historikk. Testbrukeren viser n
   - All input valideres på serveren.
   - Fritekstønsket behandles som data og ikke som instruksjoner (FR-11). KI-svar valideres alltid (FR-13).
   - **Grense for KI-kall:** Systemet gjør maks 20 KI-kall per nettleser de siste 60 minuttene og maks 200 KI-kall totalt per kalenderdøgn. Et kall teller når det sendes, også om svaret forkastes. Over en grense brukes reserveløsningen (FR-13) med de vanlige meldingene, uten egen feilmelding. Grensen begrenser også kostnaden.
+  - **Grense for innloggingsforsøk:** Etter 5 mislykkede innlogginger med samme e-post i løpet av 15 minutter avvises nye forsøk med den e-posten til perioden er over. Meldingen ber brukeren prøve igjen senere og sier ikke om e-posten har en konto.
 - **NFR-9 Mørk modus (P2, §7.1):** Siden følger innstillingen for lys eller mørk modus på enheten. Det finnes ingen egen bryter.
+- **NFR-10 Publisering:**
+  - Appen publiseres på Vercel, den eneste publiseringsløsningen emnet tilbyr. Hver endring i `main` publiseres automatisk, og adressen står i README.
+  - Den publiserte siden har hele kjerneflyten, også testbrukeren (FR-21) og KI innenfor grensen i NFR-8. Testbrukeren lages på nytt ved hver publisering, så endringer andre har gjort i den, forsvinner.
+  - Hver pull request får en forhåndsvisning med egen database, så den ikke endrer data på den publiserte siden.
+  - Nøkler og hemmeligheter ligger bare i miljøvariablene hos Vercel, aldri i repoet.
+  - Lokal kjøring etter README (NFR-1) er fortsatt et krav, fordi sensor kjører appen selv.
 
 ## 6. Plattform, skjermer og tone
 
-Nettside på norsk. Den lages for PC først, med en enkel, stablet mobilutgave i v1. NFR-3 gjelder fullt ut, og mørk modus står i NFR-9. V1 har ingen mobilapp.
+Nettside på norsk. Den lages for PC først, med en enkel, stablet mobilutgave i v1. NFR-3 gjelder fullt ut, og mørk modus står i NFR-9. Siden publiseres på Vercel (NFR-10) og kan også kjøres lokalt (NFR-1). V1 har ingen mobilapp.
 
 **Skjermer:**
 - Søk
@@ -420,10 +428,10 @@ Nettside på norsk. Den lages for PC først, med en enkel, stablet mobilutgave i
 
 ### 7.1 Med i v1
 
-Alle funksjonene i §4 (FR-1 til FR-21 og FR-17.1) og alle NFR-ene i §5 (NFR-1 til NFR-9).
+Alle funksjonene i §4 (FR-1 til FR-21 og FR-17.1) og alle NFR-ene i §5 (NFR-1 til NFR-10).
 
 **Prioritering:**
-- **P1, må leveres:** FR-1 til FR-8 (FR-1 med 15 turer og FR-6 uten turillustrasjon), FR-12 og FR-13 (begrunnelse skrevet av KI og begrunnelse fra mal som reserveløsning, KI-merke og forklaringspanel), FR-14 til FR-19 (uten FR-17.1), FR-21 og NFR-1 til NFR-8.
+- **P1, må leveres:** FR-1 til FR-8 (FR-1 med 15 turer og FR-6 uten turillustrasjon), FR-12 og FR-13 (begrunnelse skrevet av KI og begrunnelse fra mal som reserveløsning, KI-merke og forklaringspanel), FR-14 til FR-19 (uten FR-17.1), FR-21, NFR-1 til NFR-8 og NFR-10.
 - **P2, kuttes først hvis tiden ikke strekker til**, i denne rekkefølgen:
   1. FR-17.1 (fremgang mot neste nivå)
   2. NFR-9 (mørk modus)
@@ -509,6 +517,7 @@ Alle funksjonene i §4 (FR-1 til FR-21 og FR-17.1) og alle NFR-ene i §5 (NFR-1 
 | Bare norsk i v1, ikke norsk og engelsk | Mindre omfang |
 | Steget «lagre» er erstattet med «registrere gjennomført tur» | Lagring av planlagte turer gir lite verdi ved spontan bruk |
 | Brukertestmålet er 75 % i stedet for «4 av 5» | Fungerer med 3–5 testere |
+| Appen publiseres på Vercel (NFR-10), i tillegg til lokal kjøring | Faglærer krever 2026-11-15 at appen er publisert på Vercel for å bli vurdert. Briefen og PRD-en til v1.9 hadde bare lokal kjøring |
 
 **Sporing fra briefens suksesskriterier:**
 
@@ -556,3 +565,4 @@ Antakelsene og standardverdiene i kravene, endringene i v1.1 og rettingene etter
 | 1.7 | 2026-11-12 | Etter tilbakemeldingen på PRD-en (4.4): P2-deler som P1-krav og brukerreiser bygger på, er merket «P2» i UJ-1, UJ-2, FR-4, FR-5, FR-6, FR-17 og §6. «Følger av kutt» i §7.1 har én linje per P2-krav (FR-11, FR-9 og FR-10, FR-20, FR-17.1 og NFR-9) |
 | 1.8 | 2026-11-12 | Etter tilbakemeldingen på PRD-en (4.5): meldinger er beskrevet med budskap, og den ferdige teksten står bare i `EXPERIENCE.md` › Mikrotekst. Ny regel i §0 om hva som fortsatt står ordrett. Berørt: §0, UJ-1, FR-6, FR-7, FR-8, FR-13, FR-14 og FR-17 |
 | 1.9 | 2026-11-12 | Etter de mekaniske funnene i tilbakemeldingen på PRD-en (§5): UJ-2 viser til FR-16, FR-17 og FR-17.1 (P2) med ID og sier at testbrukeren (FR-21) viser den samme hevingen. §10 sier at krav uten merknad er besluttet, og at bare punktene i tabellen er åpne |
+| 1.10 | 2026-11-15 | Faglærer krever at appen publiseres på Vercel for å bli vurdert. Nytt NFR-10 Publisering (P1): publisering fra `main`, adressen i README, testbruker som lages på nytt ved hver publisering, KI innenfor NFR-8 og forhåndsvisning med egen database per PR. NFR-1 står uendret. NFR-5: data i EU, og KI-loggen på Vercel slettes etter 1 time. NFR-8: ny grense for innloggingsforsøk. Berørt: §6, §7.1 og §9. Valgt av produkteier 2026-11-15. Arkitekturen er oppdatert samme dag (AD-4, AD-10, AD-12 og ny AD-15) |

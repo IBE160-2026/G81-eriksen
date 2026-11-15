@@ -2,7 +2,7 @@
 title: Your Next Adventure — EXPERIENCE
 status: final
 created: 2026-11-06
-updated: 2026-11-12
+updated: 2026-11-15
 name: Your Next Adventure
 description: Hvordan nettsiden virker — skjermer, tilstander, flyter, tilgjengelighet og tekster — for en rolig turkompis som gir nybegynnere ett turforslag om gangen i Oslo-området.
 sources:
@@ -150,6 +150,7 @@ Har en rad flere tekster med ulik kilde, står kilden per tekst.
 | Knapper i Logg inn / Lag konto | «Logg inn», «Lag konto og fortsett» | «Logg inn»: Godkjent (memlog). «Lag konto og fortsett»: [ASSUMPTION] |
 | Passordhjelp | «Minst 8 tegn», bryter «Vis passord» | «Minst 8 tegn»: Godkjent (wireframe). «Vis passord»: [ASSUMPTION] |
 | Feil innlogging | «Feil e-post eller passord» | PRD-budskap (FR-14) |
+| For mange innloggingsforsøk | «Det har vært for mange forsøk på å logge inn med denne e-postadressen. Vent 15 minutter, og prøv igjen.» | [ASSUMPTION]. Budskapet står i PRD NFR-8 |
 | E-posten finnes fra før | «Kunne ikke lage konto – prøv å logge inn» | PRD-budskap (FR-14) |
 | Feil i kontofelt | «Skriv inn e-postadressen din», «E-postadressen må ha med @, for eksempel ola@eksempel.no», «Passordet må ha minst 8 tegn» | [ASSUMPTION] |
 | Innlogging utløpt | «Du er logget ut fordi det har gått lang tid. Logg inn igjen, så tar jeg vare på det du har fylt inn.» | [ASSUMPTION] |
@@ -294,6 +295,7 @@ Alle tilstandene fra PRD §6 er dekket. Hver tilstand viser enten et turforslag 
 | Gjest møter krav om konto (FR-14) | 4 | Turoppsummering og tekstene fra Mikrotekst («Krav om konto»). Etterpå går gjesten rett inn i registreringen av turen. |
 | Første visning | 4 | Visningen «Logg inn» med e-post, passord, primærknappen «Logg inn» og lenken «Lag konto». |
 | Feil innlogging | – | Melding (feil). Den sier ikke hvilket felt som er feil. |
+| For mange innloggingsforsøk (NFR-8) | – | Melding (feil) med teksten fra Mikrotekst. Den sier ikke om e-posten har en konto. Feltene beholdes, unntatt passordet. |
 | E-posten finnes fra før | – | Melding (feil) med PRD-teksten. |
 | Passord for kort | – | Feilmelding ved feltet. Hjelpeteksten «Minst 8 tegn» vises alltid. |
 | Innlogging utløpt (sider som krever konto) | – | Brukeren sendes til Logg inn og tilbake til samme side etterpå. Utfylte felt beholdes [ASSUMPTION]. |

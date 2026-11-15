@@ -4,11 +4,11 @@ type: architecture-spine
 purpose: build-substrate
 altitude: initiative
 paradigm: 'Lagdelt server-rendret monolitt (Django) med ren domenekjerne og adaptere for eksterne tjenester'
-scope: 'Your Next Adventure v1: hele systemet (nettside, turdatabase og byggeskript, KI, vær, konto, historikk og personalisering)'
+scope: 'Your Next Adventure v1: hele systemet (nettside, turdatabase og byggeskript, KI, vær, konto, historikk, personalisering og publisering på Vercel)'
 status: final
 created: '2026-11-07'
 updated: '2026-11-15'
-binds: [FR-1, FR-2, FR-3, FR-4, FR-5, FR-6, FR-7, FR-8, FR-9, FR-10, FR-11, FR-12, FR-13, FR-14, FR-15, FR-16, FR-17, FR-17.1, FR-18, FR-19, FR-20, FR-21, NFR-1, NFR-2, NFR-3, NFR-4, NFR-5, NFR-6, NFR-7, NFR-8, NFR-9]
+binds: [FR-1, FR-2, FR-3, FR-4, FR-5, FR-6, FR-7, FR-8, FR-9, FR-10, FR-11, FR-12, FR-13, FR-14, FR-15, FR-16, FR-17, FR-17.1, FR-18, FR-19, FR-20, FR-21, NFR-1, NFR-2, NFR-3, NFR-4, NFR-5, NFR-6, NFR-7, NFR-8, NFR-9, NFR-10]
 sources:
   - _bmad-output/planning-artifacts/prds/prd-G81-eriksen-2026-10-29/prd.md
   - _bmad-output/planning-artifacts/prds/prd-G81-eriksen-2026-10-29/addendum.md
@@ -91,11 +91,11 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
   5. Geometri og høydeprofil lagres i `JSONField`. Ingen GeoDjango eller SpatiaLite.
   6. Appen beregner aldri turnivå, høydemeter eller estimert tid på nytt.
 
-### AD-4 — SQLite og Djangos ORM er eneste lagring [ADOPTED]
+### AD-4 — Djangos ORM er eneste lagring: SQLite lokalt, Postgres på Vercel [ADOPTED]
 
 - **Binds:** all
-- **Prevents:** databaseserver som sensor må installere, og rå SQL eller databasespesifikke funksjoner.
-- **Rule:** All persistent tilstand (turer, brukere, registreringer, økter, værbuffer, KI-forbruk) ligger i én SQLite-fil via Django-modeller og migreringer. Ingen rå SQL. Databasefilen heter `db.sqlite3` (Djangos standard) og committes ikke.
+- **Prevents:** databaseserver som sensor må installere, at data går tapt på Vercel, som ikke har varig disk, og rå SQL eller databasespesifikke funksjoner som bare virker på én av databasene.
+- **Rule:** All persistent tilstand (turer, brukere, registreringer, økter, værbuffer, KI-forbruk, innloggingsforsøk) ligger i én database via Django-modeller og migreringer. Mangler `DATABASE_URL`, brukes SQLite i `db.sqlite3` (Djangos standard, committes ikke). Det gjelder lokal kjøring og alle tester. Finnes `DATABASE_URL`, brukes Postgres (Neon på Vercel, AD-15). Ingen rå SQL og ingen databasespesifikke felt eller funksjoner, så de samme modellene og migreringene virker på begge.
 
 ### AD-5 — Hvert søk har en søke-ID og lever i Django-økten [ADOPTED]
 
@@ -119,7 +119,7 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
 
 - **Binds:** FR-14, FR-15, NFR-5, NFR-8
 - **Prevents:** at brukermodellen må byttes etter første migrering, egenskrevet passordhåndtering, og at en bruker ser andres data.
-- **Rule:** `turforslag.Bruker` arver `AbstractUser` med `username=None`, `first_name`/`last_name` fjernet, `USERNAME_FIELD="email"` og egen manager; den finnes i første migrering. E-post lagres med små bokstaver. Feltet `brukt_heving` (heltall, standard 0) brukes av AD-11. `AUTH_PASSWORD_VALIDATORS` har bare minimumslengde 8. Sider med brukerdata krever innlogging og henter data filtrert på `request.user`. Kontosletting går i denne rekkefølgen: slett brukeren og registreringene i én transaksjon → `logout()` → kvitteringsmelding → redirect. Feiler transaksjonen, slettes ingenting.
+- **Rule:** `turforslag.Bruker` arver `AbstractUser` med `username=None`, `first_name`/`last_name` fjernet, `USERNAME_FIELD="email"` og egen manager; den finnes i første migrering. E-post lagres med små bokstaver. Feltet `brukt_heving` (heltall, standard 0) brukes av AD-11. `AUTH_PASSWORD_VALIDATORS` har bare minimumslengde 8. **Grense for innloggingsforsøk (NFR-8):** Hvert mislykket forsøk lagres i modellen `Innloggingsforsok(epost, tidspunkt)` med e-posten i små bokstaver, også når e-posten ikke har en konto. Før `authenticate()` avgjør en ren funksjon i `domene/` om e-posten har nådd grensen (`INNLOGGING_MAKS_FORSOK = 5` innenfor `INNLOGGING_SPERRETID_MIN = 15` i `settings`, så tester kan senke dem). Er grensen nådd, kalles ikke `authenticate()`, og siden viser meldingen fra Mikrotekst. En vellykket innlogging sletter forsøkene for e-posten, og forsøk eldre enn sperretiden slettes ved hver sjekk. Sider med brukerdata krever innlogging og henter data filtrert på `request.user`. Kontosletting går i denne rekkefølgen: slett brukeren og registreringene i én transaksjon → `logout()` → kvitteringsmelding → redirect. Feiler transaksjonen, slettes ingenting.
 
 ### AD-8 — Kart: Kartverket topo + vendret Leaflet, kart uten logikk [ADOPTED]
 
@@ -145,7 +145,7 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
   5. KI får bare søket (varighet, dato, turtype, startpunkt, fritekst) og de filtrerte treffene (id, navn, turtyper, form). Aldri e-post, bruker-ID eller historikk. Fritekst legges i prompten som avgrenset data, ikke som instruksjoner. Prompten ligger i en fil i `tjenester/ki/` og versjoneres i git.
   6. Ekte klient: `timeout=5.0`, `max_retries=0`, lav effort, ingen sampling-parametere og ingen prefill.
   7. Hvert svar valideres av `domene/` (FR-13): ID-er innenfor treffene, bare plassholderne `{tid}`, `{varighet}`, `{lengde}`, `{nivå}`, ingen sifre, tallord eller nivåord utenfor dem, maks 300 tegn etter innsetting og med personaliseringssetningen. Forkastes kall A, ignoreres friteksten for hele søket. Forkastes kall B, brukes reservemalen for den turen.
-  8. **Logg (FR-13, NFR-5):** Forkastede svar skrives til `logs/ki.log` med tidspunkt, kalltype (`tolking` eller `begrunnelse`), årsak og svaret. Aldri fritekst, søke-ID, e-post eller bruker-ID. Loggen roteres ved midnatt med `TimedRotatingFileHandler`. En liten underklasse sletter roterte filer med dato eldre enn 30 dager, både ved oppstart og ved hver rotasjon. `backupCount` brukes ikke, fordi den teller filer, ikke dager, og appen kjører ikke hver dag.
+  8. **Logg (FR-13, NFR-5):** Forkastede svar skrives til `logs/ki.log` med tidspunkt, kalltype (`tolking` eller `begrunnelse`), årsak og svaret. Aldri fritekst, søke-ID, e-post eller bruker-ID. Loggen roteres ved midnatt med `TimedRotatingFileHandler`. En liten underklasse sletter roterte filer med dato eldre enn 30 dager, både ved oppstart og ved hver rotasjon. `backupCount` brukes ikke, fordi den teller filer, ikke dager, og appen kjører ikke hver dag. På Vercel (`VERCEL` er satt) skrives de samme linjene til standard ut i stedet for til fil. De havner i kjøreloggen hos Vercel, som slettes etter 1 time på gratisplanen, så kvalitetssikringen av KI-svar gjøres lokalt (NFR-5).
   9. **Grense for KI-kall (NFR-8):** Før hvert kall A eller B sjekker `tjenester/ki/` grensene. Er en grense nådd, brukes reserve for det kallet, som når nøkkelen mangler: stoppes kall A, ignoreres friteksten for hele søket. Stoppes kall B, brukes reservemalen for den turen. Brukeren ser de vanlige meldingene fra FR-13.
      - **Per nettleser:** maks 20 kall de siste 60 minuttene. Tidspunktene for sendte kall ligger i Django-økten under nøkkelen `"ki_kall"`, og eldre enn 60 minutter fjernes ved hver sjekk.
      - **Totalt:** maks 200 kall per kalenderdøgn (Europe/Oslo). Tellingen ligger i modellen `KiForbruk(dato, antall)`, der `dato` er unik. I én transaksjon hentes eller lages døgnets rad med `get_or_create`, og deretter økes den med `F("antall") + 1`, så to samtidige kall ikke teller feil eller lager to rader.
@@ -170,11 +170,11 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
 - **Rule:**
   1. Installasjon: `python -m venv`, `pip install -r requirements.txt`, kopier `.env.example` til `.env`, `python manage.py migrate`, `python manage.py lastinn`, `python manage.py runserver`.
   2. `requirements.txt` har låste versjoner og bare det appen trenger; `requirements-bygg.txt` har i tillegg `pyproj`.
-  3. `.env.example` virker uten endring: `DJANGO_SECRET_KEY` (en lokal utviklingsverdi), `DEBUG=True`, `ANTHROPIC_API_KEY=` (tom) og `MET_USER_AGENT` med appnavn og repo-URL (ingen personlig e-post). Den leses med `python-dotenv` i `config/settings.py`. Mangler `.env` eller `DJANGO_SECRET_KEY`, stopper `config/settings.py` med en norsk melding om å kopiere `.env.example` til `.env`, ikke med Djangos engelske feil. Verdiene ligger bare i `.env.example`, ikke som reserve i koden.
-  4. `.gitignore` har `.env`, `venv/`, `db.sqlite3` og `logs/`. `logs/` dekker også de roterte KI-loggene (`ki.log.<dato>`), som `*.log` ikke fanger.
+  3. `.env.example` virker uten endring: `DJANGO_SECRET_KEY` (en lokal utviklingsverdi), `DEBUG=True`, `ANTHROPIC_API_KEY=` (tom) og `MET_USER_AGENT` med appnavn og repo-URL (ingen personlig e-post). Den leses med `python-dotenv` i `config/settings.py`. `DATABASE_URL` står ikke i `.env.example`, så lokal kjøring bruker SQLite (AD-4). Mangler `.env` eller `DJANGO_SECRET_KEY`, stopper `config/settings.py` med en norsk melding om å kopiere `.env.example` til `.env`, ikke med Djangos engelske feil. Verdiene ligger bare i `.env.example`, ikke som reserve i koden.
+  4. `.gitignore` har `.env`, `venv/`, `db.sqlite3`, `logs/`, `staticfiles/` og `.vercel/`. `logs/` dekker også de roterte KI-loggene (`ki.log.<dato>`), som `*.log` ikke fanger.
   5. Innstillinger: `LANGUAGE_CODE="nb"`, `TIME_ZONE="Europe/Oslo"`, egne norske maler for 404, 500 og CSRF-feil.
-  6. README har: krav (Python 3.12–3.15, testet på 3.14), installasjonen over, testbrukerens innlogging, `python manage.py test`, mappeoversikt, hvordan KI-nøkkel legges inn, og lenker til PRD, UX og denne arkitekturen.
-  7. Ingen produksjonsdeploy i v1.
+  6. README har: adressen til den publiserte siden på Vercel, krav (Python 3.12–3.15, testet på 3.14), installasjonen over, testbrukerens innlogging, `python manage.py test`, mappeoversikt, hvordan KI-nøkkel legges inn, en kort forklaring av publiseringen (AD-15), og lenker til PRD, UX og denne arkitekturen.
+  7. Publisering på Vercel følger AD-15. Lokal kjøring etter punkt 1 skal alltid virke uten Vercel, Neon eller andre kontoer.
 
 ### AD-13 — Tester, kodestil og logging
 
@@ -187,6 +187,20 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
 - **Binds:** FR-16, FR-19, NFR-2
 - **Prevents:** at dobbeltklikk eller to samtidige POST-er gir to registreringer og dermed feil nivåheving.
 - **Rule:** Skjemaet for «Registrer gjennomført tur» har et engangstoken som lagres i økten når skjemaet vises, og brukes opp ved første gyldige POST. En POST med brukt eller ukjent token lagrer ingenting og sender til historikken. Dette dekkes av en test.
+
+### AD-15 — Publisering på Vercel med Neon, fra `main` [ADOPTED]
+
+- **Binds:** NFR-10, NFR-1, NFR-5, NFR-8, FR-21
+- **Prevents:** at data går tapt mellom forespørsler, at en PR endrer databasen til den publiserte siden, at hemmeligheter havner i repoet, at feilsider med kode og innstillinger vises offentlig, at personopplysninger lagres utenfor EU, at forhåndsvisninger bruker KI-kreditt, og at publiseringen gjør lokal kjøring vanskeligere for sensor.
+- **Rule:**
+  1. **Prosjekt:** Ett Vercel-prosjekt (Hobby) for repoet, eid av Hannah. Djangos framework preset. Vercel finner appen via `manage.py` og `WSGI_APPLICATION`. `.python-version` er `3.14`. Avhengigheter leses fra `requirements.txt`, som har `psycopg[binary]` i tillegg. `pyproj` og Ruff installeres ikke på Vercel. Hver endring i `main` publiseres automatisk til produksjon, og hver PR får en forhåndsvisning.
+  2. **Region:** `vercel.json` setter `"regions": ["fra1"]` (Frankfurt). Neon-databasen ligger også i Frankfurt, så personopplysninger lagres i EU (NFR-5).
+  3. **Database:** Neon kobles til fra Vercel Marketplace. Integrasjonen setter `DATABASE_URL` (med pool) og `DATABASE_URL_UNPOOLED` (direkte). Hver forhåndsvisning får en egen Neon-gren, kopiert fra produksjonsgrenen. Appen bruker `DATABASE_URL` med `DISABLE_SERVER_SIDE_CURSORS = True`, fordi poolen kjører i transaksjonsmodus. Under bygging (`CI` er satt) bruker settings `DATABASE_URL_UNPOOLED`, så migreringer går direkte mot databasen. Forhåndsvisningene er beskyttet med Vercels standard innloggingsvern, fordi Neon-grenen er en kopi av produksjonsdataene.
+  4. **Bygging:** `pyproject.toml` har `[tool.vercel.scripts] build` som kjører `python manage.py migrate --noinput` og deretter `python manage.py lastinn` mot databasen for miljøet. Testbrukeren lages derfor på nytt ved hver publisering (FR-21, AD-3 punkt 4). Stopper `lastinn` (AD-3), feiler byggingen synlig i PR-en, og forrige publisering blir stående. `STATIC_ROOT` er `staticfiles/`, og Vercel kjører `collectstatic` selv og serverer de statiske filene fra CDN-et sitt. WhiteNoise brukes ikke.
+  5. **Innstillinger på Vercel** (`VERCEL` er satt), bare i `config/settings.py`: `DEBUG = False` uansett miljøvariabel. `DJANGO_SECRET_KEY` må være satt og ulik utviklingsverdien i `.env.example`, ellers stopper appen med en norsk melding. `ALLOWED_HOSTS = [".vercel.app"]`, `CSRF_TRUSTED_ORIGINS = ["https://*.vercel.app"]`, `SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")`, `SESSION_COOKIE_SECURE` og `CSRF_COOKIE_SECURE`. `python manage.py check --deploy` med disse innstillingene gir ingen advarsler uten en begrunnelse i en kommentar i settings, og dette dekkes av en test.
+  6. **Miljøvariabler hos Vercel:** `DJANGO_SECRET_KEY` (egne verdier for produksjon og forhåndsvisning) og `MET_USER_AGENT` i alle miljøer. `ANTHROPIC_API_KEY` bare i produksjon, så forhåndsvisninger bruker reserve (AD-10). Grensene i NFR-8 gjelder per database, altså separat for produksjon og hver forhåndsvisning. `DATABASE_URL` og `DATABASE_URL_UNPOOLED` settes av Neon-integrasjonen. Ingen av verdiene står i repoet.
+  7. **Logging:** Til standard ut på Vercel (AD-10 punkt 8).
+  8. **Adresse:** `<prosjekt>.vercel.app`, uten eget domene. Adressen står øverst i README (AD-12 punkt 6).
 
 ## Consistency Conventions
 
@@ -223,6 +237,9 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
 | Kartverket høyde-API | v1 |
 | pyproj (bare byggeskript) | 3.8.0 |
 | Ruff (utvikling) | 0.17.4 |
+| psycopg[binary] (Postgres-driver, bare i bruk på Vercel) | 3.3.9 |
+| Vercel Python-runtime | Python 3.14 (`.python-version`) |
+| Neon Postgres | Neon sin standardversjon når databasen opprettes, notert i README |
 
 ## Structural Seed
 
@@ -233,7 +250,9 @@ G81-eriksen/
   manage.py
   requirements.txt          # appens pakker, låste versjoner
   requirements-bygg.txt     # i tillegg for byggeskriptet (pyproj)
-  pyproject.toml            # Ruff-oppsett
+  pyproject.toml            # Ruff-oppsett og [tool.vercel.scripts] build (AD-15)
+  vercel.json               # region fra1 (AD-15)
+  .python-version           # 3.14 for Vercel
   .env.example
   README.md
   config/                   # Django-innstillinger, rot-URL-er
@@ -253,9 +272,11 @@ G81-eriksen/
 
 ```mermaid
 flowchart LR
-    bruker["Nettleser"] -->|"HTML-sider, skjema-POST"| app["Django-app (lokal, én prosess)"]
+    bruker["Nettleser"] -->|"HTML-sider, skjema-POST"| app["Django-app (lokalt, eller som Vercel-funksjon)"]
     bruker -->|"kartfliser"| kv["Kartverket topo WMTS"]
-    app --> db[("SQLite")]
+    bruker -->|"statiske filer på Vercel"| cdn["Vercel CDN"]
+    app --> db[("SQLite lokalt / Neon Postgres på Vercel")]
+    gh["GitHub main og PR-er"] -->|"bygging: migrate og lastinn"| app
     app -->|"via proxy og buffer"| met["MET Locationforecast"]
     app -->|"valgfritt, med nøkkel"| ki["Anthropic API"]
     skript["Byggeskript (utvikler, med nett)"] -->|"geometri"| trb["Turrutebasen"]
@@ -275,6 +296,7 @@ erDiagram
     TUR ||--o{ REGISTRERING : "gjelder (PROTECT)"
     VAERBUFFER
     KIFORBRUK
+    INNLOGGINGSFORSOK
     SESSION
 ```
 
@@ -321,7 +343,8 @@ sequenceDiagram
 | FR-18–20 Personalisering | `domene/` | AD-2, AD-11 |
 | FR-21 Testbruker | `data/`, `lastinn` | AD-3, AD-11 |
 | NFR-1 Kjørbarhet | README, `.env.example`, kravfiler | AD-12 |
-| NFR-2 Stabilitet, NFR-8 Sikkerhet | alle views, `tjenester/ki/` (grense for KI-kall) | AD-7, AD-10, AD-14, konvensjon Skjema |
+| NFR-10 Publisering | `vercel.json`, `.python-version`, `pyproject.toml`, `config/settings.py`, README | AD-4, AD-15 |
+| NFR-2 Stabilitet, NFR-8 Sikkerhet | alle views, `tjenester/ki/` (grense for KI-kall), innlogging (grense for forsøk) | AD-7, AD-10, AD-14, AD-15, konvensjon Skjema og Content-Security-Policy |
 | NFR-3, NFR-4, NFR-9 Mobil, UU, mørk modus | maler, CSS, `forbedring.js` | AD-1, AD-8, `EXPERIENCE.md` |
 | NFR-5 Personvern | `tjenester/ki/`, Bruker | AD-7, AD-10 |
 | NFR-6 Sporbarhet | all kode og alle tester | AD-2, konvensjon Sporbarhet |
@@ -336,6 +359,7 @@ sequenceDiagram
 | Terskler for støyfiltrering (2–10 m) og punktavstand (10–25 m) | Settes når byggeskriptet testes mot publiserte høydeprofiler (FR-1) |
 | Kartets zoomgrenser og bevegelser (Ctrl + rullehjul, to fingre) | Løses i kartstoryen med Leaflets innebygde valg etter `EXPERIENCE.md`; ingen plugin uten ny beslutning |
 | Om utfylte felt beholdes gjennom ny innlogging | UX-punktet er `[ASSUMPTION]`; avgjøres i kontostoryen |
-| Produksjonsdeploy, HTTPS, e-postutsending og passordtilbakestilling | Utenfor v1; sensor kjører lokalt (NFR-1). Før en eventuell deploy må tre ting på plass: appen nekter å starte med `DEBUG=False` og utviklingsverdien for `DJANGO_SECRET_KEY` (og `python manage.py check --deploy` er uten advarsler), innlogging får en grense for antall forsøk, og `lastinn` laster ikke testbrukeren, siden passordet står i README (FR-21) |
+| E-postutsending og passordtilbakestilling | Utenfor v1 (PRD §7.2). Publiseringen (AD-15) endrer ikke det |
+| Eget domene | `.vercel.app`-adressen er nok i v1 (AD-15 punkt 8) |
 | Leverandørbytte for KI (Gemini Flash-Lite) | Bare hvis Anthropic-startkreditten ikke finnes; krever én ny variant i `tjenester/ki/` (AD-10) |
 | Turer utenfor Oslo og Bærum | FR-1 avgrenser v1; dekningen sjekkes per tur hvis lista utvides |
