@@ -40,7 +40,7 @@ Brukeren ba meg rette manglene (H-1 til H-5) fra verifiseringen av `technology.m
 - Kjøre `lint_spine.py` etterpå.
 
 ### Resultat
-- Commit `b9917af` på `planlegging/verifiser-technology`. Ikke pushet.
+- Commit `b9917af` på `planlegging/verifiser-technology`. Branchen er pushet, og PR #19 er laget: https://github.com/IBE160-2026/G81-eriksen/pull/19 (med `gh`, som ligger i `C:\Program Files\GitHub CLI\` men ikke i PATH).
 - **H-1:** `.gitignore` har fått `db.sqlite3`, `db.sqlite3-journal` og `logs/`. Blokken for Next.js/Node er fjernet, men `build/` og `dist/` er flyttet til Python-blokken. `git check-ignore` viser at `logs/ki.log.2026-11-14` og `db.sqlite3` ignoreres, mens `.logs/` og `.env.example` er sporet. AD-4 og AD-12 punkt 4 navngir `db.sqlite3`.
 - **H-2:** Deferred-raden for produksjonsdeploy krever oppstartsvakt, grense for innloggingsforsøk og ingen testbruker før en eventuell deploy.
 - **H-3:** Ny konvensjon i spinen for Content-Security-Policy med Djangos innebygde CSP (`self`, pluss `cache.kartverket.no` for bilder, ingen inline-skript, `json_script` for turdata).
