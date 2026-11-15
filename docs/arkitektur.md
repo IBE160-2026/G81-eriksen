@@ -118,7 +118,9 @@ Testbrukeren har en oppdiktet historikk som viser nivåheving, sperre og turtype
 - Skjemaer sender brukeren videre etter innsending, så siden kan lastes på nytt uten å sende skjemaet igjen. Registrering av en tur har i tillegg et engangsmerke, så et dobbeltklikk gir bare én registrering (AD-14, NFR-2).
 - Sletting av konto skjer i én operasjon. Feiler den, slettes ingenting (FR-15).
 - Innloggingen varer i to uker. Brukeren blir ikke logget ut midt i en utfylling (AD-6, NFR-4, WCAG 2.2.1).
-- Nøkler ligger i `.env`, som aldri legges i git. `.env.example` virker uten endring (AD-12, NFR-1).
+- Nettleseren får bare kjøre JavaScript fra appen selv og bare hente kartbilder fra Kartverket. Det styres av en Content-Security-Policy, og et innsmuglet skript i en tekst blir derfor ikke kjørt (konvensjon Content-Security-Policy i spinen, NFR-8).
+- Nøkler ligger i `.env`, som aldri legges i git. Det gjør heller ikke databasen eller loggene. `.env.example` virker uten endring. Har sensor glemt å kopiere den til `.env`, sier appen det på norsk (AD-12, NFR-1).
+- Før appen eventuelt publiseres på internett, må det på plass en grense for innloggingsforsøk og en sperre mot utviklingsnøkkelen, og testbrukeren må fjernes (spinen › Deferred).
 
 ## Testing
 

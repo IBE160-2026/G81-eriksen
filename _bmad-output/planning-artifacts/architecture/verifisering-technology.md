@@ -13,7 +13,7 @@ Dato: 2026-11-15. Branch: `planlegging/verifiser-technology`.
 
 1. **Ingen motstrid som krever endring i PRD, UX eller arkitektur.** Hvert valg i referansen er enten tatt med i en enklere form, bevisst valgt bort med begrunnelse, eller utenfor v1.
 2. **Påstandene i `architecture/README.md` stemmer.** Alle de tre mønstrene og bortvalgene finnes i spinen og beslutningsloggen (se tabell 1).
-3. **Referansen avdekker fem hull.** Ett av dem (H-1) gjelder et krav vi allerede har, men som repoet ikke oppfyller ennå. De andre fire er små og kan løses i stories eller i Deferred i spinen (se kapittelet om hull).
+3. **Referansen avdekker fem hull.** Ett av dem (H-1) gjelder et krav vi allerede har, men som repoet ikke oppfylte. De andre fire er små. Alle fem er rettet 2026-11-15 (se kapittelet om rettelser).
 
 Statusene i tabellene:
 
@@ -127,6 +127,16 @@ Statusene i tabellene:
 | **H-4** | AD-10 punkt 9 sier hvordan dagens KI-telling økes, men ikke hvordan døgnets første rad i `KiForbruk` lages | To samtidige første kall i et døgn kan gi to rader eller en `IntegrityError`, altså feil telling eller krasj (NFR-2) | Presiser i storyen: `dato` er unik, raden lages med `get_or_create`, og deretter `F("antall") + 1` i samme transaksjon | Lav |
 | **H-5** | Referansen «feiler aldri hardt». Hos oss står det ikke hva som skjer hvis sensor glemmer å kopiere `.env.example` til `.env` | Da mangler `DJANGO_SECRET_KEY`, og Django stopper med en engelsk feilmelding. Det kan koste tid mot 20-minuttersgrensen i NFR-1 | Enten falle tilbake til verdiene i `.env.example` når `.env` mangler, eller stoppe med en norsk melding som sier hva som må gjøres. Avgjøres i storyen for oppsett | Lav |
 
-## Hva som ikke er endret
+## Rettelser 2026-11-15
 
-Denne verifiseringen endrer ikke PRD-en, UX-spesifikasjonen, spinen eller `.gitignore`. Forslagene over må godkjennes av produkteier først. H-1 og H-4 kan tas i stories. H-2 krever en liten endring i Deferred i spinen.
+Produkteier ba om at manglene rettes. PRD-en og UX-spesifikasjonen er ikke endret, fordi ingen av hullene gjelder krav eller design.
+
+| ID | Rettet i | Hva |
+| --- | --- | --- |
+| H-1 | `.gitignore`, spinen AD-4 og AD-12 punkt 4 | `db.sqlite3`, `db.sqlite3-journal` og `logs/` er lagt til. Blokken for Next.js/Node er fjernet, men `build/` og `dist/` er flyttet til Python-blokken, fordi Python-pakking også bruker dem. AD-4 navngir databasefilen. Sjekket med `git check-ignore`: `logs/ki.log.2026-11-14` og `db.sqlite3` ignoreres, mens `.logs/` og `.env.example` fortsatt er sporet |
+| H-2 | Spinen › Deferred, `docs/arkitektur.md` › Sikkerhet | Raden for produksjonsdeploy krever oppstartsvakt (`DEBUG=False` med utviklingsnøkkel, `check --deploy`), grense for innloggingsforsøk og ingen testbruker før en eventuell deploy |
+| H-3 | Spinen › Consistency Conventions, `docs/arkitektur.md` › Sikkerhet | Ny konvensjon for Content-Security-Policy med Djangos innebygde CSP. Bare `self`, pluss `cache.kartverket.no` for bilder. Ingen inline-skript eller `style`-attributter. Turdata til `kart.js` sendes med `json_script` |
+| H-4 | Spinen AD-10 punkt 9 | `KiForbruk.dato` er unik. Døgnets rad lages med `get_or_create`, og deretter økes den med `F("antall") + 1`, i samme transaksjon |
+| H-5 | Spinen AD-12 punkt 3, `docs/arkitektur.md` › Sikkerhet | Mangler `.env` eller `DJANGO_SECRET_KEY`, stopper appen med en norsk melding om å kopiere `.env.example`. Reserveverdier i koden er forkastet: de gir to kilder til samme verdi og kan skjule feil oppsett |
+
+Beslutningen står i `.memlog.md` (2026-11-15). `lint_spine.py` gir bare de seks gamle falske treffene på plassholdere (`{z}/{y}/{x}` i flis-URL-en og KI-plassholderne), ingen nye.
