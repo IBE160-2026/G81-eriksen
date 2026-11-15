@@ -1,3 +1,7 @@
+# Node: appen bruker ikke Node (AD-1), men sensorveiledningen sjekker at
+# node_modules er ignorert. Linja er bare en sikring.
+node_modules/
+
 # Python environments, bytecode, packaging and caches
 .venv/
 venv/
