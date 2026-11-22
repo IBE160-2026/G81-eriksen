@@ -24,7 +24,7 @@
 - [ ] 2026-11-07 [issues-opprydding](994-2026-11-07-15-14-03-issues-opprydding.md) — Excalidraw-rettelsen i `.claude/skills/bmad-ux/` kan overskrives ved BMAD-reinstallasjon/-oppdatering
 - [ ] 2026-11-08 [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md) — registrer Anthropic-konto og sjekk startkreditten; mangler den, bytt til Gemini Flash-Lite via ny KI-variant
 - [x] 2026-11-08 [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md) — neste BMAD-steg: bmad-spec eller bmad-create-epics-and-stories (løst 2026-11-15 — bmad-create-epics-and-stories startet, se [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md))
-- [ ] 2026-11-08 [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md) — avgjør format på kurateringslista og testbrukerfila i første turdatabase-story (testbrukerfila: TOML, story 3.4; kurateringslista avgjøres i story 1.5)
+- [x] 2026-11-08 [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md) — avgjør format på kurateringslista og testbrukerfila i første turdatabase-story (testbrukerfila: TOML, story 3.4; kurateringslista avgjøres i story 1.5) (løst 2026-11-22: begge i TOML)
 - [ ] 2026-11-08 [readme-forste-del](992-2026-11-08-11-15-46-readme-forste-del.md) — fyll ut «Installasjon og kjøring» i README når koden finnes (AD-12 punkt 6), og oppdater status og mappestruktur
 - [ ] 2026-11-08 [readme-forste-del](992-2026-11-08-11-15-46-readme-forste-del.md) — test README i et rent miljø før innlevering (under 20 minutter, NFR-1)
 - [x] 2026-11-12 [tilbakemelding-prd](991-2026-11-12-19-49-28-tilbakemelding-prd.md) — oppdater AD-10 i arkitekturen med grense for KI-kall (NFR-8) og sletting av KI-loggen etter 30 dager (NFR-5) (løst 2026-11-12)
@@ -44,4 +44,7 @@
 - [x] 2026-11-15 [epics-og-stories](987-2026-11-15-14-08-10-epics-og-stories.md) — fortsett bmad-create-epics-and-stories på planlegging/epics-og-stories fra menyen i steg 2 ([C] → steg 3: stories med akseptansekriterier) (løst 2026-11-15 — epics.md er final med 41 stories)
 - [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — kjør MCP-sjekkene fra Vercel-guiden (`search_vercel_documentation`, `list_teams`) etter omstart av Claude Code
 - [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — slå på totrinnsbekreftelse (2FA) på Vercel-kontoen
-- [ ] 2026-11-15 [epics-og-stories](987-2026-11-15-14-08-10-epics-og-stories.md) — neste BMAD-steg: bmad-sprint-planning (sjekker at planen er klar og lager statusfila for sprinten)
+- [x] 2026-11-15 [epics-og-stories](987-2026-11-15-14-08-10-epics-og-stories.md) — neste BMAD-steg: bmad-sprint-planning (sjekker at planen er klar og lager statusfila for sprinten) (løst 2026-11-22)
+- [ ] 2026-11-22 [readiness-rettinger](986-2026-11-22-19-07-56-readiness-rettinger.md) — Story 1.5: fastsett toleransen for å koble WFS-segmenter, og verifiser `koordsys` for høyde-API-et med WGS84-punkter
+- [ ] 2026-11-22 [story-1-1](985-2026-11-22-19-56-19-story-1-1.md) — sett Story 1.1 til `done` i sprint-status når PR-en er merget; neste er Story 1.2 (Vercel og Neon må opprettes i nettleseren)
+- [ ] 2026-11-22 [story-1-1](985-2026-11-22-19-56-19-story-1-1.md) — med `DEBUG=True` lokalt viser Django engelske feilsider; avklar om README skal forklare det for sensor
