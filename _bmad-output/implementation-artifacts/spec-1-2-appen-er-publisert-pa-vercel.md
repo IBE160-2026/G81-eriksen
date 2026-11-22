@@ -94,7 +94,7 @@ Hovedøkten oppretter Vercel-prosjektet, Neon-databasen og miljøvariablene på 
 
 **Execution (hovedøkten, med Hannahs godkjenning ovenfor):**
 - [x] Kjør `vercel link --yes --project your-next-adventure --scope hannah-eriksen` og `vercel git connect`. Noter adressen i Implementation Notes
-- [ ] Koble til Neon med Chrome etter beslutningen
+- [x] Koble til Neon (gjort av Hannah i nettleseren, fordi Chrome hang)
 - [x] Legg inn miljøvariablene med `vercel env add`. Verdiene sendes via stdin og skrives aldri ut
 - [ ] Bekreft at forhåndsvisningen av PR-en bygger og er bak innlogging hos Vercel, og at produksjonen etter merge viser forsiden over HTTPS
 
@@ -112,6 +112,10 @@ Hovedøkten oppretter Vercel-prosjektet, Neon-databasen og miljøvariablene på 
   - Vercel gjenkjenner Django. Innloggingsvernet er Standard Protection (`all_except_custom_domains`).
   - `vercel link` la til `.env*` i `.gitignore`, og den linja ville skjult `.env.example`. Endringen er rullet tilbake, fordi `.env.*` og `.vercel/` allerede er ignorert.
 - Hannah kobler til Neon selv i nettleseren, fordi Chrome-automatiseringen hang på Marketplace-siden.
+- 2026-11-22: Hannah opprettet Neon-databasen `your-next-adventure` og koblet den til prosjektet (Production og Preview, egen gren for hver forhåndsvisning). Integrasjonen la inn `DATABASE_URL`, `DATABASE_URL_UNPOOLED`, `PG*`, `NEON_*` og `VITE_NEON_AUTH_URL`.
+- 2026-11-22: Første publisering (`daced49`, grenen `implementering/story-1-2`) ble satt til **produksjon**. Vercel gjør alltid den første publiseringen i et nytt prosjekt til produksjon.
+  - Byggingen brukte Python 3.14 fra `.python-version` og uv. Pakkene ble installert fra `pyproject.toml`, og `migrate` gikk mot Neon.
+  - `https://your-next-adventure.vercel.app/` svarer 200, med `h1`, CSP og HSTS. 404-siden er norsk. Produksjonen er offentlig.
 
 ## Spec Change Log
 
