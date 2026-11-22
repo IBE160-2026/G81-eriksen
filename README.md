@@ -28,15 +28,50 @@ Planlagt teknologi: Python og Django, SQLite lokalt og Postgres hos Neon på den
 
 ## Installasjon og kjøring
 
-**Kommer.** Appen er ikke implementert ennå. Denne delen fylles ut når koden finnes, og skal da inneholde:
+**Krav:** Python 3.12–3.15 (testet på 3.14). Du trenger ingen nøkler, Node, Docker eller databaseserver. Appen bruker SQLite, som følger med Python.
 
-- krav (Python 3.12–3.15, testet på 3.14)
-- installasjon steg for steg, med kommandoer som kan kopieres
-- miljøvariabler og `.env.example`, og hvordan en KI-nøkkel legges inn (valgfritt)
-- innlogging for testbrukeren
-- hvordan testene kjøres
+Kjør kommandoene fra mappen der du har klonet repoet.
 
-Kravene til denne delen står i [AD-12 i arkitekturen](_bmad-output/planning-artifacts/architecture/architecture-G81-eriksen-2026-11-07/ARCHITECTURE-SPINE.md).
+**Windows (PowerShell eller ledetekst):**
+
+```text
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+copy .env.example .env
+python manage.py migrate
+python manage.py runserver
+```
+
+Stopper PowerShell `activate` fordi skript er blokkert, kjør først `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass`.
+
+**macOS og Linux:**
+
+```text
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+python manage.py migrate
+python manage.py runserver
+```
+
+Åpne så <http://127.0.0.1:8000/> i nettleseren. Stopp serveren med Ctrl+C.
+
+**Admin (valgfritt):** `python manage.py createsuperuser` lager en admin-bruker for `/admin/`. Kommandoen spør etter e-post, ikke brukernavn.
+
+**Miljøvariabler:** `.env.example` virker uten endring. Mangler `.env`, eller er `DJANGO_SECRET_KEY` tom, stopper appen med en melding om å kopiere `.env.example` til `.env`.
+
+**Tester og kodestil:** Testene trenger ikke nett. Ruff ligger i `requirements-dev.txt`, som også installerer `requirements.txt`.
+
+```text
+pip install -r requirements-dev.txt
+python manage.py test
+ruff check .
+ruff format --check .
+```
+
+Innlogging for testbrukeren, turdatabasen (`python manage.py lastinn`) og hvordan en KI-nøkkel legges inn, kommer i senere stories. Kravene til denne delen står i [AD-12 i arkitekturen](_bmad-output/planning-artifacts/architecture/architecture-G81-eriksen-2026-11-07/ARCHITECTURE-SPINE.md).
 
 ## Planlegging og prosess
 

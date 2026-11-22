@@ -150,6 +150,9 @@ Har en rad flere tekster med ulik kilde, står kilden per tekst.
 | Kartknapper og lenke på kartet | «Zoom inn», «Zoom ut» (synlig som + og −), «Vis hele ruten», lenken «Kartet i tekst» | Godkjent (mock) |
 | Uventet feil | «Noe gikk galt, og jeg fikk ikke hentet et forslag. Prøv igjen.» og «Prøv igjen» / «Endre søk» | [ASSUMPTION] |
 | Forslaget finnes ikke lenger | «Turforslaget er ikke lenger tilgjengelig. Søk på nytt for å få et forslag.» | [ASSUMPTION] |
+| Feilside 404 | Overskrift «Jeg fant ikke siden», tekst «Adressen finnes ikke, eller siden er flyttet.» og lenken «Gå til Søk» | [ASSUMPTION]. Beslutning i story 1.1 (2026-11-22) |
+| Feilside CSRF (403) | Overskrift «Skjemaet kunne ikke sendes», tekst «Skjemaet var for gammelt, eller nettleseren blokkerte en informasjonskapsel. Gå til Søk og prøv igjen.» og lenken «Gå til Søk» | [ASSUMPTION]. Beslutning i story 1.1 (2026-11-22) |
+| Feilside 500 | Overskrift «Noe gikk galt», tekst «Noe gikk galt hos meg. Prøv igjen om litt.» og lenken «Gå til Søk» | [ASSUMPTION]. Beslutning i story 1.1 (2026-11-22) |
 | Feil i søket | «Velg varighet» | Godkjent (mock) |
 | Feil i søket, andre felt | «Velg en dato fra i dag til {dato om 30 dager}», «Ønsket kan ha høyst 200 tegn. Nå har det {n}.» | [ASSUMPTION] |
 | Krav om konto | «Logg inn for å registrere», «Turforslaget er tatt vare på.», lenken «Tilbake til turforslaget» | [ASSUMPTION] |

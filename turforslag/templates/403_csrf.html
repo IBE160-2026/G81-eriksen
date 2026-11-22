@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{# [ASSUMPTION] Foreløpig tekst fra EXPERIENCE.md › Mikrotekst (Feilside CSRF). AD-12 punkt 5. #}
+
+{% block tittel %}Skjemaet kunne ikke sendes{% endblock %}
+
+{% block innhold %}
+  <h1>Skjemaet kunne ikke sendes</h1>
+  <p>Skjemaet var for gammelt, eller nettleseren blokkerte en informasjonskapsel. Gå til Søk og prøv igjen.</p>
+  <p><a href="{% url 'turforslag:sok' %}">Gå til Søk</a></p>
+{% endblock %}

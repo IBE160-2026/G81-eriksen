@@ -1,0 +1,4 @@
+# Låste versjoner etter spinen › Stack (AR-1, NFR-1)
+Django==6.1.3
+anthropic==2.6.0
+python-dotenv==1.2.4
