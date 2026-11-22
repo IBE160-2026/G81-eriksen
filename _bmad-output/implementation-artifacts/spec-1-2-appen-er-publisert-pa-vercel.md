@@ -2,7 +2,7 @@
 title: 'Story 1.2: Appen er publisert på Vercel'
 type: 'feature'
 created: '2026-11-22'
-status: 'in-review'
+status: 'done'
 baseline_commit: '5a7d255e153ec4d3b6dd2382a7e7a1253962fae5'
 route: 'dispatch'
 review_loop_iteration: 0
@@ -96,7 +96,7 @@ Hovedøkten oppretter Vercel-prosjektet, Neon-databasen og miljøvariablene på 
 - [x] Kjør `vercel link --yes --project your-next-adventure --scope hannah-eriksen` og `vercel git connect`. Noter adressen i Implementation Notes
 - [x] Koble til Neon (gjort av Hannah i nettleseren, fordi Chrome hang)
 - [x] Legg inn miljøvariablene med `vercel env add`. Verdiene sendes via stdin og skrives aldri ut
-- [ ] Bekreft at forhåndsvisningen av PR-en bygger og er bak innlogging hos Vercel, og at produksjonen etter merge viser forsiden over HTTPS
+- [x] Bekreft at forhåndsvisningen av PR-en bygger og er bak innlogging hos Vercel, og at produksjonen etter merge viser forsiden over HTTPS
 
 **Acceptance Criteria:**
 - Gitt PR-en, når Vercel bygger forhåndsvisningen, så går migreringen mot en egen Neon-gren, og siden krever innlogging hos Vercel.
@@ -116,6 +116,11 @@ Hovedøkten oppretter Vercel-prosjektet, Neon-databasen og miljøvariablene på 
 - 2026-11-22: Første publisering (`daced49`, grenen `implementering/story-1-2`) ble satt til **produksjon**. Vercel gjør alltid den første publiseringen i et nytt prosjekt til produksjon.
   - Byggingen brukte Python 3.14 fra `.python-version` og uv. Pakkene ble installert fra `pyproject.toml`, og `migrate` gikk mot Neon.
   - `https://your-next-adventure.vercel.app/` svarer 200, med `h1`, CSP og HSTS. 404-siden er norsk. Produksjonen er offentlig.
+- 2026-11-22: Forhåndsvisningen av `adefdb0` er verifisert:
+  - Uten innlogging gir den 302 til `vercel.com/sso-api`.
+  - Neon-integrasjonen kjørte for forhåndsvisningen («succeeded», `envTarget: preview`), og `migrate` ga «No migrations to apply», fordi grenen er kopiert fra produksjonen.
+  - Funksjonen kjører i `fra1` (`X-Vercel-Id: …::fra1::…`).
+- Produksjonen kjører allerede samme kode. Når PR #25 er merget, bygges `main` på nytt, og `curl` mot produksjonen gjentas da.
 
 ## Spec Change Log
 
