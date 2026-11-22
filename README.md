@@ -1,5 +1,7 @@
 # G81 — Hannah Eriksen
 
+**Publisert side:** <https://your-next-adventure.vercel.app> (NFR-10). Se [Publisering på Vercel](#publisering-på-vercel).
+
 Gruppeprosjekt i **IBE160 Programmering med KI** ved Høgskolen i Molde, høsten 2026 (15 studiepoeng).
 
 Repoet inneholder gruppens applikasjon og dokumentasjon av utvikling, testing og kvalitetssikring med KI.
@@ -11,8 +13,6 @@ Repoet inneholder gruppens applikasjon og dokumentasjon av utvikling, testing og
 En bruker med konto kan registrere og vurdere turene sine. Tjenesten bruker vurderingene til å foreslå riktig nivå og variasjon neste gang. Tilpasningen følger enkle, faste regler som alltid kan forklares. KI tolker bare ønsker og formulerer begrunnelser, og velger aldri en tur utenfor den kuraterte turdatabasen.
 
 Planlagt teknologi: Python og Django, SQLite lokalt og Postgres hos Neon på den publiserte siden, kart fra Kartverket, værvarsel fra MET og en valgfri språkmodell fra Anthropic. Appen publiseres på Vercel og skal også kunne kjøres lokalt uten nøkler. Se [arkitekturen](docs/arkitektur.md) for begrunnelsen.
-
-**Publisert side:** kommer på en `.vercel.app`-adresse når appen er implementert (NFR-10).
 
 ## Status
 
@@ -72,6 +72,18 @@ ruff format --check .
 ```
 
 Innlogging for testbrukeren, turdatabasen (`python manage.py lastinn`) og hvordan en KI-nøkkel legges inn, kommer i senere stories. Kravene til denne delen står i [AD-12 i arkitekturen](_bmad-output/planning-artifacts/architecture/architecture-G81-eriksen-2026-11-07/ARCHITECTURE-SPINE.md).
+
+## Publisering på Vercel
+
+Appen ligger på <https://your-next-adventure.vercel.app>, med en Postgres-database hos Neon. Både appen (`fra1`) og databasen ligger i Frankfurt.
+
+- **`main`** publiseres automatisk til adressen over etter hver merge.
+- **Hver pull request** får en egen forhåndsvisning med en egen kopi av databasen (en Neon-gren). Forhåndsvisningen krever innlogging hos Vercel.
+- **Byggesteget** står i `pyproject.toml` og kjører `python manage.py migrate --noinput`. Vercel kjører `collectstatic` selv. Vercel installerer pakkene fra `[project]` i `pyproject.toml`, og den lista holdes lik `requirements.txt`.
+- **Innstillingene** for Vercel gjelder bare når `VERCEL` er satt: `DEBUG` er alltid av, og appen stopper hvis `DJANGO_SECRET_KEY` mangler eller er lik nøkkelen i `.env.example`. Nøklene ligger som miljøvariabler hos Vercel, aldri i repoet.
+- **Miljøvariablene** hos Vercel er `DJANGO_SECRET_KEY` (egen tilfeldig verdi for produksjon og forhåndsvisning), `MET_USER_AGENT`, og `DATABASE_URL` og `DATABASE_URL_UNPOOLED` (settes av Neon-integrasjonen). `ANTHROPIC_API_KEY` legges inn senere, bare i produksjon.
+
+Lokal kjøring krever ingenting av dette: uten `DATABASE_URL` bruker appen SQLite, og du trenger verken Vercel, Neon, Vercel CLI eller Node. Regelen står i [AD-15 i arkitekturen](_bmad-output/planning-artifacts/architecture/architecture-G81-eriksen-2026-11-07/ARCHITECTURE-SPINE.md).
 
 ## Planlegging og prosess
 

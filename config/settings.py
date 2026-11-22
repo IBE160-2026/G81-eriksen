@@ -63,13 +63,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-# SQLite lokalt og i tester (AD-4). Postgres på Vercel kommer i story 1.2.
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+# SQLite lokalt og i tester. Postgres når `DATABASE_URL` finnes (AD-4, AD-15 punkt 3).
+if MILJO.database_url:
+    DATABASES = {"default": miljo.database_fra_url(MILJO.database_url)}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
 
 # Egen brukermodell fra første migrering (AR-9, AD-7)
 AUTH_USER_MODEL = "turforslag.Bruker"
@@ -99,5 +102,34 @@ SECURE_CSP = {
 }
 
 STATIC_URL = "static/"
+# Vercel kjører `collectstatic` og serverer filene fra CDN-et. Ingen WhiteNoise (AD-15 punkt 4).
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Publisering på Vercel (`VERCEL` er satt), AD-15 punkt 5 og 7. DEBUG er alltid av der,
+# og nøkkelen er sjekket i `config.miljo`.
+if MILJO.vercel:
+    ALLOWED_HOSTS = [".vercel.app"]
+    CSRF_TRUSTED_ORIGINS = ["https://*.vercel.app"]
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+    # Advarsler fra `check --deploy` som ikke rettes i appen (AD-15 punkt 5):
+    # - security.W004 (SECURE_HSTS_SECONDS): hele toppdomenet `.app` står på HSTS-preload-
+    #   listen i nettleserne, og Vercel sender selv `Strict-Transport-Security` for
+    #   `*.vercel.app`.
+    # - security.W008 (SECURE_SSL_REDIRECT): Vercel sender alltid HTTP videre til HTTPS
+    #   med 308 før forespørselen når appen.
+    SILENCED_SYSTEM_CHECKS = ["security.W004", "security.W008"]
+
+    # Logging til standard ut, der Vercel samler kjøreloggen (AD-10 punkt 8, AD-15 punkt 7).
+    LOGGING = {
+        "version": 1,
+        "disable_existing_loggers": False,
+        "handlers": {
+            "standard_ut": {"class": "logging.StreamHandler", "stream": "ext://sys.stdout"},
+        },
+        "root": {"handlers": ["standard_ut"], "level": "INFO"},
+    }
