@@ -2,7 +2,7 @@
 title: "PRD: Your Next Adventure"
 status: final
 created: 2026-10-29
-updated: 2026-11-15
+updated: 2026-11-22
 ---
 
 # PRD: Your Next Adventure
@@ -156,9 +156,11 @@ Gjest eller bruker kan søke etter tur ved å oppgi:
 |---|---|---|
 | Varighet | ja | Velges fra en liste med verdier fra 1 til 8 timer, i halvtimessteg |
 | Dato | ja | Standardverdi er i dag. Tillatt periode er fra i dag til 30 dager frem |
-| Startpunkt | nei | Velges fra en liste som bare viser startpunkter i turdatabasen. Under lista står en fast hjelpetekst om at turene foreløpig bare dekker Oslo-området |
 | Turtype | nei | Én av turtypene eller «Alle turtyper». «Alle turtyper» er forvalgt |
+| Startpunkt | nei | Velges fra en liste som bare viser startpunkter i turdatabasen. Under lista står en fast hjelpetekst om at turene foreløpig bare dekker Oslo-området |
 | Fritekstønske | nei | Maks 200 tegn. P2: feltet finnes bare med FR-11 |
+
+Rekkefølgen og oppsettet i skjemaet står i `DESIGN.md` › Layout & Spacing.
 
 - Alle felt har synlige etiketter.
 - Hvis et felt er ugyldig, vises en feilmelding ved feltet, og søket sendes ikke. Ugyldig betyr manglende varighet eller dato, en dato utenfor tillatt periode eller et for langt fritekstønske.
@@ -383,7 +385,7 @@ Systemet leveres med en testbruker med oppdiktet historikk. Testbrukeren viser n
   - På den publiserte siden lagres dataene i en database i EU (NFR-10).
   - Skjermen Konto viser en kort personverntekst i jeg-form om punktene over. Ordlyden står i `EXPERIENCE.md` › Mikrotekst og er foreløpig (§10).
 - **NFR-6 Sporbarhet:** Kode, tester, stories, commits og PR-er viser til FR- og NFR-ID-ene i denne PRD-en.
-- **NFR-7 Kreditering:** Appen viser kreditering slik lisensene krever, minst «© Kartverket», «© OpenStreetMap contributors» med lenke og «Data fra MET Norge» (MET anbefaler «Data from MET Norway»).
+- **NFR-7 Kreditering:** Appen viser kreditering slik lisensene krever, minst «© Kartverket», «© OpenStreetMap contributors» med lenke, og «Data fra MET Norge» der værdata vises (MET anbefaler «Data from MET Norway»).
 - **NFR-8 Sikkerhet:**
   - En bruker kan bare se og endre sin egen historikk og konto.
   - All input valideres på serveren.
@@ -571,3 +573,4 @@ Antakelsene og standardverdiene i kravene, endringene i v1.1 og rettingene etter
 | 1.10 | 2026-11-15 | Faglærer krever at appen publiseres på Vercel for å bli vurdert. Nytt NFR-10 Publisering (P1): publisering fra `main`, adressen i README, testbruker som lages på nytt ved hver publisering, KI innenfor NFR-8 og forhåndsvisning med egen database per PR. NFR-1 står uendret. NFR-5: data i EU, og KI-loggen på Vercel slettes etter 1 time. NFR-8: ny grense for innloggingsforsøk. Berørt: §6, §7.1 og §9. Valgt av produkteier 2026-11-15. Arkitekturen er oppdatert samme dag (AD-4, AD-10, AD-12 og ny AD-15) |
 | 1.11 | 2026-11-15 | Funnet da stories for Epic 3 ble skrevet (`epics.md`, story 3.3): Med FR-12 fikk alle turer over grønt setningen om de tre lette turene for alltid, også lenge etter hevingen. FR-12 har nå to setninger: én om hevingen i første søk etter hevingen, og én om nådd nivå i senere søk. Ordlyden står i `EXPERIENCE.md` › Mikrotekst. Valgt av produkteier 2026-11-15 |
 | 1.12 | 2026-11-15 | Funnet i sluttvalideringen av `epics.md`: FR-13 sier nå når et fritekstønske regnes som ignorert. Det gjelder bare når tolkingen forkastes eller ikke kan gjøres, ikke når bare begrunnelsen for en tur forkastes. Presisering uten ny regel, godkjent av produkteier 2026-11-15 |
+| 1.13 | 2026-11-22 | Correct course etter readiness gate (`sprint-change-proposal-2026-11-22.md`): FR-4 viser feltene i skjemarekkefølgen fra `DESIGN.md`, og NFR-7 sier at «Data fra MET Norge» vises der værdata vises. Presiseringer uten ny regel, godkjent av produkteier 2026-11-22 |

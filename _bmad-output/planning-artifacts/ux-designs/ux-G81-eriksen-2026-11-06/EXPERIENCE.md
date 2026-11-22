@@ -2,7 +2,7 @@
 title: Your Next Adventure — EXPERIENCE
 status: final
 created: 2026-11-06
-updated: 2026-11-15
+updated: 2026-11-22
 name: Your Next Adventure
 description: Hvordan nettsiden virker — skjermer, tilstander, flyter, tilgjengelighet og tekster — for en rolig turkompis som gir nybegynnere ett turforslag om gangen i Oslo-området.
 sources:
@@ -139,8 +139,10 @@ Har en rad flere tekster med ulik kilde, står kilden per tekst.
 | Alle forslag er vist | «Du har sett alle turene som passer søket» | PRD-budskap (FR-7) |
 | Alle forslag er vist, ingress | «Det var fire turer med utsikt som passer 2 timer.» / «Vil du prøve noe annet?» | Første: Godkjent (mock, Turkort). Andre: [ASSUMPTION] |
 | Endringsforslag | «Prøv 3 timer», «Velg startpunkt», «Prøv marka», «Start fra første forslag igjen» | Godkjent (mock, Turkort) |
+| Endringsforslag, halvtimer og alle turtyper | «Prøv 2,5 timer» (halvtimer med komma), «Prøv alle turtyper» | [ASSUMPTION] |
 | Bekledningstips | De seks tipsene i FR-9, ordrett, for eksempel «Gode sko og litt mat og drikke» | PRD |
 | Grunnlag for tips | «Etter værvarselet for startpunktet kl. 10–16.» | Godkjent (mock) |
+| Kreditering for værdata | «Data fra MET Norge» (lenke til MET Norge), rett etter grunnlagslinjen | PRD (NFR-7). MET-formen: Godkjent (memlog) |
 | Uten værvarsel, for langt frem | «Jeg har ikke værvarsel for lørdag 28. november ennå, så jeg kan ikke gi bekledningstips. Varselet kommer omtrent 9–10 dager før.» | [ASSUMPTION] |
 | Uten værvarsel, MET svarer ikke | «Jeg får ikke hentet værvarselet akkurat nå, så jeg kan ikke gi bekledningstips.» | [ASSUMPTION] |
 | Kartfliser feiler | «Kartet kunne ikke lastes. Ruten er beskrevet i "Kartet i tekst".» og «Prøv igjen» | [ASSUMPTION] |
@@ -175,7 +177,8 @@ Har en rad flere tekster med ulik kilde, står kilden per tekst.
 | Bekreft sletting | Overskrift «Vil du slette kontoen?», tekst «All historikken din slettes for godt, og det kan ikke angres.» | Godkjent (memlog) |
 | Sletteknapper | «Slett kontoen», «Avbryt» | [ASSUMPTION] |
 | Kvittering etter sletting | «Kontoen din er slettet.» | [ASSUMPTION] |
-| Kreditering | «© Kartverket · © OpenStreetMap contributors · Data fra MET Norge» | PRD (NFR-7). MET-formen: Godkjent (memlog) |
+| Kreditering (på kartet) | «© Kartverket · © OpenStreetMap contributors» | PRD (NFR-7) |
+| Kreditering for turillustrasjon uten kart | «Rute: © Kartverket» eller «Rute: © OpenStreetMap contributors», etter turens kilde | [ASSUMPTION] |
 
 ## Component Patterns
 
@@ -192,10 +195,10 @@ Her står hvordan komponentene oppfører seg. Det visuelle står i `DESIGN.md` u
 | Valggruppe | Registrer gjennomført tur | Én radiogruppe for opplevd vanskelighet (lett / moderat / vanskelig) og én for fornøydhet (1–5). Begge har `fieldset` og `legend` og er påkrevd. Fornøydhet har forklaringen fra Mikrotekst («Fornøydhet, forklaring») koblet til gruppen, og 1 og 5 har synlig ankertekst. |
 | Søkeoppsummering | Laster, Turforslag, tilstander | Viser søket som en linje, også under lasting. «Endre søk» går til Søk med skjemaet forhåndsutfylt. Ved turforslag fra historikken viser den «Fra historikken din» i stedet, uten «Endre søk». |
 | Kart | Turforslag | Se Kart – oppførsel under tabellen. |
-| Kreditering | Turforslag (på kartet) | Alltid synlig på kartet. Lenkene er understreket: Kartverket til Kartverkets lisensside, «OpenStreetMap contributors» (`lang="en"`) til openstreetmap.org/copyright og «Data fra MET Norge» til MET Norge. |
+| Kreditering | Turforslag (på kartet) | Alltid synlig på kartet, også uten JavaScript og når flisene feiler, fordi den renderes på serveren. Lenkene er understreket: Kartverket til Kartverkets lisensside og «OpenStreetMap contributors» (`lang="en"`) til openstreetmap.org/copyright. «Data fra MET Norge» står i Bekledningstips. |
 | Kartbeskrivelse | Turforslag | Overskrift «Kartet i tekst» (`h2`). Teksten **genereres fra turdata** og ikke av KI, med minst startpunktets navn, form, total lengde, høydemeter og laveste og høyeste punkt fra høydeprofilen. Eksempel med den oppdiktede eksempelturen: «Rundtur på 3,5 km totalt fra Granvannet p-plass. Ruten stiger ca. 130 høydemeter, fra 180 til 310 moh.» |
 | Infokolonne | Turforslag | Den visuelle høyrekolonnen. Rekkefølgen står under Turforslag – rekkefølge og er lik på alle bredder. Meldinger om forslaget (topptur erstattet, fritekst ignorert) står rett etter turnavnet og Turtype-treff, så de leses rett etter `h1`. «Nytt forslag» er beskrevet under Interaction Primitives. |
-| Turillustrasjon | Turforslag, Søk, Turoppsummering | Tegnes fra rutelinjen og høydeprofilen. Høydeprofilen beregnes fra høydedata når turdatabasen bygges. Ikke interaktiv. På turforslaget er den en `figure` med `figcaption` (for eksempel «Rundtur. Laveste punkt 180 moh, høyeste 310 moh.»), og SVG-en er `aria-hidden` fordi bildeteksten er komplett. På Søk er den bare pynt (`aria-hidden`) og har ingen bildetekst. P2 (PRD §7.1). Kuttes den, se kuttrekkefølgen i Foundation. |
+| Turillustrasjon | Turforslag, Søk, Turoppsummering | Tegnes fra rutelinjen og høydeprofilen. Vises den uten kartet på siden (Søk, Turoppsummering), står krediteringslinjen fra Mikrotekst under den (story 6.1). Høydeprofilen beregnes fra høydedata når turdatabasen bygges. Ikke interaktiv. På turforslaget er den en `figure` med `figcaption` (for eksempel «Rundtur. Laveste punkt 180 moh, høyeste 310 moh.»), og SVG-en er `aria-hidden` fordi bildeteksten er komplett. På Søk er den bare pynt (`aria-hidden`) og har ingen bildetekst. P2 (PRD §7.1). Kuttes den, se kuttrekkefølgen i Foundation. |
 | Nivåmerke | Turforslag, Turoppsummering, Historikktabell | Alltid farge og tekst. Den faste nivåforklaringen står ved siden av på turforslaget. Nivået beregnes av tjenesten, aldri av KI. |
 | Turtype-treff | Turforslag | Vises bare når brukeren har valgt en bestemt turtype og turen har den. Treffet nevnes også i begrunnelsen. Når en topptur blir erstattet av en utsiktstur, står merket fra Mikrotekst («Topptur passer ikke, merke») i stedet. |
 | Formmerke | Turforslag | «Rundtur» eller «Tur-retur». Vises alltid, sammen med linjen «Start: {startpunkt}». |
@@ -203,9 +206,9 @@ Her står hvordan komponentene oppfører seg. Det visuelle står i `DESIGN.md` u
 | Begrunnelse | Turforslag | Overskrift `h2` «Begrunnelse». Maks 300 tegn. Grensen gjelder hele begrunnelsen slik brukeren ser den, etter innsetting av verdier og med personaliseringssetningen. Overskrides grensen, brukes reservemalen (PRD FR-12, FR-13). Nevner varigheten, og turtypen og fritekstønsket hvis de er oppgitt. Reservemalen nevner aldri fritekstønsket. Har en personaliseringsregel påvirket valget, legger systemet til en personaliseringssetning fra setningsmalen (se Mikrotekst). Eksempelet fra UJ-1 i Mikrotekst er ikke fast tekst, men viser tonen og hva en KI-skrevet begrunnelse skal nevne. KI skriver aldri tall eller nivå. De står som plassholdere (`{tid}`, `{varighet}`, `{lengde}` og `{nivå}`) som systemet fyller inn (PRD FR-12). |
 | KI-merke | Turforslag | Rett over Begrunnelse. Viser «✦ Skrevet med KI» når KI har skrevet begrunnelsen. Ved reserveløsning (FR-13), i testmodus uten API-nøkkel til KI-tjenesten og ved turforslag fra historikken viser det «Begrunnelse fra mal» i stedet. |
 | Forklaringspanel | Turforslag | Utfellbar `<details>`/`<summary>` med utløseren «Slik lager jeg forslaget», lukket som standard. Innholdet sier i jeg-form: (1) Ruten, tiden og nivået kommer fra Kartverkets turdata og faste formler, ikke fra KI. (2) Tiden kan bomme med rundt 15 prosent, og nybegynnere bruker ofte lenger tid enn beregnet. (3) KI tolker ønsket ditt og skriver begrunnelsen, og den kan ta feil. |
-| Bekledningstips | Turforslag | Overskrift `h2` «Bekledningstips for {dag}», grunnlaget i én linje og ett eller flere tips etter FR-9, ordrett. «Gode sko og litt mat og drikke» vises alltid. Mangler værvarsel, byttes listen ut med en Melding (info) under samme overskrift. Kuttes seksjonen, se kuttrekkefølgen i Foundation. |
+| Bekledningstips | Turforslag | Overskrift `h2` «Bekledningstips for {dag}», grunnlaget i én linje med lenken «Data fra MET Norge» rett etter, og ett eller flere tips etter FR-9, ordrett. «Gode sko og litt mat og drikke» vises alltid. Mangler værvarsel, byttes listen ut med en Melding (info) under samme overskrift, uten «Data fra MET Norge». Kuttes seksjonen, se kuttrekkefølgen i Foundation. |
 | Melding | Alle skjermer | Info, advarsel, feil og suksess, alltid med ikon og tekst. En suksessmelding kan være bare en tittel når den sier alt (se Mikrotekst, «Etter registrering»). Den står der saken gjelder, aldri som en toast som forsvinner. Meldinger på samme side leses opp med `role="status"` / `role="alert"`. Meldinger som følger med en navigering, får fokus (se Accessibility Floor). |
-| Tilstandspanel | Turforslag (ingen treff, nivåtak, alle vist) | Erstatter turinnholdet. Overskriften er `h1`. Det gir alltid neste steg: konkrete endringsforslag, «Endre søk», og ved «alle vist» også «Start fra første forslag igjen». «Prøv 3 timer» og «Prøv marka» kjører søket på nytt med én endring. «Velg startpunkt» går til det forhåndsutfylte skjemaet med fokus på Startpunkt. |
+| Tilstandspanel | Turforslag (ingen treff, nivåtak, alle vist) | Erstatter turinnholdet. Overskriften er `h1`. Det gir alltid neste steg: konkrete endringsforslag, «Endre søk», og ved «alle vist» også «Start fra første forslag igjen». «Prøv 3 timer» og «Prøv marka» er knapper i et lite POST-skjema med CSRF som kjører søket på nytt med én endring. Hvilke endringer som foreslås (høyst tre, og bare når de gir treff), står i story 1.12 (`foresla_endringer`). «Velg startpunkt» går til det forhåndsutfylte skjemaet med fokus på Startpunkt. |
 | Lasteindikator | Laster | Viser Søkeoppsummering med en gang, flaten der kartet kommer og en tekstlinje. Opplesing og `aria-busy`: se Accessibility Floor › Sidetitler og fokus. Ingen animasjon når `prefers-reduced-motion` er på. |
 | Turoppsummering | Registrer gjennomført tur, Logg inn / Lag konto (ved krav om konto) | Viser hvilken tur det gjelder: navn, illustrasjon (hvis Turillustrasjon ikke er kuttet), nivå, form, lengde og estimert tid. Ikke interaktiv. |
 | Historikktabell | Historikk | Ekte `<table>`, nyeste først, med én rad per registrering, også når samme tur er gått flere ganger (FR-19). Turnavnet er `<th scope="row">`. Handlingskolonnen har skjult overskrift «Handlinger», og handlingene har skjulte tillegg («– Granåsen rundt, 7. nov.»). Under bruddpunktet ruller tabellen sidelengs i egen beholder (`role="region"`, `aria-label="Historikk"`, `tabindex="0"`), aldri hele siden. Kolonner og formater: se Mikrotekst. Rekkefølgen på siden: DESIGN.md › Layout & Spacing › Historikk. → [mockups/key-historikk.html](mockups/key-historikk.html) |

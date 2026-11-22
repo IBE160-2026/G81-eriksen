@@ -7,7 +7,7 @@ paradigm: 'Lagdelt server-rendret monolitt (Django) med ren domenekjerne og adap
 scope: 'Your Next Adventure v1: hele systemet (nettside, turdatabase og byggeskript, KI, vær, konto, historikk, personalisering og publisering på Vercel)'
 status: final
 created: '2026-11-07'
-updated: '2026-11-15'
+updated: '2026-11-22'
 binds: [FR-1, FR-2, FR-3, FR-4, FR-5, FR-6, FR-7, FR-8, FR-9, FR-10, FR-11, FR-12, FR-13, FR-14, FR-15, FR-16, FR-17, FR-17.1, FR-18, FR-19, FR-20, FR-21, NFR-1, NFR-2, NFR-3, NFR-4, NFR-5, NFR-6, NFR-7, NFR-8, NFR-9, NFR-10]
 sources:
   - _bmad-output/planning-artifacts/prds/prd-G81-eriksen-2026-10-29/prd.md
@@ -59,7 +59,7 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
 
 - **Binds:** FR-2, FR-3, FR-5, FR-8, FR-9, FR-12, FR-13, FR-17.1, FR-18, FR-19, FR-20, NFR-6, SM-2
 - **Prevents:** at regler spres i views, modeller, maler eller JavaScript, og at samme regel får to implementasjoner som gir ulike svar.
-- **Rule:** Hver regel finnes som én funksjon i `domene/` som tar dataklasser eller vanlige verdier inn og gir verdier ut, uten database, nettverk eller klokke (dagens dato sendes inn). `domene/` importerer ikke Django. Views og byggeskript kaller disse funksjonene og regner, filtrerer eller formaterer ikke selv. Utvalget gjøres av én funksjon, `velg_turer`, som returnerer `Utvalg(status, rangerte_tur_ider)` der `status` er én av `TREFF`, `TOPPTUR_ERSTATTET`, `BARE_OVER_NIVATAK`, `INGEN_TREFF` (FR-5, FR-8). Hver regel har enhetstester som viser til FR-ID-en.
+- **Rule:** Hver regel finnes som én funksjon i `domene/` som tar dataklasser eller vanlige verdier inn og gir verdier ut, uten database, nettverk eller klokke (dagens dato sendes inn). `domene/` importerer ikke Django. Views og byggeskript kaller disse funksjonene og regner, filtrerer eller formaterer ikke selv. Utvalget gjøres av én funksjon, `velg_turer`, som returnerer `Utvalg(status, rangerte_tur_ider)` der `status` er én av `TREFF`, `TOPPTUR_ERSTATTET`, `BARE_OVER_NIVATAK`, `INGEN_TREFF` (FR-5, FR-8). Endringsforslagene ved ingen treff og «alle vist» lages av én funksjon, `foresla_endringer`, som bruker `velg_turer` (FR-7, FR-8). Hver regel har enhetstester som viser til FR-ID-en.
 
 ### AD-3 — Turdatabasen bygges på forhånd og har én kilde og én datatype [ADOPTED]
 
@@ -85,10 +85,10 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
      | `geometry` | GeoJSON `LineString` i WGS84 |
 
      Feltnavnene her erstatter navnene i addendumet.
-  2. **Bygging:** Kurateringslista i `data/` gir id, navn, startpunkt, form, turtyper, kilde-ID og ut.no-URL. Turnavnet hentes aldri fra kilden. `skript/bygg_turdatabase.py` (kjøres med `python -m skript.bygg_turdatabase`) henter geometri, henter høyder (Kartverket, maks 50 punkter per kall, punkt hvert 10–25 m, støyfiltrering), gjør om UTM (EPSG:25832/25833) til WGS84 med `pyproj`, beregner verdiene via `domene/` og skriver `data/turer.geojson`, som committes.
+  2. **Bygging:** Kurateringslista `data/kurateringsliste.toml` (TOML, lest med `tomllib`) gir id, navn, startpunkt (id, navn, koordinat), form, turtyper, kilde-ID og ut.no-URL. For Turrutebasen er kilde-ID en liste med ett eller flere rutenummer (`app:rutenummer`) i rekkefølge. Turnavnet hentes aldri fra kilden. `skript/bygg_turdatabase.py` (kjøres med `python -m skript.bygg_turdatabase`) sjekker at samme startpunkt-ID alltid har samme navn og koordinat. Det henter segmentene for hvert rutenummer fra Turrutebasens WFS (`https://wfs.geonorge.no/skwms1/wfs.turogfriluftsruter`, `typeNames=app:Fotrute`, `srsName=EPSG:4326`, GML 3.2.1 med `gml:posList` i rekkefølgen lon lat) og setter dem sammen til én linje ved å koble endepunkter. Henger de ikke sammen, stopper skriptet med en melding. Deretter henter det høyder (Kartverket, maks 50 punkter per kall, punkt hvert 10–25 m, støyfiltrering), beregner verdiene via `domene/` og skriver `data/turer.geojson`, som committes. Koordinatene er allerede i WGS84, så ingen omregning trengs. Skriptet bruker bare pakkene i `requirements.txt` og standardbiblioteket (`xml.etree.ElementTree`, `tomllib`).
   3. **OSM (ODbL):** OSM-geometri hentes én gang til `data/osm-uttrekk.geojson` (committet, med ODbL-kreditering), og byggeskriptet leser den fila, ikke OSM. Skriptet stopper hvis uttrekket har 100 objekter eller flere.
-  4. **Lasting:** `python manage.py lastinn` leser `turer.geojson` og `data/testbruker.*` inn i SQLite. Turer oppdateres eller opprettes etter `id`, aldri slettet og gjenopprettet. `Registrering.tur` har `on_delete=PROTECT`; mangler en tur med registreringer i fila, stopper kommandoen med en melding. Testbrukeren slettes og lages på nytt fra fil ved hver kjøring.
-  5. Geometri og høydeprofil lagres i `JSONField`. Ingen GeoDjango eller SpatiaLite.
+  4. **Lasting:** `python manage.py lastinn` leser `turer.geojson` og `data/testbruker.toml` inn i databasen (SQLite lokalt, Postgres på Vercel, AD-4). Startpunkter og turer oppdateres eller opprettes etter `id`, startpunktene først, og de blir aldri slettet og gjenopprettet. `Registrering.tur` har `on_delete=PROTECT`; mangler en tur med registreringer i fila, stopper kommandoen med en melding. Testbrukeren slettes og lages på nytt fra fil ved hver kjøring.
+  5. **Modeller:** `turforslag.Startpunkt` har `id` (stabil streng, primærnøkkel), `navn`, `lat`, `lon` og `hoyde_m`. `turforslag.Tur` har `startpunkt` som `ForeignKey` til `Startpunkt` med `on_delete=PROTECT`, og `turtyper` som `JSONField` med en liste av `marka`, `utsikt`, `topptur`. Turtype filtreres i `domene/`, ikke med JSON-oppslag i databasen (AD-4). `domene.tur.Tur` beholder de flate startpunktfeltene, og `lastinn` og omgjøringen i `turforslag/` mapper mellom dataklassen og modellene. Geometri og høydeprofil lagres i `JSONField`. Ingen GeoDjango eller SpatiaLite.
   6. Appen beregner aldri turnivå, høydemeter eller estimert tid på nytt.
 
 ### AD-4 — Djangos ORM er eneste lagring: SQLite lokalt, Postgres på Vercel [ADOPTED]
@@ -105,7 +105,7 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
   1. Et gyldig søk (POST) lager en tilfeldig søke-ID og sender videre til `/forslag/<sok_id>/`. Søket står aldri i URL-en, bare ID-en.
   2. Tilstanden lagres i Django-økten (databasebasert) under nøkkelen `"sok"`, som er en ordbok `sok_id → Soketilstand`. `domene.okt.Soketilstand` er en dataklasse med `til_dict()` og `fra_dict()` (datoer som ISO-strenger): søket, `rangerte_tur_ider` (frosset ved søket), `viste_tur_ider`, `gjeldende_tur_id`, `nivaheving` (AD-11), KI-tolkningen og begrunnelsene per vist tur (AD-10).
   3. Bare `turforslag/okt.py` leser og skriver `"sok"`, og den skriver alltid hele verdien på nytt. Den beholder de 10 nyeste søkene.
-  4. Reload, «Nytt forslag» og «Start fra første forslag igjen» leser rangeringen fra økten og rangerer ikke på nytt. En ukjent søke-ID, eller en tur-ID som ikke lenger finnes, gir «Forslaget finnes ikke lenger».
+  4. Reload, «Nytt forslag» og «Start fra første forslag igjen» leser rangeringen fra økten og rangerer ikke på nytt. En ukjent søke-ID, eller en tur-ID som ikke lenger finnes, gir Søk med meldingen fra Mikrotekst › Forslaget finnes ikke lenger («Turforslaget er ikke lenger tilgjengelig. Søk på nytt for å få et forslag.»).
   5. Ingen kode kaller `flush()`, `cycle_key()` eller `clear()` på økten. Bare Djangos `login()` (beholder data) og `logout()` (tømmer alt) endrer økten slik.
   6. Registrering tar tur-ID fra URL-en (`/registrer/<tur_id>/`), aldri fra økten.
 
@@ -168,9 +168,9 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
 - **Binds:** NFR-1, NFR-6, sensor kriterium 5
 - **Prevents:** at sensor må ha nøkler, Node, Docker eller databaseserver, at hemmeligheter havner i git, og at Django-standarder gir engelske eller feil tekster.
 - **Rule:**
-  1. Installasjon: `python -m venv`, `pip install -r requirements.txt`, kopier `.env.example` til `.env`, `python manage.py migrate`, `python manage.py lastinn`, `python manage.py runserver`.
-  2. `requirements.txt` har låste versjoner og bare det appen trenger; `requirements-bygg.txt` har i tillegg `pyproj`.
-  3. `.env.example` virker uten endring: `DJANGO_SECRET_KEY` (en lokal utviklingsverdi), `DEBUG=True`, `ANTHROPIC_API_KEY=` (tom) og `MET_USER_AGENT` med appnavn og repo-URL (ingen personlig e-post). Den leses med `python-dotenv` i `config/settings.py`. `DATABASE_URL` står ikke i `.env.example`, så lokal kjøring bruker SQLite (AD-4). Mangler `.env` eller `DJANGO_SECRET_KEY`, stopper `config/settings.py` med en norsk melding om å kopiere `.env.example` til `.env`, ikke med Djangos engelske feil. Verdiene ligger bare i `.env.example`, ikke som reserve i koden.
+  1. Installasjon: `python -m venv`, `pip install -r requirements.txt`, kopier `.env.example` til `.env`, `python manage.py migrate`, `python manage.py lastinn`, `python manage.py runserver`. For utvikling og for å kjøre `ruff check .` og `ruff format --check .` trengs i tillegg `pip install -r requirements-dev.txt`.
+  2. `requirements.txt` har låste versjoner og bare det appen og byggeskriptet trenger. `requirements-dev.txt` har i tillegg `ruff==0.17.4` for utvikling, og den installeres ikke på Vercel.
+  3. `.env.example` virker uten endring: `DJANGO_SECRET_KEY` (en lokal utviklingsverdi), `DEBUG=True`, `ANTHROPIC_API_KEY=` (tom) og `MET_USER_AGENT` med appnavn og repo-URL (ingen personlig e-post). Den leses med `python-dotenv` i `config/settings.py`. `DATABASE_URL` står ikke i `.env.example`, så lokal kjøring bruker SQLite (AD-4). Når `VERCEL` ikke er satt, og `.env` eller `DJANGO_SECRET_KEY` mangler, stopper `config/settings.py` med en norsk melding om å kopiere `.env.example` til `.env`, ikke med Djangos engelske feil. På Vercel leses ingen `.env`, og bare sjekken i AD-15 punkt 5 gjelder. Verdiene ligger bare i `.env.example`, ikke som reserve i koden.
   4. `.gitignore` har `.env`, `venv/`, `db.sqlite3`, `logs/`, `staticfiles/` og `.vercel/`. `logs/` dekker også de roterte KI-loggene (`ki.log.<dato>`), som `*.log` ikke fanger.
   5. Innstillinger: `LANGUAGE_CODE="nb"`, `TIME_ZONE="Europe/Oslo"`, egne norske maler for 404, 500 og CSRF-feil.
   6. README har: adressen til den publiserte siden på Vercel, krav (Python 3.12–3.15, testet på 3.14), installasjonen over, testbrukerens innlogging, `python manage.py test`, mappeoversikt, hvordan KI-nøkkel legges inn, en kort forklaring av publiseringen (AD-15), og lenker til PRD, UX og denne arkitekturen.
@@ -193,7 +193,7 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
 - **Binds:** NFR-10, NFR-1, NFR-5, NFR-8, FR-21
 - **Prevents:** at data går tapt mellom forespørsler, at en PR endrer databasen til den publiserte siden, at hemmeligheter havner i repoet, at feilsider med kode og innstillinger vises offentlig, at personopplysninger lagres utenfor EU, at forhåndsvisninger bruker KI-kreditt, og at publiseringen gjør lokal kjøring vanskeligere for sensor.
 - **Rule:**
-  1. **Prosjekt:** Ett Vercel-prosjekt (Hobby) for repoet, eid av Hannah. Djangos framework preset. Vercel finner appen via `manage.py` og `WSGI_APPLICATION`. `.python-version` er `3.14`. Avhengigheter leses fra `requirements.txt`, som har `psycopg[binary]` i tillegg. `pyproj` og Ruff installeres ikke på Vercel. Hver endring i `main` publiseres automatisk til produksjon, og hver PR får en forhåndsvisning.
+  1. **Prosjekt:** Ett Vercel-prosjekt (Hobby) for repoet, eid av Hannah. Djangos framework preset. Vercel finner appen via `manage.py` og `WSGI_APPLICATION`. `.python-version` er `3.14`. Avhengigheter leses fra `requirements.txt`, som har `psycopg[binary]` i tillegg. `requirements-dev.txt` (Ruff) installeres ikke på Vercel. Hver endring i `main` publiseres automatisk til produksjon, og hver PR får en forhåndsvisning.
   2. **Region:** `vercel.json` setter `"regions": ["fra1"]` (Frankfurt). Neon-databasen ligger også i Frankfurt, så personopplysninger lagres i EU (NFR-5).
   3. **Database:** Neon kobles til fra Vercel Marketplace. Integrasjonen setter `DATABASE_URL` (med pool) og `DATABASE_URL_UNPOOLED` (direkte). Hver forhåndsvisning får en egen Neon-gren, kopiert fra produksjonsgrenen. Appen bruker `DATABASE_URL` med `DISABLE_SERVER_SIDE_CURSORS = True`, fordi poolen kjører i transaksjonsmodus. Under bygging (`CI` er satt) bruker settings `DATABASE_URL_UNPOOLED`, så migreringer går direkte mot databasen. Forhåndsvisningene er beskyttet med Vercels standard innloggingsvern, fordi Neon-grenen er en kopi av produksjonsdataene.
   4. **Bygging:** `pyproject.toml` har `[tool.vercel.scripts] build` som kjører `python manage.py migrate --noinput` og deretter `python manage.py lastinn` mot databasen for miljøet. Testbrukeren lages derfor på nytt ved hver publisering (FR-21, AD-3 punkt 4). Stopper `lastinn` (AD-3), feiler byggingen synlig i PR-en, og forrige publisering blir stående. `STATIC_ROOT` er `staticfiles/`, og Vercel kjører `collectstatic` selv og serverer de statiske filene fra CDN-et sitt. WhiteNoise brukes ikke.
@@ -216,7 +216,7 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
 | Content-Security-Policy | Djangos innebygde CSP (`ContentSecurityPolicyMiddleware`, `SECURE_CSP`) med `default-src 'self'`, `img-src 'self' https://cache.kartverket.no`, `object-src 'none'`, `base-uri 'self'`, `form-action 'self'` og `frame-ancestors 'none'`. Ingen inline-skript og ingen `style`-attributter i maler. Turdata til `kart.js` sendes med `json_script`. Trenger Leaflet mer, utvides policyen i kartstoryen med en begrunnelse i beslutningsloggen |
 | Feil fra eksterne tjenester | `tjenester/` kaster aldri videre til view; de returnerer typede resultater (`IngenVarsel`, reserve), og visningen viser teksten fra Mikrotekst |
 | Konfigurasjon | Miljøverdier leses bare i `config/settings.py` |
-| Kreditering | Én felles krediteringslinje i basismalen med «© Kartverket», «© OpenStreetMap contributors» og «Data fra MET Norge», med lenker. Leaflets egen attribution-prefiks er slått av |
+| Kreditering | Krediteringen for kart og rute («© Kartverket · © OpenStreetMap contributors», med lenker) renderes på serveren som et eget element i kartflatens nedre høyre hjørne, så den vises også uten JavaScript og når flisene feiler. Leaflets attribution-kontroll er slått av (`attributionControl: false`). «Data fra MET Norge» står i Bekledningstips og bare når det vises tips fra værvarselet. Der Turillustrasjon vises uten kart, står en krediteringslinje etter turens `kilde` (story 6.1). Basismalen har ingen krediteringslinje |
 | Nettleserstøtte | De to nyeste versjonene av Chrome, Edge, Firefox og Safari, også på mobil. Ingen polyfills |
 | Tilgjengelighet | Mønstrene i `EXPERIENCE.md` (komponenter, Accessibility Floor) gjelder for alle maler |
 
@@ -235,8 +235,8 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
 | Kartverket topo WMTS | v1, WMTS 1.0.0 |
 | MET Locationforecast | 2.0 |
 | Kartverket høyde-API | v1 |
-| pyproj (bare byggeskript) | 3.8.0 |
-| Ruff (utvikling) | 0.17.4 |
+| Turrutebasen (Geonorge WFS `wfs.turogfriluftsruter`, `app:Fotrute`, bare byggeskript) | WFS 2.0.0, GML 3.2.1 |
+| Ruff (utvikling, `requirements-dev.txt`) | 0.17.4 |
 | psycopg[binary] (Postgres-driver, bare i bruk på Vercel) | 3.3.9 |
 | Vercel Python-runtime | Python 3.14 (`.python-version`) |
 | Neon Postgres | Neon sin standardversjon når databasen opprettes, notert i README |
@@ -249,7 +249,7 @@ Pilene viser hvem som får importere hvem. `domene/` importerer aldri Django, `t
 G81-eriksen/
   manage.py
   requirements.txt          # appens pakker, låste versjoner
-  requirements-bygg.txt     # i tillegg for byggeskriptet (pyproj)
+  requirements-dev.txt      # i tillegg for utvikling (ruff), ikke på Vercel
   pyproject.toml            # Ruff-oppsett og [tool.vercel.scripts] build (AD-15)
   vercel.json               # region fra1 (AD-15)
   .python-version           # 3.14 for Vercel
@@ -262,7 +262,7 @@ G81-eriksen/
     static/                 # css/, kart.js, forbedring.js, vendor/leaflet/
   domene/                   # tur, okt, utvalg, niva, tid, gradering, tips, ki_validering, tekst
   tjenester/                # met.py, ki/ (grensesnitt, ekte, reserve, falsk, prompt)
-  data/                     # kurateringsliste, osm-uttrekk.geojson, turer.geojson, testbruker
+  data/                     # kurateringsliste.toml, osm-uttrekk.geojson, turer.geojson, testbruker.toml
   skript/                   # bygg_turdatabase.py
   tests/                    # domene/, tjenester/, web/, fixtures/
   docs/                     # README-vedlegg, arkitekturforklaring
@@ -290,8 +290,7 @@ flowchart LR
 
 ```mermaid
 erDiagram
-    STARTPUNKT ||--o{ TUR : "har"
-    TUR }o--o{ TURTYPE : "har"
+    STARTPUNKT ||--o{ TUR : "har (PROTECT)"
     BRUKER ||--o{ REGISTRERING : "har"
     TUR ||--o{ REGISTRERING : "gjelder (PROTECT)"
     VAERBUFFER
@@ -299,6 +298,8 @@ erDiagram
     INNLOGGINGSFORSOK
     SESSION
 ```
+
+Turtypene er en liste i `Tur.turtyper` (`JSONField`), ikke en egen entitet (AD-3 punkt 5).
 
 ### Flyt for ett søk
 
@@ -348,13 +349,13 @@ sequenceDiagram
 | NFR-3, NFR-4, NFR-9 Mobil, UU, mørk modus | maler, CSS, `forbedring.js` | AD-1, AD-8, `EXPERIENCE.md` |
 | NFR-5 Personvern | `tjenester/ki/`, Bruker | AD-7, AD-10 |
 | NFR-6 Sporbarhet | all kode og alle tester | AD-2, konvensjon Sporbarhet |
-| NFR-7 Kreditering | basismal, `data/` | AD-3, konvensjon Kreditering |
+| NFR-7 Kreditering | turforslagsmalen (kartet), Bekledningstips, Turillustrasjon uten kart, `data/` | AD-3, konvensjon Kreditering |
 
 ## Deferred
 
 | Utsatt | Hvorfor det kan vente |
 | --- | --- |
-| Format på kurateringslista og testbrukerfila (CSV, YAML eller TOML) | Bare byggeskriptet og `lastinn` leser dem; avgjøres i første story for turdatabasen |
+| Toleranse for å koble Turrutebasen-segmenter ved endepunktene | Settes i story 1.5 når de første rutene settes sammen, og står i README-en i `data/` |
 | Ordlyden i KI-prompten | Kallrekkefølgen og valideringen (AD-10) binder resultatet; ordlyden justeres under implementering |
 | Terskler for støyfiltrering (2–10 m) og punktavstand (10–25 m) | Settes når byggeskriptet testes mot publiserte høydeprofiler (FR-1) |
 | Kartets zoomgrenser og bevegelser (Ctrl + rullehjul, to fingre) | Løses i kartstoryen med Leaflets innebygde valg etter `EXPERIENCE.md`; ingen plugin uten ny beslutning |

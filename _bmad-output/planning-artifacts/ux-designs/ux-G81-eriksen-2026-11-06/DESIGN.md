@@ -2,7 +2,7 @@
 title: Your Next Adventure — DESIGN
 status: final
 created: 2026-11-06
-updated: 2026-11-06
+updated: 2026-11-22
 name: Your Next Adventure
 description: Rolig, kartnær nettside på norsk som gir nybegynnere ett turforslag om gangen i Oslo-området. Desktop først med en enkel, stablet mobilutgave. Fargetema Granskog – Mosegrønn, serif-overskrifter og sans-serif brødtekst i systemfonter, egne illustrasjoner laget fra turdata.
 sources:
@@ -593,7 +593,7 @@ Komponentnavnene er de samme som i EXPERIENCE.md under Component Patterns, som e
 ### Meldinger og tilstander
 
 - **Melding** (`melding`): `surface` med 1 px kant og 4 px venstrekant i statusfargen. Den har alltid et 20 px ikon i fylt sirkel («i» for info, «!» for advarsel og feil, hake for suksess) og en fet tittel. Brødtekst er valgfri: en suksessmelding kan være bare tittelen, for eksempel «Turen er registrert i historikken din.». → [mockups/key-historikk.html](mockups/key-historikk.html) (suksess) og [mockups/direction-stille-kart.html](mockups/direction-stille-kart.html) (info)
-- **Tilstandspanel** (`tilstandspanel`): overskrift i `headline-lg`, forklaring i `body-lg` og en liste med endringsforslag. Hver rad har tekst til venstre og en handlingslenke til høyre, med `border` mellom radene. → [mockups/direction-turkort.html](mockups/direction-turkort.html)
+- **Tilstandspanel** (`tilstandspanel`): overskrift i `headline-lg`, forklaring i `body-lg` og en liste med endringsforslag. Hver rad har tekst til venstre og en handling til høyre, med `border` mellom radene. Forslag som kjører søket på nytt («Prøv 3 timer», «Prøv marka») og «Start fra første forslag igjen» er knapper i et lite POST-skjema med CSRF, stylet som en handlingslenke. «Velg startpunkt» og «Endre søk» er vanlige lenker. → [mockups/direction-turkort.html](mockups/direction-turkort.html)
 - **Lasteindikator** (`lasteindikator`): `surface-alt` der kartet kommer, med teksten «Kart lastes …» i `text-muted`. Ingen spinner når `prefers-reduced-motion` er på.
 
 ### Historikk og konto

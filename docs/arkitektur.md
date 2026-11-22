@@ -61,11 +61,11 @@ flowchart LR
     trb["Turrutebasen og OSM-uttrekk"] --> skript
     hoyde["Kartverkets høydedata"] --> skript
     skript --> fil["data/turer.geojson (i git)"]
-    fil -->|"python manage.py lastinn"| db[("SQLite")]
+    fil -->|"python manage.py lastinn"| db[("Databasen (SQLite lokalt / Postgres på Vercel)")]
 ```
 
-1. **Kurateringslista** er en fil der hver tur er skrevet inn for hånd: navn, startpunkt, form, turtyper, kilde-ID og lenke til ut.no. Turnavnet skrives inn for hånd, fordi kildene ofte mangler navn («Ukjent» på 41 av 186 ruter i Oslo).
-2. **Byggeskriptet** henter rutelinjen og høydene, gjør om UTM-koordinatene i kartdataene til vanlige GPS-koordinater, og beregner lengde, høydemeter, nedstigning, høydeprofil, turnivå og estimert tid. Resultatet er `data/turer.geojson`. Skriptet kjøres av utvikleren, ikke av sensor.
+1. **Kurateringslista** (`data/kurateringsliste.toml`) er en fil der hver tur er skrevet inn for hånd: navn, startpunkt, form, turtyper, kilde-ID og lenke til ut.no. Turnavnet skrives inn for hånd, fordi kildene ofte mangler navn («Ukjent» på 41 av 186 ruter i Oslo).
+2. **Byggeskriptet** henter rutelinjen fra Turrutebasen (via WFS, allerede i vanlige GPS-koordinater) og høydene, setter sammen delene av hver rute, og beregner lengde, høydemeter, nedstigning, høydeprofil, turnivå og estimert tid. Resultatet er `data/turer.geojson`. Skriptet kjøres av utvikleren, ikke av sensor.
 3. **`lastinn`** leser fila og testbrukeren inn i databasen med én kommando. Kommandoen kan kjøres flere ganger uten å slette historikken til brukerne. Bare testbrukeren lages på nytt.
 
 OpenStreetMap brukes bare som supplement. Uttrekket er hentet én gang, har færre enn 100 objekter og er lagret for seg selv, slik at det regnes som et «uvesentlig» uttrekk etter ODbL-lisensen (se addendumet til PRD-en).
@@ -162,8 +162,7 @@ Alle tester kjøres med `python manage.py test` (AD-13) og trenger verken intern
 | Leaflet | 1.9.4 |
 | anthropic (Python-SDK) | 2.6.0, modell `claude-haiku-5-5` |
 | python-dotenv | 1.2.4 |
-| pyproj (bare byggeskriptet) | 3.8.0 |
-| Ruff (kodestil) | 0.17.4 |
+| Ruff (kodestil, i `requirements-dev.txt`) | 0.17.4 |
 | psycopg[binary] (bare på Vercel) | 3.3.9 |
 
 Eksterne tjenester: Kartverket topo (kartfliser), Kartverkets høyde-API (bare byggeskriptet), MET Locationforecast 2.0 og Anthropic API. For publisering: Vercel og Neon.
@@ -174,7 +173,7 @@ Versjonene ble sjekket mot PyPI, npm og leverandørenes dokumentasjon 2026-11-08
 
 ```text
 G81-eriksen/
-  manage.py, requirements.txt, requirements-bygg.txt, pyproject.toml, .env.example, README.md
+  manage.py, requirements.txt, requirements-dev.txt, pyproject.toml, .env.example, README.md
   config/        Django-innstillinger
   turforslag/    nettsiden: sider, skjemaer, modeller, maler, CSS og JavaScript
   domene/        reglene, ren Python
