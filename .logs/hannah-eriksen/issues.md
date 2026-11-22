@@ -44,5 +44,7 @@
 - [x] 2026-11-15 [epics-og-stories](987-2026-11-15-14-08-10-epics-og-stories.md) — fortsett bmad-create-epics-and-stories på planlegging/epics-og-stories fra menyen i steg 2 ([C] → steg 3: stories med akseptansekriterier) (løst 2026-11-15 — epics.md er final med 41 stories)
 - [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — kjør MCP-sjekkene fra Vercel-guiden (`search_vercel_documentation`, `list_teams`) etter omstart av Claude Code
 - [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — slå på totrinnsbekreftelse (2FA) på Vercel-kontoen
-- [ ] 2026-11-15 [epics-og-stories](987-2026-11-15-14-08-10-epics-og-stories.md) — neste BMAD-steg: bmad-sprint-planning (sjekker at planen er klar og lager statusfila for sprinten)
+- [x] 2026-11-15 [epics-og-stories](987-2026-11-15-14-08-10-epics-og-stories.md) — neste BMAD-steg: bmad-sprint-planning (sjekker at planen er klar og lager statusfila for sprinten) (løst 2026-11-22)
 - [ ] 2026-11-22 [readiness-rettinger](986-2026-11-22-19-07-56-readiness-rettinger.md) — Story 1.5: fastsett toleransen for å koble WFS-segmenter, og verifiser `koordsys` for høyde-API-et med WGS84-punkter
+- [ ] 2026-11-22 [story-1-1](985-2026-11-22-19-56-19-story-1-1.md) — sett Story 1.1 til `done` i sprint-status når PR-en er merget; neste er Story 1.2 (Vercel og Neon må opprettes i nettleseren)
+- [ ] 2026-11-22 [story-1-1](985-2026-11-22-19-56-19-story-1-1.md) — med `DEBUG=True` lokalt viser Django engelske feilsider; avklar om README skal forklare det for sensor
