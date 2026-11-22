@@ -29,7 +29,7 @@ FR-2: Turnivået settes etter Merkehåndboka: grønn under 5 km og under 300 hm,
 
 FR-3: Estimert tid for hele turen beregnes med sveitsisk regel (15 min per km + 15 min per 100 hm + 15 min per 200 m nedstigning), med 15 % påslag for nybegynnere, avrundet til nærmeste 5 minutter. For tur-retur regnes begge veier: høydemeterne tilbake er lik nedstigningen ut, og omvendt. Regneeksempelet (3 km, 150 hm, 0 m ned, tur-retur) gir 142,3 min, som vises som «ca. 2 t 20 min». Tiden vises alltid med «pauser ikke inkludert». KI beregner aldri tid eller nivå.
 
-FR-4: Søkeskjemaet har Varighet (påkrevd, 1–8 t i halvtimessteg), Dato (påkrevd, i dag som standard, fra i dag til 30 dager frem), Startpunkt (valgfritt, liste over startpunktene i turdatabasen, med fast hjelpetekst om at turene foreløpig bare dekker Oslo-området), Turtype (valgfritt, «Alle turtyper» forvalgt) og Fritekstønske (valgfritt, maks 200 tegn, P2 med FR-11). Alle felt har synlige etiketter. Ugyldige felt gir feilmelding ved feltet, og søket sendes ikke. Valideringen skjer også på serveren.
+FR-4: Søkeskjemaet har Varighet (påkrevd, 1–8 t i halvtimessteg), Dato (påkrevd, i dag som standard, fra i dag til 30 dager frem), Turtype (valgfritt, «Alle turtyper» forvalgt), Startpunkt (valgfritt, liste over startpunktene i turdatabasen, med fast hjelpetekst om at turene foreløpig bare dekker Oslo-området) og Fritekstønske (valgfritt, maks 200 tegn, P2 med FR-11). Alle felt har synlige etiketter. Ugyldige felt gir feilmelding ved feltet, og søket sendes ikke. Valideringen skjer også på serveren.
 
 FR-5: Utvalget filtrerer på estimert tid ≤ varighet, turnivå ≤ nivåtaket og valgt turtype og startpunkt. Rangeringen går i denne rekkefølgen: (1) ikke gåtte turer før gåtte, og gåtte med fornøydhet 1–2 sist, (2) turer som passer fritekstønsket (P2), (3) nivåheving: i første søk etter en heving kommer turer på det nye nivåtaket først, (4) foretrukne turtyper (P2), (5) estimert tid nærmest varigheten, (6) tur-ID. Gåtte turer utelukkes aldri helt. «Nytt forslag» går nedover i rangeringen.
 
@@ -81,7 +81,7 @@ NFR-5 Personvern: Systemet lagrer bare e-post, passord-hash, historikk og vurder
 
 NFR-6 Sporbarhet: Kode, tester, stories, commits og PR-er viser til FR- og NFR-ID-ene.
 
-NFR-7 Kreditering: Appen viser «© Kartverket», «© OpenStreetMap contributors» med lenke og «Data fra MET Norge».
+NFR-7 Kreditering: Appen viser «© Kartverket», «© OpenStreetMap contributors» med lenke, og «Data fra MET Norge» der værdata vises.
 
 NFR-8 Sikkerhet: En bruker ser og endrer bare sin egen historikk og konto. All input valideres på serveren. Fritekst er data, ikke instruksjoner, og KI-svar valideres alltid. Grense for KI-kall: maks 20 per nettleser de siste 60 minuttene og maks 200 totalt per kalenderdøgn. Et kall teller når det sendes. Over grensen brukes reserveløsningen med de vanlige meldingene. Grense for innloggingsforsøk: etter 5 mislykkede innlogginger med samme e-post på 15 minutter avvises nye forsøk med den e-posten resten av perioden, med en melding som ikke sier om e-posten har en konto.
 
@@ -93,19 +93,19 @@ NFR-10 Publisering: Appen publiseres på Vercel. Hver endring i `main` publisere
 
 **Starter-mal: Arkitekturen har ingen starter-mal.** Prosjektet starter fra null med Django (`startproject` til `config/`) og kildetreet i spinen › Structural Seed. Det må bygges i **Epic 1, Story 1**, sammen med egen brukermodell i første migrering (AR-9). Fordi publisering nå er et krav (NFR-10), bør den første publiseringen på Vercel komme tidlig, så hver PR får en forhåndsvisning fra starten (AR-24).
 
-AR-1 Oppsett (AD-12, Structural Seed): Kildetreet `config/`, `turforslag/`, `domene/`, `tjenester/`, `data/`, `skript/`, `tests/`, `docs/`. `requirements.txt` med låste versjoner fra spinen › Stack (Django 6.1.3, anthropic 2.6.0, python-dotenv 1.2.4). `requirements-bygg.txt` har i tillegg pyproj 3.8.0. Ruff 0.17.4 i `pyproject.toml`. `.env.example` virker uten endring (`DJANGO_SECRET_KEY` med lokal verdi, `DEBUG=True`, tom `ANTHROPIC_API_KEY`, `MET_USER_AGENT` med appnavn og repo-URL). Mangler `.env`, stopper settings med en norsk melding. `LANGUAGE_CODE="nb"`, `TIME_ZONE="Europe/Oslo"`, norske maler for 404, 500 og CSRF-feil. Installasjon: `venv`, `pip install`, kopiere `.env`, `migrate`, `lastinn`, `runserver`. Lokal kjøring virker alltid uten Vercel, Neon eller andre kontoer. Publiseringen står i AR-24.
+AR-1 Oppsett (AD-12, Structural Seed): Kildetreet `config/`, `turforslag/`, `domene/`, `tjenester/`, `data/`, `skript/`, `tests/`, `docs/`. `requirements.txt` med låste versjoner fra spinen › Stack (Django 6.1.3, anthropic 2.6.0, python-dotenv 1.2.4). Byggeskriptet trenger ingen pakker utover `requirements.txt`. `requirements-dev.txt` har `ruff==0.17.4` for utvikling og installeres ikke på Vercel. Oppsettet for Ruff står i `pyproject.toml`. `.env.example` virker uten endring (`DJANGO_SECRET_KEY` med lokal verdi, `DEBUG=True`, tom `ANTHROPIC_API_KEY`, `MET_USER_AGENT` med appnavn og repo-URL). Mangler `.env` lokalt (`VERCEL` er ikke satt), stopper settings med en norsk melding. `LANGUAGE_CODE="nb"`, `TIME_ZONE="Europe/Oslo"`, norske maler for 404, 500 og CSRF-feil. Installasjon: `venv`, `pip install`, kopiere `.env`, `migrate`, `lastinn`, `runserver`. For utvikling og Ruff trengs i tillegg `pip install -r requirements-dev.txt`. Lokal kjøring virker alltid uten Vercel, Neon eller andre kontoer. Publiseringen står i AR-24.
 
 AR-2 Lagdeling (AD-2, Design Paradigm): `domene/` er ren Python og importerer bare standardbiblioteket. Hver regel er én funksjon uten database, nettverk eller klokke, og dagens dato sendes inn. Views og byggeskript regner, filtrerer og formaterer ikke selv. `tjenester/` importerer bare `domene/`. Hver regel har enhetstester som viser til FR-ID-en.
 
 AR-3 Turdatatype (AD-3 punkt 1): `domene.tur.Tur` er en frossen dataklasse med feltene i spinen (verdier for én vei ved tur-retur, totaler bare fra funksjoner i `domene.tur`) og `til_geojson_feature()` og `fra_geojson_feature()`.
 
-AR-4 Byggeskript (AD-3 punkt 2–3, addendum): `python -m skript.bygg_turdatabase` leser kurateringslista i `data/` (format avgjøres i første story for turdatabasen), henter geometri fra Turrutebasen, høyder fra Kartverkets høyde-API (maks 50 punkter per kall, punkt hvert 10–25 m, terskel 2–10 m eller glatting), gjør om UTM (EPSG:25832/25833) til WGS84 med pyproj, beregner verdier via `domene/` og skriver `data/turer.geojson`, som committes. Høydeprofilen lages fra de samme filtrerte punktene. Turnavnet kommer bare fra kurateringslista. OSM leses fra `data/osm-uttrekk.geojson` (committet, med ODbL-kreditering), og skriptet stopper ved 100 objekter eller flere.
+AR-4 Byggeskript (AD-3 punkt 2–3, addendum): `python -m skript.bygg_turdatabase` leser kurateringslista `data/kurateringsliste.toml` (TOML, med `tomllib`), sjekker at samme startpunkt-ID alltid har samme navn og koordinat, henter geometri fra Turrutebasens WFS (`app:Fotrute`, `srsName=EPSG:4326`), der segmentene for hvert rutenummer settes sammen ved endepunktene og skriptet stopper hvis de ikke henger sammen, henter høyder fra Kartverkets høyde-API (maks 50 punkter per kall, punkt hvert 10–25 m, terskel 2–10 m eller glatting), beregner verdier via `domene/` og skriver `data/turer.geojson`, som committes. Høydeprofilen lages fra de samme filtrerte punktene. Turnavnet kommer bare fra kurateringslista. OSM leses fra `data/osm-uttrekk.geojson` (committet, med ODbL-kreditering), og skriptet stopper ved 100 objekter eller flere.
 
-AR-5 Lasting (AD-3 punkt 4, AD-11 punkt 3): `python manage.py lastinn` leser `turer.geojson` og `data/testbruker.*`. Turer oppdateres eller opprettes etter `id` og slettes aldri. `Registrering.tur` har `on_delete=PROTECT`. Mangler en tur som har registreringer, stopper kommandoen med en melding. Testbrukeren slettes og lages på nytt, og `brukt_heving` settes til én mindre enn antall hevinger.
+AR-5 Lasting (AD-3 punkt 4, AD-11 punkt 3): `python manage.py lastinn` leser `turer.geojson` og `data/testbruker.toml`. Startpunkter og turer oppdateres eller opprettes etter `id` (startpunktene først) og slettes aldri. `Registrering.tur` har `on_delete=PROTECT`. Mangler en tur som har registreringer, stopper kommandoen med en melding. Testbrukeren slettes og lages på nytt, og `brukt_heving` settes til én mindre enn antall hevinger.
 
 AR-6 Lagring (AD-4, AD-3 punkt 5–6): All tilstand ligger i én database via Django-modeller og migreringer: SQLite (`db.sqlite3`, ikke i git) lokalt og i tester, og Postgres (Neon) når `DATABASE_URL` finnes. Ingen rå SQL og ingen databasespesifikke felt, så de samme migreringene virker på begge. Geometri og høydeprofil ligger i `JSONField`, uten GeoDjango eller SpatiaLite. Appen beregner aldri turnivå, høydemeter eller tid på nytt.
 
-AR-7 Søketilstand (AD-5): Et gyldig søk (POST) lager en tilfeldig søke-ID (`secrets.token_urlsafe`) og sender videre til `/forslag/<sok_id>/`. `Soketilstand` (`domene.okt`) lagres i Django-økten under `"sok"`, og bare `turforslag/okt.py` leser og skriver den. Rangeringen fryses ved søket, og de 10 nyeste søkene beholdes. Ukjent søke-ID eller tur-ID gir «Forslaget finnes ikke lenger». Ingen `flush()`, `cycle_key()` eller `clear()`. Registrering tar tur-ID fra URL-en (`/registrer/<tur_id>/`).
+AR-7 Søketilstand (AD-5): Et gyldig søk (POST) lager en tilfeldig søke-ID (`secrets.token_urlsafe`) og sender videre til `/forslag/<sok_id>/`. `Soketilstand` (`domene.okt`) lagres i Django-økten under `"sok"`, og bare `turforslag/okt.py` leser og skriver den. Rangeringen fryses ved søket, og de 10 nyeste søkene beholdes. Ukjent søke-ID eller tur-ID gir Søk med meldingen fra Mikrotekst › Forslaget finnes ikke lenger («Turforslaget er ikke lenger tilgjengelig. Søk på nytt for å få et forslag.»). Ingen `flush()`, `cycle_key()` eller `clear()`. Registrering tar tur-ID fra URL-en (`/registrer/<tur_id>/`).
 
 AR-8 Innlogging (AD-6): `SESSION_COOKIE_AGE` er Djangos standard (to uker), uten inaktivitetsgrense. Utlogging er en synlig knapp (POST). Utløpt innlogging sender til Logg inn med `next`.
 
@@ -123,7 +123,7 @@ AR-14 Engangstoken (AD-14): Skjemaet for registrering har et engangstoken i økt
 
 AR-15 Tester og kodestil (AD-13): Testene kjøres med `python manage.py test` og ligger i `tests/` (`domene/`, `tjenester/`, `web/`, `fixtures/`). Domenetester bruker ikke databasen. KI byttes med den falske varianten og MET med lagrede svar. Ingen test gjør nettverkskall. Ruff er linter og formatter. Logging bruker `logging` med én logger per modul.
 
-AR-16 Konvensjoner (spinen › Consistency Conventions): Domeneord på norsk uten æ/ø/å i identifikatorer. All brukertekst kommer fra `EXPERIENCE.md` › Mikrotekst. Formatering («ca. 1 t 35 min», «3,5 km», «grønn») skjer bare i `domene/`. Meter og hele minutter i data. Django-skjemaer validerer alt, alle POST følger Post/Redirect/Get, og CSRF er på. `tjenester/` kaster aldri videre til view. Miljøverdier leses bare i `config/settings.py`. Én felles krediteringslinje i basismalen, og Leaflets egen attribution-prefiks er slått av. Nettleserstøtte: de to nyeste versjonene av Chrome, Edge, Firefox og Safari, også på mobil, uten polyfills.
+AR-16 Konvensjoner (spinen › Consistency Conventions): Domeneord på norsk uten æ/ø/å i identifikatorer. All brukertekst kommer fra `EXPERIENCE.md` › Mikrotekst. Formatering («ca. 1 t 35 min», «3,5 km», «grønn») skjer bare i `domene/`. Meter og hele minutter i data. Django-skjemaer validerer alt, alle POST følger Post/Redirect/Get, og CSRF er på. `tjenester/` kaster aldri videre til view. Miljøverdier leses bare i `config/settings.py`. Krediteringen for kart og rute står på kartet og renderes på serveren, og Leaflets attribution-kontroll er slått av. «Data fra MET Norge» står i Bekledningstips. Basismalen har ingen krediteringslinje. Nettleserstøtte: de to nyeste versjonene av Chrome, Edge, Firefox og Safari, også på mobil, uten polyfills.
 
 AR-17 Content-Security-Policy (spinen › Consistency Conventions): Djangos innebygde CSP med `default-src 'self'`, `img-src 'self' https://cache.kartverket.no`, `object-src 'none'`, `base-uri 'self'`, `form-action 'self'` og `frame-ancestors 'none'`. Ingen inline-skript og ingen `style`-attributter i maler. Trenger Leaflet mer, utvides policyen i kartstoryen med en begrunnelse.
 
@@ -145,7 +145,7 @@ AR-24 Publisering på Vercel (AD-15, NFR-10): Ett Vercel-prosjekt (Hobby) eid av
 
 UX-DR1 Designtokens: Alle tokens fra `DESIGN.md` (frontmatter) blir CSS-variabler: farger med `-dark`-par, kartlag-tokens uten `-dark`-par, typografiroller (systemfonter, serif på overskrifter og sans-serif på resten, ingen webfont), spacing-skala på 4 px, `rounded` og layoutverdier (`page-margin`, `breakpoint-stack` 720 px, `touch-target-min` 44 px og maksbreddene).
 
-UX-DR2 Basismal og landemerker: `<html lang="nb">`, `header` med `nav`, én `main` per visning, sidetittel « – Your Next Adventure», felles kreditering. Flytende oppsett uten faste høyder (`min-height` og padding). Reflow ved 320 px, tekstavstand etter WCAG 1.4.12 og 200 % tekstzoom. Display og Stor overskrift skaleres til 28 px under 720 px.
+UX-DR2 Basismal og landemerker: `<html lang="nb">`, `header` med `nav`, én `main` per visning, sidetittel « – Your Next Adventure». Flytende oppsett uten faste høyder (`min-height` og padding). Reflow ved 320 px, tekstavstand etter WCAG 1.4.12 og 200 % tekstzoom. Display og Stor overskrift skaleres til 28 px under 720 px.
 
 UX-DR3 Toppmeny: Gjest ser logo og «Logg inn». Innlogget ser logo, «Finn tur», «Historikk» og «Konto». `aria-current="page"` på aktivt punkt, med vekt 600 og 2 px understrek. Menypunktene brytes til ny linje, uten hamburgermeny. Logoen fører til Søk.
 
@@ -169,7 +169,7 @@ UX-DR12 Turforslag-oppsett: To kolonner over 720 px (Stille kart) med kartet til
 
 UX-DR13 Kart: «Kartet i tekst»-lenke oppe til venstre, «Vis hele ruten» og zoom + og − oppe til høyre, målestokk nede til venstre og kreditering nede til høyre. Kartkontrollene er 44 px. Rutelinjen er plommelilla (5 px på 9 px hvit kant), og startmarkøren er «S». Kartflaten har `tabindex="0"`, `role="region"` og `aria-label="Kart over {turnavn}"`. Piltastene flytter og + og − zoomer. Rullehjulet ruller siden, og Ctrl/Cmd + rullehjul zoomer. Én finger på berøringsskjerm ruller siden og viser et hint, to fingre flytter kartet. Kartet holder aldri på fokus og fanger aldri siderullingen. Markørene kan ikke få fokus. Norske tekster og ingen reklamelenker. Ingen animasjon ved `prefers-reduced-motion`. Feiler flisene, vises en melding med «Prøv igjen» og lenke til Kartbeskrivelse. På mobil står kartet innenfor sidemargen, med høyde ca. 60 % av skjermen.
 
-UX-DR14 Kreditering: Alltid synlig på kartet på hvit flate, med understrekede lenker til Kartverket, openstreetmap.org/copyright (`lang="en"`) og MET Norge. Den brytes høyrejustert på smal skjerm.
+UX-DR14 Kreditering: Alltid synlig på kartet på hvit flate, med understrekede lenker til Kartverket og openstreetmap.org/copyright (`lang="en"`). Den renderes på serveren, så den vises også uten JavaScript og når flisene feiler. «Data fra MET Norge» står i Bekledningstips (story 5.3). Den brytes høyrejustert på smal skjerm.
 
 UX-DR15 Kartbeskrivelse: `h2` «Kartet i tekst» med tekst laget fra turdata, for eksempel «Rundtur på 3,5 km totalt fra Granvannet p-plass. Ruten stiger ca. 130 høydemeter, fra 180 til 310 moh.»
 
@@ -185,7 +185,7 @@ UX-DR20 Bekledningstips (P2): `h2` «Bekledningstips for {dag}», grunnlagslinje
 
 UX-DR21 Melding: Info, advarsel, feil og suksess med 4 px venstrekant i statusfarge, 20 px ikon og fet tittel. Brødteksten er valgfri. Den står der saken gjelder, aldri som toast. `role="status"` eller `role="alert"` på samme side. En melding som følger en navigering, får fokus i stedet for `h1`.
 
-UX-DR22 Tilstandspanel: Erstatter turinnholdet for ingen treff, nivåtak og alle vist. Overskriften er `h1` i `headline-lg`. Forklaringen står til venstre og endringsforslagene til høyre (stablet under 720 px). «Prøv 3 timer» og «Prøv marka» kjører søket på nytt med én endring. «Velg startpunkt» går til skjemaet med fokus på Startpunkt. «Start fra første forslag igjen» og «Endre søk». Nivåtaket har tre tekstvarianter (gjest med «Lag konto», innlogget uten historikk og bruker med historikk).
+UX-DR22 Tilstandspanel: Erstatter turinnholdet for ingen treff, nivåtak og alle vist. Overskriften er `h1` i `headline-lg`. Forklaringen står til venstre og endringsforslagene til høyre (stablet under 720 px). «Prøv 3 timer» og «Prøv marka» er knapper i et lite POST-skjema med CSRF som sender det endrede søket, og hvilke forslag som vises, avgjør `foresla_endringer` (story 1.12). «Start fra første forslag igjen» er også en knapp (POST). «Velg startpunkt» går til skjemaet med fokus på Startpunkt. «Start fra første forslag igjen» og «Endre søk». Nivåtaket har tre tekstvarianter (gjest med «Lag konto», innlogget uten historikk og bruker med historikk).
 
 UX-DR23 Lasting: Søkeoppsummeringen vises med en gang, `surface-alt`-flate der kartet kommer, «Kart lastes …» og lastetekst. `aria-busy="true"` på visningen og lastemelding i en `aria-live="polite"`-region utenfor. Ingen spinner ved `prefers-reduced-motion`.
 
@@ -238,7 +238,7 @@ FR-19: Epic 3 – nivåregler
 FR-20: Epic 3 – turtypepreferanse (P2)
 FR-21: Epic 3 – testbruker
 
-**NFR:** NFR-1 og NFR-10 i Epic 1 (ferdig README i Epic 6). NFR-2, NFR-3, NFR-4 og NFR-6 i alle epics (manuell UU- og mobiltest og kontroll av NFR-6 i Epic 6). NFR-5 i Epic 2 og 4. NFR-7 i Epic 1: all kreditering, også «Data fra MET Norge», finnes fra story 1.10, og Epic 5 legger ikke til ny kreditering. NFR-8 i Epic 2 (innlogging) og Epic 4 (KI). NFR-9 i Epic 6.
+**NFR:** NFR-1 og NFR-10 i Epic 1 (ferdig README i Epic 6). NFR-2, NFR-3, NFR-4 og NFR-6 i alle epics (manuell UU- og mobiltest og kontroll av NFR-6 i Epic 6). NFR-5 i Epic 2 og 4. NFR-7 i Epic 1 (kart og rute, story 1.10) og Epic 5 («Data fra MET Norge», story 5.3). NFR-8 i Epic 2 (innlogging) og Epic 4 (KI). NFR-9 i Epic 6.
 
 ## Epic-liste
 
@@ -287,7 +287,7 @@ Med nøkkel skriver KI begrunnelsen. Svaret valideres alltid, reserven tar over 
 Turforslaget viser tips for startpunktet kl. 10–16 på valgt dato, også for turforslag fra historikken (for i dag), og forklarer hvorfor når varselet mangler.
 
 **FR dekket:** FR-9, FR-10, FR-6 og FR-17 (bekledningstips)
-**NFR:** ingen nye. MET-krediteringen (NFR-7) finnes fra story 1.10, og Epic 5 legger ikke til ny kreditering
+**NFR:** NFR-7: «Data fra MET Norge» vises i Bekledningstips når det vises tips fra værvarselet (story 5.3)
 
 ### Epic 6: Rikere turforslag og klar for sensor (P2, og kvalitetssikring som er P1)
 
@@ -323,14 +323,15 @@ slik at jeg kan teste den uten nøkler, Node, Docker eller databaseserver.
 **Så** finnes `turforslag.Bruker` med `username=None`, `USERNAME_FIELD="email"`, uten fornavn og etternavn, med egen manager og feltet `brukt_heving` (standard 0), og `AUTH_USER_MODEL` peker på den (AR-9)
 **Og** e-post lagres med små bokstaver, og passordvalideringen har bare minimumslengde 8
 
-**Gitt** at `.env` mangler, eller at `DJANGO_SECRET_KEY` er tom
+**Gitt** at `VERCEL` ikke er satt, og at `.env` mangler eller `DJANGO_SECRET_KEY` er tom
 **Når** jeg starter appen
 **Så** stopper den med en norsk melding om å kopiere `.env.example` til `.env` (AD-12 punkt 3)
+**Og** når `VERCEL` er satt, kreves ingen `.env`, og bare sjekken i story 1.2 gjelder (AD-15 punkt 5)
 
 **Gitt** `.env.example` kopiert uendret
 **Når** jeg leser den
 **Så** har den `DJANGO_SECRET_KEY` med en lokal utviklingsverdi, `DEBUG=True`, tom `ANTHROPIC_API_KEY` og `MET_USER_AGENT` med appnavn og repo-URL, uten personlig e-post
-**Og** `requirements.txt` har låste versjoner fra spinen › Stack, og `requirements-bygg.txt` har i tillegg `pyproj` 3.8.0
+**Og** `requirements.txt` har låste versjoner fra spinen › Stack, og `requirements-dev.txt` har `ruff==0.17.4` for utvikling
 
 **Gitt** at appen kjører
 **Når** jeg åpner en adresse som ikke finnes, sender et skjema med ugyldig CSRF-token eller serveren feiler
@@ -342,7 +343,7 @@ slik at jeg kan teste den uten nøkler, Node, Docker eller databaseserver.
 **Så** har den Content-Security-Policy etter konvensjonen i spinen (AR-17)
 
 **Gitt** repoet
-**Når** jeg kjører `python manage.py test`, `ruff check .` og `ruff format --check .`
+**Når** jeg har kjørt `pip install -r requirements-dev.txt` og kjører `python manage.py test`, `ruff check .` og `ruff format --check .`
 **Så** består alle, uten nettverkskall (AR-15)
 **Og** README › Installasjon og kjøring har kommandoene over, klare til å kopieres (AR-20)
 
@@ -472,9 +473,9 @@ slik at turdatabasen blir lik hver gang, og appen aldri henter turdata mens den 
 
 **Akseptansekriterier:**
 
-**Gitt** at formatet på kurateringslista er valgt (CSV, YAML eller TOML)
+**Gitt** kurateringslista `data/kurateringsliste.toml`, lest med `tomllib` fra standardbiblioteket
 **Når** jeg åpner `data/`
-**Så** har lista per tur `id`, navn, startpunkt (id, navn og koordinat), form, turtyper, kilde og kilde-ID og eventuell ut.no-URL, og formatet er beskrevet i en README i `data/` (AD-3 punkt 2)
+**Så** har lista per tur `id`, navn, startpunkt (id, navn og koordinat i WGS84), form, turtyper, kilde og kilde-ID og eventuell ut.no-URL. For Turrutebasen er kilde-ID en liste med ett eller flere rutenummer (`app:rutenummer`, for eksempel `F_01812_03`) i rekkefølge langs turen, og formatet er beskrevet i en README i `data/` (AD-3 punkt 2)
 
 **Gitt** en kurateringsliste med 2–3 testturer
 **Når** jeg kjører `python -m skript.bygg_turdatabase`
@@ -486,9 +487,11 @@ slik at turdatabasen blir lik hver gang, og appen aldri henter turdata mens den 
 **Så** sender det høyst 50 punkter per kall, med et punkt hvert 10–25 m, filtrerer støy (terskel 2–10 m eller glatting) og lager høydeprofilen fra de samme filtrerte punktene
 **Og** de valgte verdiene for terskel og punktavstand står i README-en i `data/` (spinen › Deferred)
 
-**Gitt** geometri i UTM (EPSG:25832 eller 25833)
-**Når** skriptet gjør den om
-**Så** blir den WGS84 med `pyproj`, og `pyproj` står bare i `requirements-bygg.txt`
+**Gitt** en tur fra Turrutebasen
+**Når** skriptet henter geometrien
+**Så** henter det segmentene (features) for hvert rutenummer i kilde-ID-en fra WFS-en `https://wfs.geonorge.no/skwms1/wfs.turogfriluftsruter` med `service=WFS`, `version=2.0.0`, `request=GetFeature`, `typeNames=app:Fotrute` og `srsName=EPSG:4326`, filtrert på `app:rutenummer`. Det leser `gml:posList` (GML 3.2.1, rekkefølgen lon lat) med `xml.etree.ElementTree` og bruker HTTP-klienten fra `requirements.txt`
+**Og** det setter segmentene sammen til én `LineString` ved å koble endepunkter (og snur et segment ved behov), i rekkefølgen i kilde-ID-en. Henger de ikke sammen innenfor toleransen i README-en i `data/`, stopper skriptet med en melding om hvilken tur og hvilket rutenummer det gjelder, og den gamle `turer.geojson` blir ikke overskrevet
+**Og** koordinatene er allerede i WGS84, så skriptet regner ikke om og bruker ikke `pyproj`. Lengde og punktavstand regnes med en avstandsfunksjon for WGS84 (for eksempel haversine) i `domene.tur`
 
 **Gitt** `data/osm-uttrekk.geojson` med ODbL-kreditering
 **Når** uttrekket har 100 objekter eller flere
@@ -498,9 +501,13 @@ slik at turdatabasen blir lik hver gang, og appen aldri henter turdata mens den 
 **Når** skriptet kjører
 **Så** stopper det med en melding som sier hvilken tur det gjelder, og den gamle `turer.geojson` overskrives ikke
 
+**Gitt** to turer i kurateringslista med samme startpunkt-ID
+**Når** skriptet leser lista
+**Så** stopper det med en melding som nevner startpunkt-ID-en, hvis navnet eller koordinaten er ulik (AD-3 punkt 2)
+
 **Gitt** testene for byggeskriptet
 **Når** de kjøres
-**Så** bruker de lagrede svar i `tests/fixtures/` uten nettverkskall, og beregningene går gjennom `domene/` (AR-2, AR-15)
+**Så** bruker de lagrede svar i `tests/fixtures/` uten nettverkskall, også et WFS-svar der en rute har flere segmenter og et der segmentene ikke henger sammen, og beregningene går gjennom `domene/` (AR-2, AR-15)
 
 ### Story 1.6: Turene lastes inn med én kommando
 
@@ -510,14 +517,15 @@ slik at appen har turer rett etter installasjonen.
 
 **Akseptansekriterier:**
 
-**Gitt** modellene for startpunkt og tur
+**Gitt** modellene `Startpunkt` (`id` som stabil streng og primærnøkkel, `navn`, `lat`, `lon`, `hoyde_m`) og `Tur` i `turforslag/`, der `Tur.startpunkt` er en `ForeignKey` med `on_delete=PROTECT` og `Tur.turtyper` er et `JSONField` med en liste av `marka`, `utsikt` og `topptur` (AD-3 punkt 5)
 **Når** migreringen kjøres
-**Så** lagres geometri og høydeprofil i `JSONField`, uten GeoDjango eller SpatiaLite, og migreringen virker på både SQLite og Postgres (AR-6)
+**Så** lagres geometri, høydeprofil og turtyper i `JSONField`, uten GeoDjango eller SpatiaLite, og migreringen virker på både SQLite og Postgres (AR-6)
 
 **Gitt** `data/turer.geojson`
 **Når** jeg kjører `python manage.py lastinn` to ganger
 **Så** opprettes eller oppdateres turene etter `id`, og antallet er det samme etter andre kjøring (AR-5)
 **Og** en tur som mangler i fila, slettes ikke
+**Og** startpunktene opprettes eller oppdateres etter `id` før turene, ut fra de flate startpunktfeltene i `domene.tur.Tur`, og et startpunkt slettes ikke
 
 **Gitt** en ugyldig eller ødelagt fil
 **Når** `lastinn` kjøres
@@ -609,7 +617,7 @@ slik at jeg raskt kan bestemme meg.
 
 **Gitt** Søk-skjermen
 **Når** den vises første gang
-**Så** har den `h1` «Hvor lang tid har du?», ingressen og feltene i rekkefølgen fra `DESIGN.md`: Varighet (`<select>` med «Velg» og 1–8 t i halvtimessteg), Dato (`<select>` med de 31 aktuelle dagene, i dag forvalgt), Turtype (Turtypekort, «Alle turtyper» forvalgt) og Startpunkt («Alle startpunkt» og hjelpeteksten om Oslo-området) (FR-4, UX-DR6, UX-DR7, UX-DR10)
+**Så** har den `h1` «Hvor lang tid har du?», ingressen og feltene i rekkefølgen fra `DESIGN.md`: Varighet (`<select>` med «Velg» og 1–8 t i halvtimessteg), Dato (`<select>` med de 31 aktuelle dagene, i dag forvalgt), Turtype (Turtypekort, «Alle turtyper» forvalgt) og Startpunkt («Alle startpunkt» og startpunktene fra modellen `Startpunkt`, med hjelpeteksten om Oslo-området) (FR-4, UX-DR6, UX-DR7, UX-DR10)
 **Og** det finnes ikke noe fritekstfelt (det kommer i story 4.6 og vises fra story 4.7)
 
 **Gitt** et søk uten varighet
@@ -672,7 +680,7 @@ slik at jeg vet hvor turen går, også med tastatur eller skjermleser.
 
 **Gitt** kartet
 **Når** det vises
-**Så** står lenken «Kartet i tekst» oppe til venstre, «Vis hele ruten» og zoom + og − oppe til høyre (44 px), målestokken nede til venstre og krediteringen nede til høyre. Krediteringen er alltid synlig, med understrekede lenker til Kartverket, OpenStreetMap (`lang="en"`) og MET Norge, uten Leaflets egen prefiks og med norske tekster på kontrollene (NFR-7, UX-DR14)
+**Så** står lenken «Kartet i tekst» oppe til venstre, «Vis hele ruten» og zoom + og − oppe til høyre (44 px), målestokken nede til venstre og krediteringen nede til høyre. Krediteringen er alltid synlig, med understrekede lenker til Kartverket og OpenStreetMap (`lang="en"`). Den renderes på serveren i malen, og Leaflets attribution-kontroll er slått av (`attributionControl: false`) og med norske tekster på kontrollene (NFR-7, UX-DR14)
 
 **Gitt** tastaturbruk
 **Når** jeg tabber gjennom kartet
@@ -690,7 +698,7 @@ slik at jeg vet hvor turen går, også med tastatur eller skjermleser.
 
 **Gitt** at kartflisene ikke lastes, eller at JavaScript er slått av
 **Når** turforslaget vises
-**Så** viser kartflaten en infomelding med «Prøv igjen» og lenke til «Kartet i tekst», og resten av forslaget vises som vanlig (AD-1)
+**Så** viser kartflaten en infomelding med «Prøv igjen» og lenke til «Kartet i tekst», krediteringen står fortsatt nede til høyre, og resten av forslaget vises som vanlig (AD-1)
 
 **Gitt** `prefers-reduced-motion`
 **Når** kartet flyttes
@@ -710,7 +718,8 @@ slik at jeg kan velge en annen tur hvis den første ikke frister.
 
 **Gitt** at alle treff er vist
 **Når** jeg trykker «Nytt forslag»
-**Så** vises Tilstandspanel med `h1` «Du har sett alle turene som passer søket», antallet turer, endringsforslag, «Start fra første forslag igjen» og «Endre søk» (FR-7, UX-DR22)
+**Så** vises Tilstandspanel med `h1` «Du har sett alle turene som passer søket», antallet turer, «Start fra første forslag igjen» og «Endre søk» (FR-7, UX-DR22)
+**Og** endringsforslagene fra `foresla_endringer` legges til i story 1.12. Der må en endring gi minst én tur som ikke var blant treffene i søket
 
 **Gitt** Tilstandspanel for «alle vist»
 **Når** jeg trykker «Start fra første forslag igjen»
@@ -753,11 +762,15 @@ slik at jeg ikke står fast.
 **Gitt** status `INGEN_TREFF`
 **Når** forslaget vises
 **Så** vises Tilstandspanel med `h1` «Jeg fant ingen tur som passer søket ditt», «Prøv å endre søket:» og konkrete endringsforslag for lengre varighet, et annet startpunkt og en annen turtype (FR-8, UX-DR22)
-**Og** et forslag vises bare når endringen gir minst ett treff. Det avgjøres av en ren funksjon i `domene/`
+**Og** forslagene lages av `domene.utvalg.foresla_endringer(sok, turer, nivatak, tidligere_treff=())`. Den gir høyst tre forslag i fast rekkefølge, med de andre valgene uendret, og tar bare med et forslag når `velg_turer` gir status `TREFF` for det endrede søket: (1) Varighet: den korteste varigheten i lista (halvtimessteg) som er lengre enn søket og gir treff, for eksempel «Prøv 3 timer» eller «Prøv 2,5 timer». Ved 8 t blir det ikke noe forslag. (2) Startpunkt: bare når et startpunkt er valgt, og minst ett annet startpunkt eller «Alle startpunkt» gir treff: «Velg startpunkt». (3) Turtype: bare når en turtype er valgt. Første turtype i rekkefølgen marka, utsikt, topptur som ikke er valgt og gir treff («Prøv marka»), ellers «Prøv alle turtyper» hvis det gir treff
+**Og** ved «alle vist» (story 1.11) får funksjonen treffene i søket som `tidligere_treff`, og et forslag tas bare med når det gir minst én tur som ikke er blant dem
+**Og** gir ingen endring treff, viser panelet bare «Endre søk» (og «Start fra første forslag igjen» ved «alle vist»)
+**Og** varigheten formateres i `domene/` (hele timer som «3 timer», halvtimer som «2,5 timer»). «Prøv 2,5 timer» og «Prøv alle turtyper» er [ASSUMPTION] i Mikrotekst
 
 **Gitt** et endringsforslag som «Prøv 3 timer» eller «Prøv marka»
 **Når** jeg trykker på det
-**Så** kjøres søket på nytt med én endring og en ny søke-ID
+**Så** sender knappen det endrede søket i et lite POST-skjema med CSRF, søket kjøres på nytt med én endring og en ny søke-ID, og svaret følger Post/Redirect/Get (AR-7, AR-16)
+**Og** forslagene er knapper (`<button type="submit">`), ikke lenker, og de virker likt uten JavaScript
 **Og** «Velg startpunkt» går til det forhåndsutfylte skjemaet med fokus på Startpunkt
 
 **Gitt** status `BARE_OVER_NIVATAK` for en gjest
@@ -771,7 +784,7 @@ slik at jeg ikke står fast.
 
 **Gitt** testene i `tests/web/`
 **Når** de kjøres
-**Så** dekker de hver status og endringsforslagene (SM-2)
+**Så** dekker de hver status og endringsforslagene, også halvtimer, 8 t, «alle vist» med `tidligere_treff` og tilfellet uten forslag (SM-2)
 
 ## Epic 2: Ola lager konto og registrerer turene sine
 
@@ -1854,10 +1867,10 @@ slik at jeg er kledd for turen.
 **Når** det vises
 **Så** har det ingen bekledningstips, og MET kalles ikke (UX-DR22)
 
-**Gitt** et turforslag med bekledningstips eller med en melding uten værvarsel
+**Gitt** et turforslag med bekledningstips fra værvarselet
 **Når** siden vises
-**Så** finnes bare den felles krediteringslinjen fra story 1.10, med «Data fra MET Norge» som lenke til MET Norge, og storyen legger ikke til en ny kreditering (NFR-7, AR-16)
-**Og** en test sjekker at «Data fra MET Norge» står nøyaktig én gang på siden, også i turforslag fra historikken
+**Så** står «Data fra MET Norge» som lenke til MET Norge rett etter grunnlagslinjen i Bekledningstips (NFR-7, AR-16)
+**Og** uten tips (melding uten værvarsel, `PASSERT` eller Tilstandspanel) står ikke «Data fra MET Norge» på siden. En test sjekker at teksten står nøyaktig én gang når tips vises, også i turforslag fra historikken, og ikke i det hele tatt uten tips
 
 **Gitt** en skjerm på 360 px
 **Når** turforslaget vises
@@ -1866,7 +1879,7 @@ slik at jeg er kledd for turen.
 **Gitt** at FR-9 og FR-10 kuttes, eller at Epic 5 ikke bygges (AR-22)
 **Når** turforslaget vises
 **Så** finnes verken seksjonen, meldingene uten værvarsel eller MET-kall, og det blir ikke tomrom (PRD §7.1, UX-DR20)
-**Og** krediteringen fra story 1.10 står uendret, og testene for de leverte storyene i Epic 1–4 består uendret
+**Og** krediteringen på kartet fra story 1.10 står uendret, «Data fra MET Norge» står ikke på siden, og testene for de leverte storyene i Epic 1–4 består uendret
 
 **Gitt** testene i `tests/web/`
 **Når** de kjøres
@@ -1935,6 +1948,7 @@ slik at jeg skjønner formen på turen og hvor mye den stiger, før jeg går.
 **Gitt** Turoppsummering på Registrer gjennomført tur og på Logg inn / Lag konto ved krav om konto
 **Når** den vises
 **Så** har den den lille varianten, uten bildetekst og med `aria-hidden="true"`, fordi navn, nivå, form, lengde og estimert tid står som tekst i kortet (UX-DR28)
+**Og** når illustrasjonen vises uten kartet på samme side (Turoppsummering og pyntvarianten på Søk), står en krediteringslinje i `caption` etter turens `kilde`: «Rute: © Kartverket» eller «Rute: © OpenStreetMap contributors» med lenke. Teksten er [ASSUMPTION] i Mikrotekst (NFR-7)
 
 **Gitt** at turillustrasjonen kuttes (AR-22)
 **Når** storyen tas ut
@@ -2114,7 +2128,7 @@ slik at jeg kan følge ruten på kartet.
 **Gitt** Kartverket topo-fliser fra adressen i AR-10
 **Når** flisfargene måles
 **Så** er fargen for skog, myr, vann og bebyggelse målt med en fargeplukker på minst to steder i turområdene og på minst to zoomnivåer som turforslaget bruker (UX-DR35)
-**Og** målingen krever ingen ny pakke i `requirements.txt` eller `requirements-bygg.txt`
+**Og** målingen krever ingen ny pakke i `requirements.txt` eller `requirements-dev.txt`
 **Og** flisadressene (`z/x/y`) og de målte fargeverdiene står i en tabell i `docs/`. Skjermbilder av kartet har «© Kartverket» (NFR-7)
 
 **Gitt** de målte flisfargene
@@ -2237,7 +2251,7 @@ slik at jeg kan vurdere appen og prosessen uten avvik.
 **Gitt** en ny klone av siste commit på `main`, i en mappe uten `venv`, `.env` og database, på en maskin eller brukerkonto som ikke er brukt i utviklingen, med Python 3.14
 **Når** README følges ordrett fra start, uten annen hjelp
 **Så** kjører appen lokalt med turdatabasen og testbrukeren på under 20 minutter, uten nøkler (NFR-1, AR-20)
-**Og** `python manage.py test`, `ruff check .` og `ruff format --check .` består i det samme miljøet (AR-15)
+**Og** etter `pip install -r requirements-dev.txt` fra README består `python manage.py test`, `ruff check .` og `ruff format --check .` i det samme miljøet (AR-15)
 **Og** dato, tid brukt, operativsystem, Python-versjon og hvert avvik står i `docs/`. Hvert avvik er rettet i README, og testen er gjort på nytt etter rettingen
 
 **Gitt** kommandoene i README
