@@ -1,0 +1,28 @@
+{% comment %}
+Melding (UX-DR21, DESIGN.md › Melding, EXPERIENCE.md › Component Patterns).
+Bruk: {% include "turforslag/_melding.html" with type="feil" tittel="…" tekst="…" %}
+- type: info, advarsel, feil eller suksess. Tittelen kommer fra Mikrotekst. tekst er valgfri.
+- På samme side: role="status" (info, suksess) eller role="alert" (advarsel, feil).
+- Etter navigering (fokus=True): ingen role, men tabindex="-1" og data-fokus.
+  forbedring.js gir meldingen fokus ved innlasting. Bare den første [data-fokus] får fokus,
+  så høyst én Melding per side kan ha fokus=True (den rett under h1).
+Ikonet er aria-hidden og bruker currentColor. Fargene står i side.css.
+{% endcomment %}
+<div class="melding melding-{{ type }}"{% if fokus %} tabindex="-1" data-fokus{% elif type == "info" or type == "suksess" %} role="status"{% else %} role="alert"{% endif %}>
+  <svg class="melding-ikon" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+    <circle cx="10" cy="10" r="10" fill="currentColor"/>
+    {% if type == "suksess" %}
+      <path class="melding-glyf" d="M5.6 10.4 L8.6 13.2 L14.4 7"/>
+    {% elif type == "info" %}
+      <circle class="melding-prikk" cx="10" cy="5.8" r="1.5"/>
+      <path class="melding-glyf" d="M10 9.2 V14.6"/>
+    {% else %}
+      <path class="melding-glyf" d="M10 5.2 V10.8"/>
+      <circle class="melding-prikk" cx="10" cy="14.4" r="1.5"/>
+    {% endif %}
+  </svg>
+  <div>
+    <p class="melding-tittel">{{ tittel }}</p>
+    {% if tekst %}<p class="melding-tekst">{{ tekst }}</p>{% endif %}
+  </div>
+</div>

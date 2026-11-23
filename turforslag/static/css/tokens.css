@@ -1,0 +1,164 @@
+/* Designtokens fra DESIGN.md (frontmatter), som CSS-variabler. UX-DR1.
+   Dette er den eneste fila med fargeverdier. Navnene følger token-navnene i DESIGN.md.
+   -dark-variablene er bare definert. Mørk modus kommer i Epic 6 (story 6.3).
+   Kartlagene har bevisst ingen -dark-par. */
+
+:root {
+  /* Farger – Granskog – Mosegrønn */
+  --background: #f3f3ec;
+  --background-dark: #141a15;
+  --surface: #fffefa;
+  --surface-dark: #1c231d;
+  --surface-alt: #e7eadf;
+  --surface-alt-dark: #262f27;
+  --text: #1f2a22;
+  --text-dark: #e8ece4;
+  --text-muted: #4f5b50;
+  --text-muted-dark: #aab4a8;
+  --primary: #355146;
+  --primary-dark: #adcec0;
+  --on-primary: #ffffff;
+  --on-primary-dark: #19241f;
+  --accent: #d6936e;
+  --accent-dark: #e3a784;
+  --accent-2: #c99aa6;
+  --accent-2-dark: #d9aab5;
+  --accent-soft: #f6e4d8;
+  --accent-soft-dark: #3b2d27;
+  --border: #cfd4c5;
+  --border-dark: #333d33;
+  --input-border: #6f7a72;
+  --input-border-dark: #aab4a8;
+  --focus-ring: #b0624a;
+  --focus-ring-dark: #f0b79c;
+  --success: #2e4d3c;
+  --success-dark: #b0cdba;
+  --info: #3f5f86;
+  --info-dark: #97b6e0;
+  --warning: #865a16;
+  --warning-dark: #e5ba6e;
+  --error: #a5383a;
+  --error-dark: #ef9a92;
+  --profile-fill: #cee1d9;
+  --profile-fill-dark: #374b43;
+  --sun: #eec7b0;
+  --sun-dark: #8f6d5c;
+  --gradient-1: #355146;
+  --gradient-1-dark: #263931;
+  --gradient-2: #7c9087;
+  --gradient-2-dark: #4a5e55;
+  --gradient-3: #d9a48a;
+  --gradient-3-dark: #8f6d5c;
+  --gradient-4: #eec7b0;
+  --gradient-4-dark: #b48b74;
+
+  /* Turnivå – faste domenefarger */
+  --level-gronn: #1a7f37;
+  --level-gronn-dark: #34c35f;
+  --level-gronn-on: #ffffff;
+  --level-gronn-on-dark: #111418;
+  --level-bla: #0a5bd3;
+  --level-bla-dark: #4c93ff;
+  --level-bla-on: #ffffff;
+  --level-bla-on-dark: #111418;
+  --level-rod: #c8221b;
+  --level-rod-dark: #ff5d52;
+  --level-rod-on: #ffffff;
+  --level-rod-on-dark: #111418;
+  --level-svart: #111111;
+  --level-svart-dark: #050505;
+  --level-svart-on: #ffffff;
+  --level-svart-on-dark: #ffffff;
+
+  /* Kartlag – like i lys og mørk modus, derfor ingen -dark-par */
+  --map-overlay-surface: #ffffff;
+  --map-overlay-text: #1f2a22;
+  --map-overlay-link: #355146;
+  --map-marker-start: #355146;
+  --map-route: #6a3d9a;
+  --map-focus-ring: #b0624a;
+
+  /* Typografi – systemfonter, ingen webfont */
+  --font-serif: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --display-font-family: var(--font-serif);
+  --display-font-size: 42px;
+  --display-font-weight: 400;
+  --display-line-height: 1.1;
+  --headline-lg-font-family: var(--font-serif);
+  --headline-lg-font-size: 36px;
+  --headline-lg-font-weight: 400;
+  --headline-lg-line-height: 1.15;
+  --headline-md-font-family: var(--font-serif);
+  --headline-md-font-size: 28px;
+  --headline-md-font-weight: 400;
+  --headline-md-line-height: 1.15;
+  --headline-sm-font-family: var(--font-serif);
+  --headline-sm-font-size: 22px;
+  --headline-sm-font-weight: 400;
+  --headline-sm-line-height: 1.25;
+  --brand-font-family: var(--font-serif);
+  --brand-font-size: 20px;
+  --brand-font-weight: 400;
+  --brand-line-height: 1.2;
+  --body-lg-font-family: var(--font-sans);
+  --body-lg-font-size: 16px;
+  --body-lg-font-weight: 400;
+  --body-lg-line-height: 1.5;
+  --body-md-font-family: var(--font-sans);
+  --body-md-font-size: 14.5px;
+  --body-md-font-weight: 400;
+  --body-md-line-height: 1.45;
+  --label-font-family: var(--font-sans);
+  --label-font-size: 15px;
+  --label-font-weight: 600;
+  --label-line-height: 1.4;
+  --button-font-family: var(--font-sans);
+  --button-font-size: 15px;
+  --button-font-weight: 600;
+  --button-line-height: 1.3;
+  --fact-value-font-family: var(--font-sans);
+  --fact-value-font-size: 18px;
+  --fact-value-font-weight: 600;
+  --fact-value-line-height: 1.2;
+  --eyebrow-font-family: var(--font-sans);
+  --eyebrow-font-size: 12px;
+  --eyebrow-font-weight: 600;
+  --eyebrow-line-height: 1.4;
+  --eyebrow-letter-spacing: 0.06em;
+  --caption-font-family: var(--font-sans);
+  --caption-font-size: 12.5px;
+  --caption-font-weight: 400;
+  --caption-line-height: 1.4;
+
+  /* Hjørner */
+  --rounded-sm: 6px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 16px;
+  --rounded-full: 9999px;
+
+  /* Avstand – skala på 4 px */
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 24px;
+  --spacing-6: 32px;
+  --spacing-7: 48px;
+  --spacing-8: 64px;
+
+  /* Layout – flytende regler, ingen faste høyder på innhold.
+     --breakpoint-stack kan ikke brukes i @media; der står 720px direkte. */
+  --page-margin: clamp(16px, 5vw, 64px);
+  --breakpoint-stack: 720px;
+  --touch-target-min: 44px;
+  --header-min-height: 60px;
+  --info-column-max-width: 470px;
+  --info-column-padding: 28px;
+  --form-max-width: 560px;
+  --content-max-width: 960px;
+  --side-illustration-max-width: 440px;
+  --map-control-size: 44px;
+}

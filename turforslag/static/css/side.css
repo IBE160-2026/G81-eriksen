@@ -1,0 +1,323 @@
+/* Felles stilark: grunnoppsett, typografiroller, Toppmeny, knapper, fokusring og Melding.
+   UX-DR2–5, UX-DR21, UX-DR33, NFR-3, NFR-4.
+   Farger kommer bare fra tokens.css via var(). Ingen faste høyder med overflow: hidden. */
+
+/* --- Grunnoppsett --- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font-family: var(--body-lg-font-family);
+  font-size: var(--body-lg-font-size);
+  font-weight: var(--body-lg-font-weight);
+  line-height: var(--body-lg-line-height);
+  overflow-wrap: break-word;
+}
+
+/* Én main rommer hele visningen (UX-DR2). Bredden er flytende med sidemarg. */
+main {
+  display: block;
+  width: 100%;
+  max-width: calc(var(--content-max-width) + 2 * var(--page-margin));
+  margin-inline: auto;
+  padding: var(--spacing-6) var(--page-margin) var(--spacing-8);
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+p {
+  margin: 0 0 var(--spacing-3);
+}
+
+/* Lenker i løpende tekst er alltid understreket (DESIGN.md › Colors). */
+a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+/* --- Typografiroller (DESIGN.md › Typography) --- */
+
+h1,
+.headline-lg {
+  margin: 0 0 var(--spacing-4);
+  font-family: var(--headline-lg-font-family);
+  font-size: var(--headline-lg-font-size);
+  font-weight: var(--headline-lg-font-weight);
+  line-height: var(--headline-lg-line-height);
+}
+
+.display {
+  font-family: var(--display-font-family);
+  font-size: var(--display-font-size);
+  font-weight: var(--display-font-weight);
+  line-height: var(--display-line-height);
+}
+
+.headline-md {
+  font-family: var(--headline-md-font-family);
+  font-size: var(--headline-md-font-size);
+  font-weight: var(--headline-md-font-weight);
+  line-height: var(--headline-md-line-height);
+}
+
+h2,
+.headline-sm {
+  margin: 0 0 var(--spacing-3);
+  font-family: var(--headline-sm-font-family);
+  font-size: var(--headline-sm-font-size);
+  font-weight: var(--headline-sm-font-weight);
+  line-height: var(--headline-sm-line-height);
+}
+
+.body-md {
+  font-family: var(--body-md-font-family);
+  font-size: var(--body-md-font-size);
+  font-weight: var(--body-md-font-weight);
+  line-height: var(--body-md-line-height);
+}
+
+.label {
+  font-family: var(--label-font-family);
+  font-size: var(--label-font-size);
+  font-weight: var(--label-font-weight);
+  line-height: var(--label-line-height);
+}
+
+.fact-value {
+  font-family: var(--fact-value-font-family);
+  font-size: var(--fact-value-font-size);
+  font-weight: var(--fact-value-font-weight);
+  line-height: var(--fact-value-line-height);
+}
+
+.eyebrow {
+  font-family: var(--eyebrow-font-family);
+  font-size: var(--eyebrow-font-size);
+  font-weight: var(--eyebrow-font-weight);
+  line-height: var(--eyebrow-line-height);
+  letter-spacing: var(--eyebrow-letter-spacing);
+  text-transform: uppercase;
+}
+
+.caption {
+  font-family: var(--caption-font-family);
+  font-size: var(--caption-font-size);
+  font-weight: var(--caption-font-weight);
+  line-height: var(--caption-line-height);
+}
+
+/* Display og Stor overskrift skaleres ned til 28 px under 720 px [ASSUMPTION i DESIGN.md]. */
+@media (max-width: 719.98px) {
+  h1,
+  .display,
+  .headline-lg {
+    font-size: 28px;
+  }
+}
+
+/* --- Toppmeny (UX-DR3) --- */
+
+.toppmeny {
+  display: flex;
+  align-items: center;
+  min-height: var(--header-min-height);
+  padding: var(--spacing-1) var(--page-margin);
+  background: var(--surface);
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Menypunktene (Epic 2) brytes til en ny linje når plassen ikke strekker til. Ingen hamburgermeny. */
+.toppmeny nav {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-2) var(--spacing-6);
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  min-height: var(--touch-target-min);
+  color: var(--text);
+  text-decoration: none;
+  font-family: var(--brand-font-family);
+  font-size: var(--brand-font-size);
+  font-weight: var(--brand-font-weight);
+  line-height: var(--brand-line-height);
+}
+
+.logo-merke {
+  flex: none;
+  width: var(--spacing-5);
+  height: var(--spacing-5);
+}
+
+.logo-stopp-1 {
+  stop-color: var(--gradient-1);
+}
+
+.logo-stopp-2 {
+  stop-color: var(--gradient-2);
+}
+
+.logo-stopp-3 {
+  stop-color: var(--gradient-3);
+}
+
+.logo-stopp-4 {
+  stop-color: var(--gradient-4);
+}
+
+.logo-fjell {
+  fill: var(--gradient-1);
+}
+
+/* --- Knapper (UX-DR4, NFR-3): minst 44 × 44 px, 8 px hjørner --- */
+
+.knapp-primaer,
+.knapp-sekundaer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  min-height: var(--touch-target-min);
+  min-width: var(--touch-target-min);
+  margin: 0;
+  padding: var(--spacing-2) var(--spacing-4);
+  border: 1.5px solid var(--primary);
+  border-radius: var(--rounded-md);
+  font-family: var(--button-font-family);
+  font-size: var(--button-font-size);
+  font-weight: var(--button-font-weight);
+  line-height: var(--button-line-height);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.knapp-primaer {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.knapp-sekundaer {
+  background: none;
+  color: var(--primary);
+}
+
+.knapp-primaer:hover,
+.knapp-sekundaer:hover {
+  text-decoration: underline;
+}
+
+.knapp-sekundaer:hover {
+  background: var(--surface-alt);
+}
+
+/* Under innsending (forbedring.js): knappen beholder fokus og ignorerer nye klikk. */
+.knapp-primaer[aria-disabled="true"],
+.knapp-sekundaer[aria-disabled="true"] {
+  cursor: progress;
+  text-decoration: none;
+}
+
+/* --- Fokusring (UX-DR5): synlig ved tastaturfokus og fjernes aldri --- */
+
+:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* --- Melding (UX-DR21): alltid ikon og tekst, aldri toast --- */
+
+.melding {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  margin: 0 0 var(--spacing-3);
+  padding: var(--spacing-3) var(--spacing-4);
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--melding-farge);
+  border-radius: var(--rounded-md);
+}
+
+.melding-info {
+  --melding-farge: var(--info);
+}
+
+.melding-advarsel {
+  --melding-farge: var(--warning);
+}
+
+.melding-feil {
+  --melding-farge: var(--error);
+}
+
+.melding-suksess {
+  --melding-farge: var(--success);
+}
+
+.melding-ikon {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  color: var(--melding-farge);
+}
+
+.melding-glyf {
+  fill: none;
+  stroke: var(--surface);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.melding-prikk {
+  fill: var(--surface);
+}
+
+.melding-tittel {
+  margin: 0;
+  font-weight: 600;
+}
+
+.melding-tekst {
+  margin: var(--spacing-1) 0 0;
+}
+
+/* --- Bevegelse (UX-DR33): alt av ved prefers-reduced-motion --- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

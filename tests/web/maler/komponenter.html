@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{# Testside for komponentene (UX-DR4, UX-DR21). Brukes bare av testene og ved manuell sjekk av forbedring.js. #}
+
+{% block tittel %}Komponenter{% endblock %}
+
+{% block innhold %}
+  <h1>Komponenter</h1>
+
+  <form method="post" action="">
+    {% csrf_token %}
+    <button class="knapp-primaer" type="submit" name="handling" value="primaer">Send skjemaet</button>
+    <button class="knapp-sekundaer" type="submit" name="handling" value="sekundaer">Alternativ handling</button>
+  </form>
+
+  {% include "turforslag/_melding.html" with type="info" tittel="Info på siden" tekst="Brødtekst til info." %}
+  {% include "turforslag/_melding.html" with type="advarsel" tittel="Advarsel på siden" tekst="Brødtekst til advarsel." %}
+  {% include "turforslag/_melding.html" with type="feil" tittel="Feil på siden" tekst="Brødtekst til feil." %}
+  {% include "turforslag/_melding.html" with type="suksess" tittel="Suksess på siden" %}
+
+  {% include "turforslag/_melding.html" with type="info" tittel="Info etter navigering" fokus=True %}
+  {% include "turforslag/_melding.html" with type="advarsel" tittel="Advarsel etter navigering" fokus=True %}
+  {% include "turforslag/_melding.html" with type="feil" tittel="Feil etter navigering" fokus=True %}
+  {% include "turforslag/_melding.html" with type="suksess" tittel="Suksess etter navigering" fokus=True %}
+{% endblock %}
