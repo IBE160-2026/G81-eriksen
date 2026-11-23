@@ -51,9 +51,13 @@
 - [x] 2026-11-22 [story-1-2](984-2026-11-22-21-00-56-story-1-2.md) — sett Story 1.2 til `done` når PR #25 er merget, og sjekk produksjonen etter bygging av `main`; neste er Story 1.3 (løst 2026-11-23)
 - [ ] 2026-11-22 [story-1-2](984-2026-11-22-21-00-56-story-1-2.md) — legg inn `ANTHROPIC_API_KEY` hos Vercel (bare produksjon) når nøkkelen finnes
 - [ ] 2026-11-22 [story-1-2](984-2026-11-22-21-00-56-story-1-2.md) — Neon-grener for forhåndsvisninger blir liggende til forhåndsvisningene slettes (opptil ca. 6 mnd); rydd opp eller kort ned hvor lenge de beholdes hvis gratisplanen blir full
-- [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — sett Story 1.3 til `done` når PR #26 er merget; neste er Story 1.4
+- [x] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — sett Story 1.3 til `done` når PR #26 er merget; neste er Story 1.4 (løst 2026-11-23)
 - [x] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — sjekk på forhåndsvisningen at `/static/css/tokens.css` og `forbedring.js` gir 200, og les `Cache-Control` (ingen cache-busting) (løst 2026-11-23 — 200 og `max-age=0, must-revalidate`)
 - [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — manuelle UU-sjekker: reduced-motion i DevTools, og 320 px og 200 % tekstzoom i et ekte vindu
 - [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — Story 1.9: test sperren i `forbedring.js` mer reelt (i dag bare tekstsjekker), eller dokumenter den manuelle sjekken
 - [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — Story 1.9: gi `h1` på Søk rollen `display` (42 px) når skjemaet kommer
 - [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — presiser bisetningen om `psycopg[binary]` i spinen AD-15 punkt 1 (kan leses som at `pyproject.toml` mangler den)
+- [ ] 2026-11-23 [story-1-4](982-2026-11-23-13-24-33-story-1-4.md) — sett Story 1.4 til `done` når PR #27 er merget; neste er Story 1.5
+- [ ] 2026-11-23 [story-1-4](982-2026-11-23-13-24-33-story-1-4.md) — Story 1.5: byggeskriptet lager `Tur` med tuples og `Form(...)`; `Tur.geometry` er bare koordinatene (lon, lat); haversine i `domene.tur`
+- [ ] 2026-11-23 [story-1-4](982-2026-11-23-13-24-33-story-1-4.md) — Story 1.6: `lastinn` må fange `KeyError`/`TypeError` i tillegg til `ValueError` fra `fra_geojson_feature` for å stoppe ryddig og atomisk
+- [ ] 2026-11-23 [story-1-4](982-2026-11-23-13-24-33-story-1-4.md) — Story 1.10: `formater_lengde_totalt` tar totallengden; kall `total_lengde_m` først
