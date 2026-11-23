@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wfs:FeatureCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210 https://wfs.geonorge.no/skwms1/wfs.turogfriluftsruter?SERVICE=WFS&amp;VERSION=2.0.0&amp;REQUEST=DescribeFeatureType&amp;OUTPUTFORMAT=text%2Fxml%3B+subtype%3Dgml%2F3.2.1&amp;TYPENAME=app:Fotrute&amp;NAMESPACES=xmlns(app,http%3A%2F%2Fskjema.geonorge.no%2FSOSI%2Fproduktspesifikasjon%2FTurOgFriluftsruter%2F20171210)" xmlns:wfs="http://www.opengis.net/wfs/2.0" timeStamp="2026-11-23T12:32:55Z" xmlns:gml="http://www.opengis.net/gml/3.2" numberMatched="unknown" numberReturned="0">
+  <!--NOTE: numberReturned attribute should be 'unknown' as well, but this would not validate against the current version of the WFS 2.0 schema (change upcoming). See change request (CR 144): https://portal.opengeospatial.org/files?artifact_id=43925.-->
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.1">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>00661e35-bce5-4106-932f-48f6197dfb58</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2018-03-15</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>81</app:målemetode>
+          <app:nøyaktighet>2000</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:informasjon>Data fra Sverige</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.1_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.1_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>11.009380 58.890515 11.009437 58.890459 11.009487 58.890402 11.009547 58.890324 11.009589 58.890230 11.009609 58.890134 11.009638 58.889994 11.009650 58.889840 11.009655 58.889670 11.009647 58.889266 11.009666 58.889207 11.009681 58.889158 11.009732 58.889080 11.009805 58.888982 11.009874 58.888903 11.009970 58.888825 11.010077 58.888738 11.010319 58.888557 11.010649 58.888318 11.010731 58.888245 11.010813 58.888146 11.010843 58.888049 11.010842 58.887933 11.010817 58.887841 11.010777 58.887776 11.010745 58.887699 11.010767 58.887617 11.010818 58.887546 11.010891 58.887484 11.010989 58.887418 11.011227 58.887270 11.011321 58.887203 11.011484 58.887103 11.011574 58.887052 11.011711 58.887026 11.011862 58.887018 11.012056 58.887019 11.012187 58.887020 11.012348 58.887017 11.012524 58.887001 11.012633 58.886978 11.012736 58.886943 11.012857 58.886892 11.012990 58.886826 11.013137 58.886744 11.013292 58.886674 11.013313 58.886633 11.013343 58.886587 11.013370 58.886541 11.013428 58.886472 11.013483 58.886422 11.013523 58.886381 11.013547 58.886340 11.013553 58.886281 11.013539 58.886194 11.013495 58.886064 11.013486 58.886000 11.013452 58.885962 11.013411 58.885914 11.013451 58.885871 11.013479 58.885815 11.013513 58.885763 11.013548 58.885694 11.013565 58.885633 11.013545 58.885560 11.013507 58.885459 11.013467 58.885321 11.013448 58.885205 11.013458 58.885121 11.013474 58.885043 11.013506 58.884909 11.013515 58.884836 11.013512 58.884770 11.013511 58.884693 11.013517 58.884595 11.013541 58.884422 11.013629 58.884325 11.013675 58.884235 11.013678 58.884228 11.013694 58.884121 11.013694 58.884091 11.013795 58.884088 11.013863 58.884078 11.013998 58.884066 11.014040 58.883901 11.014087 58.883705 11.014161 58.883564 11.014210 58.883467 11.014334 58.883339 11.014483 58.883257 11.014594 58.883190 11.014685 58.883135 11.014833 58.883062 11.014983 58.882981 11.015205 58.882833 11.015442 58.882726 11.015605 58.882665 11.015737 58.882616 11.015843 58.882597 11.015990 58.882558 11.016116 58.882507 11.016284 58.882427 11.016417 58.882379 11.016532 58.882320 11.016712 58.882248 11.016861 58.882208 11.017043 58.882158 11.017045 58.882158 11.017124 58.882119 11.017219 58.882056 11.017271 58.881958 11.017284 58.881887 11.017263 58.881802 11.017225 58.881740 11.017182 58.881647 11.017172 58.881496</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:ruteFølger></app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Kuststigen Strømstad kommune</app:rutenavn>
+          <app:rutenummer>F_20180315_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Strømstad kommune</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>KY</app:spesialFotrutetype>
+          <app:gradering></app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning></app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+</wfs:FeatureCollection>

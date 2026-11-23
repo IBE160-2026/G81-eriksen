@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rundt bordet – Story 1.5</title>
+<style>
+  :root {
+    --bg: #f3f3ec; --surface: #fffefa; --surface-alt: #e7eadf; --text: #1f2a22; --muted: #4f5b50;
+    --border: #cfd4c5; --primary: #355146; --accent: #d6936e; --route: #6a3d9a;
+    --mary: #b0624a; --john: #3f5f86; --sally: #a85c7a; --winston: #355146; --amelia: #865a16;
+    --serif: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141a15; --surface: #1c231d; --surface-alt: #262f27; --text: #e8ece4; --muted: #aab4a8;
+      --border: #333d33; --primary: #adcec0; --accent: #e3a784; --route: #c3a3e8;
+      --mary: #f0b79c; --john: #97b6e0; --sally: #e6a9c2; --winston: #adcec0; --amelia: #e5ba6e;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 var(--sans); }
+  main { max-width: 860px; margin: 0 auto; padding: 40px 16px 72px; }
+  header.forside { text-align: center; padding: 24px 0 8px; }
+  .eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  h1 { font: 400 clamp(30px, 6vw, 46px)/1.1 var(--serif); margin: 8px 0 12px; }
+  h2 { font: 400 26px/1.2 var(--serif); margin: 56px 0 16px; }
+  h2 small { display: block; font: 600 12px/1.4 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .ingress { color: var(--muted); max-width: 60ch; margin: 0 auto; }
+  .bord { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 28px 0 8px; }
+  .gjest { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 12px 14px; width: 150px; text-align: center; }
+  .gjest .ikon { font-size: 28px; display: block; }
+  .gjest b { display: block; font-family: var(--serif); font-weight: 400; font-size: 19px; }
+  .gjest span { font-size: 13px; color: var(--muted); }
+  .replikk { display: grid; grid-template-columns: 44px 1fr; gap: 10px; margin: 12px 0; }
+  .replikk .ikon { font-size: 26px; line-height: 44px; text-align: center; }
+  .boble { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--farge, var(--border)); border-radius: 12px; padding: 10px 14px; }
+  .boble b { font-size: 14px; color: var(--farge); display: block; margin-bottom: 2px; }
+  .mary { --farge: var(--mary); } .john { --farge: var(--john); } .sally { --farge: var(--sally); }
+  .winston { --farge: var(--winston); } .amelia { --farge: var(--amelia); } .hannah { --farge: var(--accent); }
+  .regi { font-style: italic; color: var(--muted); text-align: center; margin: 20px 0; }
+  .sitat { font: 400 clamp(22px, 4vw, 30px)/1.3 var(--serif); text-align: center; margin: 36px 0; padding: 24px 16px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .sitat cite { display: block; font: 600 13px/1.4 var(--sans); color: var(--sally); margin-top: 10px; font-style: normal; }
+  .kort { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; }
+  .tall { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 16px 0; }
+  .tall div { background: var(--surface-alt); border-radius: 12px; padding: 14px; }
+  .tall strong { display: block; font: 400 32px/1 var(--serif); color: var(--primary); }
+  .tall span { font-size: 13px; color: var(--muted); }
+  figure { margin: 20px 0; }
+  figcaption { font-size: 13px; color: var(--muted); text-align: center; margin-top: 8px; }
+  svg.nett { width: 100%; height: auto; display: block; }
+  .sti { fill: none; stroke: var(--route); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 600; stroke-dashoffset: 600; animation: tegn 3.5s ease forwards; }
+  .sti.b { animation-delay: .6s; } .sti.c { animation-delay: 1.2s; opacity: .55; }
+  .node { fill: var(--surface); stroke: var(--text); stroke-width: 2; }
+  .gren { fill: var(--accent); }
+  .etikett { font: 600 12px var(--sans); fill: var(--muted); }
+  @keyframes tegn { to { stroke-dashoffset: 0; } }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: right; }
+  th:first-child, td:first-child { text-align: left; }
+  td.treff { background: var(--surface-alt); font-weight: 700; color: var(--primary); }
+  ol.avtale { counter-reset: n; list-style: none; padding: 0; }
+  ol.avtale li { counter-increment: n; position: relative; padding: 10px 0 10px 44px; border-bottom: 1px dashed var(--border); }
+  ol.avtale li::before { content: counter(n); position: absolute; left: 0; top: 8px; width: 30px; height: 30px; border-radius: 50%; background: var(--primary); color: var(--bg); display: grid; place-items: center; font-weight: 700; font-size: 14px; }
+  footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 56px; }
+  code { font-size: .92em; background: var(--surface-alt); padding: 1px 5px; border-radius: 4px; }
+  @media (prefers-reduced-motion: reduce) { .sti { animation: none; stroke-dashoffset: 0; } }
+</style>
+</head>
+<body>
+<main>
+  <header class="forside">
+    <div class="eyebrow">Party mode · 23. november 2026 · G81 Your Next Adventure</div>
+    <h1>Rundt bordet:<br>Story 1.5 og stien som ikke var én sti</h1>
+    <p class="ingress">Fem stemmer, ett byggeskript og en kurateringsliste. Og en spike som snudde planen før én linje kode var skrevet.</p>
+    <div class="bord" aria-label="Rundt bordet">
+      <div class="gjest"><span class="ikon" aria-hidden="true">📊</span><b>Mary</b><span>Analytiker, skattejeger</span></div>
+      <div class="gjest"><span class="ikon" aria-hidden="true">📋</span><b>John</b><span>Produkteier, forhørsleder</span></div>
+      <div class="gjest"><span class="ikon" aria-hidden="true">🎨</span><b>Sally</b><span>UX, talsperson for Ola</span></div>
+      <div class="gjest"><span class="ikon" aria-hidden="true">🏗️</span><b>Winston</b><span>Arkitekt, kjedelig med vilje</span></div>
+      <div class="gjest"><span class="ikon" aria-hidden="true">💻</span><b>Amelia</b><span>Utvikler, «ferdig diskutert»</span></div>
+    </div>
+  </header>
+
+  <h2><small>Første akt</small>Én story eller tre i en Uber?</h2>
+  <div class="replikk john"><span class="ikon" aria-hidden="true">📋</span><div class="boble"><b>John</b>Sju akseptansekriterier, to eksterne API-er, en kurateringsliste, et OSM-uttrekk og en sammenkobling av segmenter. Er dette én story eller tre som har gått sammen om en Uber?</div></div>
+  <div class="replikk winston"><span class="ikon" aria-hidden="true">🏗️</span><div class="boble"><b>Winston</b>Det er én story. Det finnes ett byggeskript og én fil ut. Deler du det, får du tre PR-er som alle skriver halve den samme fila.</div></div>
+  <div class="replikk amelia"><span class="ikon" aria-hidden="true">💻</span><div class="boble"><b>Amelia</b>Geometri i én PR, høyder i én. Ferdig diskutert.</div></div>
+  <div class="replikk winston"><span class="ikon" aria-hidden="true">🏗️</span><div class="boble"><b>Winston</b>«Ferdig diskutert» er det du alltid sier rett før vi diskuterer det i en time til.</div></div>
+  <div class="replikk mary"><span class="ikon" aria-hidden="true">📊</span><div class="boble"><b>Mary</b>Vi planlegger rundt et API vi aldri har sett svare! Den første fixturen <em>er</em> en spike, enten vi kaller den det eller ikke.</div></div>
+
+  <p class="sitat">«Filteret er UX, bare i forkledning.»<cite>🎨 Sally, om tjue høydemeter som ikke finnes</cite></p>
+
+  <div class="replikk amelia"><span class="ikon" aria-hidden="true">💻</span><div class="boble"><b>Amelia</b>«HTTP-klienten fra <code>requirements.txt</code>» står ikke der. Det er <code>httpx2</code>, som følger med <code>anthropic</code>. Bytter noen til Gemini, forsvinner klienten fra byggeskriptet uten at noen har rørt det.</div></div>
+  <div class="replikk winston"><span class="ikon" aria-hidden="true">🏗️</span><div class="boble"><b>Winston</b>…Ok. Det er et poeng. Jeg liker det ikke, men det er et poeng.</div></div>
+  <div class="replikk hannah"><span class="ikon" aria-hidden="true">🥾</span><div class="boble"><b>Hannah</b>Spike først, én story, bruk <code>urllib.request</code>.</div></div>
+
+  <h2><small>Andre akt</small>Spiken</h2>
+  <p class="regi">Det har gått en halvtime. Amelia snur skjermen mot bordet. Den er full av <code>posList</code>-koordinater.</p>
+  <div class="tall">
+    <div><strong>22</strong><span>usorterte segmenter for ett rutenummer (<code>F_01812_03</code>)</span></div>
+    <div><strong>2</strong><span>forgreininger og 2 komponenter i nettverket</span></div>
+    <div><strong>0 m</strong><span>avvik mellom endepunktene, de treffer eksakt</span></div>
+    <div><strong>50</strong><span>punkter per kall til høyde-API-et (51 gir 422)</span></div>
+  </div>
+  <figure class="kort">
+    <svg class="nett" viewBox="0 0 640 220" role="img" aria-label="Skisse av et rutenettverk: segmenter som forgreiner seg, med en valgt sti fra start via et punkt til slutt">
+      <path class="sti c" d="M60 170 C 120 150, 150 120, 200 110"/>
+      <path class="sti c" d="M200 110 C 230 60, 290 50, 330 60"/>
+      <path class="sti" d="M60 170 C 140 180, 200 150, 260 140 S 380 120, 430 100"/>
+      <path class="sti b" d="M430 100 C 480 80, 520 90, 580 60"/>
+      <path class="sti c" d="M430 100 C 470 140, 520 160, 590 175"/>
+      <circle class="node" cx="60" cy="170" r="9"/><text class="etikett" x="40" y="200">fra</text>
+      <circle class="gren" cx="200" cy="110" r="7"/>
+      <circle class="node" cx="260" cy="140" r="7"/><text class="etikett" x="245" y="168">via</text>
+      <circle class="gren" cx="430" cy="100" r="7"/><text class="etikett" x="400" y="80">forgreining</text>
+      <circle class="node" cx="580" cy="60" r="9"/><text class="etikett" x="570" y="40">til</text>
+      <circle class="node" cx="330" cy="60" r="5"/><circle class="node" cx="590" cy="175" r="5"/>
+    </svg>
+    <figcaption>Én «rute» i Turrutebasen er et nettverk. Byggeskriptet må velge stien selv.</figcaption>
+  </figure>
+
+  <div class="kort">
+    <table>
+      <caption class="eyebrow" style="caption-side:top;text-align:left;padding-bottom:8px">Støy på 1,75 km langs elva, jevnt nedover (nettofall 52 m)</caption>
+      <thead><tr><th>Punktavstand</th><th>Terskel 0 m</th><th>2 m</th><th>5 m</th><th>10 m</th></tr></thead>
+      <tbody>
+        <tr><td>10 m</td><td>opp 20 / ned 72</td><td>7 / 58</td><td class="treff">0 / 51</td><td>0 / 43</td></tr>
+        <tr><td>25 m</td><td>15 / 67</td><td>6 / 56</td><td class="treff">0 / 50</td><td>0 / 50</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="replikk sally"><span class="ikon" aria-hidden="true">🎨</span><div class="boble"><b>Sally</b><em>(peker på John)</em> Der. Tjue fantom-høydemeter. Det var det jeg sa.</div></div>
+  <div class="replikk mary"><span class="ikon" aria-hidden="true">📊</span><div class="boble"><b>Mary</b><em>Vi</em> skrev den AC-en. Uten å ha sett et eneste svar. Det er hele poenget.</div></div>
+
+  <h2><small>Tredje akt</small>Hvem velger stien?</h2>
+  <div class="replikk john"><span class="ikon" aria-hidden="true">📋</span><div class="boble"><b>John</b>Start- og sluttpunkt i lista, eller segment-ID-er for hånd, eller å nekte forgreininger?</div></div>
+  <div class="replikk mary"><span class="ikon" aria-hidden="true">📊</span><div class="boble"><b>Mary</b>Segment-ID-er. Jeg vil ha eksakt. <em>(Winston himler med øynene.)</em></div></div>
+  <div class="replikk hannah"><span class="ikon" aria-hidden="true">🥾</span><div class="boble"><b>Hannah</b>Start- og sluttpunkt i lista.</div></div>
+  <div class="replikk winston"><span class="ikon" aria-hidden="true">🏗️</span><div class="boble"><b>Winston</b><em>(lener seg tilbake, fornøyd)</em> Lista beskriver <em>hvor turen går</em>, og skriptet finner <em>hvordan</em>.</div></div>
+  <div class="replikk mary"><span class="ikon" aria-hidden="true">📊</span><div class="boble"><b>Mary</b>Den dagen Dijkstra velger stien på feil side av vannet, kommer jeg til å si «lokalId».</div></div>
+  <div class="replikk sally"><span class="ikon" aria-hidden="true">🎨</span><div class="boble"><b>Sally</b>Startpunktet er det Ola ser: parkeringen, holdeplassen. Det er ikke nødvendigvis der stien begynner.</div></div>
+
+  <h2><small>Det vi ble enige om</small>Avtalen for Story 1.5</h2>
+  <ol class="avtale">
+    <li>Kurateringslista har <code>rutenummer</code> og <code>rutepunkter</code> (<code>fra</code>, <code>via</code>, <code>til</code>). Rundtur krever minst ett <code>via</code>.</li>
+    <li>Rutepunktene festes til nærmeste node innenfor <strong>50 m</strong>. Ellers stopper skriptet med tur-ID og avstand.</li>
+    <li>Korteste sti mellom punktene. Segmentene kobles med <strong>1 m</strong> toleranse.</li>
+    <li>Høyder hentes hvert <strong>25 m</strong>, med terskel <strong>5 m</strong>, og rest-differansen telles med.</li>
+    <li>WFS-filteret bruker <code>fotruteInfo/FotruteInfo/rutenummer</code>. HTTP går via <code>urllib.request</code>.</li>
+    <li>Startpunktet (det Ola ser) og rutepunktene (det skriptet fester) er to forskjellige ting.</li>
+  </ol>
+
+  <footer>🥾 Laget etter party-runden 23.11.2026 · Spike-funnene ligger i <code>implementation-artifacts/spike-1-5/</code></footer>
+</main>
+</body>
+</html>

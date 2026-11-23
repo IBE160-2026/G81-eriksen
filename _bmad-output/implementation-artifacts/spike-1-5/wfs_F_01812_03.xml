@@ -1,0 +1,1137 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wfs:FeatureCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210 https://wfs.geonorge.no/skwms1/wfs.turogfriluftsruter?SERVICE=WFS&amp;VERSION=2.0.0&amp;REQUEST=DescribeFeatureType&amp;OUTPUTFORMAT=text%2Fxml%3B+subtype%3Dgml%2F3.2.1&amp;TYPENAME=app:Fotrute&amp;NAMESPACES=xmlns(app,http%3A%2F%2Fskjema.geonorge.no%2FSOSI%2Fproduktspesifikasjon%2FTurOgFriluftsruter%2F20171210)" xmlns:wfs="http://www.opengis.net/wfs/2.0" timeStamp="2026-11-23T12:33:21Z" xmlns:gml="http://www.opengis.net/gml/3.2" numberMatched="unknown" numberReturned="0">
+  <!--NOTE: numberReturned attribute should be 'unknown' as well, but this would not validate against the current version of the WFS 2.0 schema (change upcoming). See change request (CR 144): https://portal.opengeospatial.org/files?artifact_id=43925.-->
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.13719">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>9d3f9ce6-8bcb-4468-b36d-22bcc2675947</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2014-03-28</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>51</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:kopidata>
+        <app:Kopidata>
+          <app:områdeId>301</app:områdeId>
+          <app:originalDatavert>Plan-og bygningsetaten Oslo kommune</app:originalDatavert>
+          <app:kopidato>2019-02-24T23:00:00</app:kopidato>
+        </app:Kopidata>
+      </app:kopidata>
+      <app:informasjon>Geometri hentet fra TraktorvegSti, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.13719_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.13719_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.717187 59.953615 10.717120 59.953586</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>FO</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.13722">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>38d31835-ca45-445e-aaf8-73ec7c237298</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>1997-06-02</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>22</app:målemetode>
+          <app:nøyaktighet>36</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.13722_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.13722_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.715769 59.953129 10.715701 59.953179 10.715619 59.953269 10.715573 59.953348 10.715545 59.953426 10.715495 59.953715 10.715483 59.953880 10.715486 59.953926</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>BV</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_02</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.13717">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>5e0f85a2-179f-4184-b36d-9fed3e564bfd</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2013-04-27</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>31</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:kopidata>
+        <app:Kopidata>
+          <app:områdeId>301</app:områdeId>
+          <app:originalDatavert>Plan-og bygningsetaten Oslo kommune</app:originalDatavert>
+          <app:kopidato>2019-02-24T23:00:00</app:kopidato>
+        </app:Kopidata>
+      </app:kopidata>
+      <app:informasjon>Geometri hentet fra TraktorvegSti, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.13717_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.13717_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.717851 59.953905 10.717835 59.953897 10.717780 59.953872 10.717703 59.953835 10.717636 59.953803 10.717621 59.953796 10.717534 59.953757 10.717453 59.953722 10.717352 59.953682 10.717262 59.953643 10.717187 59.953615</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>FO</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.13716">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>fad3ff3a-cf81-47cb-8f27-f7b88748d3ac</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>1997-06-02</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>22</app:målemetode>
+          <app:nøyaktighet>36</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.13716_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.13716_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.716211 59.953175 10.716296 59.953260 10.716377 59.953320 10.716496 59.953381 10.716857 59.953528 10.717108 59.953629 10.717120 59.953586</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>BV</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.13724">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>51503bef-4c41-4280-b6bf-b8c94349c16a</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>1997-06-02</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>22</app:målemetode>
+          <app:nøyaktighet>36</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.13724_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.13724_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.716583 59.952655 10.716280 59.952816 10.715986 59.952984</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>BV</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_04</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.13728">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>91b32e65-fc5f-46a7-83a4-a5d4fc17118b</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>1997-06-02</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>22</app:målemetode>
+          <app:nøyaktighet>36</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.13728_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.13728_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.715335 59.955709 10.715308 59.955818 10.715309 59.955882</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>BV</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_01</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning></app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.13729">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>f3ea7a9d-bb11-4d6c-849b-8454230f326b</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2014-03-28</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>51</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.13729_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.13729_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.727175 59.961664 10.727185 59.961702 10.727209 59.961812 10.727256 59.961988 10.727279 59.962079 10.727301 59.962159 10.727320 59.962255 10.727330 59.962322 10.727353 59.962392 10.727364 59.962438</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>BV</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.13735">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>5127abc8-067c-4f67-a060-64b746b0110e</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>1997-06-02</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>22</app:målemetode>
+          <app:nøyaktighet>36</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.13735_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.13735_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.715986 59.952984 10.715856 59.953065 10.715769 59.953129</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>BV</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_04</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.13739">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>f4ee9044-8574-489c-8f53-ad4bc106aed8</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2016-05-06</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>31</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.13739_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.13739_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.726077 59.960892 10.726122 59.960914 10.726337 59.961027 10.726566 59.961170 10.726740 59.961273 10.726772 59.961312 10.726809 59.961358 10.726866 59.961430 10.726866 59.961430 10.726933 59.961489 10.727175 59.961664</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>BV</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.13741">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>14516e2a-e56c-40a8-a64a-538e3753aee7</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>1997-06-02</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>22</app:målemetode>
+          <app:nøyaktighet>36</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.13741_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.13741_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.715486 59.953926 10.715499 59.954143 10.715503 59.954179 10.715504 59.954209 10.715527 59.954447 10.715529 59.954478 10.715550 59.954686 10.715553 59.954709 10.715555 59.954736 10.715553 59.954793 10.715543 59.954858 10.715507 59.954988 10.715461 59.955159 10.715449 59.955221 10.715429 59.955326 10.715395 59.955463 10.715379 59.955531 10.715335 59.955709</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>BV</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.13752">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>bc3f1644-add0-4d5e-b453-fba8268690ff</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>1997-06-02</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>22</app:målemetode>
+          <app:nøyaktighet>36</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.13752_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.13752_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.721917 59.956049 10.721937 59.956064 10.721955 59.956078 10.722051 59.956166 10.722179 59.956299 10.722386 59.956586 10.722396 59.956601 10.722490 59.956763 10.722572 59.957103 10.722616 59.957331 10.722724 59.957384 10.722828 59.957442 10.722939 59.957522 10.723045 59.957636 10.723108 59.957728 10.723126 59.957785 10.723117 59.957846 10.723037 59.958056 10.722975 59.958230 10.722874 59.958539 10.722822 59.958708 10.722799 59.958885 10.722808 59.959234 10.722818 59.959408 10.722814 59.959425</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>BV</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.13754">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>6730319c-d919-46b4-a240-84cca02c3155</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>1997-06-02</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>22</app:målemetode>
+          <app:nøyaktighet>36</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.13754_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.13754_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.715986 59.952984 10.716154 59.953117 10.716211 59.953175</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>BV</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_04</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.13759">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>62c769e4-77b6-4ac0-b735-4de83ddb83f6</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2014-03-28</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>51</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:kopidata>
+        <app:Kopidata>
+          <app:områdeId>301</app:områdeId>
+          <app:originalDatavert>Plan-og bygningsetaten Oslo kommune</app:originalDatavert>
+          <app:kopidato>2019-02-24T23:00:00</app:kopidato>
+        </app:Kopidata>
+      </app:kopidata>
+      <app:informasjon>Geometri hentet fra TraktorvegSti, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.13759_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.13759_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.721959 59.956023 10.721917 59.956049</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>FO</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.13760">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>708cecf5-5428-45ac-930a-c0de12fabdae</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2014-03-28</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>51</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.13760_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.13760_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.727364 59.962438 10.727371 59.962463 10.727392 59.962502</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>BV</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.14188">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>c6b35a00-b023-479b-8cba-c066f39554c7</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2008-04-20</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>18</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:kopidata>
+        <app:Kopidata>
+          <app:områdeId>301</app:områdeId>
+          <app:originalDatavert>Plan-og bygningsetaten Oslo kommune</app:originalDatavert>
+          <app:kopidato>2019-02-24T23:00:00</app:kopidato>
+        </app:Kopidata>
+      </app:kopidata>
+      <app:informasjon>Geometri hentet fra TraktorvegSti, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.14188_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.14188_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.721959 59.956023 10.721899 59.955973 10.721844 59.955926 10.721789 59.955884 10.721728 59.955842 10.721661 59.955798 10.721592 59.955755 10.721518 59.955710 10.721439 59.955664 10.721360 59.955620 10.721274 59.955576 10.721225 59.955553 10.721183 59.955533 10.721160 59.955522 10.721150 59.955517 10.721064 59.955477 10.721018 59.955457 10.720968 59.955434 10.720948 59.955426 10.720945 59.955424 10.720876 59.955394 10.720721 59.955331 10.720593 59.955278 10.720579 59.955272 10.720557 59.955264 10.720473 59.955231 10.720331 59.955177 10.720185 59.955118 10.720064 59.955071 10.719989 59.955040 10.719981 59.955037 10.719949 59.955024 10.719838 59.954982 10.719756 59.954945 10.719636 59.954898 10.719546 59.954862 10.719449 59.954820 10.719324 59.954764 10.719243 59.954726 10.719235 59.954722 10.719198 59.954705 10.719123 59.954670 10.719026 59.954620 10.718934 59.954567 10.718857 59.954525 10.718766 59.954471 10.718683 59.954420 10.718649 59.954397 10.718606 59.954368 10.718597 59.954363 10.718518 59.954312 10.718436 59.954256 10.718355 59.954201 10.718263 59.954143 10.718163 59.954082 10.718083 59.954035 10.718001 59.953988 10.717914 59.953940 10.717883 59.953923 10.717855 59.953907 10.717851 59.953905</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>FO</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.14205">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>6551fbc2-8806-42df-9c3b-6d2599202fb4</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2015-04-21</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>31</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.14205_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.14205_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.722814 59.959425 10.722831 59.959535 10.722832 59.959577 10.722833 59.959621 10.722839 59.959727 10.722833 59.959856 10.722827 59.959929 10.722819 59.959971 10.722803 59.960008 10.722782 59.960035 10.722764 59.960048 10.722909 59.960195 10.722916 59.960216 10.722916 59.960216 10.722972 59.960384 10.723246 59.960395 10.723463 59.960382 10.723681 59.960379 10.723843 59.960394 10.724005 59.960420 10.724101 59.960442 10.724178 59.960473 10.724213 59.960490 10.724245 59.960506 10.724326 59.960559 10.724344 59.960570 10.724470 59.960621 10.724574 59.960650 10.724709 59.960677 10.724902 59.960696 10.725237 59.960722 10.725428 59.960738 10.725597 59.960757 10.725731 59.960779 10.725830 59.960797 10.725932 59.960829 10.726005 59.960857 10.726077 59.960892</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>BV</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.37525">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>da15b79c-f0db-4fc6-b22f-6a44644e2c92</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2017-04-30</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>31</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:kopidata>
+        <app:Kopidata>
+          <app:områdeId>301</app:områdeId>
+          <app:originalDatavert>Plan-og bygningsetaten Oslo kommune</app:originalDatavert>
+          <app:kopidato>2019-02-24T23:00:00</app:kopidato>
+        </app:Kopidata>
+      </app:kopidata>
+      <app:informasjon>Geometri hentet fra TraktorvegSti, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.37525_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.37525_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.726170 59.966559 10.726226 59.966249 10.726274 59.965969 10.726283 59.965921 10.726287 59.965654 10.726289 59.965542 10.726290 59.965514 10.726290 59.965477 10.726304 59.965316 10.726324 59.965206 10.726335 59.964914 10.726339 59.964893 10.726344 59.964880 10.726360 59.964865 10.726311 59.964608 10.726326 59.964309 10.726444 59.963868 10.726871 59.963642 10.727179 59.963214 10.727288 59.962914 10.727347 59.962544 10.727364 59.962438</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>ST</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.37526">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>5d20bab3-be4c-4d40-bd80-73e0ac8cd1ee</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2016-05-06</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>31</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:kopidata>
+        <app:Kopidata>
+          <app:områdeId>301</app:områdeId>
+          <app:originalDatavert>Plan-og bygningsetaten Oslo kommune</app:originalDatavert>
+          <app:kopidato>2019-02-24T23:00:00</app:kopidato>
+        </app:Kopidata>
+      </app:kopidata>
+      <app:informasjon>Geometri hentet fra TraktorvegSti, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.37526_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.37526_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.726170 59.966559 10.726139 59.966575</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>TR</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.37726">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>9f7aaa30-4b66-4bac-8ae5-893b340f2ca2</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2014-03-28</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>31</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.37726_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.37726_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.725733 59.967730 10.725679 59.967714 10.725615 59.967691 10.725568 59.967668 10.725520 59.967634 10.725477 59.967592 10.725442 59.967533 10.725422 59.967472 10.725409 59.967410 10.725402 59.967326 10.725393 59.967263 10.725381 59.967168 10.725365 59.967088 10.725364 59.967049 10.725373 59.967017 10.725384 59.966985 10.725387 59.966982 10.725396 59.966969 10.725408 59.966954 10.725442 59.966931 10.725476 59.966911 10.725527 59.966886 10.725569 59.966865 10.725626 59.966839 10.725709 59.966797 10.725827 59.966742 10.725942 59.966684 10.726045 59.966627 10.726139 59.966575</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>BV</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.45882">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>93910398-d961-47f3-bdff-7f7e505a78d1</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2024-12-09 16:05:21.040033000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>1997-06-02</app:datafangstdato>
+      <app:oppdateringsdato>2024-12-09T15:05:21</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>22</app:målemetode>
+          <app:nøyaktighet>36</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.45882_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.45882_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.715309 59.955882 10.715216 59.956127 10.715207 59.956193 10.715149 59.956271 10.715134 59.956346</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>BV</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_01</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning></app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_02</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.45884">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>749d7ad4-1b5a-408e-9f47-752b732ca1b8</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2024-12-09 16:05:21.040033000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2015-04-21</app:datafangstdato>
+      <app:oppdateringsdato>2024-12-09T15:05:21</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>31</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20190522</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.45884_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.45884_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.726590 59.969076 10.726548 59.968901 10.726541 59.968854 10.726543 59.968787 10.726542 59.968713 10.726542 59.968625 10.726531 59.968538 10.726526 59.968455 10.726516 59.968395 10.726504 59.968372 10.726480 59.968352 10.726453 59.968338 10.726360 59.968295 10.726295 59.968258 10.726263 59.968234 10.726234 59.968205 10.726182 59.968149 10.726118 59.968070 10.726029 59.967958 10.725951 59.967849 10.725913 59.967810 10.725896 59.967800 10.725880 59.967795 10.725864 59.967790 10.725842 59.967786 10.725733 59.967730</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>BV</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Frognervassdraget-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.50928">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>34ef4fee-d32a-421c-ab2a-3c1ba1019c56</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2025-01-30 10:03:43.637139000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2018-11-02</app:datafangstdato>
+      <app:oppdateringsdato>2025-01-30T09:03:43</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>92</app:målemetode>
+          <app:nøyaktighet>500</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.50928_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.50928_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.761991 59.937782 10.761854 59.937658 10.761626 59.937580 10.761343 59.937481 10.761186 59.937411 10.761051 59.937353 10.761029 59.937251 10.761144 59.937095 10.761332 59.936916 10.761407 59.936794 10.761413 59.936747 10.760975 59.936744 10.760695 59.936807 10.760500 59.936937 10.760328 59.936985 10.760041 59.937006 10.759816 59.937010 10.759453 59.936880 10.759053 59.936772 10.758686 59.936671 10.758404 59.936561 10.758277 59.936533 10.758201 59.936298 10.758178 59.936197 10.758145 59.935993 10.758196 59.935876 10.758224 59.935657 10.758087 59.935522 10.757884 59.935444 10.757634 59.935359 10.757481 59.935259 10.757369 59.935112 10.757351 59.934886 10.757332 59.934665 10.757237 59.934478 10.757130 59.934207 10.757178 59.934012 10.757201 59.933746 10.757255 59.933599 10.757455 59.933516 10.757384 59.933425 10.757592 59.933092 10.757733 59.932919 10.757925 59.932806 10.758172 59.932636 10.758231 59.932542 10.758266 59.932365 10.758250 59.932210 10.758283 59.932045 10.758359 59.931910 10.758431 59.931818 10.758465 59.931640 10.758399 59.931507 10.758286 59.931373 10.758098 59.931272 10.757981 59.931161 10.757963 59.931030 10.758071 59.930920 10.758075 59.930891 10.757818 59.930769 10.757650 59.930699 10.757516 59.930635 10.757557 59.930404 10.757531 59.930332 10.757375 59.930161 10.757181 59.930012 10.757074 59.929919 10.756958 59.929903 10.756710 59.929800 10.756464 59.929596 10.756227 59.929416 10.756024 59.929243 10.755823 59.929053 10.755669 59.928869 10.755584 59.928700 10.755446 59.928482 10.755402 59.928361 10.755370 59.928152 10.755301 59.927948 10.755171 59.927670 10.755149 59.927467 10.755002 59.927320 10.754856 59.927167 10.754652 59.927095 10.754194 59.926973 10.753828 59.926872 10.753453 59.926753 10.753258 59.926699 10.753172 59.926631 10.753116 59.926510 10.752786 59.926042 10.752732 59.925998 10.752938 59.925868 10.752980 59.925632 10.752889 59.925421 10.752862 59.925355</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger></app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Rondanestien</app:rutenavn>
+          <app:rutenummer>hed1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Oslo og omegn</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>AN</app:spesialFotrutetype>
+          <app:gradering></app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>1</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Akerselva-langs</app:rutenavn>
+          <app:rutenummer>F_01812_03</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo Elveforum</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+</wfs:FeatureCollection>

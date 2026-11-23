@@ -14,3 +14,9 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-1-3-siden-har-et-rolig-og-tilgjengelig-grunnoppsett.md`
   summary: Avklart 2026-11-23: statiske filer serveres på Vercel (200), med `Cache-Control: public, max-age=0, must-revalidate`. Punktet om servering og cache-busting over er løst.
   evidence: `vercel curl` mot forhåndsvisningen av PR #26.
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-5-byggeskriptet-lager-turdatabasen-fra-kartverket.md`
+  summary: Byggeskriptet sjekker ikke at en rundtur faktisk går i ring. Med ett `via` kan korteste vei tilbake bli samme vei som ut.
+  evidence: Det er bare påkrevd minst ett `via`. Ta det opp i 1.7: se etter kanter som brukes to ganger i en rundtur, eller kontroller lengden mot ut.no.
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-5-byggeskriptet-lager-turdatabasen-fra-kartverket.md`
+  summary: Rutepunktene kan bare festes til noder (segmentender). Lukkede ringsegmenter og T-kryss gir ingen sti.
+  evidence: Det er ubekreftet (maybe-false). Det avgjøres når de 15 turene kureres i 1.7. Trengs et punkt midt på et segment eller en ring, må segmentet deles ved festepunktet (medium hvis det stemmer).
