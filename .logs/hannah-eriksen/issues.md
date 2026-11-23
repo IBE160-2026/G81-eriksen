@@ -38,8 +38,8 @@
 - [x] 2026-11-15 [verifiser-technology](989-2026-11-15-13-18-36-verifiser-technology.md) — presiser opprettelsen av døgnets `KiForbruk`-rad i storyen for KI-grensen (H-4) (løst 2026-11-15)
 - [x] 2026-11-15 [verifiser-technology](989-2026-11-15-13-18-36-verifiser-technology.md) — avgjør oppførsel når `.env` mangler, i storyen for oppsett (H-5) (løst 2026-11-15)
 - [ ] 2026-11-15 [verifiser-technology](989-2026-11-15-13-18-36-verifiser-technology.md) — sjekk i kartstoryen at Leaflet virker med CSP-en fra spinen, og utvid den med begrunnelse hvis det trengs
-- [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — opprett Vercel-prosjektet (Hobby) og koble til Neon fra Vercel Marketplace i Frankfurt, med forhåndsvisningsgrener (AD-15)
-- [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — sjekk at forhåndsvisningene på Vercel har innloggingsvern, fordi Neon-grenene er kopier av produksjonsdataene (AD-15 punkt 3)
+- [x] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — opprett Vercel-prosjektet (Hobby) og koble til Neon fra Vercel Marketplace i Frankfurt, med forhåndsvisningsgrener (AD-15) (løst 2026-11-22)
+- [x] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — sjekk at forhåndsvisningene på Vercel har innloggingsvern, fordi Neon-grenene er kopier av produksjonsdataene (AD-15 punkt 3) (løst 2026-11-22)
 - [x] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — fortsett bmad-create-epics-and-stories fra steg 1 ([C]) på planlegging/epics-og-stories etter at publiseringsendringene er merget (løst 2026-11-15 — steg 1 og 2 godkjent, se [epics-og-stories](987-2026-11-15-14-08-10-epics-og-stories.md))
 - [x] 2026-11-15 [epics-og-stories](987-2026-11-15-14-08-10-epics-og-stories.md) — fortsett bmad-create-epics-and-stories på planlegging/epics-og-stories fra menyen i steg 2 ([C] → steg 3: stories med akseptansekriterier) (løst 2026-11-15 — epics.md er final med 41 stories)
 - [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — kjør MCP-sjekkene fra Vercel-guiden (`search_vercel_documentation`, `list_teams`) etter omstart av Claude Code
@@ -48,3 +48,6 @@
 - [ ] 2026-11-22 [readiness-rettinger](986-2026-11-22-19-07-56-readiness-rettinger.md) — Story 1.5: fastsett toleransen for å koble WFS-segmenter, og verifiser `koordsys` for høyde-API-et med WGS84-punkter
 - [ ] 2026-11-22 [story-1-1](985-2026-11-22-19-56-19-story-1-1.md) — sett Story 1.1 til `done` i sprint-status når PR-en er merget; neste er Story 1.2 (Vercel og Neon må opprettes i nettleseren)
 - [ ] 2026-11-22 [story-1-1](985-2026-11-22-19-56-19-story-1-1.md) — med `DEBUG=True` lokalt viser Django engelske feilsider; avklar om README skal forklare det for sensor
+- [ ] 2026-11-22 [story-1-2](984-2026-11-22-21-00-56-story-1-2.md) — sett Story 1.2 til `done` når PR #25 er merget, og sjekk produksjonen etter bygging av `main`; neste er Story 1.3
+- [ ] 2026-11-22 [story-1-2](984-2026-11-22-21-00-56-story-1-2.md) — legg inn `ANTHROPIC_API_KEY` hos Vercel (bare produksjon) når nøkkelen finnes
+- [ ] 2026-11-22 [story-1-2](984-2026-11-22-21-00-56-story-1-2.md) — Neon-grener for forhåndsvisninger blir liggende til forhåndsvisningene slettes (opptil ca. 6 mnd); rydd opp eller kort ned hvor lenge de beholdes hvis gratisplanen blir full
