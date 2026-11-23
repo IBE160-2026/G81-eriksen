@@ -61,7 +61,7 @@
 - [x] 2026-11-23 [story-1-4](982-2026-11-23-13-24-33-story-1-4.md) — Story 1.5: byggeskriptet lager `Tur` med tuples og `Form(...)`; `Tur.geometry` er bare koordinatene (lon, lat); haversine i `domene.tur` (løst 2026-11-23 — gjort i Story 1.5)
 - [ ] 2026-11-23 [story-1-4](982-2026-11-23-13-24-33-story-1-4.md) — Story 1.6: `lastinn` må fange `KeyError`/`TypeError` i tillegg til `ValueError` fra `fra_geojson_feature` for å stoppe ryddig og atomisk
 - [ ] 2026-11-23 [story-1-4](982-2026-11-23-13-24-33-story-1-4.md) — Story 1.10: `formater_lengde_totalt` tar totallengden; kall `total_lengde_m` først
-- [ ] 2026-11-23 [story-1-5](981-2026-11-23-14-25-38-story-1-5.md) — sett Story 1.5 til `done` når PR #28 er merget; neste er Story 1.6 (`lastinn`)
+- [x] 2026-11-23 [story-1-5](981-2026-11-23-14-25-38-story-1-5.md) — sett Story 1.5 til `done` når PR #28 er merget; neste er Story 1.6 (`lastinn`) (løst 2026-11-23 — PR #28 merget)
 - [ ] 2026-11-23 [story-1-5](981-2026-11-23-14-25-38-story-1-5.md) — Story 1.7: sjekk 25 m / 5 m mot publiserte høydeprofiler (åpen Deferred-rad i spinen), at rundturer går i ring, og om noen tur trenger festing midt på segment / ringsegment / T-kryss
 - [ ] 2026-11-23 [story-1-5](981-2026-11-23-14-25-38-story-1-5.md) — fixturen `hoyder_testturer.json` er knyttet til de omsamplede koordinatene; endres omsampling eller rutepunkter, må den tas opp på nytt og `turer.geojson` bygges på nytt
 - [ ] 2026-11-23 [story-1-5](981-2026-11-23-14-25-38-story-1-5.md) — epics.md (Story 1.5) sier fortsatt «kobling i kilde-ID-rekkefølge» og «HTTP-klienten fra requirements.txt»; vurder `bmad-correct-course`
