@@ -46,8 +46,14 @@
 - [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — slå på totrinnsbekreftelse (2FA) på Vercel-kontoen
 - [x] 2026-11-15 [epics-og-stories](987-2026-11-15-14-08-10-epics-og-stories.md) — neste BMAD-steg: bmad-sprint-planning (sjekker at planen er klar og lager statusfila for sprinten) (løst 2026-11-22)
 - [ ] 2026-11-22 [readiness-rettinger](986-2026-11-22-19-07-56-readiness-rettinger.md) — Story 1.5: fastsett toleransen for å koble WFS-segmenter, og verifiser `koordsys` for høyde-API-et med WGS84-punkter
-- [ ] 2026-11-22 [story-1-1](985-2026-11-22-19-56-19-story-1-1.md) — sett Story 1.1 til `done` i sprint-status når PR-en er merget; neste er Story 1.2 (Vercel og Neon må opprettes i nettleseren)
+- [x] 2026-11-22 [story-1-1](985-2026-11-22-19-56-19-story-1-1.md) — sett Story 1.1 til `done` i sprint-status når PR-en er merget; neste er Story 1.2 (Vercel og Neon må opprettes i nettleseren) (løst 2026-11-22 — Story 1.1 er done i sprint-status)
 - [ ] 2026-11-22 [story-1-1](985-2026-11-22-19-56-19-story-1-1.md) — med `DEBUG=True` lokalt viser Django engelske feilsider; avklar om README skal forklare det for sensor
-- [ ] 2026-11-22 [story-1-2](984-2026-11-22-21-00-56-story-1-2.md) — sett Story 1.2 til `done` når PR #25 er merget, og sjekk produksjonen etter bygging av `main`; neste er Story 1.3
+- [x] 2026-11-22 [story-1-2](984-2026-11-22-21-00-56-story-1-2.md) — sett Story 1.2 til `done` når PR #25 er merget, og sjekk produksjonen etter bygging av `main`; neste er Story 1.3 (løst 2026-11-23)
 - [ ] 2026-11-22 [story-1-2](984-2026-11-22-21-00-56-story-1-2.md) — legg inn `ANTHROPIC_API_KEY` hos Vercel (bare produksjon) når nøkkelen finnes
 - [ ] 2026-11-22 [story-1-2](984-2026-11-22-21-00-56-story-1-2.md) — Neon-grener for forhåndsvisninger blir liggende til forhåndsvisningene slettes (opptil ca. 6 mnd); rydd opp eller kort ned hvor lenge de beholdes hvis gratisplanen blir full
+- [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — push grenen og lag PR for Story 1.3 med Lighthouse-resultatet; sett 1.3 til `done` når PR-en er merget; neste er Story 1.4
+- [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — sjekk på forhåndsvisningen at `/static/css/tokens.css` og `forbedring.js` gir 200, og les `Cache-Control` (ingen cache-busting)
+- [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — manuelle UU-sjekker: reduced-motion i DevTools, og 320 px og 200 % tekstzoom i et ekte vindu
+- [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — Story 1.9: test sperren i `forbedring.js` mer reelt (i dag bare tekstsjekker), eller dokumenter den manuelle sjekken
+- [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — Story 1.9: gi `h1` på Søk rollen `display` (42 px) når skjemaet kommer
+- [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — presiser bisetningen om `psycopg[binary]` i spinen AD-15 punkt 1 (kan leses som at `pyproject.toml` mangler den)
