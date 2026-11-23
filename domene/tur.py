@@ -4,9 +4,13 @@ Ved tur-retur lagres lengde, høydemeter og nedstigning for én vei. Totalene fo
 turen regnes bare av funksjonene i denne modulen.
 """
 
+import math
 from dataclasses import dataclass
 from enum import StrEnum
 from typing import Any
+
+# Middelradius for jorda (IUGG), brukt i haversine (AR-3).
+JORDRADIUS_M = 6_371_008.8
 
 
 class Form(StrEnum):  # AR-3
@@ -125,3 +129,17 @@ def total_hoydemeter_m(form: Form, hoydemeter_m: int, nedstigning_m: int) -> int
 def total_nedstigning_m(form: Form, hoydemeter_m: int, nedstigning_m: int) -> int:  # FR-3, AR-3
     """Nedstigning for hele turen. Ved tur-retur er nedstigningen tilbake lik høydemeterne ut."""
     return nedstigning_m + hoydemeter_m if form == Form.TUR_RETUR else nedstigning_m
+
+
+def avstand_m(a: tuple[float, ...], b: tuple[float, ...]) -> float:  # AR-3
+    """Avstanden i meter mellom to punkter (lon, lat) i WGS84, med haversine.
+
+    Punktene har samme rekkefølge som i `geometry` og GeoJSON. Ingen omregning trengs.
+    """
+    lon1, lat1 = math.radians(a[0]), math.radians(a[1])
+    lon2, lat2 = math.radians(b[0]), math.radians(b[1])
+    h = (
+        math.sin((lat2 - lat1) / 2) ** 2
+        + math.cos(lat1) * math.cos(lat2) * math.sin((lon2 - lon1) / 2) ** 2
+    )
+    return 2 * JORDRADIUS_M * math.asin(math.sqrt(min(1.0, h)))

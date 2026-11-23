@@ -1,0 +1,1011 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wfs:FeatureCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210 https://wfs.geonorge.no/skwms1/wfs.turogfriluftsruter?SERVICE=WFS&amp;VERSION=2.0.0&amp;REQUEST=DescribeFeatureType&amp;OUTPUTFORMAT=text%2Fxml%3B+subtype%3Dgml%2F3.2.1&amp;TYPENAME=app:Fotrute&amp;NAMESPACES=xmlns(app,http%3A%2F%2Fskjema.geonorge.no%2FSOSI%2Fproduktspesifikasjon%2FTurOgFriluftsruter%2F20171210)" xmlns:wfs="http://www.opengis.net/wfs/2.0" timeStamp="2026-11-23T13:14:21Z" xmlns:gml="http://www.opengis.net/gml/3.2" numberMatched="unknown" numberReturned="0">
+  <!--NOTE: numberReturned attribute should be 'unknown' as well, but this would not validate against the current version of the WFS 2.0 schema (change upcoming). See change request (CR 144): https://portal.opengeospatial.org/files?artifact_id=43925.-->
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.25409">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>6659412b-255f-4d66-af0e-d55dd92a2dc5</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2010-06-03</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>31</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra TraktorvegSti, 20200422</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.25409_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.25409_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.861589 59.886142 10.861650 59.886202</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger>ST</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Rundtur Ulsrudvann</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Oslo og omegn</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>AN</app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.25885">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>566ce260-31ec-4d45-b365-86623c591893</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>1995-11-22</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>32</app:målemetode>
+          <app:nøyaktighet>200</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra TraktorvegSti, 20200422</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.25885_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.25885_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.861666 59.886228 10.861766 59.886180 10.861832 59.886153 10.861867 59.886146 10.861950 59.886120 10.862061 59.886085 10.862073 59.886082 10.862234 59.886051 10.862270 59.886055 10.862379 59.886045 10.862502 59.886009 10.862548 59.885986 10.862729 59.885930 10.862777 59.885896 10.862827 59.885873 10.863032 59.885687 10.863117 59.885652 10.863130 59.885647 10.863314 59.885615 10.863892 59.885564 10.864255 59.885527 10.864314 59.885516 10.864578 59.885508 10.865030 59.885532</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger>ST</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Rundtur Ulsrudvann</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Oslo og omegn</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>AN</app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.25930">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>aae2af07-48ff-416c-8a9d-bce02a732acd</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>1999-03-02</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>82</app:målemetode>
+          <app:nøyaktighet>200</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20200422</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.25930_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.25930_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.867207 59.889194 10.867497 59.889150 10.867784 59.889156 10.868066 59.889204 10.868222 59.889200 10.868347 59.889148 10.868450 59.889037 10.868568 59.888821 10.868745 59.888723 10.868957 59.888618</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger>SB</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Rundtur Ulsrudvann</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Oslo og omegn</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>AN</app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Blåmerket sti Østmarka</app:rutenavn>
+          <app:rutenummer>F_20170614_01</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Friluftsetaten</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype></app:spesialFotrutetype>
+          <app:gradering></app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning></app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.26129">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>e545fb26-7ad8-4ad6-8553-aa6509f0c627</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2019-11-25</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>92</app:målemetode>
+          <app:nøyaktighet>1000</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra TraktorvegSti, 20200422</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.26129_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.26129_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.868624 59.888100 10.868688 59.888002 10.868868 59.887874 10.869082 59.887719 10.869129 59.887488 10.869154 59.887294 10.869226 59.887104 10.869495 59.886994 10.869726 59.886882 10.869783 59.886667 10.869741 59.886491 10.869577 59.886365 10.869329 59.886348 10.869294 59.886351 10.869164 59.886340 10.869139 59.886332 10.868832 59.886308 10.868553 59.886297 10.868268 59.886273 10.868177 59.886155 10.868181 59.886002 10.868097 59.885812 10.867933 59.885767 10.867744 59.885740 10.867702 59.885684 10.867561 59.885592 10.867267 59.885575</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger>ST</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Rundtur Ulsrudvann</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Oslo og omegn</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>AN</app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.26181">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>4a11e336-e502-4c2d-ad17-d37134985be6</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>1994-02-01</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>50</app:målemetode>
+          <app:nøyaktighet>500</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.26181_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.26181_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.860839 59.886446 10.860791 59.886580 10.860722 59.886932 10.860633 59.887275 10.860455 59.887609 10.860350 59.887961 10.860350 59.888057</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:ruteFølger>SB</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Blåmerket sti Østmarka</app:rutenavn>
+          <app:rutenummer>F_20170614_01</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Friluftsetaten</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype></app:spesialFotrutetype>
+          <app:gradering></app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning></app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Rundtur Ulsrudvann</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Oslo og omegn</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>AN</app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.26212">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>ae559b2a-5ddc-434a-992d-1165b3010267</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2010-06-03</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>31</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra TraktorvegSti, 20200422</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.26212_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.26212_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.865642 59.885564 10.865354 59.885552 10.865180 59.885553 10.865106 59.885546 10.865030 59.885532</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger>ST</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Rundtur Ulsrudvann</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Oslo og omegn</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>AN</app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.26277">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>f0c2f3de-1ea3-495f-938d-ee25684379bc</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2010-06-03</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>31</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra TraktorvegSti, 20200422</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.26277_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.26277_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.868624 59.888100 10.868629 59.888135 10.868647 59.888197 10.868664 59.888234 10.868702 59.888281</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger>ST</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Rundtur Ulsrudvann</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Oslo og omegn</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>AN</app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.26332">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>47af39bc-6b32-449d-83a4-a366f02f08b3</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>1994-02-01</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>50</app:målemetode>
+          <app:nøyaktighet>500</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20200422</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.26332_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.26332_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.865804 59.889292 10.866459 59.889223</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger>SB</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Rundtur Ulsrudvann</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Oslo og omegn</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>AN</app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Blåmerket sti Østmarka</app:rutenavn>
+          <app:rutenummer>F_20170614_01</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Friluftsetaten</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype></app:spesialFotrutetype>
+          <app:gradering></app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning></app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.26395">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>9f4a1ad0-631a-453b-b1b7-f059bbcfc3aa</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2017-04-30</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>31</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra TraktorvegSti, 20200422</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.26395_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.26395_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.861650 59.886202 10.861666 59.886228</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger>ST</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Rundtur Ulsrudvann</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Oslo og omegn</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>AN</app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.26513">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>13928912-9b4b-4aa1-8d93-aaffca79d378</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>1995-11-22</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>32</app:målemetode>
+          <app:nøyaktighet>200</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra TraktorvegSti, 20200422</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.26513_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.26513_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.865642 59.885564 10.865814 59.885562 10.866156 59.885535 10.866606 59.885597 10.866899 59.885628 10.867110 59.885601 10.867176 59.885581 10.867267 59.885575</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger>ST</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Rundtur Ulsrudvann</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Oslo og omegn</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>AN</app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.26473">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>8b65db14-e3cf-483b-b6f4-2d3c7617eff1</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>1994-02-01</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>50</app:målemetode>
+          <app:nøyaktighet>500</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20200422</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.26473_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.26473_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.863719 59.888911 10.863841 59.888792 10.863938 59.888760 10.864071 59.888785 10.864812 59.889101 10.865281 59.889302 10.865804 59.889292</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger>SB</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Rundtur Ulsrudvann</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Oslo og omegn</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>AN</app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Blåmerket sti Østmarka</app:rutenavn>
+          <app:rutenummer>F_20170614_01</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Friluftsetaten</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype></app:spesialFotrutetype>
+          <app:gradering></app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning></app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.26586">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>04c2fb64-5089-4dfd-8f13-3d48b38f1398</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2019-11-25</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>92</app:målemetode>
+          <app:nøyaktighet>1000</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra TraktorvegSti, 20200422</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.26586_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.26586_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.868957 59.888618 10.868964 59.888573 10.868951 59.888539 10.868818 59.888389 10.868796 59.888356 10.868702 59.888281</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger>ST</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Rundtur Ulsrudvann</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Oslo og omegn</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>AN</app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.26727">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>2718f984-df04-4019-bc0b-86a17b6dd471</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>1999-03-02</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>82</app:målemetode>
+          <app:nøyaktighet>200</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20200422</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.26727_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.26727_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.866459 59.889223 10.866986 59.889187 10.867207 59.889194</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger>SB</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Rundtur Ulsrudvann</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Oslo og omegn</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>AN</app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Blåmerket sti Østmarka</app:rutenavn>
+          <app:rutenummer>F_20170614_01</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Friluftsetaten</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype></app:spesialFotrutetype>
+          <app:gradering></app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning></app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.30833">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>01e72b77-a566-497f-ae0e-e06ea5c5097f</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2019-11-25</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>92</app:målemetode>
+          <app:nøyaktighet>1000</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra TraktorvegSti, 20200422</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.30833_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.30833_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.861589 59.886142 10.861229 59.886206 10.861079 59.886244 10.860861 59.886427 10.860839 59.886446</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger>ST</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Rundtur Ulsrudvann</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Oslo og omegn</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>AN</app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.30834">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>c968f390-2ca1-441f-a6c5-71272363a15b</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2018-04-21</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>35</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20200422</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.30834_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.30834_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.860350 59.888057 10.860354 59.888059 10.860593 59.888181 10.860689 59.888221 10.860737 59.888238 10.860769 59.888245 10.860812 59.888249 10.860901 59.888259 10.861055 59.888262 10.861221 59.888263 10.861312 59.888262 10.861392 59.888267 10.861442 59.888273 10.861502 59.888286 10.861573 59.888303 10.861654 59.888322 10.861753 59.888349 10.861841 59.888375 10.861912 59.888398 10.861981 59.888424 10.862046 59.888452 10.862105 59.888478 10.862175 59.888508 10.862223 59.888533 10.862275 59.888572 10.862305 59.888603 10.862328 59.888637 10.862340 59.888663 10.862381 59.888712 10.862439 59.888772 10.862498 59.888838 10.862547 59.888882 10.862574 59.888900 10.862617 59.888918 10.862659 59.888928 10.862720 59.888937 10.862774 59.888942 10.862871 59.888945 10.862948 59.888948 10.863011 59.888954 10.863063 59.888957 10.863121 59.888959 10.863190 59.888961 10.863255 59.888958 10.863310 59.888954 10.863390 59.888946 10.863492 59.888934 10.863594 59.888923 10.863719 59.888911</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger>BV</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Rundtur Ulsrudvann</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Oslo og omegn</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>AN</app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.49671">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>4a55eee1-c41d-4daf-9789-e818fe35353a</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2025-01-29 14:13:19.807707000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2020-10-19</app:datafangstdato>
+      <app:oppdateringsdato>2025-01-29T13:13:19</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>45</app:målemetode>
+          <app:nøyaktighet>500</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:informasjon>Geometri fra FKB-TraktorvegSti 20201019</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.49671_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.49671_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.869977 61.703960 10.869942 61.703900 10.869716 61.703628 10.869466 61.703497 10.869076 61.703453 10.868943 61.703447</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger>ST</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Karlstadpiggen</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Åmot og Stor-Elvdal</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.49658">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>96f1eec8-7b45-4357-91cc-84d29b99e9d0</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2025-01-29 14:13:19.807707000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2020-10-19</app:datafangstdato>
+      <app:oppdateringsdato>2025-01-29T13:13:19</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>45</app:målemetode>
+          <app:nøyaktighet>300</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:informasjon>Geometri fra FKB-TraktorvegSti 20201019</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.49658_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.49658_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.859496 61.700884 10.859411 61.700837 10.859297 61.700822 10.859143 61.700818 10.858953 61.700807 10.858804 61.700796 10.858617 61.700767 10.858464 61.700739 10.858339 61.700705 10.858220 61.700667 10.858163 61.700659 10.858081 61.700665 10.858006 61.700663 10.857919 61.700637 10.857892 61.700611 10.857824 61.700570 10.857682 61.700513 10.857557 61.700471 10.857530 61.700465 10.857498 61.700472 10.857468 61.700467 10.857420 61.700449 10.857360 61.700426 10.857309 61.700402 10.857215 61.700371 10.857149 61.700341 10.857059 61.700311 10.856987 61.700281 10.856899 61.700261 10.856872 61.700233 10.856831 61.700205 10.856772 61.700178 10.856744 61.700144 10.856678 61.700105 10.856634 61.700061 10.856593 61.700023 10.856452 61.699967 10.856170 61.699815 10.855990 61.699714 10.855836 61.699598 10.855773 61.699535 10.855751 61.699478 10.855753 61.699402 10.855748 61.699320 10.855791 61.699232 10.855863 61.699139 10.855890 61.699061 10.855900 61.698992 10.855859 61.698905 10.855744 61.698862 10.855669 61.698808 10.855590 61.698746 10.855610 61.698671 10.855705 61.698608 10.855778 61.698556 10.855827 61.698508 10.855950 61.698460 10.856090 61.698437 10.856230 61.698403 10.856352 61.698373 10.856400 61.698329 10.856536 61.698280 10.856623 61.698233 10.856765 61.698187 10.856866 61.698146 10.856961 61.698063 10.857017 61.697973 10.857039 61.697885 10.857067 61.697766 10.857215 61.697664 10.857328 61.697552 10.857408 61.697500 10.857522 61.697428 10.857648 61.697369 10.857840 61.697278 10.857961 61.697223 10.858114 61.697200 10.858354 61.697163 10.858618 61.697079 10.858896 61.696963 10.859076 61.696890 10.859352 61.696761 10.859571 61.696702 10.859795 61.696656 10.860059 61.696617 10.860224 61.696567 10.860462 61.696534 10.860766 61.696526 10.860989 61.696503 10.861217 61.696455 10.861490 61.696397 10.861639 61.696315 10.861869 61.696264 10.862157 61.696240 10.862391 61.696197 10.862566 61.696139 10.862690 61.696060 10.862874 61.695943 10.863020 61.695835 10.863187 61.695740 10.863531 61.695641 10.863686 61.695562 10.863859 61.695498 10.863980 61.695428 10.864143 61.695366 10.864261 61.695309 10.864373 61.695264 10.864503 61.695183 10.864514 61.695160 10.864517 61.695106 10.864567 61.695058 10.864694 61.695004 10.864791 61.694981 10.864901 61.694920 10.865043 61.694838 10.865168 61.694763 10.865337 61.694665 10.865426 61.694649 10.865531 61.694615 10.865622 61.694559 10.865690 61.694507 10.865784 61.694456 10.865860 61.694395 10.865917 61.694328 10.866099 61.694280 10.866239 61.694245 10.866382 61.694217 10.866568 61.694159 10.866652 61.694101 10.866802 61.694009 10.866995 61.693935 10.867130 61.693848 10.867244 61.693848 10.867443 61.693838 10.867585 61.693837 10.867680 61.693811 10.867770 61.693778</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger>ST</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Karlstadpiggen</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Åmot og Stor-Elvdal</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.49659">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>ddb6e71b-e3ad-4436-9f15-9f6172d0bb22</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2025-01-29 14:13:19.807707000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2020-10-19</app:datafangstdato>
+      <app:oppdateringsdato>2025-01-29T13:13:19</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>45</app:målemetode>
+          <app:nøyaktighet>300</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:informasjon>Geometri fra FKB-TraktorvegSti 20201019</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.49659_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.49659_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.867770 61.693778 10.867803 61.693760 10.867941 61.693675 10.868030 61.693663 10.868114 61.693630 10.868223 61.693584 10.868314 61.693563 10.868388 61.693544 10.868517 61.693526 10.868615 61.693505 10.868710 61.693482 10.868828 61.693452 10.868928 61.693452 10.869075 61.693409 10.869236 61.693371 10.869388 61.693338 10.869475 61.693322 10.869613 61.693279 10.869684 61.693237 10.869757 61.693200 10.869861 61.693181 10.869929 61.693128</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger>ST</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Karlstadpiggen</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Åmot og Stor-Elvdal</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.49660">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>e7b81e00-edc5-4496-99dc-f7b541ef7600</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2025-01-29 14:13:19.807707000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2020-10-19</app:datafangstdato>
+      <app:oppdateringsdato>2025-01-29T13:13:19</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>45</app:målemetode>
+          <app:nøyaktighet>500</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:informasjon>Geometri fra FKB-TraktorvegSti 20201019</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.49660_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.49660_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.867770 61.693778 10.867826 61.693818 10.867875 61.693853 10.867944 61.693897 10.867982 61.693957 10.868023 61.694014 10.868039 61.694071 10.868045 61.694123 10.868029 61.694162 10.868023 61.694216 10.868073 61.694270 10.868132 61.694303 10.868216 61.694348 10.868260 61.694404 10.868224 61.694467 10.868121 61.694547 10.867991 61.694617 10.867839 61.694667 10.867623 61.694738 10.867406 61.694757 10.867214 61.694779 10.867118 61.694828 10.866994 61.694895 10.866963 61.694970 10.866924 61.695047 10.866828 61.695130 10.866790 61.695197 10.866772 61.695254 10.866746 61.695307 10.866688 61.695391 10.866627 61.695479 10.866552 61.695530 10.866511 61.695577 10.866313 61.695645 10.866296 61.695700 10.866253 61.695731 10.866135 61.695760 10.866066 61.695790 10.865963 61.695828 10.865867 61.695872 10.865809 61.695921 10.865766 61.695965 10.865758 61.696036 10.865724 61.696112 10.865711 61.696177 10.865656 61.696264 10.865635 61.696338 10.865617 61.696414 10.865638 61.696496 10.865606 61.696526 10.865605 61.696577 10.865636 61.696636 10.865632 61.696669 10.865577 61.696737 10.865523 61.696782 10.865493 61.696836 10.865414 61.696890 10.865350 61.696966 10.865304 61.697048 10.865262 61.697113 10.865266 61.697186 10.865278 61.697245 10.865305 61.697306 10.865249 61.697391 10.865252 61.697471 10.865326 61.697575 10.865402 61.697665 10.865479 61.697724 10.865540 61.697753 10.865559 61.697795 10.865564 61.697835 10.865600 61.697872 10.865658 61.697907 10.865700 61.698006 10.865688 61.698115 10.865696 61.698258 10.865630 61.698349 10.865621 61.698416 10.865586 61.698473 10.865534 61.698542 10.865654 61.698595 10.865748 61.698643 10.865889 61.698731 10.866011 61.698780 10.866067 61.698809 10.866128 61.698882 10.866127 61.698915 10.866212 61.698966 10.866282 61.699044 10.866326 61.699081 10.866387 61.699125 10.866430 61.699160 10.866492 61.699203 10.866522 61.699227 10.866557 61.699259 10.866604 61.699306 10.866706 61.699381 10.866876 61.699502 10.866957 61.699561 10.866998 61.699622 10.867050 61.699697 10.867069 61.699783 10.867068 61.699931 10.867003 61.700064 10.866804 61.700290 10.866941 61.700448 10.867086 61.700525 10.867185 61.700632 10.867241 61.700765 10.867143 61.700853 10.867119 61.700910 10.867221 61.700991 10.867267 61.701039 10.867222 61.701151 10.867222 61.701235 10.867250 61.701306 10.867357 61.701369 10.867378 61.701433 10.867474 61.701510 10.867622 61.701613 10.867679 61.701681 10.867736 61.701774 10.867808 61.701848 10.867815 61.701955 10.867844 61.701987 10.867933 61.702036 10.867990 61.702118 10.867972 61.702185 10.868044 61.702307 10.868018 61.702420 10.868069 61.702523 10.868068 61.702636 10.868152 61.702732 10.868249 61.702828 10.868314 61.702886 10.868341 61.702941 10.868374 61.702989 10.868403 61.703041 10.868438 61.703067 10.868480 61.703078 10.868524 61.703114 10.868574 61.703148 10.868604 61.703216 10.868629 61.703270 10.868714 61.703334 10.868832 61.703386 10.868943 61.703447</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger>ST</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Karlstadpiggen</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Åmot og Stor-Elvdal</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.49661">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>abc13e44-6a82-4410-8f29-37472e27f915</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2025-01-29 14:13:19.807707000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2020-10-19</app:datafangstdato>
+      <app:oppdateringsdato>2025-01-29T13:13:19</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>45</app:målemetode>
+          <app:nøyaktighet>500</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:informasjon>Geometri fra FKB-TraktorvegSti 20201019</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.49661_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.49661_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.868943 61.703447 10.867867 61.703409 10.867710 61.703357 10.867545 61.703280 10.867321 61.703180 10.867194 61.703120 10.867130 61.703071 10.867052 61.703027 10.866946 61.702983 10.866859 61.702960 10.866727 61.702964 10.866534 61.702976 10.866270 61.702984 10.866081 61.702984 10.865886 61.702966 10.865663 61.702938 10.865524 61.702913 10.865443 61.702898 10.865367 61.702879 10.865303 61.702860 10.865266 61.702833 10.865238 61.702790 10.865232 61.702762 10.865252 61.702716 10.865307 61.702685 10.865395 61.702640 10.865492 61.702580 10.865586 61.702512 10.865615 61.702494 10.865714 61.702439 10.865833 61.702384 10.865936 61.702329 10.866016 61.702280 10.866070 61.702246 10.866122 61.702206 10.866151 61.702169 10.866144 61.702147 10.866159 61.702090 10.866168 61.702024 10.866166 61.701896 10.866164 61.701813 10.866160 61.701757 10.866147 61.701705 10.866154 61.701651 10.866197 61.701600 10.866251 61.701533 10.866321 61.701458 10.866395 61.701365 10.866418 61.701325 10.866480 61.701227 10.866498 61.701178 10.866519 61.701143 10.866513 61.701111 10.866485 61.701066 10.866411 61.701031 10.866363 61.701001 10.866251 61.700981 10.866089 61.700974 10.865944 61.700972 10.865461 61.701023 10.864319 61.701171 10.864155 61.701188 10.863943 61.701186 10.863772 61.701171 10.863569 61.701148 10.863447 61.701113 10.863337 61.701063 10.863199 61.701003 10.863130 61.700967 10.863024 61.700948 10.862866 61.700950 10.862677 61.700979 10.862576 61.701007 10.862454 61.701033 10.862316 61.701054 10.862180 61.701061 10.862088 61.701066 10.861968 61.701060 10.861811 61.701035 10.861657 61.701012 10.861549 61.700995 10.861413 61.700984 10.861269 61.700996 10.861147 61.700997 10.860942 61.700979 10.860731 61.700962 10.860513 61.700930 10.860375 61.700896 10.860143 61.700880 10.859928 61.700866 10.859710 61.700871 10.859496 61.700884</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger>ST</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Karlstadpiggen</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Åmot og Stor-Elvdal</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.49672">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>0eea5a32-6a1d-482e-bcb9-9a5d29b4e5e1</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2025-01-29 14:13:19.807707000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2016-05-16</app:datafangstdato>
+      <app:oppdateringsdato>2025-01-29T13:13:19</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>33</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:informasjon>Geometri fra FKB-TraktorvegSti 20201019</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.49672_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.49672_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.871324 61.706357 10.871395 61.706327 10.871439 61.706316 10.871512 61.706301 10.871552 61.706289 10.871602 61.706271 10.871616 61.706261 10.871625 61.706245 10.871610 61.706220 10.871523 61.706150 10.871426 61.706079 10.871392 61.706052 10.871346 61.706010 10.871312 61.705974 10.871245 61.705909 10.871196 61.705864 10.871153 61.705822 10.871102 61.705761 10.871054 61.705708 10.871013 61.705656 10.870972 61.705605 10.870913 61.705547 10.870836 61.705472 10.870767 61.705405 10.870694 61.705336 10.870620 61.705261 10.870566 61.705210 10.870527 61.705166 10.870473 61.705098 10.870441 61.705055 10.870421 61.705024 10.870410 61.704987 10.870406 61.704951 10.870422 61.704893 10.870461 61.704821 10.870501 61.704771 10.870507 61.704752 10.870487 61.704723 10.870479 61.704703 10.870470 61.704667 10.870464 61.704592 10.870443 61.704529 10.870422 61.704474 10.870384 61.704408 10.870325 61.704351 10.870259 61.704295 10.870206 61.704249 10.870138 61.704163 10.870076 61.704088 10.870018 61.704016 10.869977 61.703960</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>true</app:skilting>
+      <app:ruteFølger>ST</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Karlstadpiggen</app:rutenavn>
+          <app:rutenummer>F_20200422_1</app:rutenummer>
+          <app:vedlikeholdsansvarlig>DNT | DNT Åmot og Stor-Elvdal</app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype>NT</app:spesialFotrutetype>
+          <app:gradering>B</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning>3</app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+</wfs:FeatureCollection>

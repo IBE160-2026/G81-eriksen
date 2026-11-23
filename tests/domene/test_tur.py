@@ -8,6 +8,7 @@ from domene.tur import (
     Form,
     Tur,
     Turniva,
+    avstand_m,
     total_hoydemeter_m,
     total_lengde_m,
     total_nedstigning_m,
@@ -150,3 +151,19 @@ class TotalerTest(unittest.TestCase):
         self.assertEqual(total_lengde_m(form, 2000), 2000)
         self.assertEqual(total_hoydemeter_m(form, 100, 40), 100)
         self.assertEqual(total_nedstigning_m(form, 100, 40), 40)
+
+
+class AvstandTest(unittest.TestCase):
+    def test_en_breddegrad_er_r_ganger_pi_delt_pa_180(self):  # AR-3
+        # Haversine med R = 6 371 008,8 m: 1° langs en meridian er 111 195,08 m.
+        self.assertAlmostEqual(avstand_m((10.0, 59.0), (10.0, 60.0)), 111_195.08, places=2)
+
+    def test_lengdegrad_krymper_med_cos_til_breddegraden(self):  # AR-3
+        # Ved 60° nord er 1° øst-vest omtrent halvparten av 1° nord-sør.
+        self.assertAlmostEqual(avstand_m((10.0, 60.0), (11.0, 60.0)), 55_596, delta=5)
+
+    def test_samme_punkt_gir_0_og_rekkefolgen_spiller_ingen_rolle(self):  # AR-3
+        a, b = (10.717187, 59.953615), (10.715769, 59.953129)
+        self.assertEqual(avstand_m(a, a), 0.0)
+        self.assertEqual(avstand_m(a, b), avstand_m(b, a))
+        self.assertAlmostEqual(avstand_m(a, b), 95.2, delta=0.5)
