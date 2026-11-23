@@ -1,0 +1,44 @@
+# Kurateringslista for turdatabasen (AD-3 punkt 2). Formatet står i data/README.md.
+# Bygg data/turer.geojson med: python -m skript.bygg_turdatabase
+#
+# Testturer for story 1.5. Den endelige lista med 15 turer kommer i story 1.7.
+# Rutepunktene er [lat, lon] og ligger på noder (segmentender) i Turrutebasen.
+
+[[tur]]
+id = "frognervassdraget"
+navn = "Langs Frognervassdraget"
+form = "tur-retur"
+turtyper = ["marka"]
+rutenummer = ["F_01812_03"]
+ut_no_url = ""
+startpunkt = { id = "sognsvann", navn = "Sognsvann", lat = 59.96711, lon = 10.73382 }
+
+[tur.rutepunkter]
+fra = [59.969076, 10.72659]
+til = [59.952655, 10.716583]
+
+[[tur]]
+id = "sognsvann-brekke"
+navn = "Sognsvann–Brekke turvei"
+form = "tur-retur"
+turtyper = ["marka"]
+rutenummer = ["F_20220203_01"]
+ut_no_url = ""
+startpunkt = { id = "sognsvann", navn = "Sognsvann", lat = 59.96711, lon = 10.73382 }
+
+[tur.rutepunkter]
+fra = [59.971026, 10.733128]
+til = [59.971357, 10.747841]
+
+[[tur]]
+id = "rundtur-ulsrudvann"
+navn = "Rundtur Ulsrudvann"
+form = "rundtur"
+turtyper = ["marka"]
+rutenummer = ["F_20200422_1"]
+ut_no_url = ""
+startpunkt = { id = "ostmarksetra", navn = "Østmarksetra", lat = 59.889997, lon = 10.864696 }
+
+[tur.rutepunkter]
+fra = [59.888911, 10.863719]
+via = [[59.885532, 10.86503], [59.8881, 10.868624]]

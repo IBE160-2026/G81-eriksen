@@ -1,0 +1,372 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wfs:FeatureCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210 https://wfs.geonorge.no/skwms1/wfs.turogfriluftsruter?SERVICE=WFS&amp;VERSION=2.0.0&amp;REQUEST=DescribeFeatureType&amp;OUTPUTFORMAT=text%2Fxml%3B+subtype%3Dgml%2F3.2.1&amp;TYPENAME=app:Fotrute&amp;NAMESPACES=xmlns(app,http%3A%2F%2Fskjema.geonorge.no%2FSOSI%2Fproduktspesifikasjon%2FTurOgFriluftsruter%2F20171210)" xmlns:wfs="http://www.opengis.net/wfs/2.0" timeStamp="2026-11-23T13:14:20Z" xmlns:gml="http://www.opengis.net/gml/3.2" numberMatched="unknown" numberReturned="0">
+  <!--NOTE: numberReturned attribute should be 'unknown' as well, but this would not validate against the current version of the WFS 2.0 schema (change upcoming). See change request (CR 144): https://portal.opengeospatial.org/files?artifact_id=43925.-->
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.33022">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>3b3f4de6-dad0-4efb-974e-9c9559fa8d43</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2020-03-31</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>35</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20220210</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.33022_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.33022_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.755337 59.967264 10.755284 59.967221 10.755216 59.967171 10.755177 59.967142 10.755111 59.967093 10.754998 59.967021 10.754901 59.966968 10.754827 59.966938 10.754785 59.966923 10.754711 59.966906 10.754657 59.966907 10.754580 59.966920 10.754553 59.966925</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>SB</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Turvei, tykkel og skiløype sognsvann Brekke</app:rutenavn>
+          <app:rutenummer>F_20220203_01</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo kommune ved Bymiljøetaten </app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype></app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning></app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.33043">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>9fd4034b-cb2b-4378-92d3-0efd52a266b4</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2020-03-31</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>35</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20220210</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.33043_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.33043_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.736290 59.969564 10.736240 59.969588 10.736075 59.969712 10.735931 59.969848 10.735812 59.970002 10.735675 59.970133 10.735580 59.970195 10.735362 59.970337 10.735347 59.970347 10.735299 59.970381 10.735235 59.970426 10.735091 59.970541 10.734955 59.970650 10.734831 59.970745 10.734753 59.970819 10.734689 59.970880 10.734664 59.970916 10.734611 59.970955 10.734531 59.970984 10.734135 59.971104 10.734013 59.971131 10.733831 59.971149 10.733731 59.971146 10.733585 59.971136 10.733384 59.971120 10.733270 59.971079 10.733182 59.971046 10.733128 59.971026</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>SB</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Turvei, tykkel og skiløype sognsvann Brekke</app:rutenavn>
+          <app:rutenummer>F_20220203_01</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo kommune ved Bymiljøetaten </app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype></app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning></app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.33045">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>0aa2cee4-b3ff-40ac-a2cb-087c98cb1f7b</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2020-03-31</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>35</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20220210</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.33045_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.33045_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.739337 59.968754 10.739268 59.968790 10.739151 59.968870 10.739075 59.968907 10.739029 59.968920 10.738959 59.968931 10.738901 59.968936 10.738472 59.968929 10.738377 59.968935 10.738137 59.968960 10.737996 59.968971 10.737774 59.968972 10.737602 59.968972 10.737529 59.968981 10.737448 59.969004 10.737371 59.969033 10.737109 59.969162 10.736851 59.969298 10.736290 59.969564</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>SB</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Turvei, tykkel og skiløype sognsvann Brekke</app:rutenavn>
+          <app:rutenummer>F_20220203_01</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo kommune ved Bymiljøetaten </app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype></app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning></app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.33047">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>b7599e20-a33d-48c0-8bf6-fb955443c4d7</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2020-03-31</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>35</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20220210</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.33047_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.33047_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.739733 59.968703 10.739724 59.968703 10.739626 59.968707 10.739524 59.968709 10.739458 59.968715 10.739405 59.968726 10.739356 59.968745 10.739344 59.968750 10.739337 59.968754</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>SB</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Turvei, tykkel og skiløype sognsvann Brekke</app:rutenavn>
+          <app:rutenummer>F_20220203_01</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo kommune ved Bymiljøetaten </app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype></app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning></app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.33049">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>9b077297-f6c0-4e34-96af-9517b3b8c8fc</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2023-10-25 11:10:41.866148000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2020-03-31</app:datafangstdato>
+      <app:oppdateringsdato>2023-10-25T09:10:41</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>35</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20220210</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.33049_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.33049_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.747841 59.971357 10.747803 59.971374 10.747779 59.971380 10.747732 59.971384 10.747640 59.971391 10.747497 59.971426 10.747434 59.971443 10.747335 59.971463 10.747256 59.971478 10.747206 59.971483 10.747127 59.971480 10.747018 59.971463 10.746980 59.971458</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>SB</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Turvei, tykkel og skiløype sognsvann Brekke</app:rutenavn>
+          <app:rutenummer>F_20220203_01</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo kommune ved Bymiljøetaten </app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype></app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning></app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.45369">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>c085d7e9-8b7d-4c25-b6ec-55d92772cfd8</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2024-10-17 11:05:36.334007000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2017-04-30</app:datafangstdato>
+      <app:oppdateringsdato>2024-10-17T09:05:36</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>31</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20220210</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.45369_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.45369_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.761513 59.969127 10.761504 59.969074 10.761499 59.968998 10.761511 59.968879 10.761528 59.968724 10.761528 59.968716 10.761540 59.968594 10.761510 59.968464 10.761467 59.968377 10.761386 59.968290 10.761296 59.968180 10.761176 59.968078 10.761042 59.968003 10.760892 59.967894 10.760749 59.967789 10.760568 59.967692 10.760335 59.967626 10.760110 59.967560 10.759893 59.967505 10.759693 59.967470 10.759470 59.967457 10.759241 59.967460 10.758976 59.967495 10.758726 59.967544 10.758561 59.967592 10.758449 59.967639 10.758322 59.967691 10.758194 59.967727 10.758113 59.967739 10.758049 59.967748 10.757962 59.967746 10.757862 59.967738 10.757771 59.967717 10.757695 59.967687 10.757582 59.967620 10.757432 59.967519 10.757291 59.967420 10.757213 59.967384 10.757129 59.967358 10.757038 59.967342 10.756956 59.967339 10.756850 59.967341 10.756719 59.967346 10.756618 59.967344 10.756495 59.967334 10.756364 59.967327 10.756219 59.967332 10.756022 59.967350 10.755851 59.967366 10.755715 59.967384 10.755595 59.967399 10.755517 59.967399 10.755431 59.967373 10.755369 59.967332 10.755337 59.967264</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>SB</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Turvei, tykkel og skiløype sognsvann Brekke</app:rutenavn>
+          <app:rutenummer>F_20220203_01</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo kommune ved Bymiljøetaten </app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype></app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning></app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.45386">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>29440d50-654b-4e52-8379-725efec97a39</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2024-10-17 11:05:36.334007000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2020-03-31</app:datafangstdato>
+      <app:oppdateringsdato>2024-10-17T09:05:36</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>35</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20220210</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.45386_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.45386_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.754553 59.966925 10.754211 59.966992 10.754061 59.966999 10.753796 59.966994 10.753714 59.966991 10.753595 59.966978 10.753441 59.966980 10.753312 59.966989 10.753204 59.967003 10.753101 59.967024 10.752917 59.967066 10.752718 59.967125 10.752538 59.967181 10.752368 59.967238 10.752217 59.967290 10.752083 59.967339 10.751969 59.967380 10.751871 59.967428 10.751781 59.967485 10.751711 59.967533 10.751667 59.967573 10.751647 59.967606 10.751650 59.967653 10.751670 59.967694 10.751686 59.967735 10.751715 59.967796 10.751735 59.967846 10.751730 59.967892 10.751730 59.967947 10.751712 59.968009 10.751693 59.968052 10.751653 59.968122 10.751623 59.968156 10.751568 59.968191 10.751458 59.968258 10.751252 59.968358 10.751170 59.968409 10.751127 59.968457 10.751046 59.968544 10.750989 59.968601 10.750891 59.968695 10.750870 59.968733 10.750860 59.968770 10.750870 59.968812 10.750908 59.968869 10.750955 59.968941 10.750979 59.968987 10.750983 59.969021 10.750980 59.969064 10.750901 59.969235 10.750869 59.969294 10.750801 59.969386 10.750755 59.969426 10.750708 59.969455 10.750627 59.969491 10.750509 59.969533 10.750505 59.969534 10.750413 59.969556 10.750406 59.969558 10.750309 59.969582 10.750221 59.969614 10.750163 59.969636 10.750035 59.969701 10.749936 59.969751 10.749829 59.969785 10.749793 59.969797 10.749676 59.969849 10.749583 59.969911 10.749581 59.969913 10.749520 59.969978 10.749480 59.970060 10.749451 59.970131 10.749408 59.970166 10.749344 59.970193 10.749266 59.970208 10.749178 59.970215 10.749059 59.970215 10.748991 59.970208 10.748944 59.970205 10.748906 59.970208 10.748856 59.970215 10.748754 59.970236 10.748612 59.970280 10.748365 59.970380 10.748326 59.970399 10.748293 59.970422 10.748258 59.970490</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>SB</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Turvei, tykkel og skiløype sognsvann Brekke</app:rutenavn>
+          <app:rutenummer>F_20220203_01</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo kommune ved Bymiljøetaten </app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype></app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning></app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+  <wfs:member>
+    <app:Fotrute xmlns:app="http://skjema.geonorge.no/SOSI/produktspesifikasjon/TurOgFriluftsruter/20171210" gml:id="fotrute.45387">
+      <app:identifikasjon>
+        <app:Identifikasjon>
+          <app:lokalId>d69718c7-3350-402f-aa6b-73a77f3b8776</app:lokalId>
+          <app:navnerom>http://data.geonorge.no/TurruterNGIS/Turruter/so</app:navnerom>
+          <app:versjonId>2024-10-17 11:05:36.334007000</app:versjonId>
+        </app:Identifikasjon>
+      </app:identifikasjon>
+      <app:datafangstdato>2020-03-31</app:datafangstdato>
+      <app:oppdateringsdato>2024-10-17T09:05:36</app:oppdateringsdato>
+      <app:kvalitet>
+        <app:Posisjonskvalitet>
+          <app:målemetode>24</app:målemetode>
+          <app:nøyaktighet>35</app:nøyaktighet>
+        </app:Posisjonskvalitet>
+      </app:kvalitet>
+      <app:opphav>Rett i kartet</app:opphav>
+      <app:informasjon>Geometri hentet fra Vbase, 20220210</app:informasjon>
+      <app:senterlinje>
+        <!--Inlined geometry 'fotrute.45387_APP_SENTERLINJE'-->
+        <gml:LineString gml:id="fotrute.45387_APP_SENTERLINJE" srsName="EPSG:4326">
+          <gml:posList>10.746980 59.971458 10.746895 59.971447 10.746825 59.971435 10.746808 59.971433 10.746564 59.971368 10.746111 59.971224 10.745924 59.971148 10.745880 59.971112 10.745833 59.971084 10.745716 59.971043 10.745508 59.971000 10.745381 59.970966 10.745337 59.970938 10.745270 59.970902 10.745232 59.970867 10.745203 59.970839 10.744867 59.970490 10.744753 59.970387 10.744643 59.970318 10.744519 59.970215 10.744458 59.970162 10.744346 59.970066 10.744177 59.969954 10.744113 59.969890 10.743904 59.969683 10.743710 59.969498 10.743671 59.969454 10.743641 59.969427 10.743580 59.969401 10.742928 59.969161 10.742762 59.969085 10.742594 59.969016 10.742452 59.968929 10.742443 59.968923 10.742302 59.968839 10.742138 59.968734 10.742060 59.968686 10.741972 59.968651 10.741940 59.968640 10.741920 59.968633 10.741844 59.968620 10.741770 59.968611 10.741696 59.968608 10.741646 59.968608 10.741563 59.968613 10.741560 59.968613 10.741475 59.968626 10.741300 59.968667 10.741009 59.968720 10.740976 59.968725 10.740897 59.968735 10.740801 59.968739 10.740666 59.968741 10.740537 59.968739 10.740440 59.968734 10.740301 59.968722 10.740102 59.968700 10.740032 59.968693 10.739927 59.968691 10.739805 59.968700 10.739733 59.968703</gml:posList>
+        </gml:LineString>
+      </app:senterlinje>
+      <app:merking>JA</app:merking>
+      <app:skilting>false</app:skilting>
+      <app:ruteFølger>SB</app:ruteFølger>
+      <app:underlagstype></app:underlagstype>
+      <app:rutebredde></app:rutebredde>
+      <app:trafikkbelastning></app:trafikkbelastning>
+      <app:sesong></app:sesong>
+      <app:fotruteInfo>
+        <app:FotruteInfo>
+          <app:rutenavn>Turvei, tykkel og skiløype sognsvann Brekke</app:rutenavn>
+          <app:rutenummer>F_20220203_01</app:rutenummer>
+          <app:vedlikeholdsansvarlig>Oslo kommune ved Bymiljøetaten </app:vedlikeholdsansvarlig>
+          <app:spesialFotrutetype></app:spesialFotrutetype>
+          <app:gradering>G</app:gradering>
+          <app:rutetype></app:rutetype>
+          <app:rutebetydning></app:rutebetydning>
+          <app:tilpasning></app:tilpasning>
+        </app:FotruteInfo>
+      </app:fotruteInfo>
+    </app:Fotrute>
+  </wfs:member>
+</wfs:FeatureCollection>
