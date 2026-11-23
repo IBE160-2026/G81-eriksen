@@ -11,7 +11,7 @@
 - [x] 2026-10-29 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — merge PR #6, og fortsett PRD på ny branch fra `main` (f.eks. `planlegging/prd`) (løst 2026-11-06)
 - [x] 2026-11-06 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — neste BMAD-steg: bmad-ux (wireframes for PRD §6), deretter bmad-architecture (løst 2026-11-06 — bmad-ux fullført, se [bmad-ux](995-2026-11-06-17-42-55-bmad-ux.md))
 - [x] 2026-11-06 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — legg note i product brief om at PRD-en gjelder ved avvik (løst 2026-11-07 — se [issues-opprydding](994-2026-11-07-15-14-03-issues-opprydding.md))
-- [ ] 2026-11-06 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — test nedlasting av Turrutebasen og støyfiltrering av høydedata når turdatabasen bygges
+- [x] 2026-11-06 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — test nedlasting av Turrutebasen og støyfiltrering av høydedata når turdatabasen bygges (løst 2026-11-23 — spike og Story 1.5, se story-1-5)
 - [x] 2026-11-06 [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md) — bruk egen kontakt-e-post fra .env i User-Agent mot MET (løst 2026-11-15 — forkastet: AD-12 punkt 3 har appnavn og repo-URL uten personlig e-post, som MET-vilkårene godtar; se story 5.2 i epics.md)
 - [x] 2026-11-06 [bmad-ux](995-2026-11-06-17-42-55-bmad-ux.md) — oppdater PRD med «Avvik fra PRD» fra EXPERIENCE.md (mobil i v1, UJ-1 7,2 km vs FR-2, UJ-3, jeg-form, «Logg inn / Lag konto», Historikk-visning, wireframe-referanse §6 m.m.) (løst 2026-11-07 — PRD v1.1, se [bmad-prd](996-2026-10-29-19-53-42-bmad-prd.md))
 - [x] 2026-11-06 [bmad-ux](995-2026-11-06-17-42-55-bmad-ux.md) — neste BMAD-steg: bmad-architecture (kartfliser/bibliotek, økt og levetid for turforslag, beregning av høydeprofil, nettleserstøtte) (løst 2026-11-08 — se [bmad-architecture](993-2026-11-08-11-00-48-bmad-architecture.md))
@@ -45,7 +45,7 @@
 - [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — kjør MCP-sjekkene fra Vercel-guiden (`search_vercel_documentation`, `list_teams`) etter omstart av Claude Code
 - [ ] 2026-11-15 [vercel-publisering](988-2026-11-15-13-47-22-vercel-publisering.md) — slå på totrinnsbekreftelse (2FA) på Vercel-kontoen
 - [x] 2026-11-15 [epics-og-stories](987-2026-11-15-14-08-10-epics-og-stories.md) — neste BMAD-steg: bmad-sprint-planning (sjekker at planen er klar og lager statusfila for sprinten) (løst 2026-11-22)
-- [ ] 2026-11-22 [readiness-rettinger](986-2026-11-22-19-07-56-readiness-rettinger.md) — Story 1.5: fastsett toleransen for å koble WFS-segmenter, og verifiser `koordsys` for høyde-API-et med WGS84-punkter
+- [x] 2026-11-22 [readiness-rettinger](986-2026-11-22-19-07-56-readiness-rettinger.md) — Story 1.5: fastsett toleransen for å koble WFS-segmenter, og verifiser `koordsys` for høyde-API-et med WGS84-punkter (løst 2026-11-23 — 1 m toleranse; koordsys 4258/4326 verifisert i spiken)
 - [x] 2026-11-22 [story-1-1](985-2026-11-22-19-56-19-story-1-1.md) — sett Story 1.1 til `done` i sprint-status når PR-en er merget; neste er Story 1.2 (Vercel og Neon må opprettes i nettleseren) (løst 2026-11-22 — Story 1.1 er done i sprint-status)
 - [ ] 2026-11-22 [story-1-1](985-2026-11-22-19-56-19-story-1-1.md) — med `DEBUG=True` lokalt viser Django engelske feilsider; avklar om README skal forklare det for sensor
 - [x] 2026-11-22 [story-1-2](984-2026-11-22-21-00-56-story-1-2.md) — sett Story 1.2 til `done` når PR #25 er merget, og sjekk produksjonen etter bygging av `main`; neste er Story 1.3 (løst 2026-11-23)
@@ -57,7 +57,11 @@
 - [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — Story 1.9: test sperren i `forbedring.js` mer reelt (i dag bare tekstsjekker), eller dokumenter den manuelle sjekken
 - [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — Story 1.9: gi `h1` på Søk rollen `display` (42 px) når skjemaet kommer
 - [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — presiser bisetningen om `psycopg[binary]` i spinen AD-15 punkt 1 (kan leses som at `pyproject.toml` mangler den)
-- [ ] 2026-11-23 [story-1-4](982-2026-11-23-13-24-33-story-1-4.md) — sett Story 1.4 til `done` når PR #27 er merget; neste er Story 1.5
-- [ ] 2026-11-23 [story-1-4](982-2026-11-23-13-24-33-story-1-4.md) — Story 1.5: byggeskriptet lager `Tur` med tuples og `Form(...)`; `Tur.geometry` er bare koordinatene (lon, lat); haversine i `domene.tur`
+- [x] 2026-11-23 [story-1-4](982-2026-11-23-13-24-33-story-1-4.md) — sett Story 1.4 til `done` når PR #27 er merget; neste er Story 1.5 (løst 2026-11-23 — PR #27 merget)
+- [x] 2026-11-23 [story-1-4](982-2026-11-23-13-24-33-story-1-4.md) — Story 1.5: byggeskriptet lager `Tur` med tuples og `Form(...)`; `Tur.geometry` er bare koordinatene (lon, lat); haversine i `domene.tur` (løst 2026-11-23 — gjort i Story 1.5)
 - [ ] 2026-11-23 [story-1-4](982-2026-11-23-13-24-33-story-1-4.md) — Story 1.6: `lastinn` må fange `KeyError`/`TypeError` i tillegg til `ValueError` fra `fra_geojson_feature` for å stoppe ryddig og atomisk
 - [ ] 2026-11-23 [story-1-4](982-2026-11-23-13-24-33-story-1-4.md) — Story 1.10: `formater_lengde_totalt` tar totallengden; kall `total_lengde_m` først
+- [ ] 2026-11-23 [story-1-5](981-2026-11-23-14-25-38-story-1-5.md) — sett Story 1.5 til `done` når PR #28 er merget; neste er Story 1.6 (`lastinn`)
+- [ ] 2026-11-23 [story-1-5](981-2026-11-23-14-25-38-story-1-5.md) — Story 1.7: sjekk 25 m / 5 m mot publiserte høydeprofiler (åpen Deferred-rad i spinen), at rundturer går i ring, og om noen tur trenger festing midt på segment / ringsegment / T-kryss
+- [ ] 2026-11-23 [story-1-5](981-2026-11-23-14-25-38-story-1-5.md) — fixturen `hoyder_testturer.json` er knyttet til de omsamplede koordinatene; endres omsampling eller rutepunkter, må den tas opp på nytt og `turer.geojson` bygges på nytt
+- [ ] 2026-11-23 [story-1-5](981-2026-11-23-14-25-38-story-1-5.md) — epics.md (Story 1.5) sier fortsatt «kobling i kilde-ID-rekkefølge» og «HTTP-klienten fra requirements.txt»; vurder `bmad-correct-course`
