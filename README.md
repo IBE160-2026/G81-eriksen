@@ -24,7 +24,7 @@ Planlagt teknologi: Python og Django, SQLite lokalt og Postgres hos Neon på den
 | UX | Ferdig | [EXPERIENCE.md](_bmad-output/planning-artifacts/ux-designs/ux-G81-eriksen-2026-11-06/EXPERIENCE.md) og [DESIGN.md](_bmad-output/planning-artifacts/ux-designs/ux-G81-eriksen-2026-11-06/DESIGN.md) |
 | Arkitektur | Ferdig | [Arkitektur](docs/arkitektur.md) |
 | Epics og stories | Ferdig: 6 epics og 41 stories | [epics.md](_bmad-output/planning-artifacts/epics.md) |
-| Implementering og testing | Ikke startet | – |
+| Implementering og testing | Pågår: story 1.1–1.3 er implementert, se sprint-status | [sprint-status.yaml](_bmad-output/implementation-artifacts/sprint-status.yaml) |
 
 ## Installasjon og kjøring
 
@@ -119,6 +119,8 @@ G81-eriksen/
   .claude/skills/        BMAD-skills og egen sesjonslogg-skill for Claude Code
   .logs/                 logger fra KI-øktene og åpne punkter
 ```
+
+**Stiler:** designtokens fra DESIGN.md ligger som CSS-variabler i `turforslag/static/css/tokens.css` (den eneste fila med fargeverdier), og grunnoppsett og felles komponenter i `turforslag/static/css/side.css`.
 
 Mappene for selve appen (`config/`, `data/`, `tests/` med flere) kommer med implementeringen. Den planlagte strukturen står i [arkitekturen](docs/arkitektur.md).
 

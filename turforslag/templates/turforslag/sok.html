@@ -2,6 +2,9 @@
 
 {% block tittel %}Finn tur{% endblock %}
 
+{# UX-DR3: logoen er eneste punkt i menyen i Epic 1. aria-current flyttes til «Finn tur» i Epic 2. #}
+{% block logo_aktiv %} aria-current="page"{% endblock %}
+
 {% block innhold %}
   {# Søkeskjemaet kommer i story 1.9. #}
   <h1>Hvor lang tid har du?</h1>
