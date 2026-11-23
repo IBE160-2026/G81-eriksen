@@ -51,8 +51,8 @@
 - [x] 2026-11-22 [story-1-2](984-2026-11-22-21-00-56-story-1-2.md) — sett Story 1.2 til `done` når PR #25 er merget, og sjekk produksjonen etter bygging av `main`; neste er Story 1.3 (løst 2026-11-23)
 - [ ] 2026-11-22 [story-1-2](984-2026-11-22-21-00-56-story-1-2.md) — legg inn `ANTHROPIC_API_KEY` hos Vercel (bare produksjon) når nøkkelen finnes
 - [ ] 2026-11-22 [story-1-2](984-2026-11-22-21-00-56-story-1-2.md) — Neon-grener for forhåndsvisninger blir liggende til forhåndsvisningene slettes (opptil ca. 6 mnd); rydd opp eller kort ned hvor lenge de beholdes hvis gratisplanen blir full
-- [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — push grenen og lag PR for Story 1.3 med Lighthouse-resultatet; sett 1.3 til `done` når PR-en er merget; neste er Story 1.4
-- [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — sjekk på forhåndsvisningen at `/static/css/tokens.css` og `forbedring.js` gir 200, og les `Cache-Control` (ingen cache-busting)
+- [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — sett Story 1.3 til `done` når PR #26 er merget; neste er Story 1.4
+- [x] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — sjekk på forhåndsvisningen at `/static/css/tokens.css` og `forbedring.js` gir 200, og les `Cache-Control` (ingen cache-busting) (løst 2026-11-23 — 200 og `max-age=0, must-revalidate`)
 - [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — manuelle UU-sjekker: reduced-motion i DevTools, og 320 px og 200 % tekstzoom i et ekte vindu
 - [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — Story 1.9: test sperren i `forbedring.js` mer reelt (i dag bare tekstsjekker), eller dokumenter den manuelle sjekken
 - [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — Story 1.9: gi `h1` på Søk rollen `display` (42 px) når skjemaet kommer
