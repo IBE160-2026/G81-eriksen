@@ -109,6 +109,8 @@ context:
   - Manuelt i Chrome: et dobbeltklikk gir én POST med `aria-disabled` og beholdt fokus, og `data-fokus` får fokus. Reflow ved 320 CSS-px med tekstavstand etter 1.4.12 er sjekket via zoom.
   - Gjenstår manuelt: reduced-motion i DevTools, og 320 px og 200 % i et ekte vindu. Statiske filer på Vercel sjekkes på forhåndsvisningen av PR-en.
 
+- 2026-11-23 (forhåndsvisning, PR #26): `/static/css/tokens.css`, `side.css` og `forbedring.js` gir 200 med riktig `Content-Type` fra Vercel, og forsiden lenker dem. `Cache-Control: public, max-age=0, must-revalidate` gjør at filene alltid valideres på nytt, så funnene V-a og B11 (servering og cache-busting) er avklart.
+
 ## Spec Change Log
 
 ## Review Triage Log
