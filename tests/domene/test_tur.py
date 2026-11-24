@@ -5,6 +5,7 @@ import unittest
 from dataclasses import FrozenInstanceError, fields, replace
 
 from domene.tur import (
+    TURTYPER,
     Form,
     Tur,
     Turniva,
@@ -12,6 +13,7 @@ from domene.tur import (
     total_hoydemeter_m,
     total_lengde_m,
     total_nedstigning_m,
+    valider_turer,
 )
 
 
@@ -167,3 +169,53 @@ class AvstandTest(unittest.TestCase):
         self.assertEqual(avstand_m(a, a), 0.0)
         self.assertEqual(avstand_m(a, b), avstand_m(b, a))
         self.assertAlmostEqual(avstand_m(a, b), 95.2, delta=0.5)
+
+
+class ValiderTurerTest(unittest.TestCase):
+    def test_gyldig_liste_med_felles_startpunkt_godtas(self):  # AD-3 punkt 5, AR-2
+        turer = [lag_tur(), lag_tur(id="vettakollen", turtyper=("topptur",))]
+        self.assertIsNone(valider_turer(turer))
+
+    def test_tom_liste_og_tomme_turtyper_er_lov(self):  # AD-3 punkt 5
+        self.assertIsNone(valider_turer([]))
+        self.assertIsNone(valider_turer([lag_tur(turtyper=())]))
+
+    def test_turtypene_er_marka_utsikt_og_topptur(self):  # AD-3 punkt 5
+        self.assertEqual(TURTYPER, ("marka", "utsikt", "topptur"))
+        self.assertIsNone(valider_turer([lag_tur(turtyper=TURTYPER)]))
+
+    def test_dublett_av_tur_id_stopper_med_id(self):  # AD-3 punkt 5, AR-2
+        with self.assertRaisesRegex(ValueError, "'kolsastoppen'.*mer enn én gang"):
+            valider_turer([lag_tur(), lag_tur(navn="Annen tur")])
+
+    def test_samme_startpunkt_med_ulikt_navn_stopper_med_startpunkt_id(self):  # AD-3 punkt 5
+        turer = [lag_tur(), lag_tur(id="vettakollen", startpunkt_navn="Sørkedalen skole")]
+        with self.assertRaisesRegex(ValueError, "Startpunkt-ID-en 'sorkedalen'"):
+            valider_turer(turer)
+
+    def test_samme_startpunkt_med_ulik_koordinat_eller_hoyde_stopper(self):  # AD-3 punkt 5
+        for endring in (
+            {"startpunkt_lat": 59.9},
+            {"startpunkt_lon": 10.6},
+            {"startpunkt_hoyde_m": 181},
+        ):
+            with self.subTest(endring=endring):
+                turer = [lag_tur(), lag_tur(id="vettakollen", **endring)]
+                with self.assertRaisesRegex(ValueError, "'sorkedalen'"):
+                    valider_turer(turer)
+
+    def test_tur_id_og_startpunkt_id_ma_vaere_tekst_som_ikke_er_tom(self):  # AD-3 punkt 5
+        for endring in ({"id": ""}, {"id": 1}, {"startpunkt_id": ""}, {"startpunkt_id": 7}):
+            with self.subTest(endring=endring):
+                with self.assertRaisesRegex(ValueError, "tekst som ikke er tom"):
+                    valider_turer([lag_tur(**endring)])
+
+    def test_negative_verdier_stopper_med_tur_id(self):  # AD-3 punkt 5, AR-2
+        for felt in ("lengde_m", "hoydemeter_m", "nedstigning_m", "estimert_tid_min"):
+            with self.subTest(felt=felt):
+                with self.assertRaisesRegex(ValueError, f"'kolsastoppen'.*negativ.*{felt}"):
+                    valider_turer([lag_tur(**{felt: -1})])
+
+    def test_ukjent_turtype_stopper_med_tur_id_og_turtype(self):  # AD-3 punkt 5, AR-2
+        with self.assertRaisesRegex(ValueError, "'kolsastoppen'.*'utsiktt'"):
+            valider_turer([lag_tur(turtyper=("marka", "utsiktt"))])
