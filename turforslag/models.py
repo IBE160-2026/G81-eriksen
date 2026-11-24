@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 
+from domene import tur as domenetur
+
 
 class BrukerManager(BaseUserManager):
     """Manager for `Bruker`, med e-post som brukernavn (AR-9, AD-7)."""
@@ -66,3 +68,63 @@ class Bruker(AbstractUser):
         # AD-7: e-post med små bokstaver også når modellen lagres direkte.
         self.email = BrukerManager.normalize_email(self.email)
         super().save(*args, **kwargs)
+
+
+class Startpunkt(models.Model):
+    """Et startpunkt fra turdatabasen. ID-en er stabil og kommer fra kurateringslista (AR-6)."""
+
+    id = models.CharField("startpunkt-ID", max_length=100, primary_key=True)
+    navn = models.CharField("navn", max_length=200)
+    lat = models.FloatField("breddegrad")
+    lon = models.FloatField("lengdegrad")
+    hoyde_m = models.IntegerField("høyde (m)")
+
+    class Meta:
+        verbose_name = "startpunkt"
+        verbose_name_plural = "startpunkter"
+        ordering = ["id"]
+
+    def __str__(self):
+        return self.navn
+
+
+class Tur(models.Model):
+    """En tur fra `data/turer.geojson`, lastet inn med `lastinn` (AD-3 punkt 4–5, AR-6).
+
+    Feltene heter som i `domene.tur.Tur`. Nivå, høydemeter og tid lagres som de står i
+    fila og regnes aldri på nytt i appen. Geometri, høydeprofil og turtyper er JSON, så
+    modellen virker likt på SQLite og Postgres.
+    """
+
+    id = models.CharField("tur-ID", max_length=100, primary_key=True)
+    navn = models.CharField("navn", max_length=200)
+    startpunkt = models.ForeignKey(
+        Startpunkt,
+        on_delete=models.PROTECT,
+        related_name="turer",
+        verbose_name="startpunkt",
+    )
+    form = models.CharField(
+        "form", max_length=20, choices=[(f.value, f.value) for f in domenetur.Form]
+    )
+    turtyper = models.JSONField("turtyper", default=list)
+    lengde_m = models.PositiveIntegerField("lengde (m)")
+    hoydemeter_m = models.PositiveIntegerField("høydemeter (m)")
+    nedstigning_m = models.PositiveIntegerField("nedstigning (m)")
+    hoydeprofil = models.JSONField("høydeprofil", default=list)
+    turniva = models.CharField(
+        "turnivå", max_length=20, choices=[(n.value, n.value) for n in domenetur.Turniva]
+    )
+    estimert_tid_min = models.PositiveIntegerField("estimert tid (min)")
+    ut_no_url = models.CharField("ut.no-adresse", max_length=500, blank=True)
+    kilde = models.CharField("kilde", max_length=100)
+    lisens = models.CharField("lisens", max_length=100)
+    geometry = models.JSONField("geometri")
+
+    class Meta:
+        verbose_name = "tur"
+        verbose_name_plural = "turer"
+        ordering = ["id"]
+
+    def __str__(self):
+        return self.navn

@@ -16,6 +16,8 @@ Skriptet krever nett. Det henter rutene fra Turrutebasen og høydene fra Kartver
 
 Testene (`python manage.py test`) bruker lagrede svar i `tests/fixtures/` og trenger ikke nett.
 
+`python manage.py lastinn` laster `turer.geojson` inn i databasen (lokalt og i byggesteget på Vercel). Den validerer hele fila først, oppretter eller oppdaterer turer og startpunkter etter ID og sletter aldri noe. Turer i databasen som mangler i fila, blir stående med en advarsel, og `--fil <sti>` laster en annen fil.
+
 ## Formatet på kurateringslista
 
 Hver tur er en `[[tur]]`-tabell:

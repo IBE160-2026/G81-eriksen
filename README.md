@@ -24,7 +24,7 @@ Planlagt teknologi: Python og Django, SQLite lokalt og Postgres hos Neon på den
 | UX | Ferdig | [EXPERIENCE.md](_bmad-output/planning-artifacts/ux-designs/ux-G81-eriksen-2026-11-06/EXPERIENCE.md) og [DESIGN.md](_bmad-output/planning-artifacts/ux-designs/ux-G81-eriksen-2026-11-06/DESIGN.md) |
 | Arkitektur | Ferdig | [Arkitektur](docs/arkitektur.md) |
 | Epics og stories | Ferdig: 6 epics og 41 stories | [epics.md](_bmad-output/planning-artifacts/epics.md) |
-| Implementering og testing | Pågår: story 1.1–1.5 er implementert, se sprint-status | [sprint-status.yaml](_bmad-output/implementation-artifacts/sprint-status.yaml) |
+| Implementering og testing | Pågår: story 1.1–1.6 er implementert, se sprint-status | [sprint-status.yaml](_bmad-output/implementation-artifacts/sprint-status.yaml) |
 
 ## Installasjon og kjøring
 
@@ -40,6 +40,7 @@ venv\Scripts\activate
 pip install -r requirements.txt
 copy .env.example .env
 python manage.py migrate
+python manage.py lastinn
 python manage.py runserver
 ```
 
@@ -53,6 +54,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
 python manage.py migrate
+python manage.py lastinn
 python manage.py runserver
 ```
 
@@ -71,7 +73,9 @@ ruff check .
 ruff format --check .
 ```
 
-Innlogging for testbrukeren, turdatabasen (`python manage.py lastinn`) og hvordan en KI-nøkkel legges inn, kommer i senere stories. Kravene til denne delen står i [AD-12 i arkitekturen](_bmad-output/planning-artifacts/architecture/architecture-G81-eriksen-2026-11-07/ARCHITECTURE-SPINE.md).
+**Turdatabasen:** `python manage.py lastinn` laster turene i `data/turer.geojson` inn i databasen. Kommandoen oppretter eller oppdaterer turer og startpunkter etter ID og sletter aldri noe, så den kan kjøres så ofte du vil. Er fila ugyldig, stopper den med en norsk melding, og databasen er uendret. Turer i databasen som mangler i fila, blir stående, og kommandoen skriver en advarsel med ID-ene. Med `--fil <sti>` laster du en annen fil enn `data/turer.geojson`. Se [data/README.md](data/README.md).
+
+Innlogging for testbrukeren og hvordan en KI-nøkkel legges inn, kommer i senere stories. Kravene til denne delen står i [AD-12 i arkitekturen](_bmad-output/planning-artifacts/architecture/architecture-G81-eriksen-2026-11-07/ARCHITECTURE-SPINE.md).
 
 ## Publisering på Vercel
 
@@ -79,7 +83,7 @@ Appen ligger på <https://your-next-adventure.vercel.app>, med en Postgres-datab
 
 - **`main`** publiseres automatisk til adressen over etter hver merge.
 - **Hver pull request** får en egen forhåndsvisning med en egen kopi av databasen (en Neon-gren). Forhåndsvisningen krever innlogging hos Vercel.
-- **Byggesteget** står i `pyproject.toml` og kjører `python manage.py migrate --noinput`. Vercel kjører `collectstatic` selv. Vercel installerer pakkene fra `[project]` i `pyproject.toml`, og den lista holdes lik `requirements.txt`.
+- **Byggesteget** står i `pyproject.toml` og kjører `python manage.py migrate --noinput` og så `python manage.py lastinn`, så databasen for miljøet alltid har turene fra `data/turer.geojson`. Stopper ett av stegene, feiler byggingen, og forrige publisering blir stående. Migreringene er derfor bakoverkompatible: de legger bare til, de fjerner ikke og gir ikke nytt navn, og nye felt tillater `null` eller har `db_default`. Vercel kjører `collectstatic` selv. Vercel installerer pakkene fra `[project]` i `pyproject.toml`, og den lista holdes lik `requirements.txt`.
 - **Innstillingene** for Vercel gjelder bare når `VERCEL` er satt: `DEBUG` er alltid av, og appen stopper hvis `DJANGO_SECRET_KEY` mangler eller er lik nøkkelen i `.env.example`. Nøklene ligger som miljøvariabler hos Vercel, aldri i repoet.
 - **Miljøvariablene** hos Vercel er `DJANGO_SECRET_KEY` (egen tilfeldig verdi for produksjon og forhåndsvisning), `MET_USER_AGENT`, og `DATABASE_URL` og `DATABASE_URL_UNPOOLED` (settes av Neon-integrasjonen). `ANTHROPIC_API_KEY` legges inn senere, bare i produksjon.
 

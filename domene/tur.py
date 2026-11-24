@@ -5,12 +5,16 @@ turen regnes bare av funksjonene i denne modulen.
 """
 
 import math
+from collections.abc import Iterable
 from dataclasses import dataclass
 from enum import StrEnum
 from typing import Any
 
 # Middelradius for jorda (IUGG), brukt i haversine (AR-3).
 JORDRADIUS_M = 6_371_008.8
+
+# Lovlige turtyper (AD-3 punkt 5). Turtyper er ingen egen entitet.
+TURTYPER = ("marka", "utsikt", "topptur")
 
 
 class Form(StrEnum):  # AR-3
@@ -114,6 +118,52 @@ class Tur:  # AR-3
             lisens=p["lisens"],
             geometry=tuple(tuple(punkt) for punkt in geometri["coordinates"]),
         )
+
+
+def valider_turer(turer: Iterable[Tur]) -> None:  # AD-3 punkt 5, AR-2
+    """Sjekker hele turlista samlet. Første brudd gir `ValueError` med norsk melding og ID.
+
+    Stopper ved tur-ID eller startpunkt-ID som ikke er en tekst eller er tom, negativ
+    lengde, høydemeter, nedstigning eller tid, samme tur-ID to ganger, samme startpunkt-ID
+    med ulikt navn, koordinat eller høyde, og turtyper utenfor `TURTYPER`. En tom liste
+    med turtyper er lov.
+    """
+    tur_ider: set[str] = set()
+    startpunkter: dict[str, tuple[str, float, float, int]] = {}
+    for tur in turer:
+        if not isinstance(tur.id, str) or not tur.id:
+            raise ValueError(f"Tur-ID-en {tur.id!r} må være en tekst som ikke er tom.")
+        if not isinstance(tur.startpunkt_id, str) or not tur.startpunkt_id:
+            raise ValueError(
+                f"Tur {tur.id!r} har startpunkt-ID {tur.startpunkt_id!r}, "
+                "som må være en tekst som ikke er tom."
+            )
+        for felt in ("lengde_m", "hoydemeter_m", "nedstigning_m", "estimert_tid_min"):
+            if getattr(tur, felt) < 0:
+                raise ValueError(f"Tur {tur.id!r} har negativ verdi i {felt}.")
+        if tur.id in tur_ider:
+            raise ValueError(f"Tur-ID-en {tur.id!r} står mer enn én gang.")
+        tur_ider.add(tur.id)
+
+        startpunkt = (
+            tur.startpunkt_navn,
+            tur.startpunkt_lat,
+            tur.startpunkt_lon,
+            tur.startpunkt_hoyde_m,
+        )
+        tidligere = startpunkter.setdefault(tur.startpunkt_id, startpunkt)
+        if tidligere != startpunkt:
+            raise ValueError(
+                f"Startpunkt-ID-en {tur.startpunkt_id!r} har ulikt navn, koordinat eller "
+                f"høyde (tur {tur.id!r}): {tidligere} mot {startpunkt}."
+            )
+
+        for turtype in tur.turtyper:
+            if turtype not in TURTYPER:
+                raise ValueError(
+                    f"Tur {tur.id!r} har ukjent turtype {turtype!r}. "
+                    f"Lovlige turtyper er {', '.join(TURTYPER)}."
+                )
 
 
 def total_lengde_m(form: Form, lengde_m: int) -> int:  # FR-3, AR-3

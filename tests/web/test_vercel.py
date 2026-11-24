@@ -74,10 +74,11 @@ class FilerForVercelTest(unittest.TestCase):
         self.assertEqual(sorted(pyproject["project"]["dependencies"]), sorted(krav))
         self.assertIn("psycopg[binary]==3.3.9", krav)
 
-    def test_byggesteget_migrerer(self):  # AD-15 punkt 4
+    def test_byggesteget_migrerer_og_laster_inn_turene(self):  # AD-15 punkt 4, AR-5
         pyproject = tomllib.loads((ROT / "pyproject.toml").read_text(encoding="utf-8"))
         self.assertEqual(
-            pyproject["tool"]["vercel"]["scripts"]["build"], "python manage.py migrate --noinput"
+            pyproject["tool"]["vercel"]["scripts"]["build"],
+            "python manage.py migrate --noinput && python manage.py lastinn",
         )
 
     def test_python_versjon_og_region(self):  # AD-15 punkt 1 og 2

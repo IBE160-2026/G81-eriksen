@@ -11,9 +11,9 @@ dependencies = [
     "python-dotenv==1.2.4",
 ]
 
-# Byggesteget på Vercel (AD-15 punkt 4). `lastinn` kommer i story 1.6.
+# Byggesteget på Vercel (AD-15 punkt 4): migrerer og laster så inn turdatabasen (AR-5).
 [tool.vercel.scripts]
-build = "python manage.py migrate --noinput"
+build = "python manage.py migrate --noinput && python manage.py lastinn"
 
 # Ruff er linter og formatter (AD-13, AR-15).
 
