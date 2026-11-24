@@ -69,3 +69,4 @@
 - [x] 2026-11-24 [story-1-6](980-2026-11-24-21-09-41-story-1-6.md) — sett Story 1.6 til `done` når PR #29 er merget, og sjekk produksjonen; neste er Story 1.7 (løst 2026-11-24 — PR #29 merget, 1.6 er `done`, produksjonen er sjekket)
 - [ ] 2026-11-24 [story-1-6](980-2026-11-24-21-09-41-story-1-6.md) — Story 1.7: testturene fra 1.5 blir liggende i databasen hvis 1.7 bruker andre ID-er (`lastinn` sletter aldri); behold ID-ene eller velg bevisst hva som skal skje med dem
 - [ ] 2026-11-24 [story-1-6](980-2026-11-24-21-09-41-story-1-6.md) — Story 1.9: lag startpunktvalget ut fra turene, ikke fra `Startpunkt`-tabellen (deferred-work.md)
+- [ ] 2026-11-24 [story-1-7](979-2026-11-24-21-49-45-story-1-7.md) — fortsett Story 1.7 på `implementering/story-1-7`: svar på de fem åpne spørsmålene i spec-en (testturene, svart tur, unntak for grønn under 2 t, rundturer med stilk, hvem kontrollerer rutelinjene) og lengden; kjør så `bmad-build` med spec-fila
