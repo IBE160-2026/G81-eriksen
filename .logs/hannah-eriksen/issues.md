@@ -66,6 +66,6 @@
 - [ ] 2026-11-23 [story-1-5](981-2026-11-23-14-25-38-story-1-5.md) — fixturen `hoyder_testturer.json` er knyttet til de omsamplede koordinatene; endres omsampling eller rutepunkter, må den tas opp på nytt og `turer.geojson` bygges på nytt
 - [ ] 2026-11-23 [story-1-5](981-2026-11-23-14-25-38-story-1-5.md) — epics.md (Story 1.5) sier fortsatt «kobling i kilde-ID-rekkefølge» og «HTTP-klienten fra requirements.txt»; vurder `bmad-correct-course`
 - [x] 2026-11-24 [story-1-6](980-2026-11-24-21-09-41-story-1-6.md) — sjekk byggeloggen til forhåndsvisningen for PR #29: `migrate` og `lastinn` mot Neon Postgres (løst 2026-11-24 — bygget grønt, `lastinn` lastet 3 turer og 2 startpunkter)
-- [ ] 2026-11-24 [story-1-6](980-2026-11-24-21-09-41-story-1-6.md) — sett Story 1.6 til `done` når PR #29 er merget, og sjekk produksjonen; neste er Story 1.7
+- [x] 2026-11-24 [story-1-6](980-2026-11-24-21-09-41-story-1-6.md) — sett Story 1.6 til `done` når PR #29 er merget, og sjekk produksjonen; neste er Story 1.7 (løst 2026-11-24 — PR #29 merget, 1.6 er `done`, produksjonen er sjekket)
 - [ ] 2026-11-24 [story-1-6](980-2026-11-24-21-09-41-story-1-6.md) — Story 1.7: testturene fra 1.5 blir liggende i databasen hvis 1.7 bruker andre ID-er (`lastinn` sletter aldri); behold ID-ene eller velg bevisst hva som skal skje med dem
 - [ ] 2026-11-24 [story-1-6](980-2026-11-24-21-09-41-story-1-6.md) — Story 1.9: lag startpunktvalget ut fra turene, ikke fra `Startpunkt`-tabellen (deferred-work.md)
