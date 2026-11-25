@@ -71,6 +71,6 @@
 - [ ] 2026-11-24 [story-1-6](980-2026-11-24-21-09-41-story-1-6.md) — Story 1.9: lag startpunktvalget ut fra turene, ikke fra `Startpunkt`-tabellen (deferred-work.md)
 - [x] 2026-11-24 [story-1-7](979-2026-11-24-21-49-45-story-1-7.md) — fortsett Story 1.7 på `implementering/story-1-7`: svar på de fem åpne spørsmålene i spec-en (testturene, svart tur, unntak for grønn under 2 t, rundturer med stilk, hvem kontrollerer rutelinjene) og lengden; kjør så `bmad-build` med spec-fila (løst 2026-11-25 — 1A 2B 3A 4A 5A, implementert i PR #30)
 - [ ] 2026-11-25 [story-1-7](979-2026-11-24-21-49-45-story-1-7.md) — bekreft kontrollen av rutelinjene og avvikene fra kandidatlista (Vettakollen-rundtur, Nøklevann, Grefsenkollen) i PR #30
-- [ ] 2026-11-25 [story-1-7](979-2026-11-24-21-49-45-story-1-7.md) — sjekk byggeloggen til forhåndsvisningen for PR #30: `lastinn` skal laste 15 turer mot Neon
+- [x] 2026-11-25 [story-1-7](979-2026-11-24-21-49-45-story-1-7.md) — sjekk byggeloggen til forhåndsvisningen for PR #30: `lastinn` skal laste 15 turer mot Neon (løst 2026-11-25 — 15 turer, 6 startpunkter, ingen advarsel)
 - [ ] 2026-11-25 [story-1-7](979-2026-11-24-21-49-45-story-1-7.md) — sett Story 1.7 til `done` når PR #30 er merget, og sjekk produksjonen; neste er Story 1.8
 - [ ] 2026-11-25 [story-1-7](979-2026-11-24-21-49-45-story-1-7.md) — byggeskriptet er sårbart når WFS-en er treg eller nede (`osl` ca. 75 s mot 60 s tidsavbrudd); ta det opp før story 6.2 (deferred-work.md)
