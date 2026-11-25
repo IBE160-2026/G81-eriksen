@@ -3,10 +3,13 @@
 Kjøres med `python -m skript.bygg_turdatabase` og krever nett. For hver tur i
 `data/kurateringsliste.toml`:
 
-1. henter segmentene for hvert rutenummer fra WFS-en for Turrutebasen;
+1. henter segmentene for hvert rutenummer fra WFS-en for Turrutebasen og legger til
+   eventuelle korte koblinger uten rutenummer (høyst 10 m);
 2. velger den korteste stien gjennom nettverket mellom rutepunktene (`domene.rute`);
 3. henter høyder hvert 25 m langs stien og filtrerer støy;
 4. regner lengde, høydemeter, nivå og tid i `domene/`.
+
+En rundtur der mer enn halve lengden gås to ganger, stopper byggingen.
 
 Alt beregnes i minnet før noe skrives. Fila skrives til en midlertidig fil i `data/` og
 byttes inn med `os.replace`, så den gamle fila aldri blir delvis overskrevet. Ved feil
@@ -61,7 +64,17 @@ MAKS_PUNKTER_PER_KALL = 50
 
 TURTYPER = ("marka", "utsikt", "topptur")
 TUR_FELT = frozenset(
-    {"id", "navn", "form", "turtyper", "rutenummer", "ut_no_url", "startpunkt", "rutepunkter"}
+    {
+        "id",
+        "navn",
+        "form",
+        "turtyper",
+        "rutenummer",
+        "ut_no_url",
+        "startpunkt",
+        "rutepunkter",
+        "koblinger",
+    }
 )
 STARTPUNKT_FELT = frozenset({"id", "navn", "lat", "lon"})
 RUTEPUNKT_FELT = frozenset({"fra", "via", "til"})
@@ -83,7 +96,8 @@ class HentFeil(Exception):  # AD-3
 @dataclass(frozen=True)
 class KuratertTur:  # AD-3 punkt 2
     """Én tur fra kurateringslista, validert. `rutepunkter` er (lon, lat) i rekkefølge, og
-    ved rundtur er siste punkt lik det første."""
+    ved rundtur er siste punkt lik det første. `koblinger` er par av (lon, lat) som legges
+    til som rette segmenter."""
 
     id: str
     navn: str
@@ -96,6 +110,7 @@ class KuratertTur:  # AD-3 punkt 2
     rutenummer: tuple[str, ...]
     rutepunkter: tuple[Punkt, ...]
     ut_no_url: str
+    koblinger: tuple[tuple[Punkt, Punkt], ...] = ()
 
 
 # --- Henting -------------------------------------------------------------------------
@@ -233,6 +248,31 @@ def _tekstliste(tabell: dict[str, Any], felt: str, hva: str) -> tuple[str, ...]:
     return tuple(verdi)
 
 
+def _koblinger(rad: dict[str, Any], hva: str) -> tuple[tuple[Punkt, Punkt], ...]:
+    """`koblinger = [[[lat, lon], [lat, lon]], …]`, valgfri. Hver kobling er høyst 10 m."""
+    raa = rad.get("koblinger", [])
+    if not isinstance(raa, list):
+        raise ByggFeil(f"{hva}: «koblinger» må være en liste av [[lat, lon], [lat, lon]].")
+    koblinger = []
+    for verdi in raa:
+        if not isinstance(verdi, list) or len(verdi) != 2:
+            raise ByggFeil(f"{hva}: en kobling må være [[lat, lon], [lat, lon]], fikk {verdi!r}.")
+        koblinger.append(
+            (
+                _koordinat(verdi[0], f"{hva}: en kobling"),
+                _koordinat(verdi[1], f"{hva}: en kobling"),
+            )
+        )
+    try:
+        rute.sjekk_koblinger(koblinger)
+    except rute.KoblingForLang as feil:
+        raise ByggFeil(
+            f"{hva}: koblingen mellom {_lat_lon(feil.fra)} og {_lat_lon(feil.til)} er "
+            f"{feil.avstand_m:.1f} m lang (maks {feil.maks_m:.0f} m)."
+        ) from None
+    return tuple(koblinger)
+
+
 def _sjekk_felt(tabell: dict[str, Any], lov: frozenset[str], hva: str) -> None:
     """En skrivefeil i et feltnavn (for eksempel «vai») skal stoppe, ikke ignoreres."""
     ukjente = sorted(set(tabell) - lov)
@@ -300,6 +340,7 @@ def _les_tur(rad: Any, nummer: int) -> KuratertTur:  # AD-3 punkt 2
         rutenummer=_tekstliste(rad, "rutenummer", hva),
         rutepunkter=punkter,
         ut_no_url=_tekst(rad, "ut_no_url", hva, pakrevd=False),
+        koblinger=_koblinger(rad, hva),
     )
 
 
@@ -382,6 +423,7 @@ def bygg_tur(tur: KuratertTur, hent: Hent) -> Tur:  # AD-3 punkt 2, AR-2
     segmenter = hent_segmenter(tur, hent)
     rutenummer = ", ".join(tur.rutenummer)
     try:
+        segmenter = rute.med_koblinger(segmenter, tur.koblinger)
         sti = rute.sti_gjennom(rute.lag_nettverk(segmenter), tur.rutepunkter)
     except rute.PunktForLangtUnna as feil:
         raise ByggFeil(
@@ -402,6 +444,14 @@ def bygg_tur(tur: KuratertTur, hent: Hent) -> Tur:  # AD-3 punkt 2, AR-2
         ) from None
     except rute.RuteFeil as feil:
         raise ByggFeil(f"Turen «{tur.id}», rutenummer {rutenummer}: {feil}") from None
+    if tur.form == Form.RUNDTUR:
+        andel = rute.andel_gatt_to_ganger(sti)
+        if andel > rute.MAKS_ANDEL_GATT_TO_GANGER:
+            raise ByggFeil(
+                f"Turen «{tur.id}» er en rundtur, men {andel * 100:.0f} % av lengden gås to "
+                f"ganger (maks {rute.MAKS_ANDEL_GATT_TO_GANGER * 100:.0f} %). Velg andre "
+                "via-punkter eller gjør den til tur-retur."
+            )
 
     omsamplet = rute.omsampl(sti)
     logger.info("Henter %d høyder for «%s».", len(omsamplet), tur.id)

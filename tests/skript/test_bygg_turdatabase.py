@@ -1,12 +1,15 @@
 """Byggeskriptet for turdatabasen, med lagrede svar i stedet for nett (AD-3 punkt 2, AR-2, AR-15).
 
 `hent` byttes ut med `FalskHent`, som svarer fra `tests/fixtures/`. Hver test bruker en
-midlertidig `data/`-mappe.
+midlertidig `data/`-mappe. Testene med de tre testturene bruker den faste kopien
+`tests/fixtures/kurateringsliste_testturer.toml` og sammenligner med
+`tests/fixtures/turer_lastinn.geojson`, så de ikke avhenger av `data/` (story 1.7).
 """
 
 import http.client
 import io
 import json
+import math
 import re
 import shutil
 import tempfile
@@ -23,6 +26,8 @@ from tests.domene.test_bare_standardbibliotek import ikke_standard_importer
 
 ROT = Path(__file__).resolve().parents[2]
 FIXTURES = ROT / "tests" / "fixtures"
+TESTTURLISTE = FIXTURES / "kurateringsliste_testturer.toml"
+TESTTURFIL = FIXTURES / "turer_lastinn.geojson"
 GAMMEL = '{"type": "FeatureCollection", "features": []}\n'
 
 STARTPUNKT = 'startpunkt = { id = "sognsvann", navn = "Sognsvann", lat = 59.96711, lon = 10.73382 }'
@@ -90,8 +95,8 @@ class MidlertidigDataTest(unittest.TestCase):
     def skriv_liste(self, tekst: str) -> None:
         (self.mappe / bygg.KURATERINGSLISTE).write_text(tekst, encoding="utf-8")
 
-    def bruk_ekte_liste(self) -> None:
-        shutil.copy(ROT / "data" / bygg.KURATERINGSLISTE, self.mappe / bygg.KURATERINGSLISTE)
+    def bruk_testturliste(self) -> None:
+        shutil.copy(TESTTURLISTE, self.mappe / bygg.KURATERINGSLISTE)
 
     def assert_stopper_og_gammel_fil_star(self, hent, *deler: str) -> str:
         """Kjører byggingen, sjekker at den stopper med alle `deler` i meldingen, at den gamle
@@ -109,7 +114,7 @@ class MidlertidigDataTest(unittest.TestCase):
 class GyldigListeTest(MidlertidigDataTest):
     def setUp(self):
         super().setUp()
-        self.bruk_ekte_liste()
+        self.bruk_testturliste()
 
     def test_bygger_alle_testturene_med_feltene_i_ad_3(self):  # AD-3 punkt 1 og 2
         bygg.bygg(self.mappe, FalskHent())
@@ -169,11 +174,10 @@ class GyldigListeTest(MidlertidigDataTest):
         self.assertEqual(self.turer.read_bytes(), forste)
         self.assertFalse(list(self.mappe.glob("*.tmp")))
 
-    def test_committet_turer_geojson_er_bygget_fra_lista(self):  # AD-3 punkt 2
+    def test_fast_turfil_er_bygget_fra_testturlista(self):  # AD-3 punkt 2, AR-15
         bygg.bygg(self.mappe, FalskHent())
         self.assertEqual(
-            self.turer.read_text(encoding="utf-8"),
-            (ROT / "data" / bygg.TURER).read_text(encoding="utf-8"),
+            self.turer.read_text(encoding="utf-8"), TESTTURFIL.read_text(encoding="utf-8")
         )
 
     def test_hoydene_hentes_i_bolker_pa_hoyst_50(self):  # AD-3 punkt 2
@@ -192,6 +196,37 @@ class GyldigListeTest(MidlertidigDataTest):
         self.assertEqual(sporring["srsName"], ["EPSG:4326"])
         self.assertIn("app:fotruteInfo/app:FotruteInfo/app:rutenummer", sporring["filter"][0])
         self.assertIn("<fes:Literal>F_01812_03</fes:Literal>", sporring["filter"][0])
+
+
+class KommittetListeTest(unittest.TestCase):
+    """`data/kurateringsliste.toml` og den committede `data/turer.geojson` er i takt (uten nett)."""
+
+    def test_turer_geojson_stemmer_med_kurateringslista(self):  # AD-3 punkt 2, FR-1
+        kuraterte = bygg.les_kurateringsliste(ROT / "data" / bygg.KURATERINGSLISTE)
+        features = json.loads((ROT / "data" / bygg.TURER).read_text(encoding="utf-8"))["features"]
+        self.assertEqual([f["id"] for f in features], [k.id for k in kuraterte])
+        turer = {f["id"]: Tur.fra_geojson_feature(f) for f in features}
+        for kuratert in kuraterte:
+            tur = turer[kuratert.id]
+            with self.subTest(tur=kuratert.id):
+                self.assertEqual(
+                    (tur.navn, tur.form, tur.turtyper, tur.ut_no_url),
+                    (kuratert.navn, kuratert.form, kuratert.turtyper, kuratert.ut_no_url),
+                )
+                self.assertEqual(
+                    (
+                        tur.startpunkt_id,
+                        tur.startpunkt_navn,
+                        tur.startpunkt_lat,
+                        tur.startpunkt_lon,
+                    ),
+                    (
+                        kuratert.startpunkt_id,
+                        kuratert.startpunkt_navn,
+                        kuratert.startpunkt_lat,
+                        kuratert.startpunkt_lon,
+                    ),
+                )
 
 
 class FeilIMatrisenTest(MidlertidigDataTest):
@@ -233,7 +268,7 @@ class FeilIMatrisenTest(MidlertidigDataTest):
         self.assert_stopper_og_gammel_fil_star(hent, "«brekke»", "F_20220203_01", "60 s")
 
     def test_feil_i_siste_tur_skriver_ingenting(self):  # AD-3
-        self.bruk_ekte_liste()
+        self.bruk_testturliste()
         liste = self.mappe / bygg.KURATERINGSLISTE
         tekst = liste.read_text(encoding="utf-8").replace('["F_20200422_1"]', '["F_FINNES_IKKE"]')
         liste.write_text(tekst, encoding="utf-8")
@@ -406,6 +441,121 @@ class DelteSegmenterTest(MidlertidigDataTest):
         self.assertEqual((to.lengde_m, to.geometry), (en.lengde_m, en.geometry))
         segmenter = bygg.les_segmenter((FIXTURES / "wfs_F_20220203_01.xml").read_bytes())
         self.assertEqual(rute.lag_nettverk(segmenter + segmenter), rute.lag_nettverk(segmenter))
+
+
+# --- Syntetiske segmenter for koblinger og rundtur med stilk (story 1.7) ---------------
+
+GRAD_PER_METER_NORD = 1 / 111_195
+
+
+def nord(punkt, meter):
+    """(lat, lon) flyttet `meter` nordover, rundet som koordinatene i Turrutebasen."""
+    return (round(punkt[0] + meter * GRAD_PER_METER_NORD, 6), punkt[1])
+
+
+def ost(punkt, meter):
+    grad = meter * GRAD_PER_METER_NORD / math.cos(math.radians(punkt[0]))
+    return (punkt[0], round(punkt[1] + grad, 6))
+
+
+def wfs_xml(*segmenter) -> bytes:
+    """Et minimalt WFS-svar med segmentene (lat, lon), skrevet som `posList` med lon lat."""
+    medlemmer = "".join(
+        "<wfs:member><app:Fotrute><app:senterlinje><gml:LineString><gml:posList>"
+        + " ".join(f"{lon} {lat}" for lat, lon in segment)
+        + "</gml:posList></gml:LineString></app:senterlinje></app:Fotrute></wfs:member>"
+        for segment in segmenter
+    )
+    return (
+        '<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs/2.0" '
+        f'xmlns:gml="{bygg.GML_NS}" xmlns:app="{bygg.APP_NS}">{medlemmer}</wfs:FeatureCollection>'
+    ).encode()
+
+
+def flate_hoyder(antall):
+    return json.dumps({"punkter": [{"z": 100.0}] * antall}).encode()
+
+
+def toml_punkt(punkt):
+    return f"[{punkt[0]}, {punkt[1]}]"
+
+
+P0 = (59.97, 10.73)
+P1 = nord(P0, 500)
+
+
+class KoblingerTest(MidlertidigDataTest):
+    """To segmenter med 6 m mellomrom uten rutenummer imellom (som ved Ullevålseter)."""
+
+    P2 = nord(P1, 6)
+    P3 = nord(P2, 500)
+
+    def liste(self, koblinger=None):
+        ekstra = 'ut_no_url = ""'
+        if koblinger is not None:
+            ekstra += f"\nkoblinger = {koblinger}"
+        rutepunkter = f"fra = {toml_punkt(P0)}\ntil = {toml_punkt(self.P3)}"
+        return tur_toml(tur_id="kobling", ekstra=ekstra, rutepunkter=rutepunkter)
+
+    def hent(self):
+        return FalskHent(wfs_svar=wfs_xml((P0, P1), (self.P2, self.P3)), hoyde_svar=flate_hoyder)
+
+    def test_uten_kobling_finnes_ingen_sti(self):  # AD-3
+        self.skriv_liste(self.liste())
+        self.assert_stopper_og_gammel_fil_star(self.hent(), "«kobling»", "ingen sti")
+
+    def test_kobling_binder_segmentene_sammen(self):  # AD-3, beslutning 2
+        self.skriv_liste(self.liste(f"[[{toml_punkt(P1)}, {toml_punkt(self.P2)}]]"))
+        (tur,) = bygg.bygg(self.mappe, self.hent())
+        self.assertEqual(tur.geometry[0], (P0[1], P0[0]))
+        self.assertEqual(tur.geometry[-1], (self.P3[1], self.P3[0]))
+        self.assertIn((P1[1], P1[0]), tur.geometry)
+        self.assertAlmostEqual(tur.lengde_m, 1006, delta=1)
+
+    def test_kobling_over_10_m_stopper_for_noe_hentes(self):  # AD-3, beslutning 2
+        langt = nord(P1, 15)
+        self.skriv_liste(self.liste(f"[[{toml_punkt(P1)}, {toml_punkt(langt)}]]"))
+        hent = self.hent()
+        melding = self.assert_stopper_og_gammel_fil_star(hent, "«kobling»", "15.0 m", "maks 10 m")
+        self.assertIn("koblingen", melding)
+        self.assertEqual(hent.kall, [])
+
+    def test_kobling_som_ikke_er_et_koordinatpar_stopper(self):  # AD-3
+        for koblinger in (
+            f"[{toml_punkt(P1)}]",
+            f"[[{toml_punkt(P1)}]]",
+            '"P1"',
+            "[[[1, 2], [3, 4]]]",
+        ):
+            with self.subTest(koblinger=koblinger):
+                self.skriv_liste(self.liste(koblinger))
+                hent = self.hent()
+                self.assert_stopper_og_gammel_fil_star(hent, "«kobling»", "kobling")
+                self.assertEqual(hent.kall, [])
+
+
+class RundturMedStilkTest(MidlertidigDataTest):
+    """En stilk fra startpunktet og en trekant med sider på ca. 200 m (beslutning 4)."""
+
+    def bygg_rundtur(self, stilk_m):
+        b = nord(P0, stilk_m)
+        c, d = ost(b, 200), nord(b, 200)
+        rutepunkter = f"fra = {toml_punkt(P0)}\nvia = [{toml_punkt(c)}, {toml_punkt(d)}]"
+        self.skriv_liste(tur_toml(tur_id="stilk", form="rundtur", rutepunkter=rutepunkter))
+        return FalskHent(wfs_svar=wfs_xml((P0, b), (b, c), (c, d), (d, b)), hoyde_svar=flate_hoyder)
+
+    def test_kort_stilk_godtas(self):  # AD-3
+        # 2 × 100 m av ca. 883 m, altså 23 %.
+        (tur,) = bygg.bygg(self.mappe, self.bygg_rundtur(100))
+        self.assertIs(tur.form, Form.RUNDTUR)
+        self.assertAlmostEqual(rute.andel_gatt_to_ganger(tur.geometry), 0.23, delta=0.01)
+
+    def test_over_halve_lengden_to_ganger_stopper(self):  # AD-3, beslutning 4
+        # 2 × 1000 m av ca. 2683 m, altså 75 %.
+        melding = self.assert_stopper_og_gammel_fil_star(
+            self.bygg_rundtur(1000), "«stilk»", "75 %", "to ganger"
+        )
+        self.assertIn("maks 50 %", melding)
 
 
 class HentTest(unittest.TestCase):

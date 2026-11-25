@@ -86,6 +86,24 @@ class LastinnTest(TestCase):
         self.assertIn(f"{antall_turer} turer ({antall_turer} nye, 0 oppdaterte)", ut)
         self.assertIn(str(TURFIL), ut)
 
+    def test_standardfila_etter_testturene_gir_ingen_advarsel(self):  # FR-1, story 1.7
+        # Neon har de tre testturene fra 1.5. Alle er med i den nye fila, så ingen tur
+        # mangler, og ingen advarsel skrives (beslutning 1).
+        self.lastinn_fixtur()
+        testturer = {feature["id"] for feature in fixturdata()["features"]}
+        data = json.loads(TURFIL.read_text(encoding="utf-8"))
+        antall = len(data["features"])
+        self.assertGreaterEqual(antall, 15)
+        self.assertLessEqual(testturer, {feature["id"] for feature in data["features"]})
+
+        ut, feil = self.lastinn()
+
+        self.assertEqual(Tur.objects.count(), antall)
+        self.assertIn(
+            f"{antall} turer ({antall - len(testturer)} nye, {len(testturer)} oppdaterte)", ut
+        )
+        self.assertEqual(feil, "")
+
     def test_forste_kjoring_oppretter_alle_turer_og_startpunkter(self):  # AR-5
         ut, feil = self.lastinn_fixtur()
         self.assertEqual(Tur.objects.count(), 3)

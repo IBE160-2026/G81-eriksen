@@ -130,6 +130,49 @@ class KortesteStiTest(unittest.TestCase):
             rute.sti_gjennom(rute.lag_nettverk([(A, B)]), [A])
 
 
+class KoblingerTest(unittest.TestCase):
+    def test_kobling_blir_rett_segment_som_binder_nettverket(self):  # AD-3, beslutning 2
+        b2 = nord(B, 6)  # 6 m: ulike noder uten koblingen
+        segmenter = [(A, B), (b2, C)]
+        with self.assertRaises(rute.IngenSti):
+            rute.sti_gjennom(rute.lag_nettverk(segmenter), [A, C])
+        med = rute.med_koblinger(segmenter, [(B, b2)])
+        self.assertEqual(med[-1], (B, b2))
+        self.assertEqual(rute.sti_gjennom(rute.lag_nettverk(med), [A, C]), (A, B, b2, C))
+
+    def test_kobling_over_10_m_gir_feil_med_avstand(self):  # AD-3, beslutning 2
+        langt = nord(B, 10.5)
+        with self.assertRaises(rute.KoblingForLang) as feil:
+            rute.med_koblinger([(A, B)], [(B, langt)])
+        self.assertEqual((feil.exception.fra, feil.exception.til), (B, langt))
+        self.assertAlmostEqual(feil.exception.avstand_m, 10.5, delta=0.05)
+        self.assertEqual(feil.exception.maks_m, rute.MAKS_KOBLING_M)
+
+    def test_kobling_pa_10_m_godtas(self):  # AD-3
+        rute.sjekk_koblinger([(B, nord(B, 9.99))])
+        self.assertEqual(rute.med_koblinger([(A, B)], []), [(A, B)])
+
+
+class GattToGangerTest(unittest.TestCase):
+    def test_ren_ring_gir_0(self):  # AD-3, beslutning 4
+        self.assertEqual(rute.andel_gatt_to_ganger((A, B, C, D, A)), 0.0)
+
+    def test_samme_vei_tilbake_gir_1(self):  # AD-3
+        self.assertEqual(rute.andel_gatt_to_ganger((A, B, C, B, A)), 1.0)
+
+    def test_stilk_gir_andelen_av_lengden(self):  # AD-3, beslutning 4
+        # Stilk A–B (ca. 100 m) gås to ganger, ringen B–C–D–B én gang.
+        linje = (A, B, C, D, B, A)
+        total = rute.linjelengde_m(linje)
+        dobbelt = 2 * avstand_m(A, B)
+        self.assertAlmostEqual(rute.andel_gatt_to_ganger(linje), dobbelt / total)
+        self.assertLess(rute.andel_gatt_to_ganger(linje), rute.MAKS_ANDEL_GATT_TO_GANGER)
+
+    def test_tom_eller_kort_linje_gir_0(self):  # AD-3
+        self.assertEqual(rute.andel_gatt_to_ganger(()), 0.0)
+        self.assertEqual(rute.andel_gatt_to_ganger((A,)), 0.0)
+
+
 class OmsamplingTest(unittest.TestCase):
     def test_punkt_hvert_25_m_med_forste_og_siste(self):  # AD-3
         omsamplet = rute.omsampl((A, nord(A, 60), nord(A, 110)))
