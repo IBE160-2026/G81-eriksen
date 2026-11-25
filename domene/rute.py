@@ -9,6 +9,10 @@ Høydene hentes langs stien hvert 25 m. Støyfilteret teller bare endringer på 
 (hysterese), og resten på slutten telles med. Tallene og begrunnelsen står i
 `data/README.md` og i spiken før story 1.5.
 
+Noen turer trenger korte koblinger uten rutenummer (høyst 10 m) mellom endene til
+segmentene. De legges til som rette segmenter før nettverket lages. En rundtur der mer
+enn halve lengden gås to ganger (en lang stilk), stoppes av byggeskriptet.
+
 Alle punkter er (lon, lat) i WGS84, som i GeoJSON.
 """
 
@@ -29,6 +33,10 @@ STOYTERSKEL_M = 5.0
 KOORDINATDESIMALER = 6
 # Ligger siste omsamplede punkt nærmere slutten enn dette, brukes slutten i stedet.
 MIN_REST_M = 0.5
+# Koblinger uten rutenummer mellom endene til segmentene (story 1.7, beslutning 2).
+MAKS_KOBLING_M = 10.0
+# En rundtur der mer enn denne andelen av lengden gås to ganger, er ingen rundtur (beslutning 4).
+MAKS_ANDEL_GATT_TO_GANGER = 0.5
 
 
 class RuteFeil(Exception):  # AD-3
@@ -67,6 +75,19 @@ class PunkterPaSammeNode(RuteFeil):  # AD-3
         self.fra = fra
         self.til = til
         super().__init__(f"Rutepunktene {fra} og {til} festes til samme node.")
+
+
+class KoblingForLang(RuteFeil):  # AD-3
+    """En kobling uten rutenummer er lengre enn tillatt."""
+
+    def __init__(self, fra: Punkt, til: Punkt, avstand_m: float, maks_m: float):
+        self.fra = fra
+        self.til = til
+        self.avstand_m = avstand_m
+        self.maks_m = maks_m
+        super().__init__(
+            f"Koblingen mellom {fra} og {til} er {avstand_m:.1f} m lang (maks {maks_m:.0f} m)."
+        )
 
 
 @dataclass(frozen=True)
@@ -130,6 +151,34 @@ def lag_nettverk(  # AD-3
         fra, til = node_for(punkter[0]), node_for(punkter[-1])
         kanter.append(Kant(fra, til, punkter, linjelengde_m(punkter)))
     return Nettverk(tuple(noder), tuple(kanter))
+
+
+def sjekk_koblinger(  # AD-3
+    koblinger: Sequence[tuple[Punkt, Punkt]], maks_m: float = MAKS_KOBLING_M
+) -> None:
+    """Gir `KoblingForLang` for første kobling der endepunktene ligger over `maks_m` fra
+    hverandre."""
+    for fra, til in koblinger:
+        avstand = avstand_m(fra, til)
+        if avstand > maks_m:
+            raise KoblingForLang(fra, til, avstand, maks_m)
+
+
+def med_koblinger(  # AD-3
+    segmenter: Sequence[Sequence[Punkt]],
+    koblinger: Sequence[tuple[Punkt, Punkt]],
+    maks_m: float = MAKS_KOBLING_M,
+) -> list[tuple[Punkt, ...]]:
+    """Segmentene med koblingene lagt til som rette segmenter (to punkter hver).
+
+    Koblingene binder sammen endene til segmenter som ikke har noe rutenummer imellom.
+    Endepunktene bør være de eksakte segmentendene fra Turrutebasen, så de blir samme
+    node (innenfor 1 m). En kobling over `maks_m` gir `KoblingForLang`.
+    """
+    sjekk_koblinger(koblinger, maks_m)
+    return [tuple(segment) for segment in segmenter] + [
+        (tuple(fra), tuple(til)) for fra, til in koblinger
+    ]
 
 
 def fest_punkt(  # AD-3
@@ -207,6 +256,27 @@ def sti_gjennom(  # AD-3
                 if not linje or punkt != linje[-1]:
                     linje.append(punkt)
     return tuple(linje)
+
+
+def andel_gatt_to_ganger(linje: Sequence[Punkt]) -> float:  # AD-3
+    """Andelen av lengden der stien går over samme strekning mer enn én gang.
+
+    Hvert par av punkter som følger etter hverandre, er en strekning uten retning. Lengden
+    av alle strekninger som forekommer mer enn én gang i linja, deles på hele lengden. En
+    ren ring gir 0, og tur-retur på samme sti gir 1. Linja er den fra `sti_gjennom`.
+    """
+    strekninger = [
+        ((a, b) if a <= b else (b, a), avstand_m(a, b))
+        for a, b in zip(linje, linje[1:], strict=False)
+    ]
+    total = sum(lengde for _, lengde in strekninger)
+    if total == 0:
+        return 0.0
+    antall: dict[tuple[Punkt, Punkt], int] = {}
+    for strekning, _ in strekninger:
+        antall[strekning] = antall.get(strekning, 0) + 1
+    dobbelt = sum(lengde for strekning, lengde in strekninger if antall[strekning] > 1)
+    return dobbelt / total
 
 
 def omsampl(  # AD-3
