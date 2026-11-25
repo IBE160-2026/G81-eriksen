@@ -27,3 +27,13 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-1-6-turene-lastes-inn-med-en-kommando.md`
   summary: `lastinn` advarer om turer i databasen som mangler i fila, men ikke om startpunkter som ingen tur i fila bruker lenger.
   evidence: Uverifisert, medium hvis det stemmer: blir startpunktvalget i 1.9 bygd fra `Startpunkt`-tabellen og ikke fra turene, kan et startpunkt uten turer dukke opp (f.eks. etter at 1.7 bytter testturene). Avgjøres når 1.9 bestemmer hvor lista over startpunkter kommer fra.
+
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-7-turdatabasen-har-15-kontrollerte-turer.md`
+  summary: Avklart 2026-11-25: byggeskriptet stopper nå en rundtur der mer enn halve lengden gås to ganger (`domene.rute.andel_gatt_to_ganger`, `ByggFeil` med tur-ID og andel). Punktet fra 1.5 om at byggeskriptet ikke sjekker at en rundtur går i ring, er løst.
+  evidence: Sjekken fant at kandidaten `vettakollen-rundtur` gikk 100 % to ganger med de opprinnelige via-punktene. Den går nå opp vestsiden (`F_20171026_02`) og har 17 %. `dalivann-rundt` har 38 % (stilken fra Gjettum) og `nordmarksrunden` 12 %. Se `docs/kontroll-turdatabasen.md`.
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-7-turdatabasen-har-15-kontrollerte-turer.md`
+  summary: Avklart 2026-11-25: festing bare i segmentender holdt for alle 15 turene. Ingen tur trengte et punkt midt på et segment eller en lukket ring. Punktet fra 1.5 om at rutepunktene bare kan festes til noder (segmentender), er løst for v1; det tas opp igjen hvis en ny tur i story 6.2 trenger det.
+  evidence: Alle rutepunktene i `data/kurateringsliste.toml` ligger på noder. Der to rutenumre ikke møtes (Ullevålseter), brukes korte koblinger på høyst 10 m i stedet for å dele segmenter.
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-7-turdatabasen-har-15-kontrollerte-turer.md`
+  summary: Byggeskriptet er sårbart for treg eller nedetid i WFS-en til Turrutebasen. Det finnes ingen buffer for rutenumre som hentes flere ganger, og ingen nye forsøk, og `osl` (3435 segmenter, ca. 75 s) er nær tidsavbruddet på 60 s per lesing.
+  evidence: WFS-en var nede ca. 35 min 2026-11-25 under byggingen i 1.7. Fire turer bruker `osl`. Det gjelder bare den manuelle byggingen (ikke appen) og stopper med en tydelig melding. Tas opp før story 6.2 utvider lista.

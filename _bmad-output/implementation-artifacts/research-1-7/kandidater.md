@@ -1,8 +1,10 @@
 # Kandidater til de 15 turene (story 1.7)
 
+> **Forskningsøyeblikksbilde fra 2026-11-24.** Kilden til sannhet er `data/kurateringsliste.toml` og `data/README.md`; kontrollen står i `docs/kontroll-turdatabasen.md`. Avvik fra tabellen under: `sognsvann-brekke` er med i stedet for `sognsvann-ullevalseter`, og `frognerseteren-skjennungstua` i stedet for `frognerseteren-tryvann` (beslutning 1 og 3); `vettakollen-rundtur` har nye via-punkter og rutenummeret `F_20171026_02`; det østlige via-punktet i `noklevann-rundt` er flyttet til stien langs vannet; `grorud-grefsenkollen` heter «Grorud–Grefsenkollen gjennom Lillomarka» og er bare `utsikt`; flere ut.no-lenker er tatt bort.
+
 Beregnet 2026-11-24 fra Turrutebasen (WFS, bbox Oslo+Bærum + nordstripe til Kikut) med samme regler som byggeskriptet: noder slås sammen innen 1 m, rutepunktene er noder (festeavstand 0 m), korteste sti, og segmenter uten rutenummer er utelatt. Høyden er hentet hvert **50 m** med 5 m terskel (skriptet bruker 25 m, så tallene kan bli litt høyere). Lengde og høydemeter gjelder én vei ved tur-retur og hele runden ved rundtur. Nivå følger `gradering.py` og tid `tid.py`.
 
-✔ = med i forslaget til 15 turer. Rutepunktene kan limes rett inn i `kurateringslista.toml` som `[lat, lon]`.
+✔ = med i forslaget til 15 turer. Rutepunktene kan limes rett inn i `kurateringsliste.toml` som `[lat, lon]`.
 
 | ✔ | id | navn | startpunkt | form | km | opp/ned m | nivå | tid | turtyper | rutenummer | rutepunkter (fra / via / til) | ut.no | merknad |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
