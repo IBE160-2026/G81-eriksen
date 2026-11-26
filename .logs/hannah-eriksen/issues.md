@@ -88,3 +88,4 @@
 - [ ] 2026-11-26 [story-1-10](974-2026-11-26-15-37-59-story-1-10.md) — test berøring med to fingre på en ekte mobil (forhåndsvisningen for PR #35)
 - [ ] 2026-11-26 [story-1-10](974-2026-11-26-15-37-59-story-1-10.md) — oppførselen i `kart.js` testes bare som tekst (deferred-work.md)
 - [ ] 2026-11-26 [story-1-10](974-2026-11-26-15-37-59-story-1-10.md) — neste er `bmad-build` for story 6.5 (kartfargene målt mot ekte kartfliser) på `implementering/story-6-5`, deretter 1.11
+- [ ] 2026-11-26 [refleksjonsnotat-skill](973-2026-11-26-18-40-56-refleksjonsnotat-skill.md) — skriv refleksjonsrapporten med `refleksjonsnotat`-skillen
