@@ -174,6 +174,9 @@ spacing:
   content-max-width: 960px          # Historikk (mockups/key-historikk.html) og Konto
   side-illustration-max-width: 440px
   map-control-size: 44px
+opacity:
+  # Story 1.11: det gamle forslaget står dempet mens «Nytt forslag» hentes (CSS: --busy-opacity).
+  busy-opacity: 0.5
 components:
   toppmeny:
     background: '{colors.surface}'

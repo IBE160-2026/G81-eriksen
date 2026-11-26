@@ -4,6 +4,7 @@
 // ingenting annet enn fliser. Farger står bare i side.css (kart-tokenene).
 // Feiler noe, vises Melding (info) med lenke til «Kartet i tekst», og resten av siden virker.
 // window.YNAKart.start(element) starter kartet på nytt, for eksempel etter et fragmentbytte (1.11).
+// «Kart lastes …» vises med aria-busy på kartflaten til første flisrunde er ferdig (1.11, 1A).
 (function () {
   "use strict";
 
@@ -34,6 +35,24 @@
     });
   }
 
+  // «Kart lastes …» og aria-busy på kartflaten (beslutning 1A). Feiler aldri.
+  function visLasting(flate, lastes, vis) {
+    if (lastes) {
+      if (vis) {
+        lastes.removeAttribute("hidden");
+      } else {
+        lastes.setAttribute("hidden", "");
+      }
+    }
+    if (flate) {
+      if (vis) {
+        flate.setAttribute("aria-busy", "true");
+      } else {
+        flate.removeAttribute("aria-busy");
+      }
+    }
+  }
+
   function start(element) {
     try {
       stopp(element);
@@ -54,6 +73,11 @@
       });
       element.classList.remove("no-js", "kart-feil", "kart-hint-vis");
       var flate = element.querySelector(".kart-flate");
+      var lastes = element.querySelector(".kart-lastes");
+      visLasting(flate, lastes, true);
+      element.ynaRydd.push(function () {
+        visLasting(flate, lastes, false);
+      });
       var rute = JSON.parse(document.getElementById(element.getAttribute("data-kart-geojson")).textContent);
       var stille = medier("(prefers-reduced-motion: reduce)");
       var animer = { animate: !stille };
@@ -98,6 +122,7 @@
         feilet += 1;
       });
       fliser.on("load", function () {
+        visLasting(flate, lastes, false);
         element.classList.toggle("kart-feil", feilet > 0 && lastet === 0);
       });
       fliser.addTo(kart);
@@ -180,6 +205,7 @@
       return kart;
     } catch (feil) {
       // Kartet kan ikke vises: meldingen og «Kartet i tekst» tar over.
+      visLasting(element.querySelector(".kart-flate"), element.querySelector(".kart-lastes"), false);
       element.classList.remove("no-js");
       element.classList.add("kart-feil");
       return null;

@@ -1,0 +1,84 @@
+{% comment %}
+Innholdet i <main> på Turforslag (FR-6, FR-7, FR-8). Brukes av forslag.html og gis alene som
+fragment når forespørselen har headeren X-Fragment: 1 (1.11). Rotelementet har data-tittel
+med hele sidetittelen, så forbedring.js kan sette document.title etter byttet.
+{% endcomment %}
+{% url 'turforslag:sok' as sok_url %}
+{% if visning.tur %}
+  {% with tur=visning.tur %}
+    <div class="forslag" data-tittel="{% include "turforslag/_tittel.html" %} – Your Next Adventure">
+      <div class="infokolonne infokolonne-topp">
+        <p class="sokeoppsummering caption">
+          <span>{{ visning.sokeoppsummering }}</span>
+          <a href="{{ sok_url }}?sok={{ sok_id|urlencode }}">Endre søk</a>
+        </p>
+
+        <h1 class="headline-md" tabindex="-1">{{ tur.navn }}</h1>
+
+        <div class="niva">
+          <span class="nivamerke nivamerke-{{ tur.niva }}">
+            <svg class="nivamerke-ikon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><circle cx="6" cy="6" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            {{ tur.nivatekst }}
+          </span>
+          <p class="nivaforklaring caption">Jeg har beregnet nivået etter Merkehåndbokas mal ut fra lengde og høydemeter. Terreng og føre er ikke vurdert.</p>
+        </div>
+
+        {% if tur.topptur_erstattet %}
+          {# FR-8, beslutning 2026-11-26 (1A). [ASSUMPTION] Mikrotekst («Topptur passer ikke, merke») #}
+          <p class="turtype-merke"><span class="turtype-treff">{% include "turforslag/_sol.html" %}Utsikt i stedet for topptur</span></p>
+          {% include "turforslag/_melding.html" with type="advarsel" tittel="Ingen topptur passer søket ditt" %}
+        {% elif tur.turtype_treff %}
+          <p class="turtype-merke"><span class="turtype-treff">{% include "turforslag/_sol.html" %}{{ tur.turtype_treff }}</span></p>
+        {% endif %}
+
+        <div class="nokkeltall">
+          <p class="formrad"><span class="formmerke">{{ tur.form }}</span> <span>Start: {{ tur.startpunkt_navn }}</span></p>
+          {# Faktarute: verdien først og etiketten under, så den leses «3,5 km totalt». #}
+          <div class="faktarute">
+            <p class="fakta"><span class="fact-value">{{ tur.lengde }}</span> <span class="caption">totalt</span></p>
+            <p class="fakta"><span class="fact-value">{{ tur.hoydemeter }}</span> <span class="caption">høydemeter</span></p>
+            <p class="fakta fakta-tid"><span class="fact-value">{{ tur.tid }}</span> <span class="caption">(pauser ikke inkludert)</span></p>
+          </div>
+          {% if tur.ut_no_url %}
+            <a class="ut-no" href="{{ tur.ut_no_url }}">Se turen på ut.no<span aria-hidden="true">&nbsp;↗</span><span class="skjult-tekst"> (åpnes på ut.no)</span></a>
+          {% endif %}
+        </div>
+      </div>
+
+      {% include "turforslag/_kart.html" %}
+
+      <div class="infokolonne infokolonne-bunn">
+        <section class="begrunnelse" aria-labelledby="begrunnelse-tittel">
+          <p class="ki-merke eyebrow">Begrunnelse fra mal</p>
+          <h2 class="eyebrow" id="begrunnelse-tittel">Begrunnelse</h2>
+          <p class="body-md">{{ tur.begrunnelse }}</p>
+          <details class="forklaringspanel">
+            <summary>Slik lager jeg forslaget</summary>
+            <ul class="body-md">
+              <li>Ruten, tiden og nivået kommer fra Kartverkets turdata og faste formler, ikke fra KI.</li>
+              <li>Tiden kan bomme med rundt 15 prosent, og nybegynnere bruker ofte lenger tid enn beregnet.</li>
+            </ul>
+          </details>
+        </section>
+
+        {# FR-7 (1.11): «Nytt forslag» er POST med CSRF og PRG. `tur` er turen som vises, så #}
+        {# serveren bare går ett steg videre (dobbeltklikk). forbedring.js henter fragmentet. #}
+        {# «Registrer gjennomført tur» kommer i Epic 2. #}
+        {# [ASSUMPTION] Mikrotekst («Lasting, nytt forslag»): data-lastetekst. #}
+        <form class="forslag-knapper" method="post" action="{% url 'turforslag:nytt_forslag' sok_id=sok_id %}" data-nytt-forslag data-lastetekst="Finner et nytt forslag …">
+          {% csrf_token %}
+          <input type="hidden" name="tur" value="{{ tur.id }}">
+          <button class="knapp-primaer" type="submit">Nytt forslag</button>
+        </form>
+      </div>
+
+      {# Kartbeskrivelse (FR-6, UX-DR15): sist i DOM-en. Teksten lages i domene/tekst.py. #}
+      <section class="kartbeskrivelse" aria-labelledby="kartet-i-tekst">
+        <h2 id="kartet-i-tekst">Kartet i tekst</h2>
+        <p class="body-md">{{ tur.kartbeskrivelse }}</p>
+      </section>
+    </div>
+  {% endwith %}
+{% else %}
+  {% include "turforslag/_tilstandspanel.html" %}
+{% endif %}

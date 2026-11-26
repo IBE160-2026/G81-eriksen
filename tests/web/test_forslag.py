@@ -6,12 +6,13 @@ views ikke importerer formaterings- eller beregningsfunksjoner (AR-2, SM-2).
 
 import ast
 import json
+import re
 from datetime import date
 from html.parser import HTMLParser
 from pathlib import Path
 from unittest import mock
 
-from django.test import TestCase
+from django.test import Client, TestCase
 
 from tests.web.testturer import TURER, lag_tur, lagre_testturer
 from turforslag import turdata
@@ -41,6 +42,10 @@ def tekster(svar) -> str:
     parser.feed(svar.content.decode())
     deler = [verdi for slag, verdi, _ in parser.hendelser if slag == "tekst"]
     return "| " + " | ".join(deler) + " |"
+
+
+def uten_csrf(svar) -> str:
+    return re.sub(r'name="csrfmiddlewaretoken" value="[^"]*"', "", svar.content.decode())
 
 
 @mock.patch("django.utils.timezone.localdate", return_value=I_DAG)
@@ -77,8 +82,8 @@ class ForslagTest(TestCase):
         self.assertContains(svar, "Turen tar ca. 2 t 50 min og passer innenfor 3 timer.")
         self.assertNotContains(svar, "som du ba om")  # Alle turtyper: ingen Turtype-treff
         self.assertNotContains(svar, "style=")
-        self.assertNotContains(svar, "Nytt forslag")
-        self.assertNotContains(svar, "Registrer gjennomført tur")
+        self.assertContains(svar, "Nytt forslag", count=1)  # FR-7 (1.11)
+        self.assertNotContains(svar, "Registrer gjennomført tur")  # Epic 2
 
     def test_dom_rekkefolgen(self, _):  # UX-DR12, EXPERIENCE.md › Turforslag – rekkefølge
         tekst = tekster(self.client.get(self.sok(turtype="utsikt", varighet="150")))
@@ -154,7 +159,8 @@ class ForslagTest(TestCase):
         forste = self.client.get(adresse)
         with mock.patch("turforslag.sokflyt.velg_turer", side_effect=AssertionError("rangert")):
             andre = self.client.get(adresse)
-        self.assertEqual(forste.content, andre.content)
+        # CSRF-tokenet i «Nytt forslag» maskeres på nytt for hver visning.
+        self.assertEqual(uten_csrf(forste), uten_csrf(andre))
 
     def test_frosset_rangering_tross_ny_tur_som_ville_rangert_forst(self, _):  # FR-7, AD-5
         adresse = self.sok()
@@ -423,8 +429,8 @@ class KartTest(TestCase):
         self.assertTrue(
             tekst.endswith(
                 "| Tiden kan bomme med rundt 15 prosent, og nybegynnere bruker ofte lenger tid "
-                "enn beregnet. | Kartet i tekst | Rundtur på 3,5 km totalt fra Bråten. Ruten "
-                "stiger ca. 130 høydemeter, fra 200 til 260 moh. |"
+                "enn beregnet. | Nytt forslag | Kartet i tekst | Rundtur på 3,5 km totalt fra "
+                "Bråten. Ruten stiger ca. 130 høydemeter, fra 200 til 260 moh. |"
             ),
             tekst[-300:],
         )
@@ -437,6 +443,369 @@ class KartTest(TestCase):
     def test_sok_og_feilsider_uten_leaflet(self, _):  # AR-10, AD-1
         self.assert_uten_kart(self.client.get("/"))
         self.assert_uten_kart(self.client.get("/finnes-ikke/"), status_code=404)
+
+
+def csrf_token(svar) -> str:
+    return re.search(r'name="csrfmiddlewaretoken" value="([^"]+)"', svar.content.decode())[1]
+
+
+@mock.patch("django.utils.timezone.localdate", return_value=I_DAG)
+class NyttForslagTest(TestCase):
+    """«Nytt forslag» og «alle vist» (story 1.11): én test per rad i matrisen i spec 1.11.
+
+    FR-7, AR-7, NFR-2, UX-DR19, UX-DR22–25. Fragmentbyttet med JS sjekkes manuelt i Chrome.
+    Med 3 t og alle turtyper er det tre treff: de to grønne testturene og «marka-tredje».
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        lagre_testturer()
+        turdata.lagre_turer(
+            [lag_tur("marka-tredje", "brate", navn="Tredje marka", estimert_tid_min=100)]
+        )
+
+    def sok(self, varighet="180", turtype="", klient=None, **ekstra):
+        data = {"varighet": varighet, "dato": "2026-11-28", "turtype": turtype, "startpunkt": ""}
+        svar = (klient or self.client).post("/", {**data, **ekstra})
+        self.assertEqual(svar.status_code, 302)
+        adresse = svar["Location"]
+        return adresse, adresse.split("/")[2]
+
+    def tilstand(self, sok_id):
+        return self.client.session["sok"][sok_id]
+
+    def nytt(self, adresse, tur, **headers):
+        data = {} if tur is None else {"tur": tur}
+        return self.client.post(adresse + "nytt/", data, headers=headers)
+
+    def gjennom_alle(self, adresse, sok_id):
+        while (gjeldende := self.tilstand(sok_id)["gjeldende_tur_id"]) is not None:
+            self.assertRedirects(
+                self.nytt(adresse, gjeldende), adresse, fetch_redirect_response=False
+            )
+
+    def navn(self, tur_id):
+        return turdata.hent_tur(tur_id).navn
+
+    # --- Knappen ---
+
+    def test_knappen_paa_turforslaget(self, _):  # FR-7, UX-DR22, AR-17
+        adresse, sok_id = self.sok()
+        svar = self.client.get(adresse)
+        gjeldende = self.tilstand(sok_id)["gjeldende_tur_id"]
+        innhold = svar.content.decode()
+        skjema = re.search(r"<form [^>]*data-nytt-forslag[^>]*>(.*?)</form>", innhold, re.S)
+        self.assertIsNotNone(skjema)
+        self.assertIn('method="post"', skjema[0])
+        self.assertIn(f'action="{adresse}nytt/"', skjema[0])
+        self.assertIn('data-lastetekst="Finner et nytt forslag …"', skjema[0])
+        self.assertIn('name="csrfmiddlewaretoken"', skjema[1])
+        self.assertIn(f'<input type="hidden" name="tur" value="{gjeldende}">', skjema[1])
+        self.assertIn(
+            '<button class="knapp-primaer" type="submit">Nytt forslag</button>', skjema[1]
+        )
+        # Live-regionen står i <main>, utenfor beholderen som byttes og dempes.
+        self.assertContains(
+            svar, '<p class="skjult-tekst" aria-live="polite" data-lastestatus></p>', html=True
+        )
+        self.assertLess(innhold.index("data-lastestatus"), innhold.index('class="forslag"'))
+        self.assertIn(
+            'class="forslag" data-tittel="Rundt Bråtenvann – Turforslag – Your Next Adventure"',
+            innhold,
+        )
+        # «Kart lastes …» står på kartflaten og er skjult til kart.js viser den (1A).
+        self.assertContains(svar, '<p class="kart-lastes" hidden>Kart lastes …</p>', html=True)
+        self.assertNotContains(svar, "Finner en tur med")
+        self.assertNotContains(svar, "style=")
+
+    # --- Matrisen ---
+
+    def test_neste(self, _):  # FR-7
+        adresse, sok_id = self.sok()
+        a, b, _c = self.tilstand(sok_id)["rangerte_tur_ider"]
+        svar = self.nytt(adresse, a)
+        self.assertRedirects(svar, adresse, fetch_redirect_response=False)
+        tilstand = self.tilstand(sok_id)
+        self.assertEqual(tilstand["gjeldende_tur_id"], b)
+        self.assertEqual(tilstand["viste_tur_ider"], [a, b])
+        side = self.client.get(adresse)
+        self.assertContains(
+            side, f"<title>{self.navn(b)} – Turforslag – Your Next Adventure</title>", html=True
+        )
+        self.assertContains(side, f'<input type="hidden" name="tur" value="{b}">', html=True)
+
+    def test_rekkefolge_uten_gjentakelse(self, _):  # FR-7
+        adresse, sok_id = self.sok()
+        rangert = self.tilstand(sok_id)["rangerte_tur_ider"]
+        viste = []
+        with mock.patch("turforslag.sokflyt.velg_turer", side_effect=AssertionError("rangert")):
+            while (gjeldende := self.tilstand(sok_id)["gjeldende_tur_id"]) is not None:
+                overskrift = f'<h1 class="headline-md" tabindex="-1">{self.navn(gjeldende)}</h1>'
+                self.assertContains(self.client.get(adresse), overskrift, html=True)
+                viste.append(gjeldende)
+                self.nytt(adresse, gjeldende)
+        self.assertEqual(viste, rangert)
+        self.assertEqual(len(set(viste)), 3)
+
+    def test_siste_gir_alle_vist(self, _):  # FR-7, UX-DR19, NFR-2
+        adresse, sok_id = self.sok()
+        self.gjennom_alle(adresse, sok_id)
+        tilstand = self.tilstand(sok_id)
+        self.assertIsNone(tilstand["gjeldende_tur_id"])
+        self.assertEqual(sorted(tilstand["viste_tur_ider"]), sorted(tilstand["rangerte_tur_ider"]))
+        svar = self.client.get(adresse)
+        self.assertEqual(svar.status_code, 200)
+        self.assertContains(
+            svar,
+            "<title>Du har sett alle turene som passer søket – Your Next Adventure</title>",
+            html=True,
+        )
+        self.assertContains(
+            svar,
+            '<h1 class="headline-lg" tabindex="-1">Du har sett alle turene som passer søket</h1>',
+            html=True,
+        )
+        self.assertContains(svar, "<h1", count=1)
+        self.assertContains(
+            svar, "<p>Det var tre turer som passer 3 timer. Vil du prøve noe annet?</p>", html=True
+        )
+        self.assertContains(svar, f'<form method="post" action="{adresse}forfra/">')
+        self.assertContains(
+            svar,
+            '<button class="handlingslenke" type="submit">Start fra første forslag igjen</button>',
+            html=True,
+        )
+        self.assertContains(
+            svar, f'<a class="handlingslenke" href="/?sok={sok_id}">Endre søk</a>', html=True
+        )
+        self.assertContains(svar, "Endre søk", count=1)
+        self.assertContains(svar, 'data-tittel="Du har sett alle turene som passer søket – ')
+        self.assertNotContains(svar, "Nytt forslag")
+        self.assertNotContains(svar, "Turforslaget er ikke lenger tilgjengelig")
+        # Panelet har ikke kart.js eller Leaflet.
+        for tekst in ("leaflet", "kart.js", 'class="kart', "kart-geojson"):
+            self.assertNotContains(svar, tekst)
+        self.assertNotContains(svar, "style=")
+
+    def test_dobbeltklikk_gaar_bare_ett_steg(self, _):  # FR-7, NFR-2
+        adresse, sok_id = self.sok()
+        a, b, _c = self.tilstand(sok_id)["rangerte_tur_ider"]
+        self.nytt(adresse, a)
+        for _gang in range(2):
+            svar = self.nytt(adresse, a)
+            self.assertRedirects(svar, adresse, fetch_redirect_response=False)
+        tilstand = self.tilstand(sok_id)
+        self.assertEqual(tilstand["gjeldende_tur_id"], b)
+        self.assertEqual(tilstand["viste_tur_ider"], [a, b])
+        self.assertContains(self.client.get(adresse), self.navn(b))
+
+    def test_start_paa_nytt(self, _):  # FR-7
+        adresse, sok_id = self.sok()
+        a = self.tilstand(sok_id)["rangerte_tur_ider"][0]
+        self.gjennom_alle(adresse, sok_id)
+        for _gang in range(2):  # dobbeltklikk: andre POST endrer ingenting
+            svar = self.client.post(adresse + "forfra/")
+            self.assertRedirects(svar, adresse, fetch_redirect_response=False)
+            tilstand = self.tilstand(sok_id)
+            self.assertEqual(tilstand["gjeldende_tur_id"], a)
+            self.assertEqual(tilstand["viste_tur_ider"], [a])
+        self.assertContains(
+            self.client.get(adresse),
+            f"<title>{self.navn(a)} – Turforslag – Your Next Adventure</title>",
+            html=True,
+        )
+
+    def test_start_paa_nytt_hopper_over_borte_forste_tur(self, _):  # FR-7, SM-C1
+        adresse, sok_id = self.sok()
+        a, b, _c = self.tilstand(sok_id)["rangerte_tur_ider"]
+        self.gjennom_alle(adresse, sok_id)
+        Tur.objects.filter(id=a).delete()
+        self.client.post(adresse + "forfra/")
+        self.assertEqual(self.tilstand(sok_id)["gjeldende_tur_id"], b)
+        self.assertEqual(self.tilstand(sok_id)["viste_tur_ider"], [a, b])
+
+    def test_forfra_uten_alle_vist_endrer_ingenting(self, _):  # NFR-2
+        adresse, sok_id = self.sok()
+        for_ = self.tilstand(sok_id)
+        self.assertRedirects(
+            self.client.post(adresse + "forfra/"), adresse, fetch_redirect_response=False
+        )
+        self.assertEqual(self.tilstand(sok_id), for_)
+
+    def test_ny_innlasting_etter_neste(self, _):  # FR-7, AD-5
+        adresse, sok_id = self.sok()
+        a, b, _c = self.tilstand(sok_id)["rangerte_tur_ider"]
+        self.nytt(adresse, a)
+        with mock.patch("turforslag.sokflyt.velg_turer", side_effect=AssertionError("rangert")):
+            forste = self.client.get(adresse)
+            andre = self.client.get(adresse)
+        self.assertContains(forste, self.navn(b))
+        self.assertEqual(uten_csrf(forste), uten_csrf(andre))
+        self.assertEqual(self.tilstand(sok_id)["viste_tur_ider"], [a, b])
+
+    def test_ukjent_sok(self, _):  # FR-7, NFR-2
+        for handling in ("nytt/", "forfra/"):
+            with self.subTest(handling=handling):
+                svar = self.client.post(f"/forslag/finnes-ikke/{handling}", {"tur": "marka-lang"})
+                self.assertRedirects(svar, "/", fetch_redirect_response=False)
+                self.assertContains(
+                    self.client.get("/"), "Turforslaget er ikke lenger tilgjengelig."
+                )
+
+    def test_manipulerte_post(self, _):  # NFR-2
+        adresse, sok_id = self.sok()
+        for_ = self.tilstand(sok_id)
+        for tur in (None, "", "finnes-ikke", for_["rangerte_tur_ider"][1], "x" * 5000):
+            with self.subTest(tur=tur and tur[:20]):
+                svar = self.nytt(adresse, tur)
+                self.assertRedirects(svar, adresse, fetch_redirect_response=False)
+                self.assertEqual(self.tilstand(sok_id), for_)
+        svar = self.client.post(adresse + "nytt/", {"tur": ["a", "b"]})
+        self.assertEqual(svar.status_code, 302)
+        self.assertEqual(self.tilstand(sok_id), for_)
+
+    def test_get_til_post_adressene_gir_405(self, _):  # PRG, NFR-2
+        adresse, _sok_id = self.sok()
+        for handling in ("nytt/", "forfra/"):
+            with self.subTest(handling=handling):
+                self.assertEqual(self.client.get(adresse + handling).status_code, 405)
+
+    def test_borte_tur_hoppes_over(self, _):  # FR-7, SM-C1
+        adresse, sok_id = self.sok()
+        a, b, c = self.tilstand(sok_id)["rangerte_tur_ider"]
+        Tur.objects.filter(id=b).delete()
+        self.nytt(adresse, a)
+        tilstand = self.tilstand(sok_id)
+        self.assertEqual(tilstand["gjeldende_tur_id"], c)
+        self.assertEqual(tilstand["viste_tur_ider"], [a, b, c])
+        self.assertContains(self.client.get(adresse), self.navn(c))
+
+    def test_tur_som_ikke_lenger_passer_hoppes_over(self, _):  # FR-7, SM-C1
+        adresse, sok_id = self.sok()
+        a, b, c = self.tilstand(sok_id)["rangerte_tur_ider"]
+        Tur.objects.filter(id=b).update(turniva="bla")
+        Tur.objects.filter(id=c).update(estimert_tid_min=200)
+        self.nytt(adresse, a)
+        self.assertIsNone(self.tilstand(sok_id)["gjeldende_tur_id"])
+        svar = self.client.get(adresse)
+        self.assertContains(svar, "Du har sett alle turene som passer søket")
+        # Ingressen teller bare turene som fortsatt passer (bare a).
+        self.assertContains(svar, "Det var én tur som passer 3 timer.")
+
+    def test_forfra_naar_alle_turene_er_borte(self, _):  # FR-7, NFR-2
+        adresse, sok_id = self.sok()
+        rangert = self.tilstand(sok_id)["rangerte_tur_ider"]
+        self.gjennom_alle(adresse, sok_id)
+        Tur.objects.filter(id__in=rangert).delete()
+        svar = self.client.post(adresse + "forfra/")
+        self.assertRedirects(svar, adresse, fetch_redirect_response=False)
+        tilstand = self.tilstand(sok_id)
+        self.assertIsNone(tilstand["gjeldende_tur_id"])
+        self.assertEqual(sorted(tilstand["viste_tur_ider"]), sorted(rangert))
+        # Ingen turer igjen: ingen panel med «Det var 0 turer», men Søk med meldingen.
+        self.assertRedirects(self.client.get(adresse), "/", fetch_redirect_response=False)
+        self.assertContains(self.client.get("/"), "Turforslaget er ikke lenger tilgjengelig.")
+
+    def test_forfra_naar_noen_turer_er_borte(self, _):  # FR-7, SM-C1
+        adresse, sok_id = self.sok()
+        a, b, c = self.tilstand(sok_id)["rangerte_tur_ider"]
+        self.gjennom_alle(adresse, sok_id)
+        Tur.objects.filter(id__in=[a, b]).delete()
+        self.client.post(adresse + "forfra/")
+        self.assertEqual(self.tilstand(sok_id)["gjeldende_tur_id"], c)
+        self.nytt(adresse, c)
+        self.assertContains(self.client.get(adresse), "Det var én tur som passer 3 timer.")
+
+    def test_en_tur(self, _):  # FR-7
+        adresse, sok_id = self.sok(varighet="150", turtype="utsikt")
+        self.assertEqual(self.tilstand(sok_id)["rangerte_tur_ider"], ["utsikt-kort"])
+        self.nytt(adresse, "utsikt-kort")
+        self.assertContains(
+            self.client.get(adresse), "Det var én tur med utsikt som passer 2,5 timer."
+        )
+
+    def test_alle_vist_etter_topptur_erstattet(self, _):  # FR-7, FR-8
+        adresse, sok_id = self.sok(varighet="150", turtype="topptur")
+        self.assertEqual(self.tilstand(sok_id)["status"], "topptur_erstattet")
+        self.nytt(adresse, "utsikt-kort")
+        svar = self.client.get(adresse)
+        self.assertContains(svar, "Du har sett alle turene som passer søket")
+        self.assertContains(svar, "Det var én tur med utsikt som passer 2,5 timer.")
+
+    # --- Fragment ---
+
+    def test_fragment(self, _):  # FR-7, AR-7, UX-DR22–25
+        adresse, sok_id = self.sok()
+        a, b, _c = self.tilstand(sok_id)["rangerte_tur_ider"]
+        svar = self.nytt(adresse, a, x_fragment="1")
+        self.assertRedirects(svar, adresse, fetch_redirect_response=False)
+        fragment = self.client.get(adresse, headers={"x-fragment": "1"})
+        self.assertEqual(fragment.status_code, 200)
+        innhold = fragment.content.decode()
+        self.assertTrue(
+            innhold.lstrip().startswith('<div class="forslag" data-tittel='), innhold[:200]
+        )
+        for tekst in ("<html", "<head", "<main", "<header", "<title", "data-lastestatus"):
+            self.assertNotIn(tekst, innhold)
+        self.assertIn(f'data-tittel="{self.navn(b)} – Turforslag – Your Next Adventure"', innhold)
+        self.assertIn('<script id="kart-geojson" type="application/json">', innhold)
+        self.assertIn("data-nytt-forslag", innhold)
+        self.assertIn("X-Fragment", fragment["Vary"])
+        # GET uten headeren er uendret: hele siden.
+        hel = self.client.get(adresse)
+        self.assertContains(hel, "<main>")
+        self.assertIn("X-Fragment", hel["Vary"])
+
+    def test_fragment_alle_vist(self, _):  # FR-7, UX-DR19
+        adresse, sok_id = self.sok()
+        self.gjennom_alle(adresse, sok_id)
+        innhold = self.client.get(adresse, headers={"x-fragment": "1"}).content.decode()
+        self.assertTrue(
+            innhold.lstrip().startswith(
+                '<div class="tilstand" data-tittel="Du har sett alle turene som passer søket – '
+                'Your Next Adventure">'
+            ),
+            innhold[:200],
+        )
+        self.assertNotIn("<main", innhold)
+
+    def test_fragment_ukjent_sok_sender_til_sok(self, _):  # FR-7: forbedring.js sender vanlig
+        svar = self.client.get("/forslag/finnes-ikke/", headers={"x-fragment": "1"})
+        self.assertRedirects(svar, "/", fetch_redirect_response=False)
+
+    # --- Økten og CSRF ---
+
+    def test_oppdatert_sok_blir_nyeste_av_10(self, _):  # AD-5, AR-7
+        adresse, forste = self.sok()
+        andre = self.sok(turtype="utsikt")[1]
+        self.nytt(adresse, self.tilstand(forste)["gjeldende_tur_id"])
+        self.assertEqual(list(self.client.session["sok"])[-1], forste)
+        for _gang in range(8):
+            self.sok()
+        self.nytt(adresse, self.tilstand(forste)["gjeldende_tur_id"])
+        self.sok()  # 11. søk: det eldste (andre) faller ut, ikke det oppdaterte
+        sokene = self.client.session["sok"]
+        self.assertEqual(len(sokene), 10)
+        self.assertIn(forste, sokene)
+        self.assertNotIn(andre, sokene)
+
+    def test_andre_sok_paavirkes_ikke(self, _):  # FR-7, AD-5
+        adresse, forste = self.sok()
+        andre = self.sok()[1]
+        for_ = self.tilstand(andre)
+        self.nytt(adresse, self.tilstand(forste)["gjeldende_tur_id"])
+        self.assertEqual(self.tilstand(andre), for_)
+
+    def test_csrf_haandheves(self, _):  # AR-7, PRG
+        klient = Client(enforce_csrf_checks=True)
+        token = csrf_token(klient.get("/"))
+        adresse = self.sok(klient=klient, csrfmiddlewaretoken=token)[0]
+        side = klient.get(adresse)
+        tur = re.search(r'name="tur" value="([^"]+)"', side.content.decode())[1]
+        self.assertEqual(klient.post(adresse + "nytt/", {"tur": tur}).status_code, 403)
+        svar = klient.post(adresse + "nytt/", {"tur": tur, "csrfmiddlewaretoken": csrf_token(side)})
+        self.assertRedirects(svar, adresse, fetch_redirect_response=False)
+        self.assertEqual(klient.post(adresse + "forfra/").status_code, 403)
 
 
 class ViewsLagdelingTest(TestCase):

@@ -12,6 +12,7 @@ from decimal import ROUND_HALF_UP, Decimal
 from typing import Any
 
 from domene.okt import Soketilstand
+from domene.okt import alle_vist as er_alle_vist
 from domene.sok import (
     DATO_DAGER_FREM,
     MAKS_VARIGHET_MIN,
@@ -289,6 +290,8 @@ class Forslagsvisning:  # FR-6, FR-7, FR-8
     sokeoppsummering: str
     status: Status
     tur: Turvisning | None
+    alle_vist: bool = False  # FR-7: Tilstandspanel «alle vist»
+    ingress_alle_vist: str = ""
 
     @property
     def ingen_treff(self) -> bool:  # FR-8
@@ -297,6 +300,40 @@ class Forslagsvisning:  # FR-6, FR-7, FR-8
     @property
     def bare_over_nivatak(self) -> bool:  # FR-8
         return self.status == Status.BARE_OVER_NIVATAK
+
+
+# Tallord for antall turer (1–12 med bokstaver). Fra 13 brukes siffer.
+_TALLORD = ("én", "to", "tre", "fire", "fem", "seks", "sju", "åtte", "ni", "ti", "elleve", "tolv")
+
+
+def antall_turer(antall: int, entall: str = "tur", flertall: str = "turer") -> str:  # FR-7
+    """«én tur», «fire turer», «13 turer»: tallord for 1–12 og siffer fra 13."""
+    if antall < 1:
+        raise ValueError(f"Antallet turer må være minst 1, fikk {antall}.")
+    tall = _TALLORD[antall - 1] if antall <= len(_TALLORD) else str(antall)
+    return f"{tall} {entall if antall == 1 else flertall}"
+
+
+def alle_vist_ingress(
+    antall: int, turtype: str | None, varighet_min: int, status: Status
+) -> str:  # FR-7, UX-DR19
+    """«Det var fire turer med utsikt som passer 2 timer.» (Tilstandspanel «alle vist»).
+
+    Turtypen formuleres naturlig: «turer med utsikt», «turer i marka», «toppturer».
+    Når toppturen er erstattet, var treffene utsiktsturer, så ingressen sier «med utsikt».
+    Uten valgt turtype står det ingen turtype.
+    """
+    if status == Status.TOPPTUR_ERSTATTET:
+        turtype = "utsikt"
+    if turtype == "topptur":
+        turer = antall_turer(antall, "topptur", "toppturer")
+    elif turtype == "marka":
+        turer = f"{antall_turer(antall)} i marka"
+    elif turtype is not None:
+        turer = f"{antall_turer(antall)} med {formater_turtype(turtype).lower()}"
+    else:
+        turer = antall_turer(antall)
+    return f"Det var {turer} som passer {formater_varighet_timer(varighet_min)}."
 
 
 def turvisning(sok: Sok, status: Status, tur: Tur, begrunnelse: str) -> Turvisning:  # FR-6
@@ -331,10 +368,26 @@ def forslagsvisning(
     tur: Tur | None,
     begrunnelse: str = "",
     startpunkt_navn: str | None = None,
+    antall: int | None = None,
 ) -> Forslagsvisning:  # FR-6, FR-7, FR-8
-    """Visningen av søketilstanden. `tur` er gjeldende tur, eller `None` ved Tilstandspanel."""
+    """Visningen av søketilstanden. `tur` er gjeldende tur, eller `None` ved Tilstandspanel.
+
+    `antall` er antallet turer i rangeringen som fortsatt finnes og passer («alle vist»).
+    Uten det brukes hele rangeringen.
+    """
+    vist = tur is None and er_alle_vist(tilstand)
+    ingress = ""
+    if vist:
+        ingress = alle_vist_ingress(
+            len(tilstand.rangerte_tur_ider) if antall is None else antall,
+            tilstand.sok.turtype,
+            tilstand.sok.varighet_min,
+            tilstand.status,
+        )
     return Forslagsvisning(
         sokeoppsummering=sokeoppsummering(tilstand.sok, startpunkt_navn),
         status=tilstand.status,
         tur=turvisning(tilstand.sok, tilstand.status, tur, begrunnelse) if tur else None,
+        alle_vist=vist,
+        ingress_alle_vist=ingress,
     )

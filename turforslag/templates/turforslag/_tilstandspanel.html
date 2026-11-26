@@ -1,16 +1,24 @@
 {% comment %}
-Tilstandspanel (UX-DR19, FR-8): erstatter turinnholdet, med h1 og alltid «Endre søk».
+Tilstandspanel (UX-DR19, FR-7, FR-8): erstatter turinnholdet, med h1 og alltid «Endre søk».
 Beslutning 2026-11-26 (1A): 1.9 viser bare «Endre søk». Endringsforslagene kommer i 1.12.
+«Alle vist» (1.11) har ingressen med antallet og «Start fra første forslag igjen», et vanlig
+POST-skjema med CSRF uten fragmentbytte. Panelet har ikke kart.js.
+Rotelementet har data-tittel, så forbedring.js kan sette document.title etter et fragmentbytte.
 Søkeoppsummeringen står over panelet uten egen lenke, så «Endre søk» bare står én gang.
 {% endcomment %}
 {% url 'turforslag:sok' as sok_url %}
-<div class="tilstand">
+<div class="tilstand" data-tittel="{% include "turforslag/_tittel.html" %} – Your Next Adventure">
   <p class="sokeoppsummering caption"><span>{{ visning.sokeoppsummering }}</span></p>
   <section class="tilstandspanel">
     <div class="tilstandspanel-forklaring">
       {% if visning.ingen_treff %}
         {# [ASSUMPTION] Mikrotekst («Ingen treff»). «Prøv å endre søket:» kommer med endringsforslagene i 1.12. #}
         <h1 class="headline-lg" tabindex="-1">Jeg fant ingen tur som passer søket ditt</h1>
+      {% elif visning.alle_vist %}
+        {# FR-7, Mikrotekst («Alle forslag er vist»). Ingressen lages i domene/tekst.py. #}
+        <h1 class="headline-lg" tabindex="-1">Du har sett alle turene som passer søket</h1>
+        {# [ASSUMPTION] Mikrotekst («Alle forslag er vist, ingress»): «Vil du prøve noe annet?» #}
+        <p>{{ visning.ingress_alle_vist }} Vil du prøve noe annet?</p>
       {% else %}
         {# [ASSUMPTION] Mikrotekst («Nivåtak, tittel»). Teksten er «Nivåtak (gjest)». #}
         <h1 class="headline-lg" tabindex="-1">Ingen grønne turer passer søket</h1>
@@ -18,6 +26,14 @@ Søkeoppsummeringen står over panelet uten egen lenke, så «Endre søk» bare 
       {% endif %}
     </div>
     <ul class="tilstandspanel-valg">
+      {% if visning.alle_vist %}
+        <li>
+          <form method="post" action="{% url 'turforslag:forfra' sok_id=sok_id %}">
+            {% csrf_token %}
+            <button class="handlingslenke" type="submit">Start fra første forslag igjen</button>
+          </form>
+        </li>
+      {% endif %}
       <li><a class="handlingslenke" href="{{ sok_url }}?sok={{ sok_id|urlencode }}">Endre søk</a></li>
     </ul>
   </section>

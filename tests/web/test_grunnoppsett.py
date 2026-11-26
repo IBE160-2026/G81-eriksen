@@ -608,3 +608,77 @@ class ForbedringTest(SimpleTestCase):
         self.assertIn("preventDefault()", js)
         self.assertIn('querySelector("[data-fokus]")', js)
         self.assertNotIn("import ", js)
+
+
+class NyttForslagJsTest(SimpleTestCase):
+    """Statisk sjekk av «Nytt forslag» i forbedring.js og «Kart lastes …» i kart.js (1.11).
+
+    FR-7, AR-7, UX-DR22–25, beslutning 1A. Oppførselen sjekkes manuelt i Chrome.
+    """
+
+    def setUp(self):
+        self.js = FORBEDRING_JS.read_text(encoding="utf-8")
+        self.kart = KART_JS.read_text(encoding="utf-8")
+        self.css = SIDE_CSS.read_text(encoding="utf-8")
+
+    def test_es5_uten_avhengigheter(self):  # AD-1, AR-18
+        self.assertTrue(self.js.rstrip().endswith("})();"))
+        self.assertIsNone(re.search(r"\b(let|const|class)\s|=>|`", self.js))
+        for forbudt in ("import ", "innerHTML", ".style", "JSON.parse", "XMLHttpRequest"):
+            with self.subTest(forbudt=forbudt):
+                self.assertNotIn(forbudt, self.js)
+
+    def test_fragmentbytte(self):  # FR-7, AR-7
+        self.assertIn('hasAttribute("data-nytt-forslag")', self.js)
+        self.assertIn('headers: { "X-Fragment": "1" }', self.js)
+        self.assertIn('method: "POST"', self.js)
+        self.assertIn('credentials: "same-origin"', self.js)
+        self.assertIn("new FormData(skjema)", self.js)
+        self.assertIn('new DOMParser().parseFromString(html, "text/html")', self.js)
+        self.assertIn('querySelector("[data-tittel]")', self.js)
+        self.assertIn('document.title = ny.getAttribute("data-tittel");', self.js)
+        self.assertIn("window.YNAKart.start(kart);", self.js)
+        self.assertIn('ny.querySelector("h1")', self.js)
+        self.assertIn("overskrift.focus();", self.js)
+        # Feiler hentingen før byttet, sendes skjemaet vanlig.
+        self.assertIn("if (!byttet) {", self.js)
+        self.assertIn("skjema.submit();", self.js)
+        # Kaster hentForslag etter preventDefault, sendes skjemaet i catch-grenen.
+        self.assertLess(self.js.index("stoppet = true;"), self.js.index("hentForslag(skjema);"))
+        self.assertIn("if (stoppet) {", self.js)
+        self.assertIn("hendelse.target.submit();", self.js)
+        # Det gamle elementet med json_script-id-en er fjernet før kartet startes.
+        self.assertLess(
+            self.js.index("replaceChild(ny, gammel)"), self.js.index("YNAKart.start(kart)")
+        )
+
+    def test_aria_busy_live_region_og_sperre(self):  # UX-DR22–25, AR-18
+        self.assertIn('gammel.setAttribute("aria-busy", "true");', self.js)
+        self.assertIn('querySelector("[data-lastestatus]")', self.js)
+        self.assertIn('skjema.getAttribute("data-lastetekst")', self.js)
+        self.assertIn('status.textContent = "";', self.js)
+        # Samme sperre mot dobbeltklikk: data-sendes settes før fragmentet hentes.
+        self.assertLess(
+            self.js.index('skjema.setAttribute("data-sendes", "")'),
+            self.js.index("hentForslag(skjema);"),
+        )
+
+    def test_dempet_tilstand_i_css(self):  # UX-DR22, UX-DR33
+        regel = deklarasjoner_for(self.css, '.forslag[aria-busy="true"]')
+        self.assertEqual(regel["opacity"], "var(--busy-opacity)")
+        stille = deklarasjoner_for(self.css, ".forslag", "@media (prefers-reduced-motion: reduce)")
+        self.assertEqual(stille["transition"], "none")
+        tokens = deklarasjoner_for(TOKENS_CSS.read_text(encoding="utf-8"), ":root")
+        self.assertIn("--busy-opacity", tokens)
+
+    def test_kart_lastes(self):  # beslutning 1A, UX-DR33
+        self.assertIn('querySelector(".kart-lastes")', self.kart)
+        self.assertIn('flate.setAttribute("aria-busy", "true");', self.kart)
+        self.assertIn('flate.removeAttribute("aria-busy");', self.kart)
+        self.assertIn('lastes.removeAttribute("hidden");', self.kart)
+        self.assertIn('lastes.setAttribute("hidden", "");', self.kart)
+        # Skjules ved første load (også når flisene feiler).
+        load = self.kart.index('fliser.on("load", function () {')
+        self.assertLess(load, self.kart.index("visLasting(flate, lastes, false);\n        element"))
+        self.assertEqual(deklarasjoner_for(self.css, ".kart-lastes[hidden]")["display"], "none")
+        self.assertNotIn("animation", deklarasjoner_for(self.css, ".kart-lastes"))
