@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block tittel %}{% endblock %} – Your Next Adventure</title>
   <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
+  {# CSS og skript som bare én side trenger (Leaflet og kart.js på Turforslag). Står før #}
+  {# side.css, så side.css kan overstyre Leaflets egne regler med samme spesifisitet. #}
+  {% block hode %}{% endblock %}
   <link rel="stylesheet" href="{% static 'css/side.css' %}">
   <script src="{% static 'forbedring.js' %}" defer></script>
 </head>

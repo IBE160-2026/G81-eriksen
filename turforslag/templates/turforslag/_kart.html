@@ -1,0 +1,43 @@
+{% comment %}
+Kart med Kreditering (FR-6, AR-10, UX-DR12, UX-DR13, NFR-4). Bruk: {% include "turforslag/_kart.html" %}
+med `tur` (Turvisning) i konteksten. EXPERIENCE.md › Kart – oppførsel, DESIGN.md › Kart.
+- Tab-rekkefølgen følger DOM-en: «Kartet i tekst», kartflaten, «Vis hele ruten», zoom
+  og lenkene i Kreditering. Kartflaten er region med tabindex="0" og navnet fra domene/.
+- Kontrollene er knapper her i malen, ikke Leaflets. kart.js kobler dem til og fjerner
+  klassen no-js. Uten JS er de skjult, og Melding (info) står på kartflaten.
+- Meldingen viser også når flisene feiler (klassen kart-feil). Uten JS er «Prøv igjen» en
+  lenke til samme side, med JS en knapp som laster flisene på nytt.
+- Kreditering renderes her på serveren og står alltid, også uten JS og når flisene feiler.
+- GeoJSON til kart.js kommer med json_script, så det finnes ingen inline-skript (AR-17).
+{% endcomment %}
+<div class="kart no-js" data-kart data-kart-geojson="kart-geojson">
+  <a class="kartlag kart-tekstlenke" href="#kartet-i-tekst">Kartet i tekst</a>
+  <div class="kart-flate" tabindex="0" role="region" aria-label="{{ tur.kart_navn }}"></div>
+  {# [ASSUMPTION] Mikrotekst («Kartfliser feiler») #}
+  <div class="melding melding-info kart-melding" role="status">
+    <svg class="melding-ikon" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+      <circle cx="10" cy="10" r="10" fill="currentColor"/>
+      <circle class="melding-prikk" cx="10" cy="5.8" r="1.5"/>
+      <path class="melding-glyf" d="M10 9.2 V14.6"/>
+    </svg>
+    <div>
+      <p class="melding-tittel">Kartet kunne ikke lastes. Ruten er beskrevet i "<a href="#kartet-i-tekst">Kartet i tekst</a>".</p>
+      <p class="melding-tekst">
+        <a class="knapp-sekundaer kart-prov-igjen-lenke" href="{{ request.get_full_path }}">Prøv igjen</a>
+        <button class="knapp-sekundaer kart-prov-igjen-knapp" type="button" data-kart-handling="prov-igjen">Prøv igjen</button>
+      </p>
+    </div>
+  </div>
+  <div class="kart-knapper">
+    <button class="kartlag kart-knapp kart-vis-hele" type="button" data-kart-handling="hele">Vis hele ruten</button>
+    <div class="kart-zoom">
+      <button class="kartlag kart-knapp" type="button" data-kart-handling="inn" aria-label="Zoom inn"><span aria-hidden="true">+</span></button>
+      <button class="kartlag kart-knapp" type="button" data-kart-handling="ut" aria-label="Zoom ut"><span aria-hidden="true">−</span></button>
+    </div>
+  </div>
+  {# PRD NFR-7, Mikrotekst («Kreditering (på kartet)»). #}
+  <p class="kreditering caption">© <a href="https://www.kartverket.no/api-og-data/vilkar-for-bruk">Kartverket</a> · © <a href="https://www.openstreetmap.org/copyright" lang="en">OpenStreetMap contributors</a></p>
+  {# [ASSUMPTION] Mikrotekst («Kart på berøringsskjerm»). Bare synlig hint; skjermlesere har egne bevegelser. #}
+  <p class="kart-hint" aria-hidden="true">Bruk to fingre for å flytte kartet</p>
+</div>
+{{ tur.kart_geojson|json_script:"kart-geojson" }}

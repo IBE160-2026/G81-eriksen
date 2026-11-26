@@ -14,6 +14,10 @@ STATIC = ROT / "turforslag" / "static"
 TOKENS_CSS = STATIC / "css" / "tokens.css"
 SIDE_CSS = STATIC / "css" / "side.css"
 FORBEDRING_JS = STATIC / "forbedring.js"
+KART_JS = STATIC / "kart.js"
+# Leaflet 1.9.4 ligger uendret her (AR-10). Testene for farger og overflow hopper over mappen.
+VENDOR = STATIC / "vendor"
+LEAFLET = VENDOR / "leaflet"
 MALMAPPER = [ROT / "turforslag" / "templates", ROT / "tests" / "web" / "maler"]
 
 # Faste lister over tokens fra DESIGN.md (frontmatter). UX-DR1.
@@ -339,7 +343,7 @@ class StilarkTest(SimpleTestCase):
         self.css = SIDE_CSS.read_text(encoding="utf-8")
 
     def test_ingen_fargeverdier_utenfor_tokens_css(self):  # UX-DR1
-        css_filer = [fil for fil in sorted(STATIC.rglob("*.css")) if fil != TOKENS_CSS]
+        css_filer = egne_css_filer()
         self.assertIn(SIDE_CSS, css_filer)
         for fil in css_filer:
             tekst = uten_kommentarer(fil.read_text(encoding="utf-8"))
@@ -415,16 +419,185 @@ class StilarkTest(SimpleTestCase):
                 self.assertEqual(regel["font-size"], "28px")
 
     def test_ingen_overflow_hidden(self):  # NFR-4, WCAG 1.4.10 og 1.4.12
-        for _, selektorer, deklarasjoner in regler(self.css):
-            for navn in ("overflow", "overflow-x", "overflow-y"):
-                with self.subTest(selektorer=selektorer, egenskap=navn):
-                    verdi = deklarasjoner.get(navn, "").replace("!important", "")
-                    self.assertNotRegex(verdi, r"\b(hidden|clip)\b")
+        # leaflet.css har Leaflets egen overflow: hidden på kartflaten og hoppes over.
+        for fil in egne_css_filer():
+            for _, selektorer, deklarasjoner in regler(fil.read_text(encoding="utf-8")):
+                for navn in ("overflow", "overflow-x", "overflow-y"):
+                    with self.subTest(fil=fil.name, selektorer=selektorer, egenskap=navn):
+                        verdi = deklarasjoner.get(navn, "").replace("!important", "")
+                        self.assertNotRegex(verdi, r"\b(hidden|clip)\b")
+
+    def test_kartknappene_er_minst_44_px(self):  # NFR-3, UX-DR13 (story 1.10)
+        tokens = deklarasjoner_for(TOKENS_CSS.read_text(encoding="utf-8"), ":root")
+        self.assertEqual(tokens["--map-control-size"], "44px")
+        for selektor in (".kart-tekstlenke", ".kart-knapp"):
+            with self.subTest(selektor=selektor):
+                regel = deklarasjoner_for(self.css, selektor)
+                self.assertEqual(regel["min-height"], "var(--map-control-size)")
+                self.assertEqual(regel["min-width"], "var(--map-control-size)")
+
+    def test_kartet_uten_js_og_ved_feil(self):  # UX-DR13, AR-18
+        for selektor, visning in (
+            (".kart.no-js .kart-knapper", "none"),
+            (".kart.no-js .kart-melding", "flex"),
+            (".kart.kart-feil .kart-melding", "flex"),
+            (".kart.no-js .kart-prov-igjen-lenke", "inline-flex"),
+            (".kart.kart-feil .kart-prov-igjen-knapp", "inline-flex"),
+            (".kart-prov-igjen-knapp", "none"),
+        ):
+            with self.subTest(selektor=selektor):
+                self.assertEqual(deklarasjoner_for(self.css, selektor)["display"], visning)
+
+    def test_kartlagene_bruker_kart_tokenene(self):  # UX-DR13, DESIGN.md › Kartlag
+        for selektor, egenskap, verdi in (
+            (".kart .kart-rute", "stroke", "var(--map-route)"),
+            (".kart .kart-rute", "stroke-width", "5px"),
+            (".kart .kart-rute-kant", "stroke", "var(--map-overlay-surface)"),
+            (".kart .kart-rute-kant", "stroke-width", "9px"),
+            (".kart .kart-start", "background", "var(--map-marker-start)"),
+            (".kart .kart-start", "border", "2px solid var(--map-overlay-surface)"),
+            (".kreditering", "background", "var(--map-overlay-surface)"),
+            (".kreditering a", "text-decoration", "underline"),
+            (".kartlag", "background", "var(--map-overlay-surface)"),
+            (".kart .kart-flate:focus-visible", "outline", "3px solid var(--map-focus-ring)"),
+        ):
+            with self.subTest(selektor=selektor, egenskap=egenskap):
+                self.assertEqual(deklarasjoner_for(self.css, selektor)[egenskap], verdi)
+
+    def test_to_kolonner_fra_720_px_og_60vh_under(self):  # UX-DR12, DESIGN.md › Layout
+        kart = deklarasjoner_for(self.css, ".kart")
+        self.assertEqual(kart["height"], "60vh")
+        self.assertEqual(kart["border"], "1px solid var(--border)")
+        bred = "@media (min-width: 720px)"
+        forslag = deklarasjoner_for(self.css, ".forslag", bred)
+        self.assertEqual(forslag["display"], "grid")
+        self.assertEqual(
+            forslag["grid-template-columns"],
+            "minmax(0, 1fr) clamp(340px, 40%, var(--info-column-max-width))",
+        )
+        kart_bred = deklarasjoner_for(self.css, ".kart", bred)
+        self.assertEqual(kart_bred["position"], "sticky")
+        self.assertEqual(kart_bred["grid-column"], "1")
+        self.assertRegex(kart_bred["height"], r"^calc\(100vh\b")
+        self.assertEqual(deklarasjoner_for(self.css, ".kartbeskrivelse", bred)["grid-column"], "1")
+        self.assertEqual(deklarasjoner_for(self.css, ".infokolonne", bred)["grid-column"], "2")
+
+    def test_ingen_fast_hoyde_utenom_kartet_og_ikoner(self):  # NFR-4, WCAG 1.4.12 (story 1.10)
+        for media, selektorer, deklarasjoner in regler(self.css):
+            hoyde = deklarasjoner.get("height", "")
+            if not hoyde or hoyde in ("100%", "auto"):
+                continue
+            with self.subTest(media=media, selektorer=selektorer):
+                if selektorer == [".kart"]:
+                    self.assertIn("vh", hoyde)
+                else:
+                    navn = " ".join(selektorer)
+                    self.assertRegex(navn, r"ikon|logo-merke|skjult-tekst", hoyde)
 
     def test_logomerket_far_gradient_fra_tokens(self):  # UX-DR3
         for trinn in range(1, 5):
             regel = deklarasjoner_for(self.css, f".logo-stopp-{trinn}")
             self.assertEqual(regel["stop-color"], f"var(--gradient-{trinn})")
+
+
+def egne_css_filer():
+    """Alle egne CSS-filer utenom tokens.css. Vendret kode i static/vendor/ er ikke med."""
+    return [
+        fil
+        for fil in sorted(STATIC.rglob("*.css"))
+        if fil != TOKENS_CSS and VENDOR not in fil.parents
+    ]
+
+
+class LeafletTest(SimpleTestCase):
+    def test_leaflet_1_9_4_er_vendret_uten_bilder(self):  # AR-10
+        self.assertEqual(
+            sorted(fil.name for fil in LEAFLET.iterdir()), ["LICENSE", "leaflet.css", "leaflet.js"]
+        )
+        self.assertIn("Leaflet 1.9.4", (LEAFLET / "leaflet.js").read_text(encoding="utf-8")[:200])
+        lisens = (LEAFLET / "LICENSE").read_text(encoding="utf-8")
+        self.assertTrue(lisens.startswith("BSD 2-Clause License"))
+
+
+class KartJsTest(SimpleTestCase):
+    """Statisk sjekk av kart.js (AR-10, UX-DR13, NFR-4). Oppførselen sjekkes manuelt i Chrome."""
+
+    def setUp(self):
+        self.js = KART_JS.read_text(encoding="utf-8")
+
+    def test_es5_i_iife_med_try_catch(self):  # AD-1, AR-18
+        self.assertIn("(function () {", self.js)
+        self.assertTrue(self.js.rstrip().endswith("})();"))
+        self.assertIn('"use strict";', self.js)
+        self.assertIn("try {", self.js)
+        self.assertIn("} catch (feil) {", self.js)
+        self.assertNotIn("import ", self.js)
+        self.assertIsNone(re.search(r"\b(let|const|class)\s|=>|`", self.js))
+        self.assertIn("window.YNAKart = { start: start };", self.js)
+
+    def test_henter_ingenting_annet_enn_fliser(self):  # AR-10, AD-8
+        self.assertIn(
+            '"https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png"',
+            self.js,
+        )
+        self.assertEqual(self.js.count("https://"), 1)
+        for forbudt in ("fetch(", "XMLHttpRequest", "http://", "innerHTML", ".style"):
+            with self.subTest(forbudt=forbudt):
+                self.assertNotIn(forbudt, self.js)
+        self.assertIn('getAttribute("data-kart-geojson")', self.js)
+        self.assertIn("JSON.parse(", self.js)
+
+    def test_ingen_fargeverdier(self):  # UX-DR1: fargene står bare i side.css
+        self.assertIsNone(HEX.search(self.js))
+        self.assertIsNone(FARGEFUNKSJON.search(self.js))
+        self.assertNotRegex(self.js, r"\b(color|fillColor|weight|opacity)\s*:")
+
+    def test_kartvalg(self):  # UX-DR13, NFR-4
+        self.assertIn("var MAKS_ZOOM = 18;", self.js)
+        for valg in (
+            "attributionControl: false",
+            "zoomControl: false",
+            "maxZoom: MAKS_ZOOM",
+            "scrollWheelZoom: false",
+            "keyboard: true",
+            "touchZoom: true",
+            "zoomAnimation: !stille",
+            "fadeAnimation: !stille",
+            "markerZoomAnimation: !stille",
+            "animate: !stille",
+            '"(prefers-reduced-motion: reduce)"',
+            "interactive: false",
+            "keyboard: false",
+            'className: "kart-rute-kant"',
+            'className: "kart-rute"',
+            'className: "kart-start"',
+        ):
+            with self.subTest(valg=valg):
+                self.assertIn(valg, self.js)
+
+    def test_utsnitt_for_markoren(self):  # UX-DR13: getElement() finnes først etter utsnittet
+        self.assertLess(self.js.index("kart.fitBounds("), self.js.index("L.marker("))
+        self.assertIn("if (markor.getElement()) {", self.js)
+
+    def test_prov_igjen_virker_ogsa_nar_kartet_feiler(self):  # UX-DR13, NFR-2
+        # Klikklytteren registreres før L.map, og «Prøv igjen» laster siden på nytt til
+        # kartet er klart. Etterpå laster den bare flisene på nytt.
+        klikk = self.js.index('lytt(element, element, "click"')
+        self.assertLess(klikk, self.js.index("L.map("))
+        self.assertLess(self.js.index("window.location.reload();"), klikk)
+        self.assertLess(self.js.index("L.map("), self.js.index("fliser.redraw();"))
+
+    def test_hjul_og_beroring(self):  # UX-DR13, beslutning 2026-11-26 (1A)
+        self.assertIn("!hendelse.ctrlKey && !hendelse.metaKey", self.js)
+        self.assertIn('lytt(element, element, "wheel"', self.js)  # også over kontrollene
+        self.assertIn("hendelse.preventDefault();", self.js)
+        self.assertIn('lytt(element, flate, "touchstart"', self.js)
+        self.assertIn("hendelse.touches.length > 1", self.js)
+        self.assertIn("kart.dragging.disable();", self.js)
+        # To fingre flytter med touchZoom. Bare musa slår dragging på.
+        self.assertEqual(self.js.count("kart.dragging.enable();"), 1)
+        self.assertIn('hendelse.pointerType === "mouse"', self.js)
+        self.assertIn("var HINT_MS = 1500;", self.js)
 
 
 class ForbedringTest(SimpleTestCase):

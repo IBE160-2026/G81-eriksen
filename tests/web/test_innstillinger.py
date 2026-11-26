@@ -1,10 +1,14 @@
 """Innstillinger og CSP (AD-12 punkt 5, AR-17)."""
 
 import re
+from datetime import date
 from pathlib import Path
+from unittest import mock
 
 from django.conf import settings
 from django.test import Client, SimpleTestCase, TestCase, override_settings
+
+from tests.web.testturer import lagre_testturer
 
 MALER = Path(__file__).resolve().parents[2] / "turforslag" / "templates"
 
@@ -67,6 +71,24 @@ class CspTest(TestCase):  # Søk leser startpunktene fra databasen (story 1.9).
             svar = Client(raise_request_exception=False).get("/feil/")
         self.assertEqual(svar.status_code, 500)
         self.assertEqual(csp_direktiver(svar), FORVENTET_CSP)
+
+    def test_csp_hodet_pa_turforslaget_med_kart(self):  # AR-17, AR-10 (story 1.10)
+        """Kartet trenger ingen utvidelse: Leaflet og kart.js lastes fra 'self', flisene er
+        bilder fra cache.kartverket.no, og GeoJSON kommer som json_script (data, ikke kode)."""
+        lagre_testturer()
+        data = {"varighet": "180", "dato": "2026-11-28", "turtype": "", "startpunkt": ""}
+        with mock.patch("django.utils.timezone.localdate", return_value=date(2026, 11, 26)):
+            svar = self.client.get(self.client.post("/", data)["Location"])
+        self.assertContains(svar, 'class="kart-flate"')
+        self.assertEqual(csp_direktiver(svar), FORVENTET_CSP)
+        innhold = svar.content.decode()
+        self.assertIsNone(re.search(r"\sstyle\s*=", innhold, re.IGNORECASE))
+        for skript in re.findall(r"<script[^>]*>", innhold, re.IGNORECASE):
+            with self.subTest(skript=skript):
+                self.assertTrue(
+                    re.search(r'\ssrc="/static/', skript)
+                    or skript == '<script id="kart-geojson" type="application/json">'
+                )
 
     def test_malene_har_ingen_inline_stil_eller_skript(self):  # AR-17
         maler = sorted(MALER.rglob("*.html"))

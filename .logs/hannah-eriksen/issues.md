@@ -81,6 +81,9 @@
 - [x] 2026-11-26 [correct-course-varighet](977-2026-11-26-09-30-23-correct-course-varighet.md) — merge PR #32 før Story 1.9; neste er `bmad-build` for Story 1.9 (valglista 60–720 min fra `domene/sok.py`) (løst 2026-11-26 — PR #32 merget) (løst 2026-11-26 — PR #34, se [story-1-9](975-2026-11-26-10-47-55-story-1-9.md))
 - [ ] 2026-11-26 [psycopg-smart-app-control](976-2026-11-26-09-36-49-psycopg-smart-app-control.md) — Postgres-sjekken i `tests.web.test_vercel` hoppes over lokalt så lenge Smart App Control er på; byggeloggen på Vercel er kontrollen
 - [ ] 2026-11-26 [psycopg-smart-app-control](976-2026-11-26-09-36-49-psycopg-smart-app-control.md) — neste er `bmad-build` for Story 1.9 (Ola søker og får ett turforslag) på en ny branch fra `main`
-- [ ] 2026-11-26 [story-1-9](975-2026-11-26-10-47-55-story-1-9.md) — merge PR #34, sett Story 1.9 til `done` og sjekk produksjonen; neste er Story 1.10 (kartet)
+- [x] 2026-11-26 [story-1-9](975-2026-11-26-10-47-55-story-1-9.md) — merge PR #34, sett Story 1.9 til `done` og sjekk produksjonen; neste er Story 1.10 (kartet) (løst 2026-11-26 — PR #34 merget, produksjonen er sjekket; 1.10 startet)
 - [ ] 2026-11-26 [story-1-9](975-2026-11-26-10-47-55-story-1-9.md) — produkteier godkjenner de foreløpige tekstene merket [ASSUMPTION] fra 1.9 (listet i PR #34)
 - [ ] 2026-11-26 [story-1-9](975-2026-11-26-10-47-55-story-1-9.md) — rydd Neon-preview-grenen etter hver merge (Neon › Branches › «Clean up branches», eller slett gamle forhåndsvisninger i Vercel); Neon Free tillater bare 10 grener
+- [ ] 2026-11-26 [story-1-10](974-2026-11-26-15-37-59-story-1-10.md) — merge PR #35, sett Story 1.10 til `done` og sjekk produksjonen; neste er story 6.5 (kartfargene mot ekte fliser), så 1.11
+- [ ] 2026-11-26 [story-1-10](974-2026-11-26-15-37-59-story-1-10.md) — test berøring med to fingre på en ekte mobil (forhåndsvisningen for PR #35)
+- [ ] 2026-11-26 [story-1-10](974-2026-11-26-15-37-59-story-1-10.md) — oppførselen i `kart.js` testes bare som tekst (deferred-work.md)

@@ -5,6 +5,7 @@ views ikke importerer formaterings- eller beregningsfunksjoner (AR-2, SM-2).
 """
 
 import ast
+import json
 from datetime import date
 from html.parser import HTMLParser
 from pathlib import Path
@@ -12,7 +13,7 @@ from unittest import mock
 
 from django.test import TestCase
 
-from tests.web.testturer import lag_tur, lagre_testturer
+from tests.web.testturer import TURER, lag_tur, lagre_testturer
 from turforslag import turdata
 from turforslag.models import Tur
 
@@ -279,6 +280,163 @@ class ForslagTest(TestCase):
                 with self.subTest(varighet=varighet, startpunkt=startpunkt):
                     svar = self.client.get(self.sok(varighet=varighet, startpunkt=startpunkt))
                     self.assertNotContains(svar, "Øvresetra blå")
+
+
+@mock.patch("django.utils.timezone.localdate", return_value=I_DAG)
+class KartTest(TestCase):
+    """Kart og «Kartet i tekst» (story 1.10): én test per rad i matrisen i spec 1.10.
+
+    FR-6, AR-10, UX-DR12, UX-DR13, UX-DR15. Berøring, tastatur og fliser sjekkes manuelt.
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        lagre_testturer()
+
+    def forslag(self, varighet="180", turtype=""):
+        data = {"varighet": varighet, "dato": "2026-11-28", "turtype": turtype, "startpunkt": ""}
+        adresse = self.client.post("/", data)["Location"]
+        return adresse, self.client.get(adresse)
+
+    def tagger(self, svar):
+        parser = Rekkefolge()
+        parser.feed(svar.content.decode())
+        return [(tag, attrs) for slag, tag, attrs in parser.hendelser if slag == "tag"]
+
+    def assert_uten_kart(self, svar, status_code=200):
+        for tekst in ("leaflet", "kart.js", 'class="kart', "kart-geojson", "Kartet i tekst"):
+            self.assertNotContains(svar, tekst, status_code=status_code)
+        skript = [attrs for tag, attrs in self.tagger(svar) if tag == "script"]
+        self.assertEqual(len(skript), 1)
+        self.assertTrue(skript[0]["src"].endswith("forbedring.js"))
+
+    def test_forslag_med_tur(self, _):  # FR-6, AR-10, UX-DR13
+        _, svar = self.forslag()
+        tagger = self.tagger(svar)
+        flater = [attrs for tag, attrs in tagger if "kart-flate" in attrs.get("class", "")]
+        self.assertEqual(len(flater), 1)
+        self.assertEqual(flater[0]["tabindex"], "0")
+        self.assertEqual(flater[0]["role"], "region")
+        self.assertEqual(flater[0]["aria-label"], "Kart over Rundt Bråtenvann")
+        # Leaflet og kart.js bare på denne siden, alle med defer, Leaflet før kart.js.
+        skript = [attrs["src"] for tag, attrs in tagger if tag == "script" and "src" in attrs]
+        self.assertEqual(len(skript), 3)
+        self.assertTrue(skript[0].endswith("vendor/leaflet/leaflet.js"))
+        self.assertTrue(skript[1].endswith("kart.js"))
+        self.assertTrue(skript[2].endswith("forbedring.js"))
+        stilark = [attrs["href"] for tag, attrs in tagger if attrs.get("rel") == "stylesheet"]
+        self.assertTrue(stilark[1].endswith("vendor/leaflet/leaflet.css"))
+        self.assertTrue(stilark[2].endswith("css/side.css"))
+        # GeoJSON med json_script: ingen inline-skript som kjøres.
+        innhold = svar.content.decode()
+        start = innhold.index('<script id="kart-geojson" type="application/json">')
+        data = innhold[start:].split(">", 1)[1].split("</script>", 1)[0]
+        geojson = json.loads(data)
+        self.assertEqual(geojson["geometry"]["type"], "LineString")
+        linje = [list(punkt) for punkt in TURER[0].geometry]  # Rundt Bråtenvann
+        self.assertEqual(geojson["geometry"]["coordinates"], linje)
+        self.assertEqual(geojson["properties"]["start"], linje[0])
+        # Kreditering renderes på serveren med understrekede lenker (side.css).
+        self.assertContains(
+            svar,
+            '<p class="kreditering caption">© <a href="https://www.kartverket.no/api-og-data/'
+            'vilkar-for-bruk">Kartverket</a> · © <a href="https://www.openstreetmap.org/'
+            'copyright" lang="en">OpenStreetMap contributors</a></p>',
+            html=True,
+        )
+        self.assertContains(svar, 'aria-label="Zoom inn"')
+        self.assertContains(svar, 'aria-label="Zoom ut"')
+        self.assertNotContains(svar, "style=")
+
+    def test_tastaturrekkefolgen(self, _):  # UX-DR13, EXPERIENCE.md › Kart – oppførsel
+        _, svar = self.forslag()
+        fokuserbare = []
+        for tag, attrs in self.tagger(svar):
+            klasse = attrs.get("class", "")
+            if tag in ("a", "button") and "kart-prov-igjen" not in klasse:
+                fokuserbare.append(attrs.get("aria-label") or attrs.get("href") or klasse)
+            elif attrs.get("tabindex") == "0":
+                fokuserbare.append("kartflaten")
+        start = fokuserbare.index("#kartet-i-tekst")
+        self.assertEqual(
+            fokuserbare[start : start + 8],
+            [
+                "#kartet-i-tekst",
+                "kartflaten",
+                "#kartet-i-tekst",  # lenken i meldingen, synlig bare uten JS og ved feil
+                "kartlag kart-knapp kart-vis-hele",
+                "Zoom inn",
+                "Zoom ut",
+                "https://www.kartverket.no/api-og-data/vilkar-for-bruk",
+                "https://www.openstreetmap.org/copyright",
+            ],
+        )
+
+    def test_uten_js(self, _):  # UX-DR13, AR-18
+        adresse, svar = self.forslag()
+        self.assertContains(svar, '<div class="kart no-js" data-kart data-kart-geojson=')
+        self.assertContains(
+            svar,
+            '<p class="melding-tittel">Kartet kunne ikke lastes. Ruten er beskrevet i '
+            '"<a href="#kartet-i-tekst">Kartet i tekst</a>".</p>',
+            html=True,
+        )
+        self.assertContains(
+            svar,
+            f'<a class="knapp-sekundaer kart-prov-igjen-lenke" href="{adresse}">Prøv igjen</a>',
+            html=True,
+        )
+        self.assertContains(svar, 'class="melding melding-info kart-melding" role="status"')
+        self.assertContains(svar, "Bruk to fingre for å flytte kartet")
+
+    def test_kartet_i_tekst_rundtur(self, _):  # FR-6, UX-DR15
+        _, svar = self.forslag()
+        self.assertContains(svar, '<h2 id="kartet-i-tekst">Kartet i tekst</h2>', html=True)
+        self.assertContains(
+            svar,
+            "Rundtur på 3,5 km totalt fra Bråten. Ruten stiger ca. 130 høydemeter, "
+            "fra 200 til 260 moh.",
+        )
+
+    def test_kartet_i_tekst_tur_retur(self, _):  # FR-3, FR-6, UX-DR15
+        _, svar = self.forslag(varighet="150", turtype="utsikt")
+        self.assertContains(
+            svar,
+            "Tur-retur på 3,5 km totalt fra Åsen. Ruten stiger ca. 70 høydemeter, "
+            "fra 210 til 270 moh.",
+        )
+
+    def test_kartet_i_tekst_sist_og_kartet_etter_nokkeltall(self, _):  # UX-DR12
+        tekst = tekster(self.forslag()[1])
+        rekkefolge = [
+            "(pauser ikke inkludert)",
+            "Kartet i tekst",
+            "Vis hele ruten",
+            "Kartverket",
+            "OpenStreetMap contributors",
+            "Begrunnelse fra mal",
+            "Slik lager jeg forslaget",
+        ]
+        plasser = [tekst.index(f"| {del_} |") for del_ in rekkefolge]
+        self.assertEqual(plasser, sorted(plasser))
+        # Kartbeskrivelse står sist i DOM-en (EXPERIENCE.md › Turforslag – rekkefølge, punkt 10).
+        self.assertTrue(
+            tekst.endswith(
+                "| Tiden kan bomme med rundt 15 prosent, og nybegynnere bruker ofte lenger tid "
+                "enn beregnet. | Kartet i tekst | Rundtur på 3,5 km totalt fra Bråten. Ruten "
+                "stiger ca. 130 høydemeter, fra 200 til 260 moh. |"
+            ),
+            tekst[-300:],
+        )
+
+    def test_tilstandspanel_uten_kart(self, _):  # FR-8, AR-10
+        _, svar = self.forslag(varighet="120", turtype="topptur")
+        self.assertContains(svar, "Jeg fant ingen tur som passer søket ditt")
+        self.assert_uten_kart(svar)
+
+    def test_sok_og_feilsider_uten_leaflet(self, _):  # AR-10, AD-1
+        self.assert_uten_kart(self.client.get("/"))
+        self.assert_uten_kart(self.client.get("/finnes-ikke/"), status_code=404)
 
 
 class ViewsLagdelingTest(TestCase):

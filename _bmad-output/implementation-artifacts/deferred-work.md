@@ -37,3 +37,6 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-1-7-turdatabasen-har-15-kontrollerte-turer.md`
   summary: Byggeskriptet er sårbart for treg eller nedetid i WFS-en til Turrutebasen. Det finnes ingen buffer for rutenumre som hentes flere ganger, og ingen nye forsøk, og `osl` (3435 segmenter, ca. 75 s) er nær tidsavbruddet på 60 s per lesing.
   evidence: WFS-en var nede ca. 35 min 2026-11-25 under byggingen i 1.7. Fire turer bruker `osl`. Det gjelder bare den manuelle byggingen (ikke appen) og stopper med en tydelig melding. Tas opp før story 6.2 utvider lista.
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-10-ola-ser-ruten-pa-kart-og-i-tekst.md`
+  summary: Oppførselen i `kart.js` (berøring, flisfeil, kontrollene og «Prøv igjen») testes bare som tekst og i manuelle sjekker i Chrome.
+  evidence: Repoet har med vilje ingen JS-kjøring (ingen package.json). En regresjon, for eksempel ombyttet enable/disable eller et nytt navn på `data-kart-handling`, ville gått gjennom testene. Vurder en liten DOM-test med Leaflet, eller en fast manuell sjekkliste per PR. Medium hvis det stemmer.

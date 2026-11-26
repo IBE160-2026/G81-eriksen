@@ -530,14 +530,19 @@ h2,
   }
 }
 
-/* --- Turforslag (FR-6, UX-DR12/16/17). Kartet og to kolonner kommer i 1.10. --- */
+/* --- Turforslag (FR-6, UX-DR12/16/17). DESIGN.md › Layout & Spacing › Turforslag --- */
 
-.forslag,
 .tilstand {
   max-width: var(--form-max-width);
 }
 
-.forslag > * + * {
+/* Turforslaget med kart bruker hele bredden innenfor sidemargen. */
+main:has(> .forslag) {
+  max-width: none;
+}
+
+.forslag > * + *,
+.infokolonne > * + * {
   margin-top: var(--spacing-3);
 }
 
@@ -716,6 +721,325 @@ h2,
 .forklaringspanel ul {
   margin: 0 0 var(--spacing-2);
   padding-left: 18px;
+}
+
+/* --- Kart (FR-6, AR-10, UX-DR12, UX-DR13). DESIGN.md › Kart, Kreditering, Kartlag ---
+   Alt oppå flisene bruker kart-tokenene (--map-*), like i lys og mørk modus. Høyden er den
+   eneste faste høyden på siden og står i vh. overflow: hidden finnes bare i leaflet.css. */
+
+.kart {
+  position: relative;
+  height: 60vh;
+  border: 1px solid var(--border);
+  background: var(--surface-alt);
+}
+
+/* Kartflaten fyller rammen. z-index lager en egen stablingskontekst for Leaflets lag. */
+.kart .kart-flate {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--surface-alt);
+  font-family: var(--caption-font-family);
+  font-size: var(--caption-font-size);
+  line-height: var(--caption-line-height);
+}
+
+/* Én finger ruller siden, to fingre flytter og kniper (kart.js). Overstyrer leaflet.css. */
+.kart .kart-flate.leaflet-container {
+  touch-action: pan-x pan-y;
+}
+
+/* Fokusring, kartvarianten: 3 px map-focus-ring med 3 px hvit ytre kant. Ringen tegnes
+   også på et lag over flisene, så Leaflets lag ikke dekker den. */
+.kart .kart-flate:focus-visible {
+  outline: 3px solid var(--map-focus-ring);
+  outline-offset: -6px;
+}
+
+.kart .kart-flate:focus-visible::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1001;
+  border: 3px solid var(--map-overlay-surface);
+  outline: 3px solid var(--map-focus-ring);
+  outline-offset: -6px;
+  pointer-events: none;
+}
+
+.kart .kartlag:focus-visible,
+.kart .kreditering a:focus-visible,
+.kart-melding a:focus-visible,
+.kart-melding button:focus-visible {
+  outline: 3px solid var(--map-focus-ring);
+  outline-offset: 0;
+  box-shadow: 0 0 0 6px var(--map-overlay-surface);
+}
+
+/* Kartlag: kontrollene og lenken ligger flatt på map-overlay-surface. */
+.kartlag {
+  position: absolute;
+  z-index: 2;
+  background: var(--map-overlay-surface);
+  color: var(--map-overlay-text);
+}
+
+/* Oppe til venstre: lenken «Kartet i tekst». */
+.kart-tekstlenke {
+  top: var(--spacing-3);
+  left: var(--spacing-3);
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--map-control-size);
+  min-width: var(--map-control-size);
+  padding: 0 10px;
+  border-radius: var(--rounded-md);
+  color: var(--map-overlay-link);
+  font-family: var(--caption-font-family);
+  font-size: var(--caption-font-size);
+  line-height: var(--caption-line-height);
+}
+
+/* Oppe til høyre: «Vis hele ruten» til venstre for zoomstabelen. */
+.kart-knapper {
+  position: absolute;
+  top: var(--spacing-3);
+  right: var(--spacing-3);
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-2);
+}
+
+.kart-knapp {
+  position: static;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--map-control-size);
+  min-width: var(--map-control-size);
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--map-overlay-text);
+  border-radius: var(--rounded-md);
+  font-family: var(--button-font-family);
+  font-size: var(--button-font-size);
+  font-weight: var(--button-font-weight);
+  line-height: var(--button-line-height);
+  cursor: pointer;
+}
+
+/* Fokusringen på en zoomknapp skal ligge over naboknappen. */
+.kart-knapp:focus-visible {
+  position: relative;
+  z-index: 1;
+}
+
+.kart-vis-hele {
+  padding: 0 var(--spacing-3);
+}
+
+.kart-zoom {
+  display: flex;
+  flex-direction: column;
+}
+
+.kart-zoom .kart-knapp {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.kart-zoom .kart-knapp:first-child {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.kart-zoom .kart-knapp:last-child {
+  margin-top: -1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* Nede til høyre: Kreditering, kant i kant med hjørnet og bare øvre venstre hjørne rundet. */
+.kreditering {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  /* Plass til målestokken (høyst 100 px) nede til venstre, også når linjen brytes. */
+  max-width: calc(100% - 2 * var(--spacing-8));
+  margin: 0;
+  padding: var(--spacing-1) 10px;
+  background: var(--map-overlay-surface);
+  color: var(--map-overlay-text);
+  border-top-left-radius: var(--rounded-md);
+  text-align: right;
+}
+
+.kreditering a {
+  color: var(--map-overlay-link);
+  text-decoration: underline;
+}
+
+/* Nede til venstre: målestokken rett på flisene i map-overlay-text. */
+.kart .leaflet-control-scale {
+  margin: 0 0 var(--spacing-3) var(--spacing-3);
+}
+
+.kart .leaflet-control-scale-line {
+  background: var(--map-overlay-surface);
+  color: var(--map-overlay-text);
+  border-color: var(--map-overlay-text);
+  font-family: var(--caption-font-family);
+  font-size: var(--caption-font-size);
+}
+
+/* Rutelinjen: 5 px plommelilla på 9 px hvit kant. Startmarkøren «S» med 2 px hvit kant. */
+.kart .kart-rute-kant {
+  stroke: var(--map-overlay-surface);
+  stroke-width: 9px;
+}
+
+.kart .kart-rute {
+  stroke: var(--map-route);
+  stroke-width: 5px;
+}
+
+.kart .kart-start {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--map-marker-start);
+  color: var(--map-overlay-surface);
+  border: 2px solid var(--map-overlay-surface);
+  border-radius: var(--rounded-full);
+  font-family: var(--label-font-family);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Melding (info) på kartflaten: uten JS, og når flisene feiler (kart-feil). */
+.kart-melding {
+  position: absolute;
+  top: calc(var(--map-control-size) + 2 * var(--spacing-3));
+  left: var(--spacing-3);
+  right: var(--spacing-3);
+  z-index: 3;
+  display: none;
+  background: var(--map-overlay-surface);
+  color: var(--map-overlay-text);
+}
+
+.kart-melding .melding-tittel a {
+  color: var(--map-overlay-link);
+}
+
+.kart-melding .melding-tekst {
+  margin-top: var(--spacing-2);
+}
+
+.kart.no-js .kart-melding,
+.kart.kart-feil .kart-melding {
+  display: flex;
+}
+
+/* «Prøv igjen»: lenke til samme side uten JS, knapp som laster flisene på nytt med JS. */
+.kart-prov-igjen-lenke,
+.kart-prov-igjen-knapp,
+.kart.no-js .kart-knapper {
+  display: none;
+}
+
+.kart.no-js .kart-prov-igjen-lenke,
+.kart.kart-feil .kart-prov-igjen-knapp {
+  display: inline-flex;
+}
+
+/* Med JS slått på skjules meldingen til kart.js har startet, så den ikke blinker. */
+@media (scripting: enabled) {
+  .kart.no-js .kart-melding {
+    display: none;
+  }
+}
+
+/* Hintet for én finger. Blokkerer ikke trykk eller rulling. */
+.kart-hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  max-width: calc(100% - 2 * var(--spacing-5));
+  margin: 0;
+  padding: var(--spacing-2) var(--spacing-4);
+  background: var(--map-overlay-surface);
+  color: var(--map-overlay-text);
+  border-radius: var(--rounded-md);
+  text-align: center;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.kart.kart-hint-vis .kart-hint {
+  opacity: 1;
+}
+
+/* Kartbeskrivelse: kort med «Kartet i tekst» (h2) og teksten fra domene/. */
+.kartbeskrivelse {
+  padding: var(--spacing-4) 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--rounded-lg);
+}
+
+.kartbeskrivelse p {
+  margin: 0;
+}
+
+/* Fra 720 px: kartet sticky til venstre, Infokolonne (340–470 px) til høyre og
+   Kartbeskrivelse under kartet. Plasseringen gjøres med grid, og DOM-rekkefølgen står.
+   Rad 2 er fleksibel, så ekstra høyde fra kartet havner under Begrunnelse. */
+@media (min-width: 720px) {
+  .forslag {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(340px, 40%, var(--info-column-max-width));
+    grid-template-rows: auto 1fr auto;
+    gap: var(--spacing-5) var(--spacing-6);
+    align-items: start;
+  }
+
+  .forslag > * + * {
+    margin-top: 0;
+  }
+
+  .infokolonne {
+    grid-column: 2;
+    min-width: 0;
+  }
+
+  .infokolonne-topp {
+    grid-row: 1;
+  }
+
+  .infokolonne-bunn {
+    grid-row: 2;
+  }
+
+  .kart {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    position: sticky;
+    top: var(--spacing-4);
+    height: calc(100vh - var(--header-min-height) - var(--spacing-7));
+  }
+
+  .kartbeskrivelse {
+    grid-column: 1;
+    grid-row: 3;
+  }
 }
 
 /* --- Tilstandspanel (UX-DR19): forklaringen til venstre og valgene til høyre --- */

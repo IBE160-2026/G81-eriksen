@@ -356,7 +356,6 @@ sequenceDiagram
 | Utsatt | Hvorfor det kan vente |
 | --- | --- |
 | Ordlyden i KI-prompten | Kallrekkefølgen og valideringen (AD-10) binder resultatet; ordlyden justeres under implementering |
-| Kartets zoomgrenser og bevegelser (Ctrl + rullehjul, to fingre) | Løses i kartstoryen med Leaflets innebygde valg etter `EXPERIENCE.md`; ingen plugin uten ny beslutning |
 | Om utfylte felt beholdes gjennom ny innlogging | UX-punktet er `[ASSUMPTION]`; avgjøres i kontostoryen |
 | E-postutsending og passordtilbakestilling | Utenfor v1 (PRD §7.2). Publiseringen (AD-15) endrer ikke det |
 | Eget domene | `.vercel.app`-adressen er nok i v1 (AD-15 punkt 8) |
@@ -366,3 +365,5 @@ sequenceDiagram
 Avgjort i story 1.5 (`spec-1-5-byggeskriptet-lager-turdatabasen-fra-kartverket.md`, spiken i `spike-1-5/`): segmentene i Turrutebasen kobles ikke i rekkefølge, men som et nettverk der endepunkter innenfor 1 m er samme node, og rutepunktene festes innenfor 50 m. Høydene hentes hvert 25 m med støyterskel 5 m. Se AD-3 punkt 2 og `data/README.md`.
 
 Avgjort i story 1.7 (`spec-1-7-turdatabasen-har-15-kontrollerte-turer.md`, kontrollisten i `docs/kontroll-turdatabasen.md`): punktavstand 25 m og støyterskel 5 m beholdes. Høydemeterne avviker −5 % (`vettakollen-topp`), −12 % (`frognerseteren-kobberhaughytta`) og −30 % (`noklevann-rundt`, der ut.no-turen starter ved Ulsrud stasjon og er 3 km lengre) fra ut.no. Regelen var å endre bare ved over 15 % avvik på minst to av tre. Kjørt på ut.no sin egen linje treffer 25/5 innen 2 % for Vettakollen og Nøklevann. Kobberhaugene bommer med +29 % (555 mot 431), men summen av høydene i ut.no sin egen linje er 537, så 431 kan ikke gjenskapes og ble ikke lagt vekt på. Rundturer der mer enn halve lengden gås to ganger, stoppes av byggeskriptet, og korte koblinger uten rutenummer (høyst 10 m) kan legges inn per tur.
+
+Avgjort i story 1.10 (`spec-1-10-ola-ser-ruten-pa-kart-og-i-tekst.md`, beslutning 1A, og `.memlog.md` 2026-11-26): kartets zoomgrense er 18 (AD-8). Bevegelsene løses med Leaflet 1.9.4 uten plugin, men med to små handlere i `kart.js`, fordi Leaflet ikke har innebygde valg for dem: `scrollWheelZoom` er av, og Ctrl/Cmd + rullehjul zoomer. `dragging` er av for berøring, så én finger ruller siden og viser hintet «Bruk to fingre for å flytte kartet», og to fingre flytter og kniper kartet med Leaflets `touchZoom`. Musa kan alltid dra kartet.
