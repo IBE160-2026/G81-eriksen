@@ -2,7 +2,7 @@
 title: "PRD: Your Next Adventure"
 status: final
 created: 2026-10-29
-updated: 2026-11-22
+updated: 2026-11-26
 ---
 
 # PRD: Your Next Adventure
@@ -57,7 +57,7 @@ Han får ett turforslag: «Granåsen rundt», med start på Granvannet p-plass. 
 
 Han vil registrere turen etterpå, så han lager konto med e-post og passord. Han kommer tilbake til det samme turforslaget (FR-14) og lar fanen stå åpen.
 
-**Kanttilfelle:** Hadde Ola bedt om *topptur*, og ingen topptur passet innenfor to timer, ville han fått en utsiktstur og en melding om at toppturer krever mer tid enn han har oppgitt (FR-8).
+**Kanttilfelle:** Hadde Ola bedt om *topptur*, og ingen topptur passet innenfor to timer, ville han fått en utsiktstur og en melding om at ingen topptur passer søket hans (FR-8).
 
 **UJ-2. Ola kommer tilbake og får bedre forslag.**
 Lørdag ettermiddag, rett etter turen, sitter Ola hjemme ved PC-en, og fanen med turforslaget er fortsatt åpen. For å holde reisen kort antar vi at Ola allerede har registrert to grønne turer vurdert *lett*, fra søk han gjorde i andre faner. Testbrukeren (FR-21) viser den samme hevingen uten at noen må gå turer: der er den tredje turen alt registrert, så det første søket gir blå turer først.
@@ -154,7 +154,7 @@ Gjest eller bruker kan søke etter tur ved å oppgi:
 
 | Felt | Påkrevd | Regler |
 |---|---|---|
-| Varighet | ja | Velges fra en liste med verdier fra 1 til 8 timer, i halvtimessteg |
+| Varighet | ja | Velges fra en liste med verdier fra 1 til 12 timer, i halvtimessteg (endret 2026-11-26, Story 1.8: de lengste turene tar nesten 10 t) |
 | Dato | ja | Standardverdi er i dag. Tillatt periode er fra i dag til 30 dager frem |
 | Turtype | nei | Én av turtypene eller «Alle turtyper». «Alle turtyper» er forvalgt |
 | Startpunkt | nei | Velges fra en liste som bare viser startpunkter i turdatabasen. Under lista står en fast hjelpetekst om at turene foreløpig bare dekker Oslo-området |
@@ -208,7 +208,7 @@ Brukeren kan be om et nytt turforslag. Hen får da neste tur i rangeringen, aldr
 - **Økt (§3):** Ny innlasting av siden beholder turforslaget og listen over turer som er vist. Et turforslag lever bare i økten, og det finnes ingen delbar lenke til det. Å åpne et turforslag fra historikken endrer ikke økten.
 
 #### FR-8: Ingen treff og utsiktstur i stedet for topptur
-- **Ingen topptur passer varigheten:** Systemet viser en utsiktstur og en melding om at toppturer krever mer tid enn brukeren har oppgitt. Passer heller ingen utsiktstur, gjelder punktet om ingen treff.
+- **Ingen topptur passer søket:** Gjelder uansett grunn (tid, startpunkt eller nivåtak). Systemet viser en utsiktstur som passer søket og en melding om at ingen topptur passer søket. Passer heller ingen utsiktstur, gjelder punktet om ingen treff. (Endret 2026-11-26, Story 1.8.)
 - **Bare turer over nivåtaket passer søket:** Systemet viser en melding om det, ikke en tur over nivåtaket. Meldingen tilpasses brukertypen:
   - **Gjest:** Som ny bruker får hen grønne turer. Lager hen konto og vurderer turene sine, tilpasses forslagene etter hvordan turene kjentes. Meldingen lover ikke lengre eller hardere turer (SM-C1).
   - **Bruker uten historikk:** Samme budskap, men meldingen ber brukeren registrere og vurdere turene hen går, i stedet for å lage konto.
@@ -523,6 +523,7 @@ Alle funksjonene i §4 (FR-1 til FR-21 og FR-17.1) og alle NFR-ene i §5 (NFR-1 
 | Steget «lagre» er erstattet med «registrere gjennomført tur» | Lagring av planlagte turer gir lite verdi ved spontan bruk |
 | Brukertestmålet er 75 % i stedet for «4 av 5» | Fungerer med 3–5 testere |
 | Appen publiseres på Vercel (NFR-10), i tillegg til lokal kjøring | Faglærer krever 2026-11-15 at appen er publisert på Vercel for å bli vurdert. Briefen og PRD-en til v1.9 hadde bare lokal kjøring |
+| Varigheten går til 12 t, ikke 8 t, og topptur erstattes med utsiktstur uansett grunn (FR-4, FR-8) | Funnet under Story 1.8 (PR #31): den svarte og den røde turen tar 580 og 575 min og kunne ellers aldri foreslås. Meldingen «Ingen topptur passer søket ditt» er sann for tid, startpunkt og nivåtak (`sprint-change-proposal-2026-11-26.md`) |
 
 **Sporing fra briefens suksesskriterier:**
 
@@ -574,3 +575,4 @@ Antakelsene og standardverdiene i kravene, endringene i v1.1 og rettingene etter
 | 1.11 | 2026-11-15 | Funnet da stories for Epic 3 ble skrevet (`epics.md`, story 3.3): Med FR-12 fikk alle turer over grønt setningen om de tre lette turene for alltid, også lenge etter hevingen. FR-12 har nå to setninger: én om hevingen i første søk etter hevingen, og én om nådd nivå i senere søk. Ordlyden står i `EXPERIENCE.md` › Mikrotekst. Valgt av produkteier 2026-11-15 |
 | 1.12 | 2026-11-15 | Funnet i sluttvalideringen av `epics.md`: FR-13 sier nå når et fritekstønske regnes som ignorert. Det gjelder bare når tolkingen forkastes eller ikke kan gjøres, ikke når bare begrunnelsen for en tur forkastes. Presisering uten ny regel, godkjent av produkteier 2026-11-15 |
 | 1.13 | 2026-11-22 | Correct course etter readiness gate (`sprint-change-proposal-2026-11-22.md`): FR-4 viser feltene i skjemarekkefølgen fra `DESIGN.md`, og NFR-7 sier at «Data fra MET Norge» vises der værdata vises. Presiseringer uten ny regel, godkjent av produkteier 2026-11-22 |
+| 1.14 | 2026-11-26 | Correct course etter Story 1.8 (`sprint-change-proposal-2026-11-26.md`): FR-4 har varighet 1–12 t i halvtimessteg (var 1–8 t), FR-8 og UJ-1 sier «ingen topptur passer søket» (uansett grunn: tid, startpunkt eller nivåtak), og §9 har en ny rad |

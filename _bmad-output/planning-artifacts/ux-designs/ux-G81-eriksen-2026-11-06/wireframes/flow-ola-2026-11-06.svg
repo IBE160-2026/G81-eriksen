@@ -24,7 +24,7 @@
 <text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="488" y="460.18">Varighet</tspan></text>
 <rect x="488" y="466" width="140" height="28" rx="7" ry="7" fill="#ffffff" stroke="#495057" stroke-width="1"/>
 <text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="496" y="483.18">2 timer ▾</tspan></text>
-<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="488" y="506.32">1–8 timer</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="488" y="506.32">1–12 timer</tspan></text>
 <text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="648" y="460.18">Dato</tspan></text>
 <rect x="648" y="466" width="160" height="28" rx="7" ry="7" fill="#ffffff" stroke="#495057" stroke-width="1"/>
 <text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="656" y="483.18">Lørdag 7. november ▾</tspan></text>
@@ -505,7 +505,7 @@
 <rect x="6348" y="1212" width="290" height="24.5" rx="6.12" ry="6.12" fill="#fff4e6" stroke="#495057" stroke-width="1"/>
 <ellipse cx="6361" cy="1225" rx="7" ry="7" fill="none" stroke="#495057" stroke-width="1"/>
 <text font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#1e1e1e" text-anchor="middle" xml:space="preserve"><tspan x="6361" y="1226.33">!</tspan></text>
-<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="6374" y="1227.25">Toppturer krever mer tid enn du har oppgitt</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="6374" y="1227.25">Ingen topptur passer søket ditt</tspan></text>
 <text font-family="Helvetica, Arial, sans-serif" font-size="18" fill="#1e1e1e" text-anchor="start" xml:space="preserve"><tspan x="6348" y="1261.15">Granåsen rundt</tspan></text>
 <rect x="6348" y="1274.5" width="96" height="22" rx="5.5" ry="5.5" fill="#1A7F37" stroke="#1A7F37" stroke-width="1"/>
 <text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle" xml:space="preserve"><tspan x="6396" y="1289.6">Grønn – lett</tspan></text>
@@ -524,5 +524,5 @@
 <text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#ffffff" text-anchor="middle" xml:space="preserve"><tspan x="6408" y="1498.29">Nytt forslag</tspan></text>
 <rect x="6476" y="1482" width="162" height="26" rx="6.5" ry="6.5" fill="#ffffff" stroke="#2F5866" stroke-width="1"/>
 <text font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#2F5866" text-anchor="middle" xml:space="preserve"><tspan x="6557" y="1498.29">Registrer gjennomført tur</tspan></text>
-<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="5888" y="1643.1">Ingen topptur passer varigheten: en utsiktstur vises med meldingen ordrett fra PRD (FR-8, UJ-1). Passer heller</tspan><tspan x="5888" y="1658.1">ingen utsiktstur, gjelder «Ingen treff» (B).</tspan></text>
+<text font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#495057" text-anchor="start" xml:space="preserve"><tspan x="5888" y="1643.1">Ingen topptur passer søket: en utsiktstur vises med meldingen ordrett fra PRD (FR-8, UJ-1). Passer heller</tspan><tspan x="5888" y="1658.1">ingen utsiktstur, gjelder «Ingen treff» (B).</tspan></text>
 </svg>

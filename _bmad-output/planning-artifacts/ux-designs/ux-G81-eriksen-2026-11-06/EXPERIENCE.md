@@ -99,7 +99,7 @@ Har en rad flere tekster med ulik kilde, står kilden per tekst.
 | Ingress på Søk | «Fyll inn varighet og dato, så får du ett turforslag om gangen.» | Godkjent (wireframe) |
 | Feltetiketter | «Varighet», «Dato», «Turtype», «Startpunkt (valgfritt)», «Fritekstønske (valgfritt)» | PRD (feltnavn) |
 | Turtypevalg | «Alle turtyper» (forvalgt), «Marka», «Utsikt», «Topptur» | Godkjent (memlog) |
-| Hjelpetekst | «1–8 timer», «Fra i dag til 30 dager frem», «0 / 200 tegn» | Godkjent (mock) |
+| Hjelpetekst | «1–12 timer», «Fra i dag til 30 dager frem», «0 / 200 tegn» | Godkjent (mock) |
 | Plassholder i fritekst | «For eksempel "rundt 5 km" eller "forbi et vann"» | Godkjent (mock) |
 | Hjelpetekst i fritekst | «Jeg prøver å ta hensyn til ønsket ditt.» | Godkjent (mock) |
 | Startpunkt, standardvalg | «Alle startpunkt» | Godkjent (mock) |
@@ -128,7 +128,7 @@ Har en rad flere tekster med ulik kilde, står kilden per tekst.
 | Forklaringspanel | Utløser «Slik lager jeg forslaget». Innholdet står under Forklaringspanel i Component Patterns. | Utløser: PRD (FR-12). Ordlyden i innholdet: Godkjent (memlog) |
 | Forklaringspanel, setning 3 uten fritekst | «KI skriver begrunnelsen, og den kan ta feil.» (brukes til fritekstfeltet finnes, og hvis FR-11 kuttes) | [ASSUMPTION]. Laget av setning 3 i Component Patterns (PRD §7.1) |
 | Fritekst ignorert | «Jeg kunne ikke ta hensyn til ønsket ditt denne gangen» | PRD-budskap (FR-13) |
-| Topptur passer ikke | «Toppturer krever mer tid enn du har oppgitt» | PRD-budskap (FR-8) |
+| Topptur passer ikke | «Ingen topptur passer søket ditt» | Beslutning 2026-11-26 (Story 1.8, FR-8): gjelder uansett grunn |
 | Topptur passer ikke, merke | «Utsikt i stedet for topptur» | [ASSUMPTION] |
 | Nivåtak, tittel | «Ingen grønne turer passer søket» | [ASSUMPTION] |
 | Nivåtak, tittel (nivåtak over grønt) | «Ingen turer opp til blått nivå passer søket» (med nivåtaket) | [ASSUMPTION] |
@@ -221,7 +221,7 @@ Her står hvordan komponentene oppfører seg. Det visuelle står i `DESIGN.md` u
 
 | Felt | Kontroll | Tastatur og regler |
 |---|---|---|
-| Varighet | `<select>` med «Velg» og 1–8 t i halvtimessteg | Vanlig tastaturoppførsel for nedtrekksliste. Tom ved start (wireframe). |
+| Varighet | `<select>` med «Velg» og 1–12 t i halvtimessteg | Vanlig tastaturoppførsel for nedtrekksliste. Tom ved start (wireframe). |
 | Dato (Søk) | `<select>` med de 31 aktuelle dagene, for eksempel «Lørdag 7. november» [ASSUMPTION] | I dag er forvalgt. Ingen egen kalenderwidget. |
 | Turtype | Radiogruppe (Turtypekort) | Piltaster. «Alle turtyper» er forvalgt. |
 | Startpunkt | `<select>` med «Alle startpunkt» først [ASSUMPTION] | Vanlig tastaturoppførsel for nedtrekksliste. |
@@ -388,7 +388,7 @@ Wireframe av UJ-1 og UJ-2 med kanttilstander: [wireframes/flow-ola-2026-11-06.ex
 6. Han leser bekledningstipsene for lørdag og ser at «Se turen på ut.no» finnes hvis han vil vite mer.
 7. Han vil kunne registrere turen etterpå, så han trykker «Logg inn», velger «Lag konto» og lager konto med e-post og passord. Han kommer tilbake til det samme turforslaget (FR-14), og toppmenyen viser nå «Finn tur», «Historikk» og «Konto». Fanen lar han stå åpen.
 
-**Kanttilfelle (PRD):** Hadde Ola bedt om topptur, og ingen topptur passet innenfor varigheten, ville han fått en utsiktstur og meldingen «Toppturer krever mer tid enn du har oppgitt».
+**Kanttilfelle (PRD):** Hadde Ola bedt om topptur, og ingen topptur passet innenfor varigheten, ville han fått en utsiktstur og meldingen «Ingen topptur passer søket ditt».
 
 **Feilveier:**
 
