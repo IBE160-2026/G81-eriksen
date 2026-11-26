@@ -29,7 +29,7 @@ FR-2: Turnivået settes etter Merkehåndboka: grønn under 5 km og under 300 hm,
 
 FR-3: Estimert tid for hele turen beregnes med sveitsisk regel (15 min per km + 15 min per 100 hm + 15 min per 200 m nedstigning), med 15 % påslag for nybegynnere, avrundet til nærmeste 5 minutter. For tur-retur regnes begge veier: høydemeterne tilbake er lik nedstigningen ut, og omvendt. Regneeksempelet (3 km, 150 hm, 0 m ned, tur-retur) gir 142,3 min, som vises som «ca. 2 t 20 min». Tiden vises alltid med «pauser ikke inkludert». KI beregner aldri tid eller nivå.
 
-FR-4: Søkeskjemaet har Varighet (påkrevd, 1–8 t i halvtimessteg), Dato (påkrevd, i dag som standard, fra i dag til 30 dager frem), Turtype (valgfritt, «Alle turtyper» forvalgt), Startpunkt (valgfritt, liste over startpunktene i turdatabasen, med fast hjelpetekst om at turene foreløpig bare dekker Oslo-området) og Fritekstønske (valgfritt, maks 200 tegn, P2 med FR-11). Alle felt har synlige etiketter. Ugyldige felt gir feilmelding ved feltet, og søket sendes ikke. Valideringen skjer også på serveren.
+FR-4: Søkeskjemaet har Varighet (påkrevd, 1–12 t i halvtimessteg), Dato (påkrevd, i dag som standard, fra i dag til 30 dager frem), Turtype (valgfritt, «Alle turtyper» forvalgt), Startpunkt (valgfritt, liste over startpunktene i turdatabasen, med fast hjelpetekst om at turene foreløpig bare dekker Oslo-området) og Fritekstønske (valgfritt, maks 200 tegn, P2 med FR-11). Alle felt har synlige etiketter. Ugyldige felt gir feilmelding ved feltet, og søket sendes ikke. Valideringen skjer også på serveren.
 
 FR-5: Utvalget filtrerer på estimert tid ≤ varighet, turnivå ≤ nivåtaket og valgt turtype og startpunkt. Rangeringen går i denne rekkefølgen: (1) ikke gåtte turer før gåtte, og gåtte med fornøydhet 1–2 sist, (2) turer som passer fritekstønsket (P2), (3) nivåheving: i første søk etter en heving kommer turer på det nye nivåtaket først, (4) foretrukne turtyper (P2), (5) estimert tid nærmest varigheten, (6) tur-ID. Gåtte turer utelukkes aldri helt. «Nytt forslag» går nedover i rangeringen.
 
@@ -37,7 +37,7 @@ FR-6: Turforslaget viser rutelinjen på kart, turillustrasjon (P2), turnivå med
 
 FR-7: «Nytt forslag» gir neste tur i rangeringen, aldri en tur som alt er vist i samme økt. Når alle treff er vist, vises en melding med endringsforslag og valget «Start fra første forslag igjen». Ny innlasting beholder forslaget og listen over viste turer. Det finnes ingen delbar lenke. Å åpne en tur fra historikken endrer ikke økten.
 
-FR-8: Passer ingen topptur varigheten, vises en utsiktstur og en melding om at toppturer krever mer tid (passer heller ingen utsiktstur, gjelder ingen treff). Passer bare turer over nivåtaket, vises en melding og ingen tur, med egne budskap for gjest, bruker uten historikk og bruker med historikk. Meldingene lover ikke lengre eller hardere turer (SM-C1). Ingen treff i det hele tatt gir konkrete endringsforslag: lengre varighet, annet startpunkt eller annen turtype.
+FR-8: Passer ingen topptur søket (tid, startpunkt eller nivåtak), vises en utsiktstur og en melding om at ingen topptur passer søket (passer heller ingen utsiktstur, gjelder ingen treff). Passer bare turer over nivåtaket, vises en melding og ingen tur, med egne budskap for gjest, bruker uten historikk og bruker med historikk. Meldingene lover ikke lengre eller hardere turer (SM-C1). Ingen treff i det hele tatt gir konkrete endringsforslag: lengre varighet, annet startpunkt eller annen turtype.
 
 FR-9 (P2): Bekledningstips lages med faste regler fra MET-varselet for startpunktet kl. 10–16 på valgt dato, for turforslag fra historikken for i dag. Nedbør ≥ 0,5 mm: «Fare for nedbør – husk regntøy». Laveste temperatur under 5 °C: «Kaldt – ta med lue, votter og et varmt mellomlag». Laveste temperatur 5–15 °C: «Ta med et ekstra lag». Høyeste temperatur over 20 °C: «Varmt – ta med drikke og solbeskyttelse». Vind ≥ 8 m/s: «Mye vind – ta med vindtett jakke». Alltid: «Gode sko og litt mat og drikke». Flere tips kan vises samtidig.
 
@@ -617,7 +617,7 @@ slik at jeg raskt kan bestemme meg.
 
 **Gitt** Søk-skjermen
 **Når** den vises første gang
-**Så** har den `h1` «Hvor lang tid har du?», ingressen og feltene i rekkefølgen fra `DESIGN.md`: Varighet (`<select>` med «Velg» og 1–8 t i halvtimessteg), Dato (`<select>` med de 31 aktuelle dagene, i dag forvalgt), Turtype (Turtypekort, «Alle turtyper» forvalgt) og Startpunkt («Alle startpunkt» og startpunktene fra modellen `Startpunkt`, med hjelpeteksten om Oslo-området) (FR-4, UX-DR6, UX-DR7, UX-DR10)
+**Så** har den `h1` «Hvor lang tid har du?», ingressen og feltene i rekkefølgen fra `DESIGN.md`: Varighet (`<select>` med «Velg» og 1–12 t i halvtimessteg), Dato (`<select>` med de 31 aktuelle dagene, i dag forvalgt), Turtype (Turtypekort, «Alle turtyper» forvalgt) og Startpunkt («Alle startpunkt» og startpunktene fra modellen `Startpunkt`, med hjelpeteksten om Oslo-området) (FR-4, UX-DR6, UX-DR7, UX-DR10)
 **Og** det finnes ikke noe fritekstfelt (det kommer i story 4.6 og vises fra story 4.7)
 
 **Gitt** et søk uten varighet
@@ -757,12 +757,12 @@ slik at jeg ikke står fast.
 
 **Gitt** status `TOPPTUR_ERSTATTET`
 **Når** forslaget vises
-**Så** vises en utsiktstur med merket «Utsikt i stedet for topptur» og Melding (advarsel) «Toppturer krever mer tid enn du har oppgitt» rett etter turnavnet (FR-8, UX-DR17)
+**Så** vises en utsiktstur med merket «Utsikt i stedet for topptur» og Melding (advarsel) «Ingen topptur passer søket ditt» rett etter turnavnet (FR-8, UX-DR17)
 
 **Gitt** status `INGEN_TREFF`
 **Når** forslaget vises
 **Så** vises Tilstandspanel med `h1` «Jeg fant ingen tur som passer søket ditt», «Prøv å endre søket:» og konkrete endringsforslag for lengre varighet, et annet startpunkt og en annen turtype (FR-8, UX-DR22)
-**Og** forslagene lages av `domene.utvalg.foresla_endringer(sok, turer, nivatak, tidligere_treff=())`. Den gir høyst tre forslag i fast rekkefølge, med de andre valgene uendret, og tar bare med et forslag når `velg_turer` gir status `TREFF` for det endrede søket: (1) Varighet: den korteste varigheten i lista (halvtimessteg) som er lengre enn søket og gir treff, for eksempel «Prøv 3 timer» eller «Prøv 2,5 timer». Ved 8 t blir det ikke noe forslag. (2) Startpunkt: bare når et startpunkt er valgt, og minst ett annet startpunkt eller «Alle startpunkt» gir treff: «Velg startpunkt». (3) Turtype: bare når en turtype er valgt. Første turtype i rekkefølgen marka, utsikt, topptur som ikke er valgt og gir treff («Prøv marka»), ellers «Prøv alle turtyper» hvis det gir treff
+**Og** forslagene lages av `domene.utvalg.foresla_endringer(sok, turer, nivatak, tidligere_treff=())`. Den gir høyst tre forslag i fast rekkefølge, med de andre valgene uendret, og tar bare med et forslag når `velg_turer` gir status `TREFF` for det endrede søket: (1) Varighet: den korteste varigheten i lista (halvtimessteg) som er lengre enn søket og gir treff, for eksempel «Prøv 3 timer» eller «Prøv 2,5 timer». Ved 12 t blir det ikke noe forslag. (2) Startpunkt: bare når et startpunkt er valgt, og minst ett annet startpunkt eller «Alle startpunkt» gir treff: «Velg startpunkt». (3) Turtype: bare når en turtype er valgt. Første turtype i rekkefølgen marka, utsikt, topptur som ikke er valgt og gir treff («Prøv marka»), ellers «Prøv alle turtyper» hvis det gir treff
 **Og** ved «alle vist» (story 1.11) får funksjonen treffene i søket som `tidligere_treff`, og et forslag tas bare med når det gir minst én tur som ikke er blant dem
 **Og** gir ingen endring treff, viser panelet bare «Endre søk» (og «Start fra første forslag igjen» ved «alle vist»)
 **Og** varigheten formateres i `domene/` (hele timer som «3 timer», halvtimer som «2,5 timer»). «Prøv 2,5 timer» og «Prøv alle turtyper» er [ASSUMPTION] i Mikrotekst
@@ -784,7 +784,7 @@ slik at jeg ikke står fast.
 
 **Gitt** testene i `tests/web/`
 **Når** de kjøres
-**Så** dekker de hver status og endringsforslagene, også halvtimer, 8 t, «alle vist» med `tidligere_treff` og tilfellet uten forslag (SM-2)
+**Så** dekker de hver status og endringsforslagene, også halvtimer, 12 t, «alle vist» med `tidligere_treff` og tilfellet uten forslag (SM-2)
 
 ## Epic 2: Ola lager konto og registrerer turene sine
 
