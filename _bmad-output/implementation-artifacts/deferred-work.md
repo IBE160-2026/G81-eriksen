@@ -40,3 +40,6 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-1-10-ola-ser-ruten-pa-kart-og-i-tekst.md`
   summary: Oppførselen i `kart.js` (berøring, flisfeil, kontrollene og «Prøv igjen») testes bare som tekst og i manuelle sjekker i Chrome.
   evidence: Repoet har med vilje ingen JS-kjøring (ingen package.json). En regresjon, for eksempel ombyttet enable/disable eller et nytt navn på `data-kart-handling`, ville gått gjennom testene. Vurder en liten DOM-test med Leaflet, eller en fast manuell sjekkliste per PR. Medium hvis det stemmer.
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-11-ola-kan-be-om-nytt-forslag.md`
+  summary: Fragmentbyttet i forbedring.js («Nytt forslag») og «Kart lastes …» i kart.js testes bare som kildetekst; ingen kjøretest av bytte, tittel, fokus og reserveinnsending.
+  evidence: Gjennomgang 1.11 (VG, BH): sletting av importNode eller invertering av svar.ok lar alle testene passere. Repoet har ingen JS-runner; Chrome-sjekken er verifiseringen inntil videre (vurder Playwright i 6.6).
