@@ -50,7 +50,7 @@
 - [ ] 2026-11-22 [story-1-1](985-2026-11-22-19-56-19-story-1-1.md) — med `DEBUG=True` lokalt viser Django engelske feilsider; avklar om README skal forklare det for sensor
 - [x] 2026-11-22 [story-1-2](984-2026-11-22-21-00-56-story-1-2.md) — sett Story 1.2 til `done` når PR #25 er merget, og sjekk produksjonen etter bygging av `main`; neste er Story 1.3 (løst 2026-11-23)
 - [ ] 2026-11-22 [story-1-2](984-2026-11-22-21-00-56-story-1-2.md) — legg inn `ANTHROPIC_API_KEY` hos Vercel (bare produksjon) når nøkkelen finnes
-- [ ] 2026-11-22 [story-1-2](984-2026-11-22-21-00-56-story-1-2.md) — Neon-grener for forhåndsvisninger blir liggende til forhåndsvisningene slettes (opptil ca. 6 mnd); rydd opp eller kort ned hvor lenge de beholdes hvis gratisplanen blir full
+- [x] 2026-11-22 [story-1-2](984-2026-11-22-21-00-56-story-1-2.md) — Neon-grener for forhåndsvisninger blir liggende til forhåndsvisningene slettes (opptil ca. 6 mnd); rydd opp eller kort ned hvor lenge de beholdes hvis gratisplanen blir full (løst 2026-11-26 — grensen på 10 grener ble nådd; 9 preview-grener slettet, se [story-1-9](975-2026-11-26-10-47-55-story-1-9.md))
 - [x] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — sett Story 1.3 til `done` når PR #26 er merget; neste er Story 1.4 (løst 2026-11-23)
 - [x] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — sjekk på forhåndsvisningen at `/static/css/tokens.css` og `forbedring.js` gir 200, og les `Cache-Control` (ingen cache-busting) (løst 2026-11-23 — 200 og `max-age=0, must-revalidate`)
 - [ ] 2026-11-23 [story-1-3](983-2026-11-23-12-49-35-story-1-3.md) — manuelle UU-sjekker: reduced-motion i DevTools, og 320 px og 200 % tekstzoom i et ekte vindu
@@ -83,3 +83,4 @@
 - [ ] 2026-11-26 [psycopg-smart-app-control](976-2026-11-26-09-36-49-psycopg-smart-app-control.md) — neste er `bmad-build` for Story 1.9 (Ola søker og får ett turforslag) på en ny branch fra `main`
 - [ ] 2026-11-26 [story-1-9](975-2026-11-26-10-47-55-story-1-9.md) — merge PR #34, sett Story 1.9 til `done` og sjekk produksjonen; neste er Story 1.10 (kartet)
 - [ ] 2026-11-26 [story-1-9](975-2026-11-26-10-47-55-story-1-9.md) — produkteier godkjenner de foreløpige tekstene merket [ASSUMPTION] fra 1.9 (listet i PR #34)
+- [ ] 2026-11-26 [story-1-9](975-2026-11-26-10-47-55-story-1-9.md) — rydd Neon-preview-grenen etter hver merge (Neon › Branches › «Clean up branches», eller slett gamle forhåndsvisninger i Vercel); Neon Free tillater bare 10 grener
