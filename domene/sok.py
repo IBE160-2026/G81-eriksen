@@ -14,6 +14,9 @@ MIN_VARIGHET_MIN = 60
 MAKS_VARIGHET_MIN = 720
 VARIGHET_STEG_MIN = 30
 
+# Søket kan gjelde fra i dag til og med så mange dager frem (FR-4): 31 datoer.
+DATO_DAGER_FREM = 30
+
 
 @dataclass(frozen=True)
 class Sok:  # FR-5

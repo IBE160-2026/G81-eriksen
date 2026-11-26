@@ -155,6 +155,7 @@ Har en rad flere tekster med ulik kilde, står kilden per tekst.
 | Feilside 500 | Overskrift «Noe gikk galt», tekst «Noe gikk galt hos meg. Prøv igjen om litt.» og lenken «Gå til Søk» | [ASSUMPTION]. Beslutning i story 1.1 (2026-11-22) |
 | Feil i søket | «Velg varighet» | Godkjent (mock) |
 | Feil i søket, andre felt | «Velg en dato fra i dag til {dato om 30 dager}», «Ønsket kan ha høyst 200 tegn. Nå har det {n}.» | [ASSUMPTION] |
+| Feil i søket, manipulert turtype/startpunkt | «Velg en turtype fra listen», «Velg et startpunkt fra listen» | [ASSUMPTION]. Beslutning 2026-11-26 (story 1.9) |
 | Krav om konto | «Logg inn for å registrere», «Turforslaget er tatt vare på.», lenken «Tilbake til turforslaget» | [ASSUMPTION] |
 | Knapper i Logg inn / Lag konto | «Logg inn», «Lag konto og fortsett» | «Logg inn»: Godkjent (memlog). «Lag konto og fortsett»: [ASSUMPTION] |
 | Passordhjelp | «Minst 8 tegn», bryter «Vis passord» | «Minst 8 tegn»: Godkjent (wireframe). «Vis passord»: [ASSUMPTION] |

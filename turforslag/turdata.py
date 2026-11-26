@@ -106,3 +106,24 @@ def tur_fra_modell(modell: Tur) -> domenetur.Tur:  # AD-3 punkt 5, AR-6
         lisens=modell.lisens,
         geometry=tuple(tuple(punkt) for punkt in modell.geometry),
     )
+
+
+def alle_turer() -> tuple[domenetur.Tur, ...]:  # FR-5, AD-3 punkt 5
+    """Alle turene i databasen som dataklasser, sortert på ID."""
+    return tuple(tur_fra_modell(modell) for modell in Tur.objects.select_related("startpunkt"))
+
+
+def hent_tur(tur_id: str) -> domenetur.Tur | None:  # FR-7
+    """Turen med ID-en, eller `None` hvis den ikke finnes."""
+    modell = Tur.objects.select_related("startpunkt").filter(id=tur_id).first()
+    return tur_fra_modell(modell) if modell else None
+
+
+def startpunkter_med_turer() -> tuple[tuple[str, str], ...]:  # FR-4
+    """(id, navn) for startpunktene som har minst én tur, usortert.
+
+    `lastinn` sletter aldri, så startpunkter uten turer kan finnes i tabellen.
+    """
+    return tuple(
+        Startpunkt.objects.filter(turer__isnull=False).distinct().values_list("id", "navn")
+    )
