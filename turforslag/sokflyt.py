@@ -5,13 +5,23 @@ hentes turene fra databasen, og så gjør `domene/` utvalget, begrunnelsen og fo
 """
 
 from collections.abc import Callable
+from dataclasses import replace
 
 from domene import tekst
 from domene.begrunnelse import reservebegrunnelse
 from domene.okt import Soketilstand, alle_vist, neste_forslag, ny_soketilstand, start_pa_nytt
 from domene.sok import Sok
 from domene.tur import Tur
-from domene.utvalg import NIVATAK_UTEN_HISTORIKK, Status, innenfor_tid_og_nivatak, velg_turer
+from domene.utvalg import (
+    FELT_TURTYPE,
+    FELT_VARIGHET,
+    NIVATAK_UTEN_HISTORIKK,
+    Endringsforslag,
+    Status,
+    foresla_endringer,
+    innenfor_tid_og_nivatak,
+    velg_turer,
+)
 from turforslag import turdata
 
 
@@ -24,6 +34,37 @@ def utfor_sok(sok: Sok) -> Soketilstand:  # FR-5, FR-8, FR-18
     """Velger og rangerer turene for en gjest (grønt nivåtak) og fryser rangeringen."""
     utvalg = velg_turer(sok, turdata.alle_turer(), NIVATAK_UTEN_HISTORIKK)
     return ny_soketilstand(sok, utvalg)
+
+
+def _endringsforslag(tilstand: Soketilstand) -> tuple[Endringsforslag, ...]:  # FR-8, UX-DR17
+    """Endringsforslagene for «ingen treff» og «alle vist». Ved «alle vist» er treffene i
+    søket `tidligere_treff`, så bare endringer som gir en ny tur tas med."""
+    vist = alle_vist(tilstand)
+    if tilstand.status != Status.INGEN_TREFF and not vist:
+        return ()
+    return foresla_endringer(
+        tilstand.sok,
+        turdata.alle_turer(),
+        NIVATAK_UTEN_HISTORIKK,
+        tilstand.rangerte_tur_ider if vist else (),
+    )
+
+
+def endre_sok(tilstand: Soketilstand, felt: str, verdi: str) -> Soketilstand | None:  # FR-8
+    """Kjører søket på nytt med én endring. Feltet og verdien må være et av forslagene som
+    gjelder tilstanden akkurat nå, ellers gis `None`. «Velg startpunkt» er en lenke og kan
+    ikke kjøres her."""
+    for forslag in _endringsforslag(tilstand):
+        if forslag.er_lenke or (forslag.felt, forslag.verdi) != (felt, verdi):
+            continue
+        if felt == FELT_VARIGHET:
+            sok = replace(tilstand.sok, varighet_min=int(verdi))
+        elif felt == FELT_TURTYPE:
+            sok = replace(tilstand.sok, turtype=verdi or None)
+        else:  # pragma: no cover - bare startpunkt, som er en lenke
+            continue
+        return utfor_sok(sok)
+    return None
 
 
 def _passer(tur: Tur, sok: Sok) -> bool:  # SM-C1
@@ -73,7 +114,12 @@ def forslagsvisning(tilstand: Soketilstand) -> tekst.Forslagsvisning | None:  # 
     if tilstand.sok.startpunkt_id is not None:
         startpunkt_navn = dict(turdata.startpunkter_med_turer()).get(tilstand.sok.startpunkt_id)
     if tilstand.status in (Status.INGEN_TREFF, Status.BARE_OVER_NIVATAK):  # FR-8
-        return tekst.forslagsvisning(tilstand, None, startpunkt_navn=startpunkt_navn)
+        return tekst.forslagsvisning(
+            tilstand,
+            None,
+            startpunkt_navn=startpunkt_navn,
+            endringsforslag=_endringsforslag(tilstand),
+        )
     if tilstand.gjeldende_tur_id is None:
         if not alle_vist(tilstand):
             return None
@@ -83,7 +129,13 @@ def forslagsvisning(tilstand: Soketilstand) -> tekst.Forslagsvisning | None:  # 
         antall = sum(1 for tur_id in tilstand.rangerte_tur_ider if gyldig(tur_id))
         if antall == 0:
             return None
-        return tekst.forslagsvisning(tilstand, None, startpunkt_navn=startpunkt_navn, antall=antall)
+        return tekst.forslagsvisning(
+            tilstand,
+            None,
+            startpunkt_navn=startpunkt_navn,
+            antall=antall,
+            endringsforslag=_endringsforslag(tilstand),
+        )
     tur = turdata.hent_tur(tilstand.gjeldende_tur_id)
     if tur is None or not _passer(tur, tilstand.sok):
         return None

@@ -35,7 +35,7 @@ def sok(request):  # FR-4, FR-5
     else:
         sok_id = request.GET.get("sok")
         tidligere = okt.hent_sok(request, sok_id) if sok_id else None
-        skjema = SokForm(i_dag, startpunkter, tilstand=tidligere)
+        skjema = SokForm(i_dag, startpunkter, tilstand=tidligere, fokus=request.GET.get("fokus"))
         meldinger = [melding.message for melding in messages.get_messages(request)]
         utilgjengelig = FORSLAG_UTILGJENGELIG in meldinger
     return render(
@@ -69,6 +69,22 @@ def nytt_forslag(request, sok_id):  # FR-7, NFR-2
 def forfra(request, sok_id):  # FR-7
     """«Start fra første forslag igjen» ved «alle vist». Ellers endres ingenting."""
     return _handling(request, sok_id, sokflyt.forfra)
+
+
+@require_POST
+def endre(request, sok_id):  # FR-8, NFR-2
+    """Et endringsforslag fra Tilstandspanelet: søket kjøres på nytt med én endring og får en
+    ny søke-ID. Ukjent søke-ID, felt eller verdi gir Søk. Svaret er alltid en redirect."""
+    tilstand = okt.hent_sok(request, sok_id)
+    if tilstand is None:
+        return _utilgjengelig(request)
+    felt, verdi = request.POST.get("felt"), request.POST.get("verdi")
+    ny = (
+        sokflyt.endre_sok(tilstand, felt, verdi) if felt is not None and verdi is not None else None
+    )
+    if ny is None:
+        return _utilgjengelig(request)
+    return redirect("turforslag:forslag", sok_id=okt.lagre_sok(request, ny))
 
 
 def _handling(request, sok_id, endring):  # FR-7, AD-5, PRG

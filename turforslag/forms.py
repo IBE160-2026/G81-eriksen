@@ -19,6 +19,9 @@ FEIL_STARTPUNKT = "Velg et startpunkt fra listen"  # [ASSUMPTION] Mikrotekst
 
 FELTREKKEFOLGE = ("varighet", "dato", "turtype", "startpunkt")
 
+# Felt som kan få fokus via `?fokus=` (FR-8: «Velg startpunkt»). Andre verdier ignoreres.
+FOKUSFELT = ("startpunkt",)
+
 
 class SokForm(forms.Form):  # FR-4
     """Varighet, Dato, Turtype og Startpunkt. Tom turtype og tomt startpunkt betyr «alle»."""
@@ -34,10 +37,12 @@ class SokForm(forms.Form):  # FR-4
         startpunkter,
         *args,
         tilstand: Soketilstand | None = None,
+        fokus: str | None = None,
         **kwargs,
     ):
         super().__init__(*args, **kwargs)
         self.i_dag = i_dag
+        self.fokus = fokus if fokus in FOKUSFELT else None
         datoer = tekst.datovalg(i_dag)
         startpunkt_ider = {startpunkt_id for startpunkt_id, _ in startpunkter}
 
@@ -96,9 +101,9 @@ class SokForm(forms.Form):  # FR-4
         return self._valg("startpunkt")
 
     @property
-    def forste_feil(self) -> str | None:  # FR-4: fokus til første felt med feil
+    def forste_feil(self) -> str | None:  # FR-4: fokus til første felt med feil, eller `?fokus=`
         if not self.is_bound:
-            return None
+            return self.fokus
         return next((navn for navn in FELTREKKEFOLGE if navn in self.errors), None)
 
     def til_sok(self) -> Sok:  # FR-5

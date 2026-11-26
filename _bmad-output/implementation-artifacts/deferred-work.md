@@ -43,3 +43,10 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-1-11-ola-kan-be-om-nytt-forslag.md`
   summary: Fragmentbyttet i forbedring.js («Nytt forslag») og «Kart lastes …» i kart.js testes bare som kildetekst; ingen kjøretest av bytte, tittel, fokus og reserveinnsending.
   evidence: Gjennomgang 1.11 (VG, BH): sletting av importNode eller invertering av svar.ok lar alle testene passere. Repoet har ingen JS-runner; Chrome-sjekken er verifiseringen inntil videre (vurder Playwright i 6.6).
+
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-12-ola-far-hjelp-nar-ingen-tur-passer.md`
+  summary: Endringsforslag gjenbruker `dato` fra det lagrede søket uten å sjekke mot dagens dato.
+  evidence: En fane som står åpen over midnatt kan gi et søk med dato i fortiden; ikke verifisert om `Sok` avviser det.
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-12-ola-far-hjelp-nar-ingen-tur-passer.md`
+  summary: `foresla_endringer` kjører `velg_turer` opptil ~25 ganger per visning av Tilstandspanelet.
+  evidence: Ikke et problem med 15 turer; kan måles og caches om turdatabasen vokser.

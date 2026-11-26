@@ -1,6 +1,8 @@
 {% comment %}
 Tilstandspanel (UX-DR19, FR-7, FR-8): erstatter turinnholdet, med h1 og alltid «Endre søk».
-Beslutning 2026-11-26 (1A): 1.9 viser bare «Endre søk». Endringsforslagene kommer i 1.12.
+Endringsforslag (1.12, FR-8): høyst tre, bare når de gir treff. De er knapper i små POST-skjema
+med CSRF uten fragmentbytte (full sideinnlasting), unntatt «Velg startpunkt», som er en lenke til
+det forhåndsutfylte søket med fokus på Startpunkt. «Endre søk» står alltid med, én gang.
 «Alle vist» (1.11) har ingressen med antallet og «Start fra første forslag igjen», et vanlig
 POST-skjema med CSRF uten fragmentbytte. Panelet har ikke kart.js.
 Rotelementet har data-tittel, så forbedring.js kan sette document.title etter et fragmentbytte.
@@ -12,8 +14,9 @@ Søkeoppsummeringen står over panelet uten egen lenke, så «Endre søk» bare 
   <section class="tilstandspanel">
     <div class="tilstandspanel-forklaring">
       {% if visning.ingen_treff %}
-        {# [ASSUMPTION] Mikrotekst («Ingen treff»). «Prøv å endre søket:» kommer med endringsforslagene i 1.12. #}
+        {# [ASSUMPTION] Mikrotekst («Ingen treff») #}
         <h1 class="headline-lg" tabindex="-1">Jeg fant ingen tur som passer søket ditt</h1>
+        {% if visning.endringsforslag %}<p>Prøv å endre søket:</p>{% endif %}
       {% elif visning.alle_vist %}
         {# FR-7, Mikrotekst («Alle forslag er vist»). Ingressen lages i domene/tekst.py. #}
         <h1 class="headline-lg" tabindex="-1">Du har sett alle turene som passer søket</h1>
@@ -26,6 +29,21 @@ Søkeoppsummeringen står over panelet uten egen lenke, så «Endre søk» bare 
       {% endif %}
     </div>
     <ul class="tilstandspanel-valg">
+      {% for forslag in visning.endringsforslag %}
+        <li>
+          {% if forslag.er_lenke %}
+            <a class="handlingslenke" href="{{ sok_url }}?sok={{ sok_id|urlencode }}&amp;fokus=startpunkt">{{ forslag.etikett }}</a>
+          {% else %}
+            {# [ASSUMPTION] Mikrotekst («Endringsforslag, halvtimer og alle turtyper») for «Prøv 2,5 timer» og «Prøv alle turtyper» #}
+            <form method="post" action="{% url 'turforslag:endre' sok_id=sok_id %}">
+              {% csrf_token %}
+              <input type="hidden" name="felt" value="{{ forslag.felt }}">
+              <input type="hidden" name="verdi" value="{{ forslag.verdi }}">
+              <button class="handlingslenke" type="submit">{{ forslag.etikett }}</button>
+            </form>
+          {% endif %}
+        </li>
+      {% endfor %}
       {% if visning.alle_vist %}
         <li>
           <form method="post" action="{% url 'turforslag:forfra' sok_id=sok_id %}">

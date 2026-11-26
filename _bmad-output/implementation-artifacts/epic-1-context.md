@@ -4,7 +4,7 @@
 
 ## Goal
 
-En gjest åpner den publiserte siden, velger varighet og dato og får ett turforslag i Oslo og Bærum med kart, nivå, estimert tid og en begrunnelse fra mal. Gjesten kan be om nytt forslag og får konkret hjelp når ingenting passer. Story 1.1–1.10 er levert: appen kjører lokalt og på Vercel, basismal og designtokens, gradering og tid, byggeskriptet, `lastinn`, 15 kontrollerte turer, utvalget og rangeringen (`Sok`, `velg_turer`), Søk med søketilstand i økten og forslagssiden `/forslag/<sok_id>/`, og ruten på kart med «Kartet i tekst». Story 6.5 er også levert: kartfargene er målt mot ekte fliser. Neste steg er 1.11 («Nytt forslag» og «alle vist»), og deretter 1.12 (endringsforslagene og statusene uten treff). Alle senere epics bygger på denne kjerneflyten.
+En gjest åpner den publiserte siden, velger varighet og dato og får ett turforslag i Oslo og Bærum med kart, nivå, estimert tid og en begrunnelse fra mal. Gjesten kan be om nytt forslag og får konkret hjelp når ingenting passer. Story 1.1–1.11 er levert: appen kjører lokalt og på Vercel, basismal og designtokens, gradering og tid, byggeskriptet, `lastinn`, 15 kontrollerte turer, utvalget og rangeringen (`Sok`, `velg_turer`), Søk med søketilstand i økten, forslagssiden `/forslag/<sok_id>/`, ruten på kart med «Kartet i tekst» og «Nytt forslag» med «alle vist» og «Start fra første forslag igjen». Story 6.5 er også levert: kartfargene er målt mot ekte fliser. Neste steg er 1.12 (endringsforslagene og statusene uten treff). Alle senere epics bygger på denne kjerneflyten.
 
 ## Stories
 
@@ -23,7 +23,7 @@ En gjest åpner den publiserte siden, velger varighet og dato og får ett turfor
 
 ## Requirements & Constraints
 
-- **Nytt forslag (1.11):**
+- **Nytt forslag (1.11, levert, reglene gjelder fortsatt):**
   - «Nytt forslag» (POST med CSRF og PRG) viser neste tur i den frosne rangeringen og aldri en tur som alt er vist i dette søket.
   - Når alle treff er vist, kommer Tilstandspanel med `h1` «Du har sett alle turene som passer søket», antallet turer, «Start fra første forslag igjen» og «Endre søk». Endringsforslagene i panelet kommer i 1.12.
   - «Start fra første forslag igjen» viser første tur og starter listen over viste turer på nytt.
@@ -82,7 +82,7 @@ En gjest åpner den publiserte siden, velger varighet og dato og får ett turfor
 
 ## UX & Interaction Patterns
 
-- **Mikrotekst:** all brukertekst kommer ordrett fra Mikrotekst i `EXPERIENCE.md`, og den gjelder over mockups. [ASSUMPTION]-tekster markeres med `{# [ASSUMPTION] Mikrotekst #}` i malen og i PR-en. Tekster for 1.11:
+- **Mikrotekst:** all brukertekst kommer ordrett fra Mikrotekst i `EXPERIENCE.md`, og den gjelder over mockups. [ASSUMPTION]-tekster markeres med `{# [ASSUMPTION] Mikrotekst #}` i malen og i PR-en. Tekster fra 1.11 (alt i bruk):
   - Knappene «Nytt forslag» (primær) og «Registrer gjennomført tur» (sekundær, Epic 2). De fyller hele bredden på mobil.
   - Lastetekstene «Finner et nytt forslag …» [ASSUMPTION], «Finner en tur med utsikt som passer 2 timer …» [ASSUMPTION] og «Kart lastes …».
   - Overskriften «Du har sett alle turene som passer søket».
@@ -118,9 +118,9 @@ En gjest åpner den publiserte siden, velger varighet og dato og får ett turfor
 
 ## Cross-Story Dependencies
 
-- **Byggerekkefølge:** 1.11 → 1.12.
-- **1.11** bygger på `forslag.html`, `sokflyt.py`, `okt.py` og `Soketilstand` fra 1.9 og på `kart.js` (`window.YNAKart.start`) fra 1.10.
-- **1.12** bygger ut Tilstandspanelet fra 1.11 og kaller `foresla_endringer(sok, turer, nivatak, tidligere_treff=())` (bygger på `velg_turer`). Ved «alle vist» får funksjonen treffene i søket som `tidligere_treff`.
+- **Byggerekkefølge:** 1.11 (levert) → 1.12.
+- **1.11** bygde på `forslag.html`, `sokflyt.py`, `okt.py` og `Soketilstand` fra 1.9 og på `kart.js` (`window.YNAKart.start`) fra 1.10.
+- **1.12** bygger ut Tilstandspanelet fra 1.11 (det finnes allerede for «alle vist») og kaller `foresla_endringer(sok, turer, nivatak, tidligere_treff=())` (bygger på `velg_turer`). Ved «alle vist» får funksjonen treffene i søket som `tidligere_treff`.
 - **Senere:**
   - «Registrer gjennomført tur» og «Lag konto» kommer i Epic 2. Der beholder `login()` gjestens økt og forslag.
   - Nivåtak for innloggede, nivåheving og gåtte turer kommer i Epic 3.

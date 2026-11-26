@@ -12,8 +12,10 @@ from domene.sok import MAKS_VARIGHET_MIN, MIN_VARIGHET_MIN, VARIGHET_STEG_MIN, S
 from domene.tur import NIVAREKKEFOLGE, TURTYPER, Form, Tur, Turniva
 from domene.utvalg import (
     NIVATAK_UTEN_HISTORIKK,
+    Endringsforslag,
     Status,
     Utvalg,
+    foresla_endringer,
     innenfor_tid_og_nivatak,
     velg_turer,
 )
@@ -395,3 +397,99 @@ class InnenforTidOgNivatakTest(unittest.TestCase):
     def test_turtype_og_startpunkt_sjekkes_ikke(self):  # FR-8
         tur = lag_tur(turtyper=("utsikt",))
         self.assertTrue(innenfor_tid_og_nivatak(tur, sok(180, turtype="topptur"), GRONN))
+
+
+class ForeslaEndringerTest(unittest.TestCase):
+    """`foresla_endringer` (FR-8, UX-DR17, UX-DR22): høyst tre forslag i fast rekkefølge."""
+
+    def forslag(self, turer, sok_, tidligere=()):
+        return foresla_endringer(sok_, turer, NIVATAK_UTEN_HISTORIKK, tidligere)
+
+    def test_lengre_varighet(self):
+        turer = [lag_tur(id="a", estimert_tid_min=170)]
+        self.assertEqual(
+            self.forslag(turer, sok(120)), (Endringsforslag("varighet", "180", "Prøv 3 timer"),)
+        )
+
+    def test_halvtime(self):
+        turer = [lag_tur(id="a", estimert_tid_min=150)]
+        self.assertEqual(
+            self.forslag(turer, sok(120)), (Endringsforslag("varighet", "150", "Prøv 2,5 timer"),)
+        )
+
+    def test_ingen_varighetsforslag_ved_12_timer(self):
+        turer = [lag_tur(id="a", turtyper=("utsikt",))]
+        self.assertEqual(
+            self.forslag(turer, sok(MAKS_VARIGHET_MIN, turtype="marka"))[0].felt, "turtype"
+        )
+        self.assertNotIn(
+            "varighet",
+            [f.felt for f in self.forslag(turer, sok(MAKS_VARIGHET_MIN, turtype="marka"))],
+        )
+
+    def test_ingen_varighetsforslag_naar_ingen_lengre_varighet_gir_treff(self):
+        turer = [lag_tur(id="a", turtyper=("utsikt",), estimert_tid_min=60)]
+        forslag = self.forslag(turer, sok(60, turtype="marka"))
+        self.assertEqual([f.felt for f in forslag], ["turtype"])
+
+    def test_startpunkt_bare_naar_valgt_og_annet_gir_treff(self):
+        turer = [lag_tur(id="a", startpunkt_id="x")]
+        forslag = self.forslag(turer, sok(180, startpunkt_id="z"))
+        self.assertEqual([f.etikett for f in forslag], ["Velg startpunkt"])
+        self.assertNotIn("startpunkt", [f.felt for f in self.forslag(turer, sok(180))])
+        self.assertEqual(self.forslag([], sok(180, startpunkt_id="z")), ())
+
+    def test_turtype_foerste_i_rekkefolgen(self):
+        turer = [lag_tur(id="a", turtyper=("topptur",)), lag_tur(id="b", turtyper=("utsikt",))]
+        forslag = self.forslag(turer, sok(180, turtype="marka"))
+        self.assertEqual(forslag, (Endringsforslag("turtype", "utsikt", "Prøv utsikt"),))
+        turer = [lag_tur(id="a", turtyper=("marka",))]
+        forslag = self.forslag(turer, sok(180, turtype="topptur"))
+        self.assertEqual(forslag, (Endringsforslag("turtype", "marka", "Prøv marka"),))
+
+    def test_alle_turtyper_som_reserve(self):  # FR-8
+        # Turen har ingen turtype, så bare søk uten turtype gir treff.
+        turer = [lag_tur(id="a", turtyper=())]
+        self.assertEqual(
+            self.forslag(turer, sok(180, turtype="marka")),
+            (Endringsforslag("turtype", "", "Prøv alle turtyper"),),
+        )
+
+    def test_ingen_forslag_naar_alle_turtyper_heller_ikke_gir_treff(self):
+        turer = [lag_tur(id="a", turniva=BLA)]
+        self.assertEqual(self.forslag(turer, sok(180, turtype="marka")), ())
+
+    def test_nivaet_over_taket_gir_ikke_forslag(self):
+        turer = [lag_tur(id="a", turniva=BLA)]
+        self.assertEqual(self.forslag(turer, sok(180, turtype="marka", startpunkt_id="x")), ())
+
+    def test_tre_forslag_i_fast_rekkefolge(self):
+        turer = [
+            lag_tur(id="a", startpunkt_id="x", turtyper=("utsikt",), estimert_tid_min=90),
+            lag_tur(id="b", startpunkt_id="y", turtyper=("utsikt",), estimert_tid_min=60),
+            lag_tur(id="c", startpunkt_id="x", turtyper=("marka",), estimert_tid_min=60),
+        ]
+        forslag = self.forslag(turer, sok(60, turtype="utsikt", startpunkt_id="x"))
+        self.assertEqual(
+            [(f.felt, f.verdi, f.etikett) for f in forslag],
+            [
+                ("varighet", "90", "Prøv 1,5 timer"),
+                ("startpunkt", "", "Velg startpunkt"),
+                ("turtype", "marka", "Prøv marka"),
+            ],
+        )
+
+    def test_alle_vist_krever_ny_tur(self):
+        turer = [lag_tur(id="a", estimert_tid_min=120), lag_tur(id="b", estimert_tid_min=150)]
+        sokt = sok(120)
+        self.assertEqual(
+            self.forslag(turer, sokt, ("a",)),
+            (Endringsforslag("varighet", "150", "Prøv 2,5 timer"),),
+        )
+        self.assertEqual(self.forslag(turer, sokt, ("a", "b")), ())
+
+    def test_velg_turer_er_uendret(self):
+        turer = [lag_tur(id="a")]
+        for_ = velg_turer(sok(180), turer, NIVATAK_UTEN_HISTORIKK)
+        self.forslag(turer, sok(60))
+        self.assertEqual(for_, velg_turer(sok(180), turer, NIVATAK_UTEN_HISTORIKK))

@@ -47,7 +47,7 @@ development_status:
   1-9-ola-søker-og-får-ett-turforslag: done
   1-10-ola-ser-ruten-på-kart-og-i-tekst: done
   1-11-ola-kan-be-om-nytt-forslag: done
-  1-12-ola-får-hjelp-når-ingen-tur-passer: backlog
+  1-12-ola-får-hjelp-når-ingen-tur-passer: review
   epic-1-retrospective: optional
 
   epic-2: backlog
