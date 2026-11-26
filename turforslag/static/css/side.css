@@ -750,8 +750,10 @@ main:has(> .forslag) {
   touch-action: pan-x pan-y;
 }
 
-/* Fokusring, kartvarianten: 3 px map-focus-ring med 3 px hvit ytre kant. Ringen tegnes
-   også på et lag over flisene, så Leaflets lag ikke dekker den. */
+/* Fokusring, kartvarianten: 3 px map-focus-ring med 3 px hvitt på begge sider (hvit ytre
+   kant 0–3 px, ring 3–6 px, hvitt indre bånd 6–9 px), så ringen aldri grenser mot flisene
+   (story 6.5, beslutning 5). Ringen tegnes også på et lag over flisene, så Leaflets lag ikke
+   dekker den. */
 .kart .kart-flate:focus-visible {
   outline: 3px solid var(--map-focus-ring);
   outline-offset: -6px;
@@ -763,6 +765,7 @@ main:has(> .forslag) {
   inset: 0;
   z-index: 1001;
   border: 3px solid var(--map-overlay-surface);
+  box-shadow: inset 0 0 0 6px var(--map-overlay-surface);
   outline: 3px solid var(--map-focus-ring);
   outline-offset: -6px;
   pointer-events: none;
