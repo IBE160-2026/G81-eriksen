@@ -9,10 +9,15 @@ med `tur` (Turvisning) i konteksten. EXPERIENCE.md › Kart – oppførsel, DESI
   lenke til samme side, med JS en knapp som laster flisene på nytt.
 - Kreditering renderes her på serveren og står alltid, også uten JS og når flisene feiler.
 - GeoJSON til kart.js kommer med json_script, så det finnes ingen inline-skript (AR-17).
+- «Kart lastes …» (1.11, beslutning 1A) er skjult (hidden). kart.js viser den og setter
+  aria-busy på kartflaten ved start, og skjuler den igjen ved første load (også når flisene
+  feiler, da tar meldingen over). Uten JS vises den aldri.
 {% endcomment %}
 <div class="kart no-js" data-kart data-kart-geojson="kart-geojson">
   <a class="kartlag kart-tekstlenke" href="#kartet-i-tekst">Kartet i tekst</a>
   <div class="kart-flate" tabindex="0" role="region" aria-label="{{ tur.kart_navn }}"></div>
+  {# Mikrotekst («Lasting»): «Kart lastes …». #}
+  <p class="kart-lastes" hidden>Kart lastes …</p>
   {# [ASSUMPTION] Mikrotekst («Kartfliser feiler») #}
   <div class="melding melding-info kart-melding" role="status">
     <svg class="melding-ikon" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false">

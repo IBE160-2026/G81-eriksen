@@ -39,6 +39,14 @@ def lagre_sok(request, tilstand: Soketilstand) -> str:  # AD-5, FR-7
     return sok_id
 
 
+def oppdater_sok(request, sok_id: str, tilstand: Soketilstand) -> None:  # AD-5, FR-7
+    """Skriver hele tilstanden på nytt under samme søke-ID. Søket blir det nyeste av de 10."""
+    sokene = _alle(request)
+    sokene.pop(sok_id, None)
+    sokene[sok_id] = tilstand.til_dict()
+    request.session[OKTNOKKEL] = nyeste_10(sokene)
+
+
 def hent_sok(request, sok_id: str) -> Soketilstand | None:  # AD-5, FR-7
     """Tilstanden for søke-ID-en, eller `None` når ID-en er ukjent eller verdien er ugyldig."""
     data = _alle(request).get(sok_id)

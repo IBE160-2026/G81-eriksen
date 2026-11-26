@@ -188,6 +188,101 @@ class ForslagsvisningTest(unittest.TestCase):
         self.assertEqual(visning.sokeoppsummering, "Torsdag 26. nov. · 2 t · Topptur")
 
 
+class AlleVistTest(unittest.TestCase):
+    """Tilstandspanel «alle vist» (FR-7, UX-DR19), Mikrotekst «Alle forslag er vist, ingress»."""
+
+    def test_eksempelet_fra_experience(self):  # FR-7
+        self.assertEqual(
+            tekst.alle_vist_ingress(4, "utsikt", 120, Status.TREFF),
+            "Det var fire turer med utsikt som passer 2 timer.",
+        )
+
+    def test_entall_og_uten_turtype(self):  # FR-7
+        self.assertEqual(
+            tekst.alle_vist_ingress(1, None, 60, Status.TREFF),
+            "Det var én tur som passer 1 time.",
+        )
+        self.assertEqual(
+            tekst.alle_vist_ingress(3, None, 150, Status.TREFF),
+            "Det var tre turer som passer 2,5 timer.",
+        )
+
+    def test_turtypene(self):  # FR-7
+        self.assertEqual(
+            tekst.alle_vist_ingress(2, "marka", 180, Status.TREFF),
+            "Det var to turer i marka som passer 3 timer.",
+        )
+        self.assertEqual(
+            tekst.alle_vist_ingress(2, "topptur", 180, Status.TREFF),
+            "Det var to toppturer som passer 3 timer.",
+        )
+
+    def test_entall_for_topptur_og_marka(self):  # FR-7
+        self.assertEqual(
+            tekst.alle_vist_ingress(1, "topptur", 180, Status.TREFF),
+            "Det var én topptur som passer 3 timer.",
+        )
+        self.assertEqual(
+            tekst.alle_vist_ingress(1, "marka", 180, Status.TREFF),
+            "Det var én tur i marka som passer 3 timer.",
+        )
+
+    def test_antall_kan_gis_til_forslagsvisning(self):  # FR-7, SM-C1
+        tilstand = Soketilstand(
+            Sok(180, I_DAG), Status.TREFF, ("a", "b", "c"), viste_tur_ider=("a", "b", "c")
+        )
+        visning = tekst.forslagsvisning(tilstand, None, antall=1)
+        self.assertEqual(visning.ingress_alle_vist, "Det var én tur som passer 3 timer.")
+
+    def test_topptur_erstattet_gir_utsikt(self):  # FR-7, FR-8
+        self.assertEqual(
+            tekst.alle_vist_ingress(2, "topptur", 180, Status.TOPPTUR_ERSTATTET),
+            "Det var to turer med utsikt som passer 3 timer.",
+        )
+
+    def test_tallord_1_til_12_og_siffer_fra_13(self):  # FR-7, UX-DR31
+        forventet = [
+            "én tur",
+            "to turer",
+            "tre turer",
+            "fire turer",
+            "fem turer",
+            "seks turer",
+            "sju turer",
+            "åtte turer",
+            "ni turer",
+            "ti turer",
+            "elleve turer",
+            "tolv turer",
+            "13 turer",
+            "15 turer",
+        ]
+        self.assertEqual([tekst.antall_turer(n) for n in [*range(1, 14), 15]], forventet)
+        with self.assertRaises(ValueError):
+            tekst.antall_turer(0)
+
+    def test_forslagsvisning_alle_vist(self):  # FR-7
+        tilstand = Soketilstand(
+            Sok(120, I_DAG, turtype="utsikt"),
+            Status.TREFF,
+            ("a", "b", "c", "d"),
+            viste_tur_ider=("a", "b", "c", "d"),
+        )
+        visning = tekst.forslagsvisning(tilstand, None)
+        self.assertIsNone(visning.tur)
+        self.assertTrue(visning.alle_vist)
+        self.assertFalse(visning.ingen_treff)
+        self.assertEqual(
+            visning.ingress_alle_vist, "Det var fire turer med utsikt som passer 2 timer."
+        )
+
+    def test_ikke_alle_vist_ved_ingen_treff(self):  # FR-7, FR-8
+        tilstand = Soketilstand(Sok(120, I_DAG), Status.INGEN_TREFF, ())
+        visning = tekst.forslagsvisning(tilstand, None)
+        self.assertFalse(visning.alle_vist)
+        self.assertEqual(visning.ingress_alle_vist, "")
+
+
 class LavesteOgHoyesteTest(unittest.TestCase):
     def test_avrundet_til_naermeste_10_m(self):  # FR-6, UX-DR15
         self.assertEqual(tekst.laveste_og_hoyeste(((0, 183.2), (500, 311.7))), (180, 310))

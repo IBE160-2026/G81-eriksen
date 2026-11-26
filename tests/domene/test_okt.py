@@ -1,11 +1,17 @@
-"""`domene.okt.Soketilstand`: søketilstanden i økten (AD-5, FR-7). Ingen database."""
+"""`domene.okt`: søketilstanden i økten og «Nytt forslag» (AD-5, FR-7). Ingen database."""
 
 import json
 import unittest
 from dataclasses import FrozenInstanceError
 from datetime import date
 
-from domene.okt import Soketilstand, ny_soketilstand
+from domene.okt import (
+    Soketilstand,
+    alle_vist,
+    neste_forslag,
+    ny_soketilstand,
+    start_pa_nytt,
+)
 from domene.sok import Sok
 from domene.utvalg import Status, Utvalg
 
@@ -111,3 +117,102 @@ class NySoketilstandTest(unittest.TestCase):
         ny = ny_soketilstand(SOK, Utvalg(Status.BARE_OVER_NIVATAK, ()))
         self.assertIsNone(ny.gjeldende_tur_id)
         self.assertEqual(ny.viste_tur_ider, ())
+
+
+def alle_gyldige(_tur_id: str) -> bool:
+    return True
+
+
+class NesteForslagTest(unittest.TestCase):
+    """Matrisen i spec 1.11 (FR-7, NFR-2): rene funksjoner, aldri ny rangering."""
+
+    def test_neste(self):  # FR-7
+        ny = neste_forslag(tilstand(), "a", alle_gyldige)
+        self.assertEqual(ny.gjeldende_tur_id, "b")
+        self.assertEqual(ny.viste_tur_ider, ("a", "b"))
+        self.assertEqual(ny.rangerte_tur_ider, ("a", "b", "c"))
+        self.assertFalse(alle_vist(ny))
+
+    def test_rekkefolge_uten_gjentakelse(self):  # FR-7
+        naa = tilstand()
+        viste = [naa.gjeldende_tur_id]
+        while naa.gjeldende_tur_id is not None:
+            naa = neste_forslag(naa, naa.gjeldende_tur_id, alle_gyldige)
+            viste.append(naa.gjeldende_tur_id)
+        self.assertEqual(viste, ["a", "b", "c", None])
+
+    def test_siste_gir_alle_vist(self):  # FR-7
+        siste = tilstand(viste_tur_ider=("a", "b", "c"), gjeldende_tur_id="c")
+        ny = neste_forslag(siste, "c", alle_gyldige)
+        self.assertIsNone(ny.gjeldende_tur_id)
+        self.assertEqual(ny.viste_tur_ider, ("a", "b", "c"))
+        self.assertTrue(alle_vist(ny))
+        self.assertEqual(ny.status, Status.TREFF)
+
+    def test_dobbeltklikk_gaar_bare_ett_steg(self):  # FR-7, NFR-2
+        naa = tilstand(viste_tur_ider=("a", "b"), gjeldende_tur_id="b")
+        self.assertEqual(neste_forslag(naa, "a", alle_gyldige), naa)
+
+    def test_manipulert_tur_gir_ingen_endring(self):  # NFR-2
+        for fra in (None, "", "x", "c"):
+            with self.subTest(fra=fra):
+                self.assertEqual(neste_forslag(tilstand(), fra, alle_gyldige), tilstand())
+
+    def test_uten_gjeldende_tur_gir_ingen_endring(self):  # FR-7, FR-8
+        for naa in (
+            tilstand(viste_tur_ider=("a", "b", "c"), gjeldende_tur_id=None),
+            Soketilstand(SOK, Status.INGEN_TREFF, ()),
+        ):
+            with self.subTest(naa=naa):
+                self.assertEqual(neste_forslag(naa, None, alle_gyldige), naa)
+
+    def test_en_tur(self):  # FR-7
+        en = tilstand(rangerte_tur_ider=("a",))
+        ny = neste_forslag(en, "a", alle_gyldige)
+        self.assertIsNone(ny.gjeldende_tur_id)
+        self.assertTrue(alle_vist(ny))
+
+    def test_borte_tur_hoppes_over_og_markeres_som_vist(self):  # FR-7, SM-C1
+        ny = neste_forslag(tilstand(), "a", lambda tur_id: tur_id != "b")
+        self.assertEqual(ny.gjeldende_tur_id, "c")
+        self.assertEqual(ny.viste_tur_ider, ("a", "b", "c"))
+
+    def test_alle_resterende_borte_gir_alle_vist(self):  # FR-7, SM-C1
+        ny = neste_forslag(tilstand(), "a", lambda tur_id: tur_id == "a")
+        self.assertIsNone(ny.gjeldende_tur_id)
+        self.assertEqual(ny.viste_tur_ider, ("a", "b", "c"))
+        self.assertTrue(alle_vist(ny))
+
+    def test_gyldig_kalles_bare_for_turer_som_ikke_er_vist(self):  # FR-7
+        kalt = []
+        neste_forslag(tilstand(), "a", lambda tur_id: kalt.append(tur_id) or True)
+        self.assertEqual(kalt, ["b"])
+
+
+class AlleVistTest(unittest.TestCase):
+    def test_bare_ved_treff_uten_gjeldende_og_alle_vist(self):  # FR-7
+        ferdig = {"viste_tur_ider": ("a", "b", "c"), "gjeldende_tur_id": None}
+        self.assertTrue(alle_vist(tilstand(**ferdig)))
+        self.assertTrue(alle_vist(tilstand(**ferdig, status=Status.TOPPTUR_ERSTATTET)))
+        self.assertFalse(alle_vist(tilstand()))
+        self.assertFalse(alle_vist(tilstand(viste_tur_ider=("a", "b"), gjeldende_tur_id=None)))
+        self.assertFalse(alle_vist(Soketilstand(SOK, Status.INGEN_TREFF, ())))
+        self.assertFalse(alle_vist(Soketilstand(SOK, Status.BARE_OVER_NIVATAK, ())))
+
+
+class StartPaNyttTest(unittest.TestCase):
+    def test_start_paa_nytt_fra_alle_vist(self):  # FR-7
+        ferdig = tilstand(viste_tur_ider=("a", "b", "c"), gjeldende_tur_id=None)
+        ny = start_pa_nytt(ferdig)
+        self.assertEqual(ny.gjeldende_tur_id, "a")
+        self.assertEqual(ny.viste_tur_ider, ("a",))
+        self.assertEqual(ny.rangerte_tur_ider, ("a", "b", "c"))
+
+    def test_ellers_ingen_endring(self):  # FR-7, NFR-2: dobbeltklikk og manipulerte POST-er
+        for naa in (
+            tilstand(),
+            tilstand(viste_tur_ider=("a", "b"), gjeldende_tur_id="b"),
+            Soketilstand(SOK, Status.INGEN_TREFF, ()),
+        ):
+            with self.subTest(naa=naa):
+                self.assertEqual(start_pa_nytt(naa), naa)

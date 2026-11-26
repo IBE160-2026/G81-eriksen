@@ -243,6 +243,27 @@ h2,
   text-decoration: none;
 }
 
+/* «Nytt forslag» (FR-7): full bredde på mobil. */
+.forslag-knapper {
+  margin: 0;
+}
+
+@media (max-width: 719.98px) {
+  .forslag-knapper .knapp-primaer {
+    width: 100%;
+  }
+}
+
+/* Henter nytt forslag (forbedring.js, UX-DR22): det gamle forslaget står dempet med
+   aria-busy. Overgangen skrus av ved prefers-reduced-motion (Bevegelse nederst). */
+.forslag {
+  transition: opacity 0.15s ease;
+}
+
+.forslag[aria-busy="true"] {
+  opacity: var(--busy-opacity);
+}
+
 /* --- Fokusring (UX-DR5): synlig ved tastaturfokus og fjernes aldri --- */
 
 :focus-visible {
@@ -967,6 +988,26 @@ main:has(> .forslag) {
   }
 }
 
+/* «Kart lastes …» (1.11, beslutning 1A): midt på kartflaten til første flisrunde er
+   ferdig. Ingen spinner og ingen animasjon. Uten JS er den alltid skjult (hidden). */
+.kart-lastes {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  margin: 0;
+  padding: var(--spacing-2) var(--spacing-4);
+  background: var(--map-overlay-surface);
+  color: var(--map-overlay-text);
+  border-radius: var(--rounded-md);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.kart-lastes[hidden] {
+  display: none;
+}
+
 /* Hintet for én finger. Blokkerer ikke trykk eller rulling. */
 .kart-hint {
   position: absolute;
@@ -1069,6 +1110,24 @@ main:has(> .forslag) {
   border-top: 1px solid var(--border);
 }
 
+/* «Start fra første forslag igjen» (FR-7): en knapp i et lite POST-skjema som ser ut som
+   de andre valgene. */
+.tilstandspanel-valg form {
+  margin: 0;
+}
+
+button.handlingslenke {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  cursor: pointer;
+}
+
 @media (max-width: 719.98px) {
   .tilstandspanel {
     grid-template-columns: minmax(0, 1fr);
@@ -1078,6 +1137,10 @@ main:has(> .forslag) {
 /* --- Bevegelse (UX-DR33): alt av ved prefers-reduced-motion --- */
 
 @media (prefers-reduced-motion: reduce) {
+  .forslag {
+    transition: none;
+  }
+
   *,
   *::before,
   *::after {

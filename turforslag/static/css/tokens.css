@@ -161,4 +161,7 @@
   --content-max-width: 960px;
   --side-illustration-max-width: 440px;
   --map-control-size: 44px;
+
+  /* Opasitet (1.11): det gamle forslaget står dempet mens «Nytt forslag» hentes. */
+  --busy-opacity: 0.5;
 }
