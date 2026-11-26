@@ -12,7 +12,9 @@ Repoet inneholder gruppens applikasjon og dokumentasjon av utvikling, testing og
 
 En bruker med konto kan registrere og vurdere turene sine. Tjenesten bruker vurderingene til å foreslå riktig nivå og variasjon neste gang. Tilpasningen følger enkle, faste regler som alltid kan forklares. KI tolker bare ønsker og formulerer begrunnelser, og velger aldri en tur utenfor den kuraterte turdatabasen.
 
-Planlagt teknologi: Python og Django, SQLite lokalt og Postgres hos Neon på den publiserte siden, kart fra Kartverket, værvarsel fra MET og en valgfri språkmodell fra Anthropic. Appen publiseres på Vercel og skal også kunne kjøres lokalt uten nøkler. Se [arkitekturen](docs/arkitektur.md) for begrunnelsen.
+**Hva appen kan nå:** Brukeren velger tid, dato, startpunkt og turtype og får ett turforslag fra en kontrollert database med 15 turer, med rute på kart (Kartverket) og i tekst, beregnet turnivå og estimert tid. Hen kan be om nytt forslag, og får forslag til hva som kan endres når ingen tur passer. Konto, værvarsel og KI kommer i senere epics.
+
+Teknologi: Python og Django, SQLite lokalt og Postgres hos Neon på den publiserte siden, kart fra Kartverket, værvarsel fra MET og en valgfri språkmodell fra Anthropic. Appen publiseres på Vercel og skal også kunne kjøres lokalt uten nøkler. Se [arkitekturen](docs/arkitektur.md) for begrunnelsen.
 
 ## Status
 
@@ -24,7 +26,7 @@ Planlagt teknologi: Python og Django, SQLite lokalt og Postgres hos Neon på den
 | UX | Ferdig | [EXPERIENCE.md](_bmad-output/planning-artifacts/ux-designs/ux-G81-eriksen-2026-11-06/EXPERIENCE.md) og [DESIGN.md](_bmad-output/planning-artifacts/ux-designs/ux-G81-eriksen-2026-11-06/DESIGN.md) |
 | Arkitektur | Ferdig | [Arkitektur](docs/arkitektur.md) |
 | Epics og stories | Ferdig: 6 epics og 41 stories | [epics.md](_bmad-output/planning-artifacts/epics.md) |
-| Implementering og testing | Pågår: story 1.1–1.6 er implementert, se sprint-status | [sprint-status.yaml](_bmad-output/implementation-artifacts/sprint-status.yaml) |
+| Implementering og testing | Pågår: epic 1 (story 1.1–1.12) og story 6.5 er implementert, neste er epic 2. Se sprint-status | [sprint-status.yaml](_bmad-output/implementation-artifacts/sprint-status.yaml) |
 
 ## Installasjon og kjøring
 
@@ -126,7 +128,19 @@ G81-eriksen/
 
 **Stiler:** designtokens fra DESIGN.md ligger som CSS-variabler i `turforslag/static/css/tokens.css` (den eneste fila med fargeverdier), og grunnoppsett og felles komponenter i `turforslag/static/css/side.css`.
 
-Mappene for selve appen (`config/`, `data/`, `tests/` med flere) kommer med implementeringen. Den planlagte strukturen står i [arkitekturen](docs/arkitektur.md).
+**Selve appen:**
+
+```text
+  config/                Django-oppsett (settings, miljø, urls)
+  domene/                rene Python-regler uten Django: søk, utvalg, nivå, tid, tekst, økt
+  turforslag/            Django-appen: skjemaer, visninger, maler, statiske filer, turmodeller
+  tjenester/             tjenester mot eksterne systemer (kommer med epic 4 og 5)
+  data/                  turdatabasen (`turer.geojson`) og kurateringsliste
+  skript/                byggeskript for turdatabasen og kartfarger
+  tests/                 tester for domene, web, skript og tjenester
+```
+
+Mer om den planlagte strukturen står i [arkitekturen](docs/arkitektur.md).
 
 ## Medlemmer
 
