@@ -5,14 +5,16 @@ sorteringsnøkkel (FR-5 punkt 5 og 6), så senere ledd (gåtte turer, nivåhevin
 turtyper) kan legges foran uten omskriving. Er topptur valgt og ingen topptur passer,
 erstattes den med utsiktsturer (FR-8). Gjester og brukere uten historikk har grønt
 nivåtak (FR-18). Ingen tur over nivåtaket er noen gang med (SM-C1).
+Når ingen tur passer (eller alle er vist), gir `foresla_endringer` høyst tre endringsforslag
+som hver gir treff (FR-8, UX-DR17).
 """
 
 from collections.abc import Iterable
 from dataclasses import dataclass, replace
 from enum import StrEnum
 
-from domene.sok import Sok
-from domene.tur import NIVAREKKEFOLGE, Tur, Turniva
+from domene.sok import MAKS_VARIGHET_MIN, VARIGHET_STEG_MIN, Sok
+from domene.tur import NIVAREKKEFOLGE, TURTYPER, Tur, Turniva
 
 # Nivåtaket for gjester og brukere uten historikk (FR-18).
 NIVATAK_UTEN_HISTORIKK = Turniva.GRONN
@@ -98,3 +100,88 @@ def velg_turer(sok: Sok, turer: Iterable[Tur], nivatak: Turniva) -> Utvalg:  # F
     if any(_passer(tur, sok, None) for tur in turer):
         return Utvalg(Status.BARE_OVER_NIVATAK, ())
     return Utvalg(Status.INGEN_TREFF, ())
+
+
+# Feltene et endringsforslag kan gjelde, i fast rekkefølge (FR-8).
+FELT_VARIGHET = "varighet"
+FELT_STARTPUNKT = "startpunkt"
+FELT_TURTYPE = "turtype"
+
+
+@dataclass(frozen=True)
+class Endringsforslag:  # FR-8, UX-DR17
+    """Ett forslag til endring av søket. `verdi` er den nye verdien som tekst: minutter for
+    varighet, turtypen for turtype (tom betyr «alle turtyper»). «Velg startpunkt» har tom
+    verdi og er en lenke til skjemaet, ikke en endring som kjøres direkte."""
+
+    felt: str
+    verdi: str
+    etikett: str
+
+    @property
+    def er_lenke(self) -> bool:
+        return self.felt == FELT_STARTPUNKT
+
+
+def _gir_treff(
+    sok: Sok, turer: tuple[Tur, ...], nivatak: Turniva, tidligere_treff: frozenset[str]
+) -> bool:  # FR-8
+    """Om søket gir `TREFF`, og (ved «alle vist») minst én tur utenom `tidligere_treff`."""
+    utvalg = velg_turer(sok, turer, nivatak)
+    if utvalg.status != Status.TREFF:
+        return False
+    return any(tur_id not in tidligere_treff for tur_id in utvalg.rangerte_tur_ider)
+
+
+def foresla_endringer(
+    sok: Sok,
+    turer: Iterable[Tur],
+    nivatak: Turniva,
+    tidligere_treff: Iterable[str] = (),
+) -> tuple[Endringsforslag, ...]:  # FR-8, UX-DR17, UX-DR22
+    """Høyst tre endringer av søket i fast rekkefølge, med de andre valgene uendret.
+
+    1. Varighet: korteste lengre varighet i halvtimessteg som gir treff (ikke ved 12 t).
+    2. Startpunkt: bare når et startpunkt er valgt og et annet (eller «alle») gir treff.
+    3. Turtype: bare når en turtype er valgt: første av marka, utsikt, topptur som gir treff,
+       ellers «alle turtyper».
+
+    Et forslag tas bare med når det endrede søket gir `TREFF`, og ved «alle vist» også minst
+    én tur som ikke står i `tidligere_treff`. `velg_turer` er uendret.
+    """
+    from domene.tekst import formater_turtype, formater_varighet_timer
+
+    turer = tuple(turer)
+    nivatak = Turniva(nivatak)
+    tidligere = frozenset(tidligere_treff)
+
+    def gir_treff(endret: Sok) -> bool:
+        return _gir_treff(endret, turer, nivatak, tidligere)
+
+    forslag: list[Endringsforslag] = []
+
+    for minutter in range(
+        sok.varighet_min + VARIGHET_STEG_MIN, MAKS_VARIGHET_MIN + 1, VARIGHET_STEG_MIN
+    ):
+        if gir_treff(replace(sok, varighet_min=minutter)):
+            etikett = f"Prøv {formater_varighet_timer(minutter)}"
+            forslag.append(Endringsforslag(FELT_VARIGHET, str(minutter), etikett))
+            break
+
+    if sok.startpunkt_id is not None:
+        startpunkter = {tur.startpunkt_id for tur in turer} - {sok.startpunkt_id}
+        kandidater = [None, *sorted(startpunkter)]
+        if any(gir_treff(replace(sok, startpunkt_id=kandidat)) for kandidat in kandidater):
+            forslag.append(Endringsforslag(FELT_STARTPUNKT, "", "Velg startpunkt"))
+
+    if sok.turtype is not None:
+        for turtype in (t for t in TURTYPER if t != sok.turtype):
+            if gir_treff(replace(sok, turtype=turtype)):
+                etikett = f"Prøv {formater_turtype(turtype).lower()}"
+                forslag.append(Endringsforslag(FELT_TURTYPE, turtype, etikett))
+                break
+        else:
+            if gir_treff(replace(sok, turtype=None)):
+                forslag.append(Endringsforslag(FELT_TURTYPE, "", "Prøv alle turtyper"))
+
+    return tuple(forslag)

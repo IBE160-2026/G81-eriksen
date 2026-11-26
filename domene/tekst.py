@@ -21,7 +21,7 @@ from domene.sok import (
     Sok,
 )
 from domene.tur import TURTYPER, Form, Tur, Turniva, total_hoydemeter_m, total_lengde_m
-from domene.utvalg import Status
+from domene.utvalg import Endringsforslag, Status
 
 _NIVATEKST = {
     Turniva.GRONN: "Grønn – lett",
@@ -292,6 +292,7 @@ class Forslagsvisning:  # FR-6, FR-7, FR-8
     tur: Turvisning | None
     alle_vist: bool = False  # FR-7: Tilstandspanel «alle vist»
     ingress_alle_vist: str = ""
+    endringsforslag: tuple[Endringsforslag, ...] = ()  # FR-8, UX-DR17
 
     @property
     def ingen_treff(self) -> bool:  # FR-8
@@ -369,11 +370,12 @@ def forslagsvisning(
     begrunnelse: str = "",
     startpunkt_navn: str | None = None,
     antall: int | None = None,
+    endringsforslag: tuple[Endringsforslag, ...] = (),
 ) -> Forslagsvisning:  # FR-6, FR-7, FR-8
     """Visningen av søketilstanden. `tur` er gjeldende tur, eller `None` ved Tilstandspanel.
 
     `antall` er antallet turer i rangeringen som fortsatt finnes og passer («alle vist»).
-    Uten det brukes hele rangeringen.
+    Uten det brukes hele rangeringen. `endringsforslag` vises i Tilstandspanelet (FR-8).
     """
     vist = tur is None and er_alle_vist(tilstand)
     ingress = ""
@@ -390,4 +392,5 @@ def forslagsvisning(
         tur=turvisning(tilstand.sok, tilstand.status, tur, begrunnelse) if tur else None,
         alle_vist=vist,
         ingress_alle_vist=ingress,
+        endringsforslag=endringsforslag,
     )

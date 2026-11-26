@@ -808,6 +808,213 @@ class NyttForslagTest(TestCase):
         self.assertEqual(klient.post(adresse + "forfra/").status_code, 403)
 
 
+@mock.patch("django.utils.timezone.localdate", return_value=I_DAG)
+class EndringsforslagTest(TestCase):
+    """Endringsforslag i Tilstandspanelet (story 1.12): FR-8, UX-DR17, UX-DR22, UX-DR25, SM-C1."""
+
+    @classmethod
+    def setUpTestData(cls):
+        lagre_testturer()
+
+    def sok(self, varighet, turtype="", startpunkt=""):
+        data = {"varighet": varighet, "dato": "2026-11-28", "turtype": turtype}
+        data["startpunkt"] = startpunkt
+        svar = self.client.post("/", data)
+        self.assertEqual(svar.status_code, 302)
+        return svar["Location"]
+
+    def tilstand(self, adresse):
+        return self.client.session["sok"][adresse.split("/")[2]]
+
+    def endre(self, adresse, felt, verdi):
+        return self.client.post(adresse + "endre/", {"felt": felt, "verdi": verdi})
+
+    def vis_alle(self, adresse):
+        while (gjeldende := self.tilstand(adresse)["gjeldende_tur_id"]) is not None:
+            self.client.post(adresse + "nytt/", {"tur": gjeldende})
+
+    def test_ingen_treff_viser_forslag(self, _):  # FR-8, UX-DR17
+        svar = self.client.get(self.sok("120", turtype="topptur"))
+        self.assertContains(svar, "Prøv å endre søket:")
+        self.assertContains(
+            svar, '<button class="handlingslenke" type="submit">Prøv 5 timer</button>', html=True
+        )
+        self.assertContains(svar, 'name="felt" value="varighet"')
+        self.assertContains(svar, 'name="verdi" value="300"')
+        self.assertContains(svar, "csrfmiddlewaretoken")
+        self.assertContains(svar, "Endre søk", count=1)
+        self.assertNotContains(svar, "data-nytt-forslag")
+
+    def test_startpunkt_og_turtype_i_fast_rekkefolge(self, _):  # FR-8
+        adresse = self.sok("180", turtype="utsikt", startpunkt="brate")
+        svar = self.client.get(adresse)
+        sok_id = adresse.split("/")[2]
+        self.assertNotContains(svar, "Prøv 3,5 timer")
+        self.assertContains(svar, "Velg startpunkt")
+        self.assertContains(svar, "Prøv marka")
+        tekst = tekster(svar)
+        self.assertLess(tekst.index("| Velg startpunkt |"), tekst.index("| Prøv marka |"))
+        lenke = f"/?sok={sok_id}&amp;fokus=startpunkt"
+        self.assertContains(
+            svar, f'<a class="handlingslenke" href="{lenke}">Velg startpunkt</a>', html=True
+        )
+
+    def test_uten_forslag_bare_endre_sok(self, _):  # FR-8
+        Tur.objects.all().delete()
+        svar = self.client.get(self.sok("720"))
+        self.assertContains(svar, "Jeg fant ingen tur som passer søket ditt")
+        self.assertNotContains(svar, "Prøv å endre søket:")
+        self.assertNotContains(svar, 'name="felt"')
+        self.assertContains(svar, "Endre søk", count=1)
+
+    def test_trykk_alle_turtyper(self, _):  # FR-8
+        Tur.objects.all().delete()
+        turdata.lagre_turer([lag_tur("uten-type", "brate", turtyper=())])
+        adresse = self.sok("720", turtype="marka", startpunkt="brate")
+        self.assertContains(self.client.get(adresse), "Prøv alle turtyper")
+        svar = self.endre(adresse, "turtype", "")
+        self.assertEqual(svar.status_code, 302)
+        ny = svar["Location"]
+        self.assertNotEqual(ny, adresse)
+        sok = self.tilstand(ny)["sok"]
+        self.assertIsNone(sok["turtype"])
+        self.assertEqual(sok["varighet_min"], 720)
+        self.assertEqual(sok["startpunkt_id"], "brate")
+
+    def test_halvtime(self, _):  # FR-8
+        turdata.lagre_turer([lag_tur("marka-halv", "brate", estimert_tid_min=90)])
+        svar = self.client.get(self.sok("60", turtype="marka"))
+        self.assertContains(svar, "Prøv 1,5 timer")
+        self.assertContains(svar, 'name="verdi" value="90"')
+
+    def test_trykk_forslag(self, _):  # FR-8, UX-DR22
+        adresse = self.sok("120", turtype="topptur")
+        svar = self.endre(adresse, "varighet", "300")
+        self.assertEqual(svar.status_code, 302)
+        ny = svar["Location"]
+        self.assertNotEqual(ny, adresse)
+        self.assertTrue(ny.startswith("/forslag/"))
+        tilstand = self.tilstand(ny)
+        self.assertEqual(tilstand["sok"]["varighet_min"], 300)
+        self.assertEqual(tilstand["sok"]["turtype"], "topptur")
+        self.assertEqual(tilstand["status"], "treff")
+        self.assertContains(self.client.get(ny), "Åstoppen")
+        self.assertIn(adresse.split("/")[2], self.client.session["sok"])
+
+    def test_trykk_turtype_beholder_de_andre_valgene(self, _):  # FR-8
+        adresse = self.sok("180", turtype="topptur", startpunkt="brate")
+        tilstand = self.tilstand(self.endre(adresse, "turtype", "marka")["Location"])
+        self.assertEqual(tilstand["sok"]["turtype"], "marka")
+        self.assertEqual(tilstand["sok"]["startpunkt_id"], "brate")
+        self.assertEqual(tilstand["sok"]["varighet_min"], 180)
+
+    def test_ugyldig_input_gir_sok(self, _):  # FR-8, NFR-2
+        adresse = self.sok("120", turtype="topptur")
+        for_ = dict(self.client.session["sok"])
+        for felt, verdi in (
+            ("varighet", "301"),
+            ("varighet", "150"),
+            ("varighet", "abc"),
+            ("varighet", ""),
+            ("turtype", "marka"),
+            ("startpunkt", ""),
+            ("dato", "2026-11-29"),
+            ("finnes-ikke", "x"),
+            ("", ""),
+        ):
+            with self.subTest(felt=felt, verdi=verdi):
+                svar = self.endre(adresse, felt, verdi)
+                self.assertRedirects(svar, "/", fetch_redirect_response=False)
+        for data in (
+            {},
+            {"felt": "varighet"},
+            {"verdi": "300"},
+            {"felt": ["a", "b"], "verdi": "x" * 5000},
+        ):
+            with self.subTest(data=data):
+                svar = self.client.post(adresse + "endre/", data)
+                self.assertRedirects(svar, "/", fetch_redirect_response=False)
+        self.assertEqual(self.client.session["sok"], for_)
+
+    def test_ukjent_sok_id(self, _):  # FR-8, NFR-2
+        data = {"felt": "varighet", "verdi": "300"}
+        svar = self.client.post("/forslag/finnes-ikke/endre/", data)
+        self.assertRedirects(svar, "/", fetch_redirect_response=False)
+        self.assertContains(self.client.get("/"), "Turforslaget er ikke lenger tilgjengelig.")
+
+    def test_get_gir_405(self, _):  # PRG
+        adresse = self.sok("120", turtype="topptur")
+        self.assertEqual(self.client.get(adresse + "endre/").status_code, 405)
+
+    def test_csrf(self, _):  # AR-7, PRG
+        klient = Client(enforce_csrf_checks=True)
+        token = csrf_token(klient.get("/"))
+        data = {"varighet": "120", "dato": "2026-11-28", "turtype": "topptur", "startpunkt": ""}
+        adresse = klient.post("/", {**data, "csrfmiddlewaretoken": token})["Location"]
+        side = klient.get(adresse)
+        skjema = {"felt": "varighet", "verdi": "300"}
+        self.assertEqual(klient.post(adresse + "endre/", skjema).status_code, 403)
+        svar = klient.post(adresse + "endre/", {**skjema, "csrfmiddlewaretoken": csrf_token(side)})
+        self.assertEqual(svar.status_code, 302)
+        self.assertTrue(svar["Location"].startswith("/forslag/"))
+
+    def test_fokus_paa_startpunkt(self, _):  # FR-8, UX-DR22
+        sok_id = self.sok("300", turtype="topptur", startpunkt="brate").split("/")[2]
+        svar = self.client.get(f"/?sok={sok_id}&fokus=startpunkt")
+        html = svar.content.decode()
+        self.assertEqual(html.count("autofocus"), 1)
+        self.assertRegex(html, r'<select id="startpunkt"[^>]*autofocus')
+        self.assertContains(svar, '<option value="brate" selected>Bråten</option>', html=True)
+        for fokus in ("varighet", "x", "", "startpunkt&fokus=dato"):
+            with self.subTest(fokus=fokus):
+                svar = self.client.get("/", {"sok": sok_id, "fokus": fokus})
+                self.assertNotContains(svar, "autofocus")
+
+    def test_alle_vist_bare_forslag_med_ny_tur(self, _):  # FR-8, FR-7
+        adresse = self.sok("180")
+        self.vis_alle(adresse)
+        svar = self.client.get(adresse)
+        self.assertContains(svar, "Du har sett alle turene som passer søket")
+        self.assertContains(svar, "Start fra første forslag igjen")
+        self.assertContains(svar, "Prøv 5 timer")  # topptur-lang er en ny tur
+        self.assertContains(svar, "Endre søk", count=1)
+        ny = self.endre(adresse, "varighet", "300")["Location"]
+        self.assertNotEqual(ny, adresse)
+        self.assertContains(self.client.get(ny), "Åstoppen")
+
+    def test_alle_vist_uten_forslag(self, _):  # FR-8
+        adresse = self.sok("720")
+        self.vis_alle(adresse)
+        svar = self.client.get(adresse)
+        self.assertContains(svar, "Du har sett alle turene som passer søket")
+        self.assertNotContains(svar, 'name="felt"')
+        self.assertContains(svar, "Start fra første forslag igjen")
+        self.assertContains(svar, "Endre søk", count=1)
+
+    def test_topptur_erstattet_rekkefolge(self, _):  # FR-8, UX-DR22
+        tekst = tekster(self.client.get(self.sok("150", turtype="topptur")))
+        for foer, etter in (
+            ("Åsen utsikt", "Utsikt i stedet for topptur"),
+            ("Utsikt i stedet for topptur", "Ingen topptur passer søket ditt"),
+            ("Ingen topptur passer søket ditt", "Tur-retur"),
+        ):
+            self.assertLess(tekst.index(f"| {foer} |"), tekst.index(f"| {etter} |"))
+
+    def test_bare_over_nivataket_gjest(self, _):  # FR-8, SM-C1
+        svar = self.client.get(self.sok("240", startpunkt="ovre"))
+        self.assertContains(svar, "Ingen grønne turer passer søket")
+        self.assertNotContains(svar, "Prøv å endre søket:")
+        self.assertNotContains(svar, "lengre")
+        self.assertNotContains(svar, "vanskeligere")
+        self.assertNotContains(svar, "Blå – moderat")
+        self.assertContains(svar, "Endre søk", count=1)
+
+    def test_forslag_gir_aldri_tur_over_nivataket(self, _):  # SM-C1
+        svar = self.client.get(self.sok("60", startpunkt="ovre"))
+        self.assertNotContains(svar, "Øvresetra blå")
+        self.assertNotContains(svar, 'name="felt"')
+
+
 class ViewsLagdelingTest(TestCase):
     def test_views_importerer_ikke_fra_domene(self):  # AR-2, SM-2
         """Views regner, filtrerer og formaterer ingenting selv: ingen import fra `domene`
