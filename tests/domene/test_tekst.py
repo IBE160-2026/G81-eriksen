@@ -186,3 +186,70 @@ class ForslagsvisningTest(unittest.TestCase):
         self.assertTrue(visning.ingen_treff)
         self.assertFalse(visning.bare_over_nivatak)
         self.assertEqual(visning.sokeoppsummering, "Torsdag 26. nov. · 2 t · Topptur")
+
+
+class LavesteOgHoyesteTest(unittest.TestCase):
+    def test_avrundet_til_naermeste_10_m(self):  # FR-6, UX-DR15
+        self.assertEqual(tekst.laveste_og_hoyeste(((0, 183.2), (500, 311.7))), (180, 310))
+
+    def test_halv_runder_opp(self):  # FR-6
+        self.assertEqual(tekst.laveste_og_hoyeste(((0, 185), (10, 174.9))), (170, 190))
+
+    def test_rekkefolgen_i_profilen_spiller_ingen_rolle(self):  # FR-6
+        profil = ((0, 250.0), (25, 199.6), (50, 320.4), (75, 240.0))
+        self.assertEqual(tekst.laveste_og_hoyeste(profil), (200, 320))
+
+    def test_lister_fra_json_virker(self):  # FR-6: profilen kan komme som lister
+        self.assertEqual(tekst.laveste_og_hoyeste([[0, 99.0]]), (100, 100))
+
+    def test_tom_profil_gir_value_error(self):  # FR-6
+        with self.assertRaises(ValueError):
+            tekst.laveste_og_hoyeste(())
+
+
+class KartbeskrivelseTest(unittest.TestCase):
+    def test_eksempelet_fra_experience(self):  # FR-6, UX-DR15
+        tur = lag_tur(
+            form=Form.RUNDTUR,
+            startpunkt_navn="Granvannet p-plass",
+            lengde_m=3500,
+            hoydemeter_m=128,
+            nedstigning_m=128,
+            hoydeprofil=((0, 183.2), (1700, 311.7), (3500, 183.2)),
+        )
+        self.assertEqual(
+            tekst.kartbeskrivelse(tur),
+            "Rundtur på 3,5 km totalt fra Granvannet p-plass. "
+            "Ruten stiger ca. 130 høydemeter, fra 180 til 310 moh.",
+        )
+
+    def test_tur_retur_har_totalene_for_hele_turen(self):  # FR-3, FR-6
+        tur = lag_tur(
+            form=Form.TUR_RETUR,
+            startpunkt_navn="Sørkedalen",
+            lengde_m=1750,
+            hoydemeter_m=100,
+            nedstigning_m=30,
+            hoydeprofil=((0, 180), (1750, 254)),
+        )
+        self.assertEqual(
+            tekst.kartbeskrivelse(tur),
+            "Tur-retur på 3,5 km totalt fra Sørkedalen. "
+            "Ruten stiger ca. 130 høydemeter, fra 180 til 250 moh.",
+        )
+
+
+class KartvisningTest(unittest.TestCase):
+    def test_turvisningen_har_kartet(self):  # FR-6, AR-10, UX-DR13
+        tur = lag_tur(navn="Granåsen rundt", geometry=((10.65, 59.98, 180.0), (10.67, 60.0)))
+        visning = tekst.turvisning(Sok(180, I_DAG), Status.TREFF, tur, "")
+        self.assertEqual(visning.kart_navn, "Kart over Granåsen rundt")
+        self.assertEqual(visning.kartbeskrivelse, tekst.kartbeskrivelse(tur))
+        self.assertEqual(
+            visning.kart_geojson,
+            {
+                "type": "Feature",
+                "geometry": {"type": "LineString", "coordinates": [[10.65, 59.98], [10.67, 60.0]]},
+                "properties": {"start": [10.65, 59.98]},
+            },
+        )

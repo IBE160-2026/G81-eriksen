@@ -129,7 +129,8 @@ def valider_turer(turer: Iterable[Tur]) -> None:  # AD-3 punkt 5, AR-2
     """Sjekker hele turlista samlet. Første brudd gir `ValueError` med norsk melding og ID.
 
     Stopper ved tur-ID eller startpunkt-ID som ikke er en tekst eller er tom, negativ
-    lengde, høydemeter, nedstigning eller tid, samme tur-ID to ganger, samme startpunkt-ID
+    lengde, høydemeter, nedstigning eller tid, tom høydeprofil, færre enn 2 punkter i
+    geometrien, samme tur-ID to ganger, samme startpunkt-ID
     med ulikt navn, koordinat eller høyde, og turtyper utenfor `TURTYPER`. En tom liste
     med turtyper er lov.
     """
@@ -146,6 +147,11 @@ def valider_turer(turer: Iterable[Tur]) -> None:  # AD-3 punkt 5, AR-2
         for felt in ("lengde_m", "hoydemeter_m", "nedstigning_m", "estimert_tid_min"):
             if getattr(tur, felt) < 0:
                 raise ValueError(f"Tur {tur.id!r} har negativ verdi i {felt}.")
+        # «Kartet i tekst» trenger høydeprofilen, og kartet trenger en linje (FR-6, story 1.10).
+        if not tur.hoydeprofil:
+            raise ValueError(f"Tur {tur.id!r} har tom høydeprofil.")
+        if len(tur.geometry) < 2:
+            raise ValueError(f"Tur {tur.id!r} har færre enn 2 punkter i geometrien.")
         if tur.id in tur_ider:
             raise ValueError(f"Tur-ID-en {tur.id!r} står mer enn én gang.")
         tur_ider.add(tur.id)

@@ -1,69 +1,94 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% comment %}
 Turforslag (FR-6, FR-7, FR-8, UX-DR12/16/17/19). DOM-rekkefølgen følger EXPERIENCE.md ›
 Turforslag – rekkefølge: søkeoppsummering med «Endre søk», turnavn (h1), Nivåmerke med
 nivåforklaring, Turtype-treff, meldinger, Formmerke, «Start: …», Faktarute, ut.no-lenke,
-KI-merke, Begrunnelse og Forklaringspanel. Kartet (1.10), «Nytt forslag» og «Registrer
-gjennomført tur» (1.11, Epic 2) og Bekledningstips kommer senere.
+kart med Kreditering (1.10), KI-merke, Begrunnelse, Forklaringspanel og til sist
+Kartbeskrivelse («Kartet i tekst»). «Nytt forslag» og «Registrer gjennomført tur» (1.11,
+Epic 2) og Bekledningstips kommer senere.
+Fra 720 px plasserer side.css kartet og Kartbeskrivelse i venstre kolonne med grid, og de to
+delene av Infokolonne til høyre. DOM-rekkefølgen er den samme på alle bredder.
+Leaflet og kart.js lastes bare når det finnes en tur (block hode).
 Ved ingen treff og bare turer over nivåtaket erstatter Tilstandspanel turinnholdet.
 All formatering kommer ferdig fra domene/tekst.py (Forslagsvisning).
 {% endcomment %}
 
 {% block tittel %}{% if visning.tur %}{{ visning.tur.navn }} – Turforslag{% elif visning.ingen_treff %}Jeg fant ingen tur som passer søket ditt{% else %}Ingen grønne turer passer søket{% endif %}{% endblock %}
 
+{% block hode %}
+  {% if visning.tur %}
+    <link rel="stylesheet" href="{% static 'vendor/leaflet/leaflet.css' %}">
+    <script src="{% static 'vendor/leaflet/leaflet.js' %}" defer></script>
+    <script src="{% static 'kart.js' %}" defer></script>
+  {% endif %}
+{% endblock %}
+
 {% block innhold %}
   {% url 'turforslag:sok' as sok_url %}
   {% if visning.tur %}
     {% with tur=visning.tur %}
       <div class="forslag">
-        <p class="sokeoppsummering caption">
-          <span>{{ visning.sokeoppsummering }}</span>
-          <a href="{{ sok_url }}?sok={{ sok_id|urlencode }}">Endre søk</a>
-        </p>
+        <div class="infokolonne infokolonne-topp">
+          <p class="sokeoppsummering caption">
+            <span>{{ visning.sokeoppsummering }}</span>
+            <a href="{{ sok_url }}?sok={{ sok_id|urlencode }}">Endre søk</a>
+          </p>
 
-        <h1 class="headline-md" tabindex="-1">{{ tur.navn }}</h1>
+          <h1 class="headline-md" tabindex="-1">{{ tur.navn }}</h1>
 
-        <div class="niva">
-          <span class="nivamerke nivamerke-{{ tur.niva }}">
-            <svg class="nivamerke-ikon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><circle cx="6" cy="6" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-            {{ tur.nivatekst }}
-          </span>
-          <p class="nivaforklaring caption">Jeg har beregnet nivået etter Merkehåndbokas mal ut fra lengde og høydemeter. Terreng og føre er ikke vurdert.</p>
-        </div>
-
-        {% if tur.topptur_erstattet %}
-          {# FR-8, beslutning 2026-11-26 (1A). [ASSUMPTION] Mikrotekst («Topptur passer ikke, merke») #}
-          <p class="turtype-merke"><span class="turtype-treff">{% include "turforslag/_sol.html" %}Utsikt i stedet for topptur</span></p>
-          {% include "turforslag/_melding.html" with type="advarsel" tittel="Ingen topptur passer søket ditt" %}
-        {% elif tur.turtype_treff %}
-          <p class="turtype-merke"><span class="turtype-treff">{% include "turforslag/_sol.html" %}{{ tur.turtype_treff }}</span></p>
-        {% endif %}
-
-        <div class="nokkeltall">
-          <p class="formrad"><span class="formmerke">{{ tur.form }}</span> <span>Start: {{ tur.startpunkt_navn }}</span></p>
-          {# Faktarute: verdien først og etiketten under, så den leses «3,5 km totalt». #}
-          <div class="faktarute">
-            <p class="fakta"><span class="fact-value">{{ tur.lengde }}</span> <span class="caption">totalt</span></p>
-            <p class="fakta"><span class="fact-value">{{ tur.hoydemeter }}</span> <span class="caption">høydemeter</span></p>
-            <p class="fakta fakta-tid"><span class="fact-value">{{ tur.tid }}</span> <span class="caption">(pauser ikke inkludert)</span></p>
+          <div class="niva">
+            <span class="nivamerke nivamerke-{{ tur.niva }}">
+              <svg class="nivamerke-ikon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><circle cx="6" cy="6" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+              {{ tur.nivatekst }}
+            </span>
+            <p class="nivaforklaring caption">Jeg har beregnet nivået etter Merkehåndbokas mal ut fra lengde og høydemeter. Terreng og føre er ikke vurdert.</p>
           </div>
-          {% if tur.ut_no_url %}
-            <a class="ut-no" href="{{ tur.ut_no_url }}">Se turen på ut.no<span aria-hidden="true">&nbsp;↗</span><span class="skjult-tekst"> (åpnes på ut.no)</span></a>
+
+          {% if tur.topptur_erstattet %}
+            {# FR-8, beslutning 2026-11-26 (1A). [ASSUMPTION] Mikrotekst («Topptur passer ikke, merke») #}
+            <p class="turtype-merke"><span class="turtype-treff">{% include "turforslag/_sol.html" %}Utsikt i stedet for topptur</span></p>
+            {% include "turforslag/_melding.html" with type="advarsel" tittel="Ingen topptur passer søket ditt" %}
+          {% elif tur.turtype_treff %}
+            <p class="turtype-merke"><span class="turtype-treff">{% include "turforslag/_sol.html" %}{{ tur.turtype_treff }}</span></p>
           {% endif %}
+
+          <div class="nokkeltall">
+            <p class="formrad"><span class="formmerke">{{ tur.form }}</span> <span>Start: {{ tur.startpunkt_navn }}</span></p>
+            {# Faktarute: verdien først og etiketten under, så den leses «3,5 km totalt». #}
+            <div class="faktarute">
+              <p class="fakta"><span class="fact-value">{{ tur.lengde }}</span> <span class="caption">totalt</span></p>
+              <p class="fakta"><span class="fact-value">{{ tur.hoydemeter }}</span> <span class="caption">høydemeter</span></p>
+              <p class="fakta fakta-tid"><span class="fact-value">{{ tur.tid }}</span> <span class="caption">(pauser ikke inkludert)</span></p>
+            </div>
+            {% if tur.ut_no_url %}
+              <a class="ut-no" href="{{ tur.ut_no_url }}">Se turen på ut.no<span aria-hidden="true">&nbsp;↗</span><span class="skjult-tekst"> (åpnes på ut.no)</span></a>
+            {% endif %}
+          </div>
         </div>
 
-        <section class="begrunnelse" aria-labelledby="begrunnelse-tittel">
-          <p class="ki-merke eyebrow">Begrunnelse fra mal</p>
-          <h2 class="eyebrow" id="begrunnelse-tittel">Begrunnelse</h2>
-          <p class="body-md">{{ tur.begrunnelse }}</p>
-          <details class="forklaringspanel">
-            <summary>Slik lager jeg forslaget</summary>
-            <ul class="body-md">
-              <li>Ruten, tiden og nivået kommer fra Kartverkets turdata og faste formler, ikke fra KI.</li>
-              <li>Tiden kan bomme med rundt 15 prosent, og nybegynnere bruker ofte lenger tid enn beregnet.</li>
-            </ul>
-          </details>
+        {% include "turforslag/_kart.html" %}
+
+        <div class="infokolonne infokolonne-bunn">
+          <section class="begrunnelse" aria-labelledby="begrunnelse-tittel">
+            <p class="ki-merke eyebrow">Begrunnelse fra mal</p>
+            <h2 class="eyebrow" id="begrunnelse-tittel">Begrunnelse</h2>
+            <p class="body-md">{{ tur.begrunnelse }}</p>
+            <details class="forklaringspanel">
+              <summary>Slik lager jeg forslaget</summary>
+              <ul class="body-md">
+                <li>Ruten, tiden og nivået kommer fra Kartverkets turdata og faste formler, ikke fra KI.</li>
+                <li>Tiden kan bomme med rundt 15 prosent, og nybegynnere bruker ofte lenger tid enn beregnet.</li>
+              </ul>
+            </details>
+          </section>
+        </div>
+
+        {# Kartbeskrivelse (FR-6, UX-DR15): sist i DOM-en. Teksten lages i domene/tekst.py. #}
+        <section class="kartbeskrivelse" aria-labelledby="kartet-i-tekst">
+          <h2 id="kartet-i-tekst">Kartet i tekst</h2>
+          <p class="body-md">{{ tur.kartbeskrivelse }}</p>
         </section>
       </div>
     {% endwith %}

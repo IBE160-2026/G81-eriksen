@@ -216,6 +216,16 @@ class ValiderTurerTest(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, f"'kolsastoppen'.*negativ.*{felt}"):
                     valider_turer([lag_tur(**{felt: -1})])
 
+    def test_tom_hoydeprofil_stopper_med_tur_id(self):  # FR-6, UX-DR15 (story 1.10)
+        with self.assertRaisesRegex(ValueError, "'kolsastoppen'.*tom høydeprofil"):
+            valider_turer([lag_tur(hoydeprofil=())])
+
+    def test_geometri_med_under_2_punkter_stopper_med_tur_id(self):  # FR-6, AR-10 (story 1.10)
+        for geometri in ((), ((10.6543, 59.9876),)):
+            with self.subTest(punkter=len(geometri)):
+                with self.assertRaisesRegex(ValueError, "'kolsastoppen'.*færre enn 2 punkter"):
+                    valider_turer([lag_tur(geometry=geometri)])
+
     def test_ukjent_turtype_stopper_med_tur_id_og_turtype(self):  # AD-3 punkt 5, AR-2
         with self.assertRaisesRegex(ValueError, "'kolsastoppen'.*'utsiktt'"):
             valider_turer([lag_tur(turtyper=("marka", "utsiktt"))])

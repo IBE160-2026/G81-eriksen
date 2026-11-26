@@ -6,9 +6,10 @@ formaterer ingenting selv (AR-2).
 """
 
 from collections.abc import Iterable
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date, timedelta
 from decimal import ROUND_HALF_UP, Decimal
+from typing import Any
 
 from domene.okt import Soketilstand
 from domene.sok import (
@@ -104,6 +105,27 @@ def formater_hoydemeter(hoydemeter_m: int) -> str:  # FR-6, UX-DR31
     """«ca. 130»: høydemeterne for hele turen, avrundet halv opp til nærmeste 10 m."""
     tiere = (Decimal(hoydemeter_m) / 10).quantize(Decimal(1), rounding=ROUND_HALF_UP)
     return f"ca. {int(tiere) * 10}"
+
+
+def _naermeste_10(verdi: float) -> int:  # FR-6
+    """Avrunder halv opp til nærmeste 10. Via `str`, så flyttallet regnes slik det står."""
+    tiere = (Decimal(str(verdi)) / 10).quantize(Decimal(1), rounding=ROUND_HALF_UP)
+    return int(tiere) * 10
+
+
+def laveste_og_hoyeste(
+    hoydeprofil: Iterable[tuple[float, float]],
+) -> tuple[int, int]:  # FR-6, UX-DR15
+    """Laveste og høyeste punkt i høydeprofilen, avrundet til nærmeste 10 m.
+
+    Profilen er par av (avstand, høyde). «Kartet i tekst» og Turillustrasjon (6.1) bruker
+    begge denne funksjonen. Ved tur-retur dekker profilen én vei, som har de samme
+    ytterpunktene som hele turen. Tom profil gir `ValueError`.
+    """
+    hoyder = [hoyde for _, hoyde in hoydeprofil]
+    if not hoyder:
+        raise ValueError("Høydeprofilen er tom, så den har ikke laveste og høyeste punkt.")
+    return _naermeste_10(min(hoyder)), _naermeste_10(max(hoyder))
 
 
 def formater_form(form: Form) -> str:  # FR-6
@@ -207,6 +229,37 @@ def sokeoppsummering(sok: Sok, startpunkt_navn: str | None = None) -> str:  # FR
     return " · ".join(deler)
 
 
+def kartbeskrivelse(tur: Tur) -> str:  # FR-6, UX-DR15
+    """«Kartet i tekst»: laget fra turdata, aldri av KI.
+
+    «Rundtur på 3,5 km totalt fra Granvannet p-plass. Ruten stiger ca. 130 høydemeter,
+    fra 180 til 310 moh.» Lengde og høydemeter gjelder hele turen (dobbelt ved tur-retur).
+    """
+    laveste, hoyeste = laveste_og_hoyeste(tur.hoydeprofil)
+    lengde = formater_lengde_totalt(total_lengde_m(tur.form, tur.lengde_m))
+    hoydemeter = formater_hoydemeter(
+        total_hoydemeter_m(tur.form, tur.hoydemeter_m, tur.nedstigning_m)
+    )
+    return (
+        f"{formater_form(tur.form)} på {lengde} fra {tur.startpunkt_navn}. "
+        f"Ruten stiger {hoydemeter} høydemeter, fra {laveste} til {hoyeste} moh."
+    )
+
+
+def kart_geojson(tur: Tur) -> dict[str, Any]:  # FR-6, AR-10
+    """GeoJSON-`Feature` med rutelinjen (WGS84, lon lat) til `kart.js` via `json_script`.
+
+    `properties.start` er rutens første punkt, der startmarkøren «S» står, så `kart.js`
+    ikke regner ut noe selv. Ved tur-retur er linjen den lagrede veien ut.
+    """
+    koordinater = [[punkt[0], punkt[1]] for punkt in tur.geometry]
+    return {
+        "type": "Feature",
+        "geometry": {"type": "LineString", "coordinates": koordinater},
+        "properties": {"start": koordinater[0] if koordinater else None},
+    }
+
+
 @dataclass(frozen=True)
 class Turvisning:  # FR-6
     """Teksten for én tur på Turforslag. Alt er ferdig formatert."""
@@ -224,6 +277,9 @@ class Turvisning:  # FR-6
     tid: str
     ut_no_url: str
     begrunnelse: str
+    kartbeskrivelse: str
+    kart_navn: str
+    kart_geojson: dict[str, Any] = field(hash=False)
 
 
 @dataclass(frozen=True)
@@ -264,6 +320,9 @@ def turvisning(sok: Sok, status: Status, tur: Tur, begrunnelse: str) -> Turvisni
         tid=formater_tid(tur.estimert_tid_min),
         ut_no_url=tur.ut_no_url,
         begrunnelse=begrunnelse,
+        kartbeskrivelse=kartbeskrivelse(tur),
+        kart_navn=f"Kart over {tur.navn}",
+        kart_geojson=kart_geojson(tur),
     )
 
 
