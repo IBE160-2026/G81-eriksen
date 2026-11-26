@@ -1,9 +1,17 @@
-"""`domene.tekst`: faste norske formater for tid, lengde og nivå (UX-DR31, AR-16)."""
+"""`domene.tekst`: faste norske formater (UX-DR31, AR-16, FR-4, FR-6)."""
 
 import unittest
+from datetime import date
 
+from domene import tekst
+from domene.okt import Soketilstand
+from domene.sok import Sok
 from domene.tekst import formater_lengde_totalt, formater_niva, formater_tid
-from domene.tur import Turniva
+from domene.tur import Form, Turniva
+from domene.utvalg import Status
+from tests.domene.test_utvalg import lag_tur
+
+I_DAG = date(2026, 11, 26)  # torsdag
 
 
 class FormaterTidTest(unittest.TestCase):
@@ -38,3 +46,143 @@ class FormaterNivaTest(unittest.TestCase):
         self.assertEqual(formater_niva(Turniva.BLA), "Blå – moderat")
         self.assertEqual(formater_niva(Turniva.ROD), "Rød – moderat")
         self.assertEqual(formater_niva(Turniva.SVART), "Svart – vanskelig")
+
+
+class VarighetTest(unittest.TestCase):
+    def test_varighetsvalg_har_23_valg_i_halvtimessteg(self):  # FR-4
+        valg = tekst.varighetsvalg()
+        self.assertEqual(len(valg), 23)
+        self.assertEqual(valg[0], (60, "1 t"))
+        self.assertEqual(valg[1], (90, "1,5 t"))
+        self.assertEqual(valg[2], (120, "2 t"))
+        self.assertEqual(valg[-1], (720, "12 t"))
+
+    def test_varighet_i_lopende_tekst(self):  # FR-12, UX-DR31
+        self.assertEqual(tekst.formater_varighet_timer(60), "1 time")
+        self.assertEqual(tekst.formater_varighet_timer(90), "1,5 timer")
+        self.assertEqual(tekst.formater_varighet_timer(180), "3 timer")
+
+    def test_annet_enn_hele_og_halve_timer_gir_value_error(self):  # FR-4
+        with self.assertRaises(ValueError):
+            tekst.formater_varighet(75)
+
+
+class DatoTest(unittest.TestCase):
+    def test_datoperiode_har_31_datoer_fra_i_dag(self):  # FR-4
+        datoer = tekst.datoperiode(I_DAG)
+        self.assertEqual(len(datoer), 31)
+        self.assertEqual(datoer[0], I_DAG)
+        self.assertEqual(datoer[-1], date(2026, 12, 26))
+
+    def test_datovalg(self):  # FR-4
+        valg = tekst.datovalg(I_DAG)
+        self.assertEqual(valg[0], (I_DAG, "Torsdag 26. november"))
+        self.assertEqual(valg[2], (date(2026, 11, 28), "Lørdag 28. november"))
+        self.assertEqual(valg[-1], (date(2026, 12, 26), "Lørdag 26. desember"))
+
+    def test_over_arsskiftet(self):  # FR-4
+        self.assertEqual(tekst.datoperiode(date(2026, 12, 20))[-1], date(2027, 1, 19))
+        self.assertEqual(tekst.siste_dato(date(2026, 12, 20)), "19. januar")
+
+    def test_siste_dato_til_feilmeldingen(self):  # FR-4
+        self.assertEqual(tekst.siste_dato(I_DAG), "26. desember")
+
+    def test_kort_dato(self):  # FR-6
+        self.assertEqual(tekst.formater_dato_kort(date(2026, 11, 7)), "Lørdag 7. nov.")
+        self.assertEqual(tekst.formater_dato_kort(date(2026, 5, 4)), "Mandag 4. mai")
+        self.assertEqual(tekst.formater_dato_kort(date(2026, 3, 1)), "Søndag 1. mar.")
+
+
+class SokeoppsummeringTest(unittest.TestCase):
+    def test_eksempelet_fra_mikrotekst(self):  # FR-6, UX-DR16
+        sok = Sok(120, date(2026, 11, 7), turtype="utsikt")
+        self.assertEqual(tekst.sokeoppsummering(sok), "Lørdag 7. nov. · 2 t · Utsikt")
+
+    def test_alle_turtyper_og_startpunkt(self):  # UX-DR16
+        sok = Sok(150, date(2026, 11, 7), startpunkt_id="sognsvann")
+        self.assertEqual(tekst.sokeoppsummering(sok), "Lørdag 7. nov. · 2,5 t")
+        self.assertEqual(
+            tekst.sokeoppsummering(sok, "Sognsvann"), "Lørdag 7. nov. · 2,5 t · Sognsvann"
+        )
+
+
+class TurteksterTest(unittest.TestCase):
+    def test_form(self):  # FR-6
+        self.assertEqual(tekst.formater_form(Form.RUNDTUR), "Rundtur")
+        self.assertEqual(tekst.formater_form(Form.TUR_RETUR), "Tur-retur")
+
+    def test_turtype_treff(self):  # FR-6
+        self.assertEqual(tekst.turtype_treff("utsikt"), "Utsikt – som du ba om")
+        self.assertEqual(tekst.turtype_treff("marka"), "Marka – som du ba om")
+        self.assertEqual(tekst.turtype_treff("topptur"), "Topptur – som du ba om")
+
+    def test_turtypevalg(self):  # FR-4
+        self.assertEqual(
+            tekst.turtypevalg(), (("marka", "Marka"), ("utsikt", "Utsikt"), ("topptur", "Topptur"))
+        )
+
+    def test_hoydemeter(self):  # FR-6, UX-DR31
+        self.assertEqual(tekst.formater_hoydemeter(130), "ca. 130")
+        self.assertEqual(tekst.formater_hoydemeter(128), "ca. 130")
+        self.assertEqual(tekst.formater_hoydemeter(125), "ca. 130")
+        self.assertEqual(tekst.formater_hoydemeter(124), "ca. 120")
+        self.assertEqual(tekst.formater_hoydemeter(4), "ca. 0")
+
+    def test_lengde_uten_totalt(self):  # UX-DR31
+        self.assertEqual(tekst.formater_lengde(3500), "3,5 km")
+        self.assertEqual(tekst.formater_lengde(6000), "6 km")
+
+    def test_startpunkter_sorteres_etter_norsk_alfabet(self):  # FR-4
+        startpunkter = [
+            ("a", "Åsen"),
+            ("o", "Østmarksetra"),
+            ("e", "Ærfuglen"),
+            ("z", "Zakken"),
+            ("s", "sognsvann"),
+        ]
+        self.assertEqual(
+            [navn for _, navn in tekst.sorter_startpunkter(startpunkter)],
+            ["sognsvann", "Zakken", "Ærfuglen", "Østmarksetra", "Åsen"],
+        )
+
+
+class ForslagsvisningTest(unittest.TestCase):
+    def test_tur_retur_viser_totalene_og_lagret_tid(self):  # FR-3, FR-6, AD-2
+        tur = lag_tur(
+            form=Form.TUR_RETUR,
+            lengde_m=1750,
+            hoydemeter_m=100,
+            nedstigning_m=30,
+            estimert_tid_min=7,
+            turtyper=("utsikt",),
+            turniva=Turniva.BLA,
+        )
+        sok = Sok(120, I_DAG, turtype="utsikt")
+        visning = tekst.turvisning(sok, Status.TREFF, tur, "Begrunnelse.")
+        self.assertEqual(visning.lengde, "3,5 km")
+        self.assertEqual(visning.hoydemeter, "ca. 130")
+        self.assertEqual(visning.tid, "ca. 7 min")  # lagret verdi, aldri regnet på nytt
+        self.assertEqual(visning.nivatekst, "Blå – moderat")
+        self.assertEqual(visning.niva, "bla")
+        self.assertEqual(visning.form, "Tur-retur")
+        self.assertEqual(visning.turtype_treff, "Utsikt – som du ba om")
+        self.assertFalse(visning.topptur_erstattet)
+
+    def test_turtype_treff_bare_nar_turtype_er_valgt(self):  # FR-6
+        tur = lag_tur(turtyper=("utsikt",))
+        self.assertIsNone(tekst.turvisning(Sok(180, I_DAG), Status.TREFF, tur, "").turtype_treff)
+
+    def test_topptur_erstattet(self):  # FR-8
+        tur = lag_tur(turtyper=("utsikt",))
+        sok = Sok(180, I_DAG, turtype="topptur")
+        visning = tekst.turvisning(sok, Status.TOPPTUR_ERSTATTET, tur, "")
+        self.assertTrue(visning.topptur_erstattet)
+        self.assertIsNone(visning.turtype_treff)
+
+    def test_tilstandspanel_uten_tur(self):  # FR-8
+        tilstand = Soketilstand(Sok(120, I_DAG, turtype="topptur"), Status.INGEN_TREFF, ())
+        visning = tekst.forslagsvisning(tilstand, None)
+        self.assertIsNone(visning.tur)
+        self.assertTrue(visning.ingen_treff)
+        self.assertFalse(visning.bare_over_nivatak)
+        self.assertEqual(visning.sokeoppsummering, "Torsdag 26. nov. · 2 t · Topptur")

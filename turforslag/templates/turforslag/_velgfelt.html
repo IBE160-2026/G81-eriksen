@@ -1,0 +1,16 @@
+{% comment %}
+Skjemafelt med <select> (UX-DR10, FR-4, NFR-4). Etiketten er alltid synlig.
+Bruk: {% include "turforslag/_velgfelt.html" with felt=skjema.varighet valg=skjema.varighetsvalg etikett="Varighet" hint="…" %}
+- valg: (verdi, tekst, valgt) fra SokForm. valgfritt=True gir «(valgfritt)» i etiketten.
+- Ved feil: feilen står rett under feltet og over hjelpeteksten, med «!»-ikon.
+  Feltet får aria-invalid="true" og aria-describedby="<feil-id> <hint-id>" (feil først).
+  Det første feltet med feil får autofocus.
+{% endcomment %}
+<div class="skjemafelt{% if felt.errors %} skjemafelt-feil{% endif %}">
+  <label class="label" for="{{ felt.name }}">{{ etikett }}{% if valgfritt %} <span class="valgfritt">(valgfritt)</span>{% endif %}</label>
+  <select id="{{ felt.name }}" name="{{ felt.name }}"{% if felt.errors %} aria-invalid="true" aria-describedby="{{ felt.name }}-feil{% if hint %} {{ felt.name }}-hint{% endif %}"{% elif hint %} aria-describedby="{{ felt.name }}-hint"{% endif %}{% if felt.form.forste_feil == felt.name %} autofocus{% endif %}>
+    {% for verdi, tekst, valgt in valg %}<option value="{{ verdi }}"{% if valgt %} selected{% endif %}>{{ tekst }}</option>{% endfor %}
+  </select>
+  {% if felt.errors %}{% include "turforslag/_feltfeil.html" with feil_id=felt.name|add:"-feil" feil=felt.errors.0 %}{% endif %}
+  {% if hint %}<p class="hjelpetekst caption" id="{{ felt.name }}-hint">{{ hint }}</p>{% endif %}
+</div>

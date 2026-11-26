@@ -6,6 +6,28 @@
 {% block logo_aktiv %} aria-current="page"{% endblock %}
 
 {% block innhold %}
-  {# Søkeskjemaet kommer i story 1.9. #}
-  <h1>Hvor lang tid har du?</h1>
+  {# FR-4, UX-DR6/7/10/11: Søk (Turkort). Rekkefølgen følger DESIGN.md › Layout & Spacing › Søk. #}
+  {# Tekstene er ordrett fra EXPERIENCE.md › Mikrotekst. Ingen fritekst i Epic 1. #}
+  <div class="sok">
+    <h1 class="display" tabindex="-1">Hvor lang tid har du?</h1>
+    {% if utilgjengelig %}
+      {# [ASSUMPTION] Mikrotekst («Forslaget finnes ikke lenger») #}
+      {% include "turforslag/_melding.html" with type="info" tittel="Turforslaget er ikke lenger tilgjengelig." tekst="Søk på nytt for å få et forslag." fokus=True %}
+    {% endif %}
+    <p class="ingress">Fyll inn varighet og dato, så får du ett turforslag om gangen.</p>
+
+    <form class="sokeskjema" method="post" action="{% url 'turforslag:sok' %}">
+      {% csrf_token %}
+      <div class="felt-par">
+        {% include "turforslag/_velgfelt.html" with felt=skjema.varighet valg=skjema.varighetsvalg etikett="Varighet" hint="1–12 timer" %}
+        {% include "turforslag/_velgfelt.html" with felt=skjema.dato valg=skjema.datovalg etikett="Dato" hint="Fra i dag til 30 dager frem" %}
+      </div>
+
+      {% include "turforslag/_turtypekort.html" with felt=skjema.turtype valg=skjema.turtypevalg %}
+
+      {% include "turforslag/_velgfelt.html" with felt=skjema.startpunkt valg=skjema.startpunktvalg etikett="Startpunkt" valgfritt=True hint="Jeg har foreløpig bare turer i Oslo-området." %}
+
+      <button class="knapp-primaer" type="submit">Finn en tur</button>
+    </form>
+  </div>
 {% endblock %}

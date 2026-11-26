@@ -1,28 +1,37 @@
 """Forsiden og de norske feilsidene (NFR-1, AD-12 punkt 5)."""
 
-from django.test import Client, SimpleTestCase, override_settings
+from django.test import Client, SimpleTestCase, TestCase, override_settings
 
 LENKE_TIL_SOK = '<a href="/">Gå til Søk</a>'
 
 
-class ForsideTest(SimpleTestCase):
+class ForsideTest(TestCase):
+    # Søk leser startpunktene fra databasen (story 1.9), så testene trenger TestCase.
     def test_forsiden_viser_overskriften(self):  # NFR-1
         svar = self.client.get("/")
         self.assertEqual(svar.status_code, 200)
-        self.assertContains(svar, "<h1>Hvor lang tid har du?</h1>", html=True)
+        self.assertContains(
+            svar, '<h1 class="display" tabindex="-1">Hvor lang tid har du?</h1>', html=True
+        )
         self.assertContains(svar, "<title>Finn tur – Your Next Adventure</title>", html=True)
 
     def test_grunnoppsett(self):  # AD-12 punkt 5
         svar = self.client.get("/")
         self.assertContains(svar, '<html lang="nb">')
         self.assertContains(svar, "<main>", count=1)
-        self.assertContains(svar, "<h1>", count=1)
+        self.assertContains(svar, "<h1", count=1)
 
     def test_head_gir_200(self):
         self.assertEqual(self.client.head("/").status_code, 200)
 
-    def test_post_gir_405(self):
-        self.assertEqual(self.client.post("/").status_code, 405)
+    def test_post_uten_data_gir_skjemaet_med_feil(self):  # FR-4 (story 1.9: Søk tar POST)
+        svar = self.client.post("/")
+        self.assertEqual(svar.status_code, 200)
+        self.assertContains(svar, "Velg varighet")
+
+    def test_andre_metoder_gir_405(self):
+        self.assertEqual(self.client.put("/").status_code, 405)
+        self.assertEqual(self.client.delete("/").status_code, 405)
 
 
 class FeilsiderTest(SimpleTestCase):

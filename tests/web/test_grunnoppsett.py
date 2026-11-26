@@ -7,7 +7,7 @@ import re
 from html.parser import HTMLParser
 from pathlib import Path
 
-from django.test import Client, SimpleTestCase, override_settings
+from django.test import Client, SimpleTestCase, TestCase, override_settings
 
 ROT = Path(__file__).resolve().parents[2]
 STATIC = ROT / "turforslag" / "static"
@@ -199,7 +199,7 @@ def les_html(svar):
     return tagger
 
 
-class SideTest(SimpleTestCase):
+class SideTest(TestCase):  # Søk leser startpunktene fra databasen (story 1.9).
     def assert_toppmeny(self, svar):
         tagger = les_html(svar)
         self.assertEqual(len(tagger.finn("header")), 1)
@@ -389,6 +389,24 @@ class StilarkTest(SimpleTestCase):
                 self.assertEqual(regel["min-height"], "var(--touch-target-min)")
                 self.assertEqual(regel["min-width"], "var(--touch-target-min)")
                 self.assertEqual(regel["border-radius"], "var(--rounded-md)")
+
+    def test_trykkflatene_pa_sok_og_turforslag_er_minst_44_px(self):  # NFR-3 (story 1.9)
+        for selektor in (
+            ".skjemafelt select",
+            ".turtypekort",
+            ".sokeoppsummering a",
+            ".ut-no",
+            ".handlingslenke",
+            ".forklaringspanel summary",
+        ):
+            with self.subTest(selektor=selektor):
+                regel = deklarasjoner_for(self.css, selektor)
+                self.assertEqual(regel["min-height"], "var(--touch-target-min)")
+        for selektor in (".turtypekort", ".sokeoppsummering a", ".ut-no", ".handlingslenke"):
+            with self.subTest(selektor=selektor):
+                self.assertEqual(
+                    deklarasjoner_for(self.css, selektor)["min-width"], "var(--touch-target-min)"
+                )
 
     def test_display_og_headline_lg_er_28_px_under_720_px(self):  # UX-DR2, DESIGN.md › Typography
         for selektor in ("h1", ".display", ".headline-lg"):

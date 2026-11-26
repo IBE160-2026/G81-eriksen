@@ -53,6 +53,15 @@ def _passer(tur: Tur, sok: Sok, nivatak: Turniva | None) -> bool:  # FR-5
     return sok.startpunkt_id is None or tur.startpunkt_id == sok.startpunkt_id
 
 
+def innenfor_tid_og_nivatak(tur: Tur, sok: Sok, nivatak: Turniva) -> bool:  # FR-5, SM-C1
+    """Om turen fortsatt passer varigheten og nivåtaket. Brukes før en lagret tur vises,
+    fordi turdatabasen kan ha endret seg etter søket. Turtype og startpunkt sjekkes ikke,
+    fordi en utsiktstur kan ha erstattet en topptur (FR-8)."""
+    return tur.estimert_tid_min <= sok.varighet_min and _nivaplass(tur.turniva) <= _nivaplass(
+        Turniva(nivatak)
+    )
+
+
 def _rangeringsnokkel(tur: Tur) -> tuple[int, str]:  # FR-5 punkt 5 og 6
     """Lengst tid først (nærmest varigheten, siden alle er ≤), så tur-ID stigende."""
     return (-tur.estimert_tid_min, str(tur.id))

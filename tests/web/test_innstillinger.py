@@ -4,7 +4,7 @@ import re
 from pathlib import Path
 
 from django.conf import settings
-from django.test import Client, SimpleTestCase, override_settings
+from django.test import Client, SimpleTestCase, TestCase, override_settings
 
 MALER = Path(__file__).resolve().parents[2] / "turforslag" / "templates"
 
@@ -47,7 +47,7 @@ class InnstillingerTest(SimpleTestCase):
         )
 
 
-class CspTest(SimpleTestCase):
+class CspTest(TestCase):  # Søk leser startpunktene fra databasen (story 1.9).
     def test_csp_hodet(self):  # AR-17
         self.assertEqual(csp_direktiver(self.client.get("/")), FORVENTET_CSP)
 

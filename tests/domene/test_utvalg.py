@@ -10,7 +10,13 @@ from datetime import date
 
 from domene.sok import MAKS_VARIGHET_MIN, MIN_VARIGHET_MIN, VARIGHET_STEG_MIN, Sok
 from domene.tur import NIVAREKKEFOLGE, TURTYPER, Form, Tur, Turniva
-from domene.utvalg import NIVATAK_UTEN_HISTORIKK, Status, Utvalg, velg_turer
+from domene.utvalg import (
+    NIVATAK_UTEN_HISTORIKK,
+    Status,
+    Utvalg,
+    innenfor_tid_og_nivatak,
+    velg_turer,
+)
 
 DATO = date(2026, 11, 26)
 GRONN, BLA, ROD, SVART = Turniva.GRONN, Turniva.BLA, Turniva.ROD, Turniva.SVART
@@ -376,3 +382,16 @@ class EgenskaperTest(unittest.TestCase):
         a = Sok(180, date(2026, 1, 1))
         b = Sok(180, date(2026, 7, 1))
         self.assertEqual(velg_turer(a, VARIERTE_TURER, ROD), velg_turer(b, VARIERTE_TURER, ROD))
+
+
+class InnenforTidOgNivatakTest(unittest.TestCase):
+    def test_tid_og_niva(self):  # FR-5, SM-C1
+        self.assertTrue(innenfor_tid_og_nivatak(lag_tur(estimert_tid_min=180), sok(180), GRONN))
+        self.assertFalse(innenfor_tid_og_nivatak(lag_tur(estimert_tid_min=185), sok(180), GRONN))
+        self.assertFalse(innenfor_tid_og_nivatak(lag_tur(turniva=BLA), sok(180), GRONN))
+        # «bla» < «gronn» alfabetisk, men blått er over grønt nivåtak.
+        self.assertTrue(innenfor_tid_og_nivatak(lag_tur(turniva=GRONN), sok(180), BLA))
+
+    def test_turtype_og_startpunkt_sjekkes_ikke(self):  # FR-8
+        tur = lag_tur(turtyper=("utsikt",))
+        self.assertTrue(innenfor_tid_og_nivatak(tur, sok(180, turtype="topptur"), GRONN))
