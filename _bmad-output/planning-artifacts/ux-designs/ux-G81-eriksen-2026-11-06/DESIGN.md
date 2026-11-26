@@ -83,7 +83,7 @@ colors:
   map-overlay-text: '#1F2A22'
   map-overlay-link: '#355146'
   map-marker-start: '#355146'
-  map-route: '#6A3D9A'           # plommelilla; ikke rød/oransje (stier og veier i kartet) og ikke blå (vann, nivå Blå)
+  map-route: '#673A97'           # plommelilla; ikke rød/oransje (stier og veier i kartet) og ikke blå (vann, nivå Blå)
   map-focus-ring: '#B0624A'
 typography:
   # Systemfonter, ingen webfont. Serif-stabel på overskrifter, systemets sans-serif på resten.
@@ -440,7 +440,7 @@ Paletten er **Granskog – Mosegrønn** ([mockups/color-themes-2.html](mockups/c
 
 Kartflisene er lyse i begge moduser. **Alt som ligger oppå flisene bruker kartlag-tokenene, som er like i lys og mørk modus**: Kreditering, målestokk, zoomknapper, startmarkør, rutelinje og fokusring på kartet.
 
-- **Rutelinje (`map-route`, plommelilla `#6A3D9A`)** er 5 px på en 9 px hvit kantlinje (`map-overlay-surface`). Den er verken rød eller oransje (som stier og veier i kartet) eller blå (som vann og nivået Blå).
+- **Rutelinje (`map-route`, plommelilla `#673A97`)** er 5 px på en 9 px hvit kantlinje (`map-overlay-surface`). Den er verken rød eller oransje (som stier og veier i kartet) eller blå (som vann og nivået Blå).
 - **Startmarkør (`map-marker-start`)**: mosegrønn sirkel med «S» og 2 px hvit kant.
 - **Kartlagsflate, tekst og lenke (`map-overlay-surface`, `map-overlay-text`, `map-overlay-link`)**: helt hvit flate (ingen gjennomsiktighet), mørk tekst og mosegrønne, understrekede lenker.
 - **Fokusring på kartet (`map-focus-ring`)**: 3 px fokusring med 3 px hvit ytre kant, så den synes mot både lyse og mørke partier i kartet.
@@ -473,12 +473,13 @@ Tekst skal ha minst 4,5:1, og komponenter som ikke er tekst, minst 3:1. Alle tal
 | `focus-ring` mot `surface` / `background` / `surface-alt` | 4,4 / 4,0 / 3,7 | 9,1 / 10,1 / 7,9 | 3,0 |
 | `input-border` mot `surface` / `background` / `surface-alt` | 4,4 / 4,0 / 3,7 | 7,5 / 8,2 / 6,5 | 3,0 |
 | `primary` (linje) på `profile-fill` (Turillustrasjon) | 6,4 | 5,5 | 3,0 |
-| `map-overlay-text` / `map-overlay-link` på `map-overlay-surface` | 14,9 / 8,7 | likt | 4,5 |
-| `map-route` mot hvit kant / OSM land / OSM skog / skog* / vann* | 7,6 / 6,7 / 4,5 / 5,7 / 4,8 | likt | 3,0 |
-| `map-marker-start` mot de samme flatene | 8,7 / 7,6 / 5,1 / 6,4 / 5,5 | likt | 3,0 |
-| `map-focus-ring` mot sin hvite ytre kant | 4,5 | likt | 3,0 |
+| `map-overlay-text` / `map-overlay-link` på `map-overlay-surface` | 14,8 / 8,6 | likt | 4,5 |
+| `map-route` mot hvit kant / skog / myr / vann / boligfelt / bebygd (grå)* | 7,9 / 3,1 / 6,6 / 7,5 / 3,9 / 3,3 | likt | 3,0 |
+| `map-marker-start` mot de samme flatene* | 8,6 / 3,4 / 7,2 / 8,1 / 4,2 / 3,6 | likt | 3,0 |
+| `map-marker-start` mot hvit «S» | 8,6 | likt | 4,5 |
+| `map-focus-ring` mot sin hvite ytre kant (rett mot skog / myr / vann / boligfelt / bebygd: 1,7 / 3,7 / 4,2 / 2,2 / 1,8, til informasjon)* | 4,4 | likt | 3,0 |
 
-\* Skog `#CDE6B4` og vann `#A8D3EE` er antatte flisfarger, og OSM-fargene (`#F2EFE9`, `#ADD19E`) er stedfortredere. **Rutefargen og markøren må måles mot de ekte flisene når fliskilden er valgt** (se Åpne punkter i EXPERIENCE.md).
+\* Målt 2026-11-26 mot Kartverkets topo-fliser (AR-10) på zoom 13 og 15, to steder for hver flate: skog `#9BA95F`, myr (hvit flate) `#EAEAEA`, vann `#E0FEFE`, boligfelt `#C9B29E` og bebygd (grå) `#A9A999`. Hver flate er den mørkeste skyggevarianten (1. persentil av relativ luminans) blant flisene. Det er et bevisst valg, ikke det absolutte minimum: om lag 1 % av skogpikslene på den mørkeste flisen er enda mørkere (ned til `#92A056`). Kartradene er rundet ned til én desimal, fordi WCAG ikke runder opp til kravet. Metode, fliser og typiske farger står i [docs/kartfarger.md](../../../../docs/kartfarger.md), og målingen gjentas med `skript/mal_kartfarger.py`. **Fokusringen måles mot sin hvite ytre kant:** på kartflaten har ringen 3 px hvitt på begge sider (hvit ytre kant og hvitt indre bånd), og på kontrollene har den hvit knapp inni og hvit `box-shadow` utenfor. Nabofargene er derfor hvite (WCAG 1.4.11). Tallene rett mot flatene står bare til informasjon. Målingen ga 2,998 mellom den forrige rutefargen `#6A3D9A` og den mørkeste skogen (Østmarka, zoom 15), like under kravet. Derfor ble `map-route` justert til `#673A97`, samme plommelilla, men litt mørkere. Justeringen godkjennes av produkteier i PR-en for story 6.5 (beslutning 4). Beslutning 1A, 4 og 5 står i [spec-en for story 6.5](../../../implementation-artifacts/spec-6-5-kartfargene-er-malt-mot-ekte-kartfliser.md).
 
 Nivåmerket Svart i mørk modus ligger nesten i samme tone som flaten (1,3:1). Derfor får det en innvendig kant i `text-muted-dark` (9,5:1 mot merket).
 
