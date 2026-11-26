@@ -29,7 +29,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 # - Retrospective appends its action items to action_items; the status view surfaces open ones
 generated: 11-22-2026 19:23
-last_updated: 11-26-2026 15:41
+last_updated: 11-26-2026 20:27
 project: G81-eriksen
 project_key: NOKEY
 tracking_system: file-system
@@ -83,12 +83,12 @@ development_status:
   5-3-p2-ola-ser-bekledningstips-på-turforslaget: backlog
   epic-5-retrospective: optional
 
-  epic-6: backlog
+  epic-6: in-progress
   6-1-p2-turforslaget-viser-en-turillustrasjon: backlog
   6-2-p2-turdatabasen-får-tur-16-30: backlog
   6-3-p2-siden-følger-mørk-modus-på-enheten: backlog
   6-4-p2-historikken-viser-fremgangen-mot-neste-nivå: backlog
-  6-5-kartfargene-er-målt-mot-ekte-kartfliser: backlog
+  6-5-kartfargene-er-målt-mot-ekte-kartfliser: review
   6-6-uu-og-mobil-er-testet-og-dokumentert: backlog
   6-7-nybegynnere-har-testet-kjerneflyten: backlog
   6-8-repoet-og-readme-er-klare-for-sensor: backlog
