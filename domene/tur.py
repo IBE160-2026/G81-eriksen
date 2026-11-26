@@ -29,6 +29,11 @@ class Turniva(StrEnum):  # AR-3, FR-2
     SVART = "svart"
 
 
+# Rekkefølgen fra lettest til hardest (FR-5). `Turniva` er en StrEnum og sammenligner
+# alfabetisk med `<`, så nivåer sammenlignes bare med posisjonen i denne tuplen.
+NIVAREKKEFOLGE = (Turniva.GRONN, Turniva.BLA, Turniva.ROD, Turniva.SVART)
+
+
 @dataclass(frozen=True)
 class Tur:  # AR-3
     """Eneste beskrivelse av en tur. Lister lagres som tuples, så turen kan hashes.
