@@ -84,6 +84,7 @@
 - [x] 2026-11-26 [story-1-9](975-2026-11-26-10-47-55-story-1-9.md) — merge PR #34, sett Story 1.9 til `done` og sjekk produksjonen; neste er Story 1.10 (kartet) (løst 2026-11-26 — PR #34 merget, produksjonen er sjekket; 1.10 startet)
 - [ ] 2026-11-26 [story-1-9](975-2026-11-26-10-47-55-story-1-9.md) — produkteier godkjenner de foreløpige tekstene merket [ASSUMPTION] fra 1.9 (listet i PR #34)
 - [ ] 2026-11-26 [story-1-9](975-2026-11-26-10-47-55-story-1-9.md) — rydd Neon-preview-grenen etter hver merge (Neon › Branches › «Clean up branches», eller slett gamle forhåndsvisninger i Vercel); Neon Free tillater bare 10 grener
-- [ ] 2026-11-26 [story-1-10](974-2026-11-26-15-37-59-story-1-10.md) — merge PR #35, sett Story 1.10 til `done` og sjekk produksjonen; neste er story 6.5 (kartfargene mot ekte fliser), så 1.11
+- [x] 2026-11-26 [story-1-10](974-2026-11-26-15-37-59-story-1-10.md) — merge PR #35, sett Story 1.10 til `done` og sjekk produksjonen; neste er story 6.5 (kartfargene mot ekte fliser), så 1.11 (løst 2026-11-26 — PR #35 merget, produksjonen er sjekket)
 - [ ] 2026-11-26 [story-1-10](974-2026-11-26-15-37-59-story-1-10.md) — test berøring med to fingre på en ekte mobil (forhåndsvisningen for PR #35)
 - [ ] 2026-11-26 [story-1-10](974-2026-11-26-15-37-59-story-1-10.md) — oppførselen i `kart.js` testes bare som tekst (deferred-work.md)
+- [ ] 2026-11-26 [story-1-10](974-2026-11-26-15-37-59-story-1-10.md) — neste er `bmad-build` for story 6.5 (kartfargene målt mot ekte kartfliser) på `implementering/story-6-5`, deretter 1.11
