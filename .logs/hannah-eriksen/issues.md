@@ -77,4 +77,4 @@
 - [x] 2026-11-25 [story-1-7](979-2026-11-24-21-49-45-story-1-7.md) — neste er Story 1.8 (`bmad-build`) på `implementering/story-1-8` (løst 2026-11-26 — implementert i PR #31)
 - [ ] 2026-11-26 [story-1-8](978-2026-11-26-09-14-18-story-1-8.md) — kjør `bmad-correct-course` før Story 1.9: maks varighet 1–12 t i PRD, EXPERIENCE.md og epics.md, og meldingen for TOPPTUR_ERSTATTET sier «passer søket ditt»
 - [ ] 2026-11-26 [story-1-8](978-2026-11-26-09-14-18-story-1-8.md) — to tester i `tests.web.test_vercel` feiler lokalt fordi Smart App Control blokkerer psycopg-DLL-en i `venv/`; sjekk innstillingen eller installer `psycopg[binary]` på nytt
-- [ ] 2026-11-26 [story-1-8](978-2026-11-26-09-14-18-story-1-8.md) — sjekk byggeloggen til forhåndsvisningen for PR #31; sett Story 1.8 til `done` når PR-en er merget, og sjekk produksjonen
+- [ ] 2026-11-26 [story-1-8](978-2026-11-26-09-14-18-story-1-8.md) — sett Story 1.8 til `done` når PR #31 er merget, og sjekk produksjonen (forhåndsvisningen er sjekket 2026-11-26: grønn)
