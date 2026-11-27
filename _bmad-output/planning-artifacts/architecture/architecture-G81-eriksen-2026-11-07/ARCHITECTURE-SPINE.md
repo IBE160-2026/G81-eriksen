@@ -356,7 +356,7 @@ sequenceDiagram
 | Utsatt | Hvorfor det kan vente |
 | --- | --- |
 | Ordlyden i KI-prompten | Kallrekkefølgen og valideringen (AD-10) binder resultatet; ordlyden justeres under implementering |
-| Om utfylte felt beholdes gjennom ny innlogging | UX-punktet er `[ASSUMPTION]`; avgjøres i kontostoryen |
+| Om utfylte felt beholdes gjennom ny innlogging | **Avgjort i story 2.5 (Hannah):** utfylte felt beholdes ikke. Økta er borte og systemet skiller ikke utløpt innlogging fra «aldri innlogget», så brukeren sendes til Logg inn med `next` og tilbake til samme side, uten lagring av skjemadata for gjester og uten egen melding |
 | E-postutsending og passordtilbakestilling | Utenfor v1 (PRD §7.2). Publiseringen (AD-15) endrer ikke det |
 | Eget domene | `.vercel.app`-adressen er nok i v1 (AD-15 punkt 8) |
 | Leverandørbytte for KI (Gemini Flash-Lite) | Bare hvis Anthropic-startkreditten ikke finnes; krever én ny variant i `tjenester/ki/` (AD-10) |

@@ -85,11 +85,14 @@ class SkjemaTest(RegistreringTestBase):
         self.assertEqual(Client().post(self.adresse(), self.data("x")).status_code, 302)
         self.assertEqual(Registrering.objects.count(), 0)
 
-    def test_knapp_pa_turforslaget_bare_for_innlogget(self):  # FR-16
+    def test_knapp_pa_turforslaget_for_gjest_og_innlogget(self):  # FR-16, FR-14
         soke_data = {"varighet": "180", "dato": I_DAG.isoformat(), "turtype": "", "startpunkt": ""}
         gjest = Client()
         forslag = gjest.post("/", soke_data)["Location"]
-        self.assertNotContains(gjest.get(forslag), "Registrer gjennomført tur")
+        svar = gjest.get(forslag)
+        self.assertContains(svar, 'class="knapp-sekundaer" href="/logg-inn/?next=/registrer/')
+        self.assertContains(svar, f"&amp;sok={forslag.split('/')[2]}")
+        self.assertContains(svar, "Registrer gjennomført tur</a>")
         forslag = self.client.post("/", soke_data)["Location"]
         svar = self.client.get(forslag)
         self.assertContains(svar, 'class="knapp-sekundaer" href="/registrer/')
@@ -400,3 +403,109 @@ class HistorikkTurTest(RegistreringTestBase):
         self.assertContains(
             svar, '<span class="skjult-tekst"> – Rundt Bråtenvann, 7. nov.</span>', count=2
         )
+
+
+class KravOmKontoTest(TestCase):  # FR-14, AD-6, AR-8, NFR-8, UX-DR26
+    def setUp(self):
+        lagre_testturer()
+        self.ola = Bruker.objects.create_user("ola@eksempel.no", PASSORD)
+        self.gjest = Client()
+        self.sok_id = self.gjest.post(
+            "/", {"varighet": "180", "dato": "2026-11-27", "turtype": "", "startpunkt": ""}
+        )["Location"].split("/")[2]
+        self.adresse = f"/logg-inn/?next=/registrer/{TUR}/&sok={self.sok_id}"
+
+    def test_knappen_peker_til_logg_inn_med_next_og_sok(self):
+        svar = self.gjest.get(f"/forslag/{self.sok_id}/")
+        tur = svar.context["visning"].tur.id
+        self.assertContains(svar, f'href="/logg-inn/?next=/registrer/{tur}/&amp;sok={self.sok_id}"')
+
+    def test_logg_inn_viser_oppsummering_og_tilbake(self):
+        for side in ("/logg-inn/", "/lag-konto/"):
+            with self.subTest(side=side):
+                svar = self.gjest.get(self.adresse.replace("/logg-inn/", side))
+                self.assertContains(svar, "Logg inn for å registrere")
+                self.assertContains(svar, "Rundt Bråtenvann")
+                self.assertContains(svar, "Turforslaget er tatt vare på.")
+                self.assertContains(
+                    svar, f'href="/forslag/{self.sok_id}/">Tilbake til turforslaget'
+                )
+                self.assertContains(svar, f'name="sok" value="{self.sok_id}"')
+                self.assertContains(svar, "next=/registrer/marka-lang/&amp;sok=" + self.sok_id)
+
+    def test_ukjent_sok_gir_ingen_tatt_vare_pa(self):
+        for sok in ("finnes-ikke", ""):
+            svar = self.gjest.get(f"/logg-inn/?next=/registrer/{TUR}/&sok={sok}")
+            self.assertContains(svar, "Logg inn for å registrere")
+            self.assertNotContains(svar, "tatt vare på")
+            self.assertNotContains(svar, "Tilbake til turforslaget")
+            self.assertNotContains(svar, 'name="sok"')
+
+    def test_ukjent_tur_og_vanlig_logg_inn_uten_oppsummering(self):
+        for adresse in ("/logg-inn/?next=/registrer/finnes-ikke/", "/logg-inn/?next=/historikk/"):
+            svar = self.gjest.get(adresse)
+            self.assertNotContains(svar, "Logg inn for å registrere")
+            self.assertNotContains(svar, "turoppsummering")
+
+    def test_logg_inn_herfra_gar_til_registreringen_med_samme_forslag(self):
+        for_okt = dict(self.gjest.session).get("sok")
+        svar = self.gjest.post(
+            "/logg-inn/",
+            {
+                "epost": "ola@eksempel.no",
+                "passord": PASSORD,
+                "next": f"/registrer/{TUR}/",
+                "sok": self.sok_id,
+            },
+        )
+        self.assertRedirects(svar, f"/registrer/{TUR}/", fetch_redirect_response=False)
+        self.assertEqual(dict(self.gjest.session).get("sok"), for_okt)
+
+    def test_feil_innlogging_bevarer_next_og_sok(self):
+        svar = self.gjest.post(
+            "/logg-inn/",
+            {
+                "epost": "ola@eksempel.no",
+                "passord": "feil",
+                "next": f"/registrer/{TUR}/",
+                "sok": self.sok_id,
+            },
+        )
+        self.assertContains(svar, "Turforslaget er tatt vare på.")
+        self.assertContains(svar, f'name="sok" value="{self.sok_id}"')
+
+    def test_lag_konto_herfra_gar_til_registreringen(self):
+        svar = self.gjest.post(
+            "/lag-konto/",
+            {
+                "epost": "ny@eksempel.no",
+                "passord": PASSORD,
+                "next": f"/registrer/{TUR}/",
+                "sok": self.sok_id,
+            },
+        )
+        self.assertRedirects(svar, f"/registrer/{TUR}/", fetch_redirect_response=False)
+        self.assertTrue(Bruker.objects.filter(email="ny@eksempel.no").exists())
+
+    def test_direkte_til_registrering_og_historikk(self):
+        svar = self.gjest.get(f"/registrer/{TUR}/", follow=True)
+        self.assertContains(svar, "Logg inn for å registrere")
+        self.assertNotContains(svar, "tatt vare på")
+        svar = self.gjest.post(
+            "/logg-inn/",
+            {"epost": "ola@eksempel.no", "passord": PASSORD, "next": "/historikk/"},
+        )
+        self.assertRedirects(svar, "/historikk/", fetch_redirect_response=False)
+
+    def test_ekstern_next_gir_sok(self):
+        svar = Client().post(
+            "/logg-inn/",
+            {"epost": "ola@eksempel.no", "passord": PASSORD, "next": "https://annet.no/"},
+        )
+        self.assertRedirects(svar, "/", fetch_redirect_response=False)
+
+    def test_utlopt_innlogging_sendes_til_logg_inn_med_next(self):
+        self.client.force_login(self.ola)
+        self.client.logout()
+        svar = self.client.get("/konto/")
+        self.assertRedirects(svar, "/logg-inn/?next=/konto/", fetch_redirect_response=False)

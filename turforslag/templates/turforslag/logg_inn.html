@@ -6,18 +6,27 @@
 {% block innhold %}
   {# FR-14, UX-DR26: Logg inn. Tekstene er fra EXPERIENCE.md › Mikrotekst. Virker uten JS (AR-18). #}
   <div class="sok">
-    <h1 class="display" tabindex="-1">Logg inn</h1>
+    {% if oppsummering %}
+      <h1 class="display" tabindex="-1">Logg inn for å registrere</h1>
+      {% include "turforslag/_turoppsummering.html" %}
+      {% if tilbake_url %}
+        <p>Turforslaget er tatt vare på. <a class="handlingslenke" href="{{ tilbake_url }}">Tilbake til turforslaget</a></p>
+      {% endif %}
+    {% else %}
+      <h1 class="display" tabindex="-1">Logg inn</h1>
+    {% endif %}
     {% if feil %}
       {% include "turforslag/_melding.html" with type="feil" tittel=feil %}
     {% endif %}
     <form class="sokeskjema" method="post" action="{% url 'turforslag:logg_inn' %}" novalidate>
       {% csrf_token %}
       {% if neste %}<input type="hidden" name="next" value="{{ neste }}">{% endif %}
+      {% if sok_id %}<input type="hidden" name="sok" value="{{ sok_id }}">{% endif %}
       {% include "turforslag/_tekstfelt.html" with felt=skjema.epost verdi=skjema.epost.value type="email" etikett="E-post" autocomplete="email" %}
       {% include "turforslag/_tekstfelt.html" with felt=skjema.passord type="password" etikett="Passord" autocomplete="current-password" fokus=feil %}
       <button class="knapp-primaer" type="submit">Logg inn</button>
     </form>
     {# [ASSUMPTION] «Har du ikke konto? Lag konto» (epics.md, story 2.1) #}
-    <p>Har du ikke konto? <a class="handlingslenke" href="{% url 'turforslag:lag_konto' %}{% if neste %}?next={{ neste|urlencode }}{% endif %}">Lag konto</a></p>
+    <p>Har du ikke konto? <a class="handlingslenke" href="{% url 'turforslag:lag_konto' %}{% if neste %}?next={{ neste|urlencode }}{% if sok_id %}&amp;sok={{ sok_id|urlencode }}{% endif %}{% endif %}">Lag konto</a></p>
   </div>
 {% endblock %}

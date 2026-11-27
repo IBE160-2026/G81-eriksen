@@ -111,5 +111,8 @@
 - [ ] 2026-11-27 [story-2-3](967-2026-11-27-09-04-00-story-2-3.md) — produkteier godkjenner [ASSUMPTION]-tekstene i registreringsskjemaet (datoer, brukt tid, vanskelighet, fornøydhet, «I dag eller tidligere»)
 - [ ] 2026-11-27 [story-2-3](967-2026-11-27-09-04-00-story-2-3.md) — test Historikk og skjema under 720 px (rulling) på ekte mobil eller smalt vindu
 - [ ] 2026-11-27 [story-2-3](967-2026-11-27-09-04-00-story-2-3.md) — utsatt: samtidig dobbel POST mot økta, `CheckConstraint` på Registrering, paginering og år i datoen (deferred-work.md)
-- [ ] 2026-11-27 [story-2-4](966-2026-11-27-09-20-00-story-2-4.md) — merge PR for 2.4 og PR #47; sett 2.4 `done`, sjekk prod; deretter story 2.5
+- [x] 2026-11-27 [story-2-4](966-2026-11-27-09-20-00-story-2-4.md) — merge PR for 2.4 og PR #47; sett 2.4 `done`, sjekk prod; deretter story 2.5 (løst 2026-11-27 — PR #47/#48 merget, prod OK; `done` ligger i PR #49, se [story-2-5](965-2026-11-27-09-35-00-story-2-5.md))
 - [ ] 2026-11-27 [story-2-4](966-2026-11-27-09-20-00-story-2-4.md) — se kartet og handlingskolonnen i Historikk visuelt (skjermbilder tidsavbrøt); pågående søk i annen fane bare testet i kode
+- [ ] 2026-11-27 [story-2-5](965-2026-11-27-09-35-00-story-2-5.md) — merge PR for 2.5 og PR #49; sett 2.5 `done`, sjekk prod; deretter story 2.6
+- [ ] 2026-11-27 [story-2-5](965-2026-11-27-09-35-00-story-2-5.md) — produkteier godkjenner Mikrotekst-endringen (innlogging utløpt tatt ut) og tekstene «Logg inn for å registrere» og «Turforslaget er tatt vare på.»
+- [ ] 2026-11-27 [story-2-5](965-2026-11-27-09-35-00-story-2-5.md) — «Tilbake til turforslaget» etter klikk, utløpt innlogging og ekstern `next` er bare testet i kode, ikke i nettleser
