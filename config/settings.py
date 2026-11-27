@@ -136,3 +136,8 @@ if MILJO.vercel:
         },
         "root": {"handlers": ["standard_ut"], "level": "INFO"},
     }
+
+# Innloggingsgrense (NFR-8, AR-9): så mange mislykkede forsøk med samme e-post på så mange
+# minutter sperrer nye forsøk. Testene bruker `override_settings`.
+INNLOGGING_MAKS_FORSOK = 5
+INNLOGGING_SPERRETID_MIN = 15

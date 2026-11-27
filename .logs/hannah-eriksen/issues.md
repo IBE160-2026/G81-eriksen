@@ -103,4 +103,7 @@
 - [ ] 2026-11-27 [story-2-1](969-2026-11-27-08-30-00-story-2-1.md) — produkteier godkjenner [ASSUMPTION]-tekstene «Jeg foreslår bare grønne turer foreløpig.», «Passordet kan ha høyst 128 tegn» og «Har du allerede konto? Logg inn»
 - [ ] 2026-11-27 [story-2-1](969-2026-11-27-08-30-00-story-2-1.md) — finpuss «Vis passord»-avkrysningsboksen (24 px, står skjevt ved teksten); axe-sjekk ikke kjørt
 - [ ] 2026-11-27 [story-2-1](969-2026-11-27-08-30-00-story-2-1.md) — utsatt: tester for IntegrityError-race og meldingsfokus; meny for innlogget på 500/403-sider (deferred-work.md)
-- [ ] 2026-11-27 [story-2-1](969-2026-11-27-08-30-00-story-2-1.md) — merge PR for 2.1, sett 2.1 `done`, sjekk prod; rydd Neon-grener først (spør Hannah)
+- [x] 2026-11-27 [story-2-1](969-2026-11-27-08-30-00-story-2-1.md) — merge PR for 2.1, sett 2.1 `done`, sjekk prod; rydd Neon-grener først (spør Hannah) (løst 2026-11-27 — PR #42 merget, prod OK, Neon ryddet; `done` ligger i PR #43, se [story-2-2](968-2026-11-27-08-44-00-story-2-2.md))
+- [ ] 2026-11-27 [story-2-2](968-2026-11-27-08-44-00-story-2-2.md) — merge PR for 2.2 og PR #43; sett 2.2 `done`, sjekk prod (migrering `0003` mot Neon)
+- [ ] 2026-11-27 [story-2-2](968-2026-11-27-08-44-00-story-2-2.md) — rydd Neon-grener igjen når nær 10 (spør først)
+- [ ] 2026-11-27 [story-2-2](968-2026-11-27-08-44-00-story-2-2.md) — utsatt: admin-innlogging uten forsøksgrense; vekst i `Innloggingsforsok` ved flom; Lag konto uten sperre (deferred-work.md)

@@ -1,13 +1,14 @@
 """Konto: Lag konto, Logg inn, Konto og Logg ut (story 2.1, FR-14, AR-9, NFR-5, NFR-8)."""
 
-from datetime import date
+from datetime import date, timedelta
 from unittest import mock
 
 from django.test import Client, TestCase
+from django.utils import timezone
 
 from tests.web.test_grunnoppsett import ROT, les_html
 from tests.web.testturer import lagre_testturer
-from turforslag.models import Bruker
+from turforslag.models import Bruker, Innloggingsforsok
 
 EPOST = "ola@eksempel.no"
 PASSORD = "hemmelig123"
@@ -256,3 +257,96 @@ class KontoTest(TestCase):
         )
         self.assertIn("user.is_authenticated", mal)
         self.assertIn("Lag konto</a>", mal)
+
+
+SPERRE = "Det har vært for mange forsøk på å logge inn med denne e-postadressen. Vent 15 minutter"
+
+
+class InnloggingsgrenseTest(TestCase):  # NFR-8, AR-9
+    def logg_inn(self, epost=EPOST, passord=PASSORD):
+        return self.client.post("/logg-inn/", {"epost": epost, "passord": passord})
+
+    def feil_forsok(self, antall, epost=EPOST):
+        for _ in range(antall):
+            self.logg_inn(epost, "feil-passord")
+
+    def antall(self, epost=EPOST):
+        return Innloggingsforsok.objects.filter(epost=epost).count()
+
+    def setUp(self):
+        Bruker.objects.create_user(EPOST, PASSORD)
+
+    def test_forste_feil_lagres_med_sma_bokstaver(self):
+        svar = self.logg_inn("OLA@Eksempel.no", "feil-passord")
+        self.assertContains(svar, "Feil e-post eller passord")
+        self.assertEqual(self.antall(), 1)
+
+    def test_ukjent_epost_lagres(self):
+        svar = self.logg_inn("ukjent@eksempel.no", "x")
+        self.assertContains(svar, "Feil e-post eller passord")
+        self.assertEqual(self.antall("ukjent@eksempel.no"), 1)
+
+    def test_femte_feil_gir_vanlig_melding_sjette_sperres(self):
+        self.feil_forsok(4)
+        svar = self.logg_inn(EPOST, "feil-passord")
+        self.assertContains(svar, "Feil e-post eller passord")
+        self.assertEqual(self.antall(), 5)
+        with mock.patch("turforslag.views.authenticate") as auth:
+            svar = self.logg_inn(EPOST, "feil-passord")
+            auth.assert_not_called()
+        self.assertEqual(svar.status_code, 200)
+        self.assertContains(svar, SPERRE)
+        self.assertContains(svar, f'value="{EPOST}"')
+        self.assertNotContains(svar, "feil-passord")
+        self.assertEqual(self.antall(), 5)
+
+    def test_riktig_passord_mens_sperret_logger_ikke_inn(self):
+        self.feil_forsok(5)
+        svar = self.logg_inn(EPOST, PASSORD)
+        self.assertContains(svar, SPERRE)
+        self.assertNotIn("_auth_user_id", self.client.session)
+        self.assertEqual(self.antall(), 5)
+
+    def test_sperre_likt_for_ukjent_epost_og_annen_case(self):
+        self.feil_forsok(5, "ukjent@eksempel.no")
+        self.assertContains(self.logg_inn("Ukjent@Eksempel.no", "x"), SPERRE)
+        self.feil_forsok(5, "OLA@eksempel.no")
+        self.assertContains(self.logg_inn(EPOST, "x"), SPERRE)
+        self.assertEqual(self.antall("ukjent@eksempel.no"), 5)
+
+    def test_sperren_gjelder_ikke_andre_epost(self):
+        self.feil_forsok(5)
+        self.assertNotContains(self.logg_inn("annen@eksempel.no", "x"), SPERRE)
+
+    def test_sperren_slutter(self):
+        self.feil_forsok(5)
+        eldste = Innloggingsforsok.objects.order_by("id").first()
+        Innloggingsforsok.objects.filter(pk=eldste.pk).update(
+            tidspunkt=timezone.now() - timedelta(minutes=15, seconds=1)
+        )
+        svar = self.logg_inn(EPOST, PASSORD)
+        self.assertRedirects(svar, "/", fetch_redirect_response=False)
+
+    def test_vellykket_innlogging_sletter_forsok(self):
+        self.feil_forsok(3)
+        Innloggingsforsok.objects.create(epost="annen@eksempel.no")
+        self.logg_inn()
+        self.assertEqual(self.antall(), 0)
+        self.assertEqual(self.antall("annen@eksempel.no"), 1)
+
+    def test_ugyldig_skjema_teller_ikke(self):
+        self.logg_inn("", "x")
+        self.logg_inn("x" * 255, "x")
+        self.assertEqual(Innloggingsforsok.objects.count(), 0)
+
+    def test_opprydding_sletter_gamle_forsok_for_alle(self):
+        gammel = timezone.now() - timedelta(minutes=16)
+        for epost in ("a@eksempel.no", EPOST):
+            Innloggingsforsok.objects.create(epost=epost, tidspunkt=gammel)
+        self.logg_inn(EPOST, "feil-passord")
+        self.assertEqual(Innloggingsforsok.objects.count(), 1)
+
+    def test_innstillinger_kan_senkes(self):
+        with self.settings(INNLOGGING_MAKS_FORSOK=2):
+            self.feil_forsok(2)
+            self.assertContains(self.logg_inn(EPOST, PASSORD), SPERRE)

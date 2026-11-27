@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+from django.db.models.functions import Now
+from django.utils import timezone
 
 from domene import tur as domenetur
 
@@ -128,3 +130,18 @@ class Tur(models.Model):
 
     def __str__(self):
         return self.navn
+
+
+class Innloggingsforsok(models.Model):
+    """Et mislykket innloggingsforsøk, også for e-poster uten konto (AR-9, NFR-8)."""
+
+    epost = models.CharField("e-post", max_length=254)
+    tidspunkt = models.DateTimeField("tidspunkt", default=timezone.now, db_default=Now())
+
+    class Meta:
+        verbose_name = "innloggingsforsøk"
+        verbose_name_plural = "innloggingsforsøk"
+        indexes = [models.Index(fields=["epost", "tidspunkt"], name="innloggingsforsok_epost_tid")]
+
+    def __str__(self):
+        return f"{self.epost} {self.tidspunkt:%Y-%m-%d %H:%M:%S}"

@@ -123,6 +123,10 @@ class SokForm(forms.Form):  # FR-4
 
 # Konto (FR-14). Tekstene er fra EXPERIENCE.md › Mikrotekst.
 FEIL_INNLOGGING = "Feil e-post eller passord"
+FEIL_FOR_MANGE_FORSOK = (  # NFR-8, [ASSUMPTION] Mikrotekst
+    "Det har vært for mange forsøk på å logge inn med denne e-postadressen. "
+    "Vent 15 minutter, og prøv igjen."
+)
 FEIL_KONTO_FINNES = "Kunne ikke lage konto – prøv å logge inn"
 FEIL_EPOST_MANGLER = "Skriv inn e-postadressen din"  # [ASSUMPTION] Mikrotekst
 FEIL_EPOST_UGYLDIG = "E-postadressen må ha med @, for eksempel ola@eksempel.no"  # [ASSUMPTION]
