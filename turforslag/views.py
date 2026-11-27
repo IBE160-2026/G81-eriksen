@@ -17,8 +17,15 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods, require_POST, require_safe
 
-from turforslag import okt, sokflyt
-from turforslag.forms import FEIL_INNLOGGING, FEIL_KONTO_FINNES, LagKontoForm, LoggInnForm, SokForm
+from turforslag import innloggingsgrense, okt, sokflyt
+from turforslag.forms import (
+    FEIL_FOR_MANGE_FORSOK,
+    FEIL_INNLOGGING,
+    FEIL_KONTO_FINNES,
+    LagKontoForm,
+    LoggInnForm,
+    SokForm,
+)
 
 # Nøkkelen for meldingen «Turforslaget er ikke lenger tilgjengelig …» på Søk. Teksten står i malen.
 FORSLAG_UTILGJENGELIG = "forslag-utilgjengelig"
@@ -140,10 +147,22 @@ def logg_inn(request):  # FR-14, AR-8, NFR-8
         skjema = LoggInnForm(request.POST)
         if skjema.is_valid():
             data = skjema.cleaned_data
-            bruker = authenticate(request, username=data["epost"], password=data["passord"])
+            epost = data["epost"]
+            na = timezone.now()
+            if epost:
+                innloggingsgrense.rydd_gamle(na)
+                if innloggingsgrense.er_epost_sperret(epost, na):
+                    feil = FEIL_FOR_MANGE_FORSOK
+                    return _kontoside(
+                        request, "turforslag/logg_inn.html", skjema, _neste(request), feil=feil
+                    )
+            bruker = authenticate(request, username=epost, password=data["passord"])
             if bruker is not None:
+                innloggingsgrense.slett_forsok(epost)
                 login(request, bruker)
                 return _etter_innlogging(request)
+            if epost:
+                innloggingsgrense.lagre_forsok(epost, na)
         feil = FEIL_INNLOGGING
     return _kontoside(request, "turforslag/logg_inn.html", skjema, _neste(request), feil=feil)
 
