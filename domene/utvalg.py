@@ -44,6 +44,12 @@ def _nivaplass(niva: Turniva) -> int:  # FR-5
     return NIVAREKKEFOLGE.index(niva)
 
 
+def er_over_nivatak(tur: Tur) -> bool:  # FR-17, FR-18
+    """Om turen er over nivåtaket for turforslag fra historikken. Til Epic 3 er taket
+    grønt for alle. Story 3.2 bytter taket her til taket fra historikken."""
+    return _nivaplass(tur.turniva) > _nivaplass(NIVATAK_UTEN_HISTORIKK)
+
+
 def _passer(tur: Tur, sok: Sok, nivatak: Turniva | None) -> bool:  # FR-5
     """Om turen passer søket. Med `nivatak=None` sjekkes ikke nivået."""
     if tur.estimert_tid_min > sok.varighet_min:

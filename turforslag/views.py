@@ -259,3 +259,14 @@ def historikk(request):  # FR-17, NFR-8
         "turforslag/historikk.html",
         {"rader": registrering.historikk(request.user), "registrert": REGISTRERT in meldinger},
     )
+
+
+@login_required
+@never_cache
+@require_safe
+def historikk_tur(request, registrering_id):  # FR-17, FR-7, NFR-8
+    """Turen fra en av brukerens egne registreringer som turforslag. Rører ikke søketilstanden."""
+    visning = registrering.historikkvisning(request.user, registrering_id)
+    if visning is None:
+        raise Http404
+    return render(request, "turforslag/forslag.html", {"visning": visning})

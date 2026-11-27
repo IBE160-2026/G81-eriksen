@@ -4,7 +4,7 @@
 {% block meny_historikk %} aria-current="page"{% endblock %}
 
 {% block innhold %}
-  {# FR-17, UX-DR28: ekte tabell i en rullbar region. Handlingskolonnen er tom til story 2.4. #}
+  {# FR-17, UX-DR28: ekte tabell i en rullbar region. Handlingskolonnen (2.4) har lenker med skjulte tillegg. #}
   <div class="historikk">
     <h1 class="headline-lg" tabindex="-1">Historikk</h1>
     {% if registrert %}
@@ -34,7 +34,10 @@
                 <td>{{ rad.brukt_tid }}<span class="historikk-estimert caption">{{ rad.estimert_tid }}</span></td>
                 <td>{{ rad.vanskelighet }}</td>
                 <td>{{ rad.fornoydhet }}</td>
-                <td></td>
+                <td class="historikk-handlinger">
+                  <a class="handlingslenke" href="{% url 'turforslag:historikk_tur' registrering_id=rad.id %}">Åpne som turforslag<span class="skjult-tekst"> {{ rad.tillegg }}</span></a>
+                  <a class="handlingslenke" href="{% url 'turforslag:registrer' tur_id=rad.tur_id %}">Registrer gjennomført tur<span class="skjult-tekst"> {{ rad.tillegg }}</span></a>
+                </td>
               </tr>
             {% endfor %}
           </tbody>

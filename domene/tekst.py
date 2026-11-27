@@ -293,6 +293,8 @@ class Forslagsvisning:  # FR-6, FR-7, FR-8
     alle_vist: bool = False  # FR-7: Tilstandspanel «alle vist»
     ingress_alle_vist: str = ""
     endringsforslag: tuple[Endringsforslag, ...] = ()  # FR-8, UX-DR17
+    fra_historikk: bool = False  # FR-17: turforslag fra historikken
+    over_nivatak: bool = False  # FR-17: merknaden «Denne turen er over nivået …»
 
     @property
     def ingen_treff(self) -> bool:  # FR-8
@@ -342,13 +344,19 @@ def turvisning(sok: Sok, status: Status, tur: Tur, begrunnelse: str) -> Turvisni
     treff = None
     if sok.turtype is not None and sok.turtype in tur.turtyper:
         treff = turtype_treff(sok.turtype)
+    return _turvisning(tur, begrunnelse, treff, status == Status.TOPPTUR_ERSTATTET)
+
+
+def _turvisning(
+    tur: Tur, begrunnelse: str, treff: str | None, topptur_erstattet: bool
+) -> Turvisning:  # FR-6
     return Turvisning(
         id=tur.id,
         navn=tur.navn,
         niva=Turniva(tur.turniva).value,
         nivatekst=formater_niva(tur.turniva),
         turtype_treff=treff,
-        topptur_erstattet=status == Status.TOPPTUR_ERSTATTET,
+        topptur_erstattet=topptur_erstattet,
         form=formater_form(tur.form),
         startpunkt_navn=tur.startpunkt_navn,
         lengde=formater_lengde(total_lengde_m(tur.form, tur.lengde_m)),
@@ -393,6 +401,21 @@ def forslagsvisning(
         alle_vist=vist,
         ingress_alle_vist=ingress,
         endringsforslag=endringsforslag,
+    )
+
+
+FRA_HISTORIKKEN = "Fra historikken din"  # FR-17, Mikrotekst
+
+
+def historikkvisning(tur: Tur, begrunnelse: str, over_nivatak: bool) -> Forslagsvisning:  # FR-17
+    """Turforslaget fra historikken: «Fra historikken din» i stedet for søkeoppsummeringen,
+    uten Turtype-treff. Ingen søketilstand er med."""
+    return Forslagsvisning(
+        sokeoppsummering=FRA_HISTORIKKEN,
+        status=Status.TREFF,
+        tur=_turvisning(tur, begrunnelse, None, False),
+        fra_historikk=True,
+        over_nivatak=over_nivatak,
     )
 
 
@@ -470,10 +493,13 @@ def turoppsummering(tur: Tur) -> Turoppsummering:  # FR-16, UX-DR27
 class Historikkrad:  # FR-17, UX-DR28
     """Én rad i Historikk. Alt er ferdig formatert."""
 
+    id: int
+    tur_id: str
     tur_navn: str
     niva: str
     nivatekst: str
     dato: str
+    tillegg: str  # skjult tillegg til handlingene: «– Turnavn, 7. nov.»
     brukt_tid: str
     estimert_tid: str
     vanskelighet: str
@@ -481,6 +507,7 @@ class Historikkrad:  # FR-17, UX-DR28
 
 
 def historikkrad(
+    registrering_id: int,
     tur: Tur,
     dato: date,
     brukt_tid_min: int,
@@ -488,11 +515,15 @@ def historikkrad(
     fornoydhet: int,
 ) -> Historikkrad:  # FR-17, UX-DR28
     """Raden for en registrering av turen."""
+    kort_dato = formater_dato_historikk(dato)
     return Historikkrad(
+        id=registrering_id,
+        tur_id=tur.id,
         tur_navn=tur.navn,
         niva=Turniva(tur.turniva).value,
         nivatekst=formater_niva(tur.turniva),
-        dato=formater_dato_historikk(dato),
+        dato=kort_dato,
+        tillegg=f"– {tur.navn}, {kort_dato}",
         brukt_tid=formater_brukt_tid(brukt_tid_min),
         estimert_tid=formater_estimert_tid(tur.estimert_tid_min),
         vanskelighet=formater_vanskelighet(vanskelighet),
