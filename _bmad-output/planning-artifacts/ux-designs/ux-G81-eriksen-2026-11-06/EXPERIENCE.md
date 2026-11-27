@@ -181,6 +181,7 @@ Har en rad flere tekster med ulik kilde, står kilden per tekst.
 | Bekreft sletting | Overskrift «Vil du slette kontoen?», tekst «All historikken din slettes for godt, og det kan ikke angres.» | Godkjent (memlog) |
 | Sletteknapper | «Slett kontoen», «Avbryt» | [ASSUMPTION] |
 | Kvittering etter sletting | «Kontoen din er slettet.» | [ASSUMPTION] |
+| Sletting feilet | «Kontoen ble ikke slettet. Prøv igjen.» (Melding (feil), uten egen knapp: «Slett kontoen» er selve «Prøv igjen») | [ASSUMPTION]. Story 2.6 |
 | Kreditering (på kartet) | «© Kartverket · © OpenStreetMap contributors» | PRD (NFR-7) |
 | Kreditering for turillustrasjon uten kart | «Rute: © Kartverket» eller «Rute: © OpenStreetMap contributors», etter turens kilde | [ASSUMPTION] |
 
