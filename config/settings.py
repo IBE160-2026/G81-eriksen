@@ -17,6 +17,7 @@ MILJO = miljo.last_inn(BASE_DIR, os.environ)  # NFR-1, AD-12 punkt 3
 
 SECRET_KEY = MILJO.secret_key
 DEBUG = MILJO.debug
+VERCEL = MILJO.vercel
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "[::1]"]
 
 ANTHROPIC_API_KEY = MILJO.anthropic_api_key
