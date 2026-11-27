@@ -124,6 +124,8 @@
 - [x] 2026-11-27 [story-3-2](962-2026-11-27-11-05-00-story-3-2.md) — merge PR for 3.2 og PR #55; sett 3.2 `done`, sjekk prod; deretter story 3.3 (løst 2026-11-27 — PR #56 merget; `done` ligger i PR #57, se [story-3-3](961-2026-11-27-12-00-00-story-3-3.md))
 - [ ] 2026-11-27 [story-3-2](962-2026-11-27-11-05-00-story-3-2.md) — søk som innlogget bruker med historikk er bare testet i kode, ikke sett i nettleser
 - [ ] 2026-11-27 [story-3-2](962-2026-11-27-11-05-00-story-3-2.md) — utsatt: `avgjor_nivaheving` ikke atomisk ved samtidige søk (deferred-work.md)
-- [ ] 2026-11-27 [story-3-3](961-2026-11-27-12-00-00-story-3-3.md) — merge PR for 3.3 og PR #57; sett 3.3 `done`, sjekk prod; deretter story 3.4
+- [x] 2026-11-27 [story-3-3](961-2026-11-27-12-00-00-story-3-3.md) — merge PR for 3.3 og PR #57; sett 3.3 `done`, sjekk prod; deretter story 3.4 (løst 2026-11-27 — PR #58 merget; `done` ligger i PR #59, se [story-3-4](960-2026-11-27-13-00-00-story-3-4.md))
 - [ ] 2026-11-27 [story-3-3](961-2026-11-27-12-00-00-story-3-3.md) — produkteier godkjenner [ASSUMPTION]-tekstene: nådd nivå, sperre, innlogget uten/med historikk, tittel ved høyere tak
 - [ ] 2026-11-27 [story-3-3](961-2026-11-27-12-00-00-story-3-3.md) — se nivåtekstene og fokus på h1 i nettleser (bare testet i kode)
+- [ ] 2026-11-27 [story-3-4](960-2026-11-27-13-00-00-story-3-4.md) — merge PR for 3.4 og PR #59; sett 3.4 `done`, sjekk prod (logg inn som testbruker og gjør README-søket); deretter story 3.5 (P2)
+- [ ] 2026-11-27 [story-3-4](960-2026-11-27-13-00-00-story-3-4.md) — utsatt: `lastinn` kan slette en ekte konto med e-posten `testbruker@example.com` (deferred-work.md)
