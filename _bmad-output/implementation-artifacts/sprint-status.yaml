@@ -69,7 +69,7 @@ development_status:
 
   epic-4: in-progress
   4-1-ki-tjenesten-har-ett-grensesnitt-med-tre-varianter: done
-  4-2-systemet-sjekker-ki-teksten-før-den-vises: review
+  4-2-systemet-sjekker-ki-teksten-før-den-vises: done
   4-3-forkastede-ki-svar-logges-uten-personopplysninger: backlog
   4-4-ki-kallene-har-en-grense-per-nettleser-og-per-døgn: backlog
   4-5-ki-skriver-begrunnelsen: backlog
