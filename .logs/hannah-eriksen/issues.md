@@ -107,7 +107,9 @@
 - [x] 2026-11-27 [story-2-2](968-2026-11-27-08-44-00-story-2-2.md) — merge PR for 2.2 og PR #43; sett 2.2 `done`, sjekk prod (migrering `0003` mot Neon) (løst 2026-11-27 — PR #44 merget, prod OK med `0003`; `done` ligger i PR #45, se [story-2-3](967-2026-11-27-09-04-00-story-2-3.md))
 - [ ] 2026-11-27 [story-2-2](968-2026-11-27-08-44-00-story-2-2.md) — rydd Neon-grener igjen når nær 10 (spør først)
 - [ ] 2026-11-27 [story-2-2](968-2026-11-27-08-44-00-story-2-2.md) — utsatt: admin-innlogging uten forsøksgrense; vekst i `Innloggingsforsok` ved flom; Lag konto uten sperre (deferred-work.md)
-- [ ] 2026-11-27 [story-2-3](967-2026-11-27-09-04-00-story-2-3.md) — merge PR for 2.3 og PR #45; sett 2.3 `done`, sjekk prod (migrering `0004` mot Neon)
+- [x] 2026-11-27 [story-2-3](967-2026-11-27-09-04-00-story-2-3.md) — merge PR for 2.3 og PR #45; sett 2.3 `done`, sjekk prod (migrering `0004` mot Neon) (løst 2026-11-27 — PR #45/#46 merget, prod OK med `0004`; `done` ligger i PR #47, se [story-2-4](966-2026-11-27-09-20-00-story-2-4.md))
 - [ ] 2026-11-27 [story-2-3](967-2026-11-27-09-04-00-story-2-3.md) — produkteier godkjenner [ASSUMPTION]-tekstene i registreringsskjemaet (datoer, brukt tid, vanskelighet, fornøydhet, «I dag eller tidligere»)
 - [ ] 2026-11-27 [story-2-3](967-2026-11-27-09-04-00-story-2-3.md) — test Historikk og skjema under 720 px (rulling) på ekte mobil eller smalt vindu
 - [ ] 2026-11-27 [story-2-3](967-2026-11-27-09-04-00-story-2-3.md) — utsatt: samtidig dobbel POST mot økta, `CheckConstraint` på Registrering, paginering og år i datoen (deferred-work.md)
+- [ ] 2026-11-27 [story-2-4](966-2026-11-27-09-20-00-story-2-4.md) — merge PR for 2.4 og PR #47; sett 2.4 `done`, sjekk prod; deretter story 2.5
+- [ ] 2026-11-27 [story-2-4](966-2026-11-27-09-20-00-story-2-4.md) — se kartet og handlingskolonnen i Historikk visuelt (skjermbilder tidsavbrøt); pågående søk i annen fane bare testet i kode
