@@ -394,3 +394,107 @@ def forslagsvisning(
         ingress_alle_vist=ingress,
         endringsforslag=endringsforslag,
     )
+
+
+# Registrering og Historikk (FR-16, FR-17, UX-DR27–29). Verdiene lagres i databasen.
+_VANSKELIGHET = (("lett", "Lett"), ("moderat", "Moderat"), ("vanskelig", "Vanskelig"))
+
+MIN_BRUKT_TID_MIN = 10
+MAKS_BRUKT_TID_MIN = 24 * 60
+MIN_FORNOYDHET = 1
+MAKS_FORNOYDHET = 5
+
+
+def vanskelighetsvalg() -> tuple[tuple[str, str], ...]:  # FR-16
+    """(verdi, tekst) for opplevd vanskelighet: «Lett», «Moderat» og «Vanskelig»."""
+    return _VANSKELIGHET
+
+
+def fornoydhetsvalg() -> tuple[tuple[str, str], ...]:  # FR-16
+    """(verdi, tekst) for fornøydhet, 1–5."""
+    return tuple((str(n), str(n)) for n in range(MIN_FORNOYDHET, MAKS_FORNOYDHET + 1))
+
+
+def formater_vanskelighet(vanskelighet: str) -> str:  # FR-17
+    """«Lett», «Moderat» eller «Vanskelig»."""
+    return dict(_VANSKELIGHET)[vanskelighet]
+
+
+def formater_brukt_tid(minutter: int) -> str:  # FR-17, UX-DR31
+    """«45 min», «2 t» eller «1 t 50 min»: brukt tid, uten «ca.»."""
+    return formater_tid(minutter).removeprefix("ca. ")
+
+
+def formater_estimert_tid(minutter: int) -> str:  # FR-17, UX-DR31
+    """«estimert ca. 1 t 35 min»: turens estimerte tid under brukt tid."""
+    return f"estimert {formater_tid(minutter)}"
+
+
+def formater_dato_historikk(dato: date) -> str:  # FR-17
+    """«7. nov.»: datoen i Historikk."""
+    return f"{dato.day}. {_MANEDER_KORT[dato.month - 1]}"
+
+
+def formater_fornoydhet(fornoydhet: int) -> str:  # FR-17
+    """«5 av 5»."""
+    return f"{fornoydhet} av {MAKS_FORNOYDHET}"
+
+
+@dataclass(frozen=True)
+class Turoppsummering:  # FR-16, UX-DR27
+    """Hvilken tur det gjelder, øverst på Registrer gjennomført tur."""
+
+    id: str
+    navn: str
+    niva: str
+    nivatekst: str
+    form: str
+    lengde: str
+    estimert_tid: str
+
+
+def turoppsummering(tur: Tur) -> Turoppsummering:  # FR-16, UX-DR27
+    """Navn, nivå, form, lengde og estimert tid. Nivå og tid kommer fra turdatabasen."""
+    return Turoppsummering(
+        id=tur.id,
+        navn=tur.navn,
+        niva=Turniva(tur.turniva).value,
+        nivatekst=formater_niva(tur.turniva),
+        form=formater_form(tur.form),
+        lengde=formater_lengde(total_lengde_m(tur.form, tur.lengde_m)),
+        estimert_tid=formater_estimert_tid(tur.estimert_tid_min),
+    )
+
+
+@dataclass(frozen=True)
+class Historikkrad:  # FR-17, UX-DR28
+    """Én rad i Historikk. Alt er ferdig formatert."""
+
+    tur_navn: str
+    niva: str
+    nivatekst: str
+    dato: str
+    brukt_tid: str
+    estimert_tid: str
+    vanskelighet: str
+    fornoydhet: str
+
+
+def historikkrad(
+    tur: Tur,
+    dato: date,
+    brukt_tid_min: int,
+    vanskelighet: str,
+    fornoydhet: int,
+) -> Historikkrad:  # FR-17, UX-DR28
+    """Raden for en registrering av turen."""
+    return Historikkrad(
+        tur_navn=tur.navn,
+        niva=Turniva(tur.turniva).value,
+        nivatekst=formater_niva(tur.turniva),
+        dato=formater_dato_historikk(dato),
+        brukt_tid=formater_brukt_tid(brukt_tid_min),
+        estimert_tid=formater_estimert_tid(tur.estimert_tid_min),
+        vanskelighet=formater_vanskelighet(vanskelighet),
+        fornoydhet=formater_fornoydhet(fornoydhet),
+    )

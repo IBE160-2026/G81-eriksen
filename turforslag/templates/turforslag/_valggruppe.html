@@ -1,0 +1,17 @@
+{% comment %}
+Valggruppe (UX-DR8, FR-16): én radiogruppe som segmenter i fieldset med legend.
+Bruk: {% include "turforslag/_valggruppe.html" with felt=skjema.vanskelighet valg=skjema.vanskelighetsvalg etikett="Opplevd vanskelighet" feil_tekst=… hint="…" %}
+- valg: (verdi, tekst, valgt). Valgt segment har fyll og hake (CSS), så valget ikke bare vises med farge.
+- Ved feil: feilen står under gruppen og over hjelpeteksten, koblet med aria-describedby (feil først).
+  Første felt med feil får autofocus (første valg).
+{% endcomment %}
+<fieldset class="skjemafelt valggruppe{% if felt.errors %} skjemafelt-feil{% endif %}"{% if felt.errors %} aria-describedby="{{ felt.name }}-feil{% if hint %} {{ felt.name }}-hint{% endif %}"{% elif hint %} aria-describedby="{{ felt.name }}-hint"{% endif %}>
+  <legend class="label">{{ etikett }}</legend>
+  <div class="valggruppe-valg">
+    {% for verdi, tekst, valgt in valg %}
+      <label class="valggruppe-segment"><input type="radio" name="{{ felt.name }}" value="{{ verdi }}"{% if valgt %} checked{% endif %}{% if felt.errors %} aria-invalid="true"{% endif %}{% if forloop.first and felt.form.forste_feil == felt.name %} autofocus{% endif %}><span>{{ tekst }}</span></label>
+    {% endfor %}
+  </div>
+  {% if felt.errors %}{% include "turforslag/_feltfeil.html" with feil_id=felt.name|add:"-feil" feil=felt.errors.0 %}{% endif %}
+  {% if hint %}<p class="hjelpetekst caption" id="{{ felt.name }}-hint">{{ hint }}</p>{% endif %}
+</fieldset>

@@ -170,7 +170,7 @@ class KontoTest(TestCase):
         svar = self.client.get("/")
         innlogget = les_html(svar)
         menypunkt = innlogget.finn("a", **{"class": "menypunkt"})
-        self.assertEqual([a["href"] for a in menypunkt], ["/", "/konto/"])
+        self.assertEqual([a["href"] for a in menypunkt], ["/", "/historikk/", "/konto/"])
         self.assertContains(svar, ">Finn tur</a>")
         self.assertNotContains(svar, ">Logg inn</a>")
         self.assertEqual(svar.content.decode().count('aria-current="page"'), 1)

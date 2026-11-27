@@ -348,3 +348,48 @@ class KartvisningTest(unittest.TestCase):
                 "properties": {"start": [10.65, 59.98]},
             },
         )
+
+
+class RegistreringstekstTest(unittest.TestCase):
+    def test_brukt_tid_uten_ca(self):  # FR-17, UX-DR31
+        for minutter, forventet in (
+            (10, "10 min"),
+            (120, "2 t"),
+            (110, "1 t 50 min"),
+            (1440, "24 t"),
+        ):
+            with self.subTest(minutter=minutter):
+                self.assertEqual(tekst.formater_brukt_tid(minutter), forventet)
+
+    def test_estimert_tid(self):  # FR-17
+        self.assertEqual(tekst.formater_estimert_tid(95), "estimert ca. 1 t 35 min")
+
+    def test_dato_i_historikk(self):  # FR-17
+        self.assertEqual(tekst.formater_dato_historikk(date(2026, 11, 7)), "7. nov.")
+        self.assertEqual(tekst.formater_dato_historikk(date(2026, 5, 1)), "1. mai")
+
+    def test_fornoydhet_og_vanskelighet(self):  # FR-17
+        self.assertEqual(tekst.formater_fornoydhet(5), "5 av 5")
+        self.assertEqual(
+            [tekst.formater_vanskelighet(v) for v, _ in tekst.vanskelighetsvalg()],
+            ["Lett", "Moderat", "Vanskelig"],
+        )
+        self.assertEqual([v for v, _ in tekst.fornoydhetsvalg()], ["1", "2", "3", "4", "5"])
+
+    def test_turoppsummering(self):  # FR-16, UX-DR27
+        tur = lag_tur(navn="Granåsen rundt", form=Form.RUNDTUR, lengde_m=3500, estimert_tid_min=95)
+        oppsummering = tekst.turoppsummering(tur)
+        self.assertEqual(oppsummering.navn, "Granåsen rundt")
+        self.assertEqual(oppsummering.form, "Rundtur")
+        self.assertEqual(oppsummering.lengde, "3,5 km")
+        self.assertEqual(oppsummering.estimert_tid, "estimert ca. 1 t 35 min")
+        self.assertEqual(oppsummering.nivatekst, formater_niva(tur.turniva))
+
+    def test_historikkrad(self):  # FR-17, UX-DR28
+        tur = lag_tur(navn="Granåsen rundt", estimert_tid_min=95)
+        rad = tekst.historikkrad(tur, date(2026, 11, 7), 110, "lett", 5)
+        self.assertEqual(
+            (rad.tur_navn, rad.dato, rad.brukt_tid, rad.estimert_tid, rad.vanskelighet),
+            ("Granåsen rundt", "7. nov.", "1 t 50 min", "estimert ca. 1 t 35 min", "Lett"),
+        )
+        self.assertEqual(rad.fornoydhet, "5 av 5")

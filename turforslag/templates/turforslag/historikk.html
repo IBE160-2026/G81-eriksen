@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block tittel %}Historikk{% endblock %}
+{% block meny_historikk %} aria-current="page"{% endblock %}
+
+{% block innhold %}
+  {# FR-17, UX-DR28: ekte tabell i en rullbar region. Handlingskolonnen er tom til story 2.4. #}
+  <div class="historikk">
+    <h1 class="headline-lg" tabindex="-1">Historikk</h1>
+    {% if registrert %}
+      {% include "turforslag/_melding.html" with type="suksess" tittel="Turen er registrert i historikken din." fokus=True %}
+    {% endif %}
+    {% if rader %}
+      <div class="historikktabell-region" role="region" aria-label="Historikk" tabindex="0">
+        <table class="historikktabell">
+          <thead>
+            <tr>
+              <th scope="col">Tur</th>
+              <th scope="col">Dato</th>
+              <th scope="col">Brukt tid</th>
+              <th scope="col">Opplevd vanskelighet</th>
+              <th scope="col">Fornøydhet</th>
+              <th scope="col"><span class="skjult-tekst">Handlinger</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for rad in rader %}
+              <tr>
+                <th scope="row">
+                  <span class="historikk-turnavn">{{ rad.tur_navn }}</span>
+                  {% include "turforslag/_nivamerke.html" with niva=rad.niva nivatekst=rad.nivatekst %}
+                </th>
+                <td>{{ rad.dato }}</td>
+                <td>{{ rad.brukt_tid }}<span class="historikk-estimert caption">{{ rad.estimert_tid }}</span></td>
+                <td>{{ rad.vanskelighet }}</td>
+                <td>{{ rad.fornoydhet }}</td>
+                <td></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <p class="historikk-fot caption">Nye søk prioriterer turer du ikke har gått.</p>
+    {% else %}
+      {# [ASSUMPTION] Mikrotekst («Tom historikk») #}
+      <section class="tilstandspanel">
+        <div class="tilstandspanel-forklaring">
+          <p>Du har ikke registrert noen turer ennå.</p>
+        </div>
+        <ul class="tilstandspanel-valg">
+          <li><a class="handlingslenke" href="{% url 'turforslag:sok' %}">Finn tur</a></li>
+        </ul>
+      </section>
+    {% endif %}
+  </div>
+{% endblock %}

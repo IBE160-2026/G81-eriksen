@@ -10,6 +10,7 @@ som `forbedring.js` bytter inn uten sideinnlasting.
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.utils.cache import patch_vary_headers
@@ -17,13 +18,14 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods, require_POST, require_safe
 
-from turforslag import innloggingsgrense, okt, sokflyt
+from turforslag import engangstoken, innloggingsgrense, okt, registrering, sokflyt
 from turforslag.forms import (
     FEIL_FOR_MANGE_FORSOK,
     FEIL_INNLOGGING,
     FEIL_KONTO_FINNES,
     LagKontoForm,
     LoggInnForm,
+    RegistreringForm,
     SokForm,
 )
 
@@ -31,6 +33,8 @@ from turforslag.forms import (
 FORSLAG_UTILGJENGELIG = "forslag-utilgjengelig"
 # Nøkkelen for «Du er logget ut.» på Søk (FR-14, AD-6). Teksten står i malen.
 UTLOGGET = "utlogget"
+# Nøkkelen for «Turen er registrert i historikken din.» på Historikk (FR-16). Teksten står i malen.
+REGISTRERT = "registrert"
 
 
 @require_http_methods(["GET", "HEAD", "POST"])
@@ -200,3 +204,58 @@ def logg_ut(request):  # FR-14, AD-6
     logout(request)
     messages.success(request, UTLOGGET)
     return redirect("turforslag:sok")
+
+
+@login_required
+@never_cache
+@require_http_methods(["GET", "HEAD", "POST"])
+def registrer(request, tur_id):  # FR-16, AD-14, NFR-8
+    """Registrer gjennomført tur. Tur-ID kommer fra URL-en, aldri fra økten (AR-7).
+
+    GET lager et engangstoken som følger skjemaet. Første gyldige POST med tokenet lagrer og
+    bruker det opp. Brukt eller ukjent token sender til Historikk uten å lagre. Ugyldig
+    skjema beholder tokenet.
+    """
+    oppsummering = registrering.oppsummering(tur_id)
+    if oppsummering is None:
+        raise Http404
+    i_dag = timezone.localdate()
+    if request.method == "POST":
+        token = request.POST.get("token", "")
+        if not engangstoken.er_gyldig(request, token):
+            return redirect("turforslag:historikk")
+        skjema = RegistreringForm(i_dag, data=request.POST)
+        if skjema.is_valid():
+            if engangstoken.bruk(request, token):
+                data = skjema.cleaned_data
+                registrering.lagre(
+                    request.user,
+                    tur_id,
+                    data["dato"],
+                    data["brukt_tid_min"],
+                    data["vanskelighet"],
+                    data["fornoydhet"],
+                )
+                messages.success(request, REGISTRERT)
+            return redirect("turforslag:historikk")
+    else:
+        skjema = RegistreringForm(i_dag)
+        token = engangstoken.lag(request)
+    return render(
+        request,
+        "turforslag/registrer.html",
+        {"skjema": skjema, "oppsummering": oppsummering, "token": token, "i_dag": i_dag},
+    )
+
+
+@login_required
+@never_cache
+@require_safe
+def historikk(request):  # FR-17, NFR-8
+    """Historikk: brukerens egne registreringer, nyeste først."""
+    meldinger = [melding.message for melding in messages.get_messages(request)]
+    return render(
+        request,
+        "turforslag/historikk.html",
+        {"rader": registrering.historikk(request.user), "registrert": REGISTRERT in meldinger},
+    )

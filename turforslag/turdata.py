@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from django.db import transaction
 
 from domene import tur as domenetur
-from turforslag.models import Startpunkt, Tur
+from turforslag.models import Registrering, Startpunkt, Tur
 
 
 @dataclass(frozen=True)
@@ -127,3 +127,14 @@ def startpunkter_med_turer() -> tuple[tuple[str, str], ...]:  # FR-4
     return tuple(
         Startpunkt.objects.filter(turer__isnull=False).distinct().values_list("id", "navn")
     )
+
+
+def mangler_med_registreringer(turer: Sequence[domenetur.Tur]) -> tuple[str, ...]:  # AR-5
+    """Tur-ID-ene som har registreringer, men ikke er med i `turer`, sortert."""
+    mangler = (
+        Registrering.objects.exclude(tur_id__in=[tur.id for tur in turer])
+        .order_by("tur_id")
+        .values_list("tur_id", flat=True)
+        .distinct()
+    )
+    return tuple(mangler)
