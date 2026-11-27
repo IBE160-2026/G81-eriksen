@@ -405,3 +405,19 @@ class RegistreringstekstTest(unittest.TestCase):
         self.assertIsNone(visning.tur.turtype_treff)
         self.assertFalse(visning.tur.topptur_erstattet)
         self.assertEqual(visning.tur.begrunnelse, "Begrunnelsen.")
+
+
+class NivatakTekstTest(unittest.TestCase):  # FR-8, UX-DR22
+    def test_tittel(self):
+        from domene.tekst import nivatak_tekst, nivatak_tittel
+
+        gront, bla = Turniva.GRONN, Turniva.BLA
+        self.assertEqual(nivatak_tittel(gront, False), "Ingen grønne turer passer søket")
+        self.assertEqual(nivatak_tittel(gront, True), "Ingen grønne turer passer søket")
+        self.assertEqual(nivatak_tittel(bla, True), "Ingen turer opp til blått nivå passer søket")
+        self.assertEqual(
+            nivatak_tekst(bla, True),
+            "Akkurat nå foreslår jeg turer opp til blått nivå, og ingen av dem passer søket.",
+        )
+        self.assertNotIn("Lag konto", nivatak_tekst(gront, False))
+        self.assertTrue(nivatak_tekst(gront, False).startswith("Som ny bruker får du grønne"))

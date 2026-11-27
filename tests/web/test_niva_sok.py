@@ -170,3 +170,105 @@ class HistorikkMerknadTest(NivaSokBase):
         r = self.lag(self.ola, "bla-marka", "vanskelig", dag=5)
         svar = self.client.get(f"/historikk/{r.id}/")
         self.assertContains(svar, "Denne turen er over nivået jeg foreslår for deg nå.")
+
+
+class BegrunnelseTest(NivaSokBase):
+    """Story 3.3: begrunnelsen forklarer nivået (FR-12, FR-8, SM-2)."""
+
+    HEVING = "Du får en blå tur fordi de tre siste grønne turene var lette for deg."
+    NADD = "Du får en blå tur fordi du har nådd blått nivå."
+    SPERRE = "Du får en grønn tur igjen fordi den siste blå turen føltes vanskelig."
+
+    def forslag(self, sok_id, klient=None):
+        return (klient or self.client).get(f"/forslag/{sok_id}/")
+
+    def test_heving_forste_sok_deretter_nadd_nivaa(self):  # FR-12, FR-19
+        self.blatt_grunnniva()
+        _, forste, _ = self.sok(varighet="210")
+        svar = self.forslag(forste)
+        self.assertContains(svar, self.HEVING)
+        self.assertContains(svar, "Turen tar ca. 3 t 20 min")
+        _, andre, _ = self.sok(varighet="210")
+        self.assertContains(self.forslag(andre), self.NADD)
+        self.assertNotContains(self.forslag(andre), self.HEVING)
+
+    def test_ny_innlasting_nytt_forslag_og_ny_registrering_gir_samme_tekst(self):  # FR-12
+        self.blatt_grunnniva()
+        _, sok_id, _ = self.sok()
+        self.lag(self.ola, "bla-marka", "vanskelig", dag=20)  # annen fane
+        self.assertContains(self.forslag(sok_id), self.HEVING)
+        self.assertContains(self.forslag(sok_id), self.HEVING)
+        self.client.post(f"/forslag/{sok_id}/nytt/", {"tur": "bla-marka"})
+        # Neste tur er grønn, så ingen setning, og den vanskelige turen endrer ingenting.
+        svar = self.forslag(sok_id)
+        self.assertNotContains(svar, "føltes vanskelig")
+        self.assertNotContains(svar, "Du får en")
+
+    def test_aktiv_sperre(self):  # FR-12, FR-19
+        self.blatt_grunnniva()
+        self.lag(self.ola, "bla-marka", "vanskelig", dag=10)
+        _, sok_id, tilstand = self.sok()
+        self.assertEqual(tilstand["sperre"], {"niva": "gronn", "turniva": "bla"})
+        self.assertEqual(tilstand["grunnniva"], "bla")
+        self.assertIs(tilstand["har_historikk"], True)
+        self.assertContains(self.forslag(sok_id), self.SPERRE)
+
+    def test_gjest_og_ny_bruker_far_ingen_setning(self):  # FR-12
+        _, sok_id, _ = self.sok()
+        self.assertNotContains(self.forslag(sok_id), "Du får en")
+        gjest = Client()
+        _, sok_id, _ = self.sok(gjest)
+        self.assertNotContains(self.forslag(sok_id, gjest), "Du får en")
+
+    def test_eldre_okt_uten_grunnlaget_viser_tur_uten_setning(self):  # NFR-2
+        _, sok_id, _ = self.sok()
+        okt = self.client.session
+        for felt in ("nivatak", "grunnniva", "sperre", "har_historikk"):
+            del okt["sok"][sok_id][felt]
+        okt.save()
+        svar = self.forslag(sok_id)
+        self.assertEqual(svar.status_code, 200)
+        self.assertContains(svar, "Turen tar ca.")
+        self.assertNotContains(svar, "Du får en")
+
+    def test_bare_over_nivatak_med_bla_tak(self):  # FR-8, UX-DR22
+        _, sok_id, _ = self.sok(varighet="210", startpunkt="ovre")
+        okt = self.client.session
+        okt["sok"][sok_id].update(
+            status="bare_over_nivatak", nivatak="bla", grunnniva="bla", har_historikk=True
+        )
+        okt.save()
+        svar = self.forslag(sok_id)
+        tittel = "Ingen turer opp til blått nivå passer søket"
+        self.assertContains(svar, f'data-tittel="{tittel} – Your Next Adventure"')
+        self.assertContains(svar, f"<title>{tittel} – Your Next Adventure</title>", html=True)
+        self.assertContains(svar, f'<h1 class="headline-lg" tabindex="-1">{tittel}</h1>', html=True)
+        self.assertContains(svar, "Akkurat nå foreslår jeg turer opp til blått nivå")
+
+    def test_bare_over_nivatak_tre_varianter(self):  # FR-8, UX-DR22
+        data = {"varighet": "210", "startpunkt": "ovre"}
+        gjest = Client()
+        _, sok_id, _ = self.sok(gjest, **data)
+        svar = self.forslag(sok_id, gjest)
+        self.assertContains(svar, "Lag konto")
+        self.assertContains(svar, "Ingen grønne turer passer søket")
+        # Ny bruker uten registreringer
+        _, sok_id, _ = self.sok(**data)
+        svar = self.forslag(sok_id)
+        self.assertContains(svar, "Registrer og vurder turene du går")
+        self.assertNotContains(svar, "Lag konto")
+        self.assertContains(svar, "Ingen grønne turer passer søket")
+        # Med historikk og sperre: nivåtaket er sperrenivået
+        self.blatt_grunnniva()
+        self.lag(self.ola, "bla-marka", "vanskelig", dag=10)
+        _, sok_id, _ = self.sok(**data)
+        svar = self.forslag(sok_id)
+        self.assertContains(
+            svar, "Akkurat nå foreslår jeg turer opp til grønt nivå, og ingen av dem passer søket."
+        )
+        self.assertNotContains(svar, "Lag konto")
+        self.assertContains(svar, "Ingen grønne turer passer søket")
+        tittel = "Ingen grønne turer passer søket"
+        self.assertContains(svar, f'data-tittel="{tittel} – Your Next Adventure"')
+        self.assertContains(svar, f"<title>{tittel} – Your Next Adventure</title>", html=True)
+        self.assertContains(svar, f'<h1 class="headline-lg" tabindex="-1">{tittel}</h1>', html=True)

@@ -30,6 +30,15 @@ _NIVATEKST = {
     Turniva.SVART: "Svart – vanskelig",
 }
 
+# Nivåord bøyd som (hankjønn, bestemt/flertall, intetkjønn): «en blå tur», «de blå turene»,
+# «blått nivå» (FR-12).
+_NIVAORD = {
+    Turniva.GRONN: ("grønn", "grønne", "grønt"),
+    Turniva.BLA: ("blå", "blå", "blått"),
+    Turniva.ROD: ("rød", "røde", "rødt"),
+    Turniva.SVART: ("svart", "svarte", "svart"),
+}
+
 # Turtypevalgene fra Mikrotekst. Rekkefølgen følger `TURTYPER`.
 _TURTYPENAVN = {"marka": "Marka", "utsikt": "Utsikt", "topptur": "Topptur"}
 
@@ -100,6 +109,38 @@ def formater_lengde_totalt(lengde_m: int) -> str:  # UX-DR31, AR-16
 def formater_niva(niva: Turniva) -> str:  # FR-2, UX-DR31
     """«Grønn – lett», «Blå – moderat», «Rød – moderat» eller «Svart – vanskelig»."""
     return _NIVATEKST[niva]
+
+
+def nivaord(niva: Turniva, form: str = "hankjonn") -> str:  # FR-12, AR-16
+    """Nivåordet bøyd: «hankjonn» (en blå tur), «bestemt» (de blå turene, den blå turen) eller
+    «intetkjonn» (blått nivå)."""
+    return _NIVAORD[niva][{"hankjonn": 0, "bestemt": 1, "intetkjonn": 2}[form]]
+
+
+# [ASSUMPTION] Mikrotekst («Nivåtak, tittel» ved høyere nivåtak, og variantene for innlogget):
+# tekstene her er foreløpige til produkteier har godkjent dem.
+NIVATAK_TITTEL_GRONN = "Ingen grønne turer passer søket"
+NIVATAK_TEKST_NY_BRUKER = (
+    "Som ny bruker får du grønne turer. Registrer og vurder turene du går, så tilpasser "
+    "jeg forslagene etter hvordan turene kjentes for deg."
+)
+
+
+def nivatak_tittel(nivatak: Turniva, har_historikk: bool) -> str:  # FR-8, UX-DR22
+    """Tittelen ved «bare over nivåtaket»: nivåtaket nevnes når det er over grønt."""
+    if not har_historikk or nivatak == Turniva.GRONN:
+        return NIVATAK_TITTEL_GRONN
+    return f"Ingen turer opp til {nivaord(nivatak, 'intetkjonn')} nivå passer søket"
+
+
+def nivatak_tekst(nivatak: Turniva, har_historikk: bool) -> str:  # FR-8, UX-DR22
+    """Teksten for innlogget bruker ved «bare over nivåtaket». Gjesten har egen tekst i malen."""
+    if not har_historikk:
+        return NIVATAK_TEKST_NY_BRUKER
+    return (
+        f"Akkurat nå foreslår jeg turer opp til {nivaord(nivatak, 'intetkjonn')} nivå, "
+        "og ingen av dem passer søket."
+    )
 
 
 def formater_hoydemeter(hoydemeter_m: int) -> str:  # FR-6, UX-DR31
@@ -295,6 +336,8 @@ class Forslagsvisning:  # FR-6, FR-7, FR-8
     endringsforslag: tuple[Endringsforslag, ...] = ()  # FR-8, UX-DR17
     fra_historikk: bool = False  # FR-17: turforslag fra historikken
     over_nivatak: bool = False  # FR-17: merknaden «Denne turen er over nivået …»
+    nivatak_tittel: str = ""  # FR-8: h1, title og data-tittel ved «bare over nivåtaket»
+    nivatak_tekst: str = ""  # FR-8: teksten for innlogget bruker
 
     @property
     def ingen_treff(self) -> bool:  # FR-8
@@ -401,6 +444,8 @@ def forslagsvisning(
         alle_vist=vist,
         ingress_alle_vist=ingress,
         endringsforslag=endringsforslag,
+        nivatak_tittel=nivatak_tittel(tilstand.nivatak, tilstand.har_historikk),
+        nivatak_tekst=nivatak_tekst(tilstand.nivatak, tilstand.har_historikk),
     )
 
 

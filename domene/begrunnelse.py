@@ -8,9 +8,10 @@ settes inn av systemet.
 
 from datetime import date
 
+from domene.niva import Sperre
 from domene.sok import Sok
-from domene.tekst import formater_dato, formater_tid, formater_varighet_timer
-from domene.tur import Tur
+from domene.tekst import formater_dato, formater_tid, formater_varighet_timer, nivaord
+from domene.tur import NIVAREKKEFOLGE, Tur, Turniva
 from domene.utvalg import ERSTATNING_FOR_TOPPTUR, TOPPTUR
 
 MAKS_TEGN = 300  # FR-12
@@ -37,6 +38,33 @@ def reservebegrunnelse(sok: Sok, tur: Tur) -> str:  # FR-12, FR-13
     elif sok.turtype == TOPPTUR and ERSTATNING_FOR_TOPPTUR in tur.turtyper:
         tekst += " Ingen topptur passet, så den har utsikt i stedet."
     return tekst
+
+
+def personaliseringssetning(
+    turniva: Turniva, nivatak: Turniva, nivaheving: bool, sperre: Sperre | None
+) -> str:  # FR-12, FR-19
+    """Setningen som forklarer nivået, lagt til etter malteksten. Høyst én: sperre, ellers
+    heving, ellers nådd nivå. Grønn tur uten sperre gir ingen setning.
+
+    [ASSUMPTION] Sperresetningen og nådd-nivå-setningen er foreløpige til produkteier har
+    godkjent dem (Mikrotekst). Ingen tall i setningene.
+    """
+    if sperre is not None:
+        return (
+            f"Du får en {nivaord(turniva)} tur igjen fordi den siste "
+            f"{nivaord(sperre.turniva, 'bestemt')} turen føltes vanskelig."
+        )
+    if turniva == NIVAREKKEFOLGE[0]:
+        return ""
+    if nivaheving and turniva == nivatak:
+        under = NIVAREKKEFOLGE[NIVAREKKEFOLGE.index(turniva) - 1]
+        return (
+            f"Du får en {nivaord(turniva)} tur fordi de tre siste "
+            f"{nivaord(under, 'bestemt')} turene var lette for deg."
+        )
+    return (
+        f"Du får en {nivaord(turniva)} tur fordi du har nådd {nivaord(turniva, 'intetkjonn')} nivå."
+    )
 
 
 def historikkbegrunnelse(dato: date, fornoydhet: int) -> str:  # FR-17, FR-12

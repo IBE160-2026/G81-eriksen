@@ -242,9 +242,8 @@ class KontoTest(TestCase):
         self.logg_inn()
         svar = self.client.get(self.client.post("/", data)["Location"])
         self.assertContains(svar, "Ingen grønne turer passer søket")
-        self.assertContains(svar, "Jeg foreslår bare grønne turer foreløpig.")
-        self.assertNotContains(svar, "Som ny bruker")
-        self.assertNotContains(svar, "Lag konto")
+        self.assertContains(svar, "Registrer og vurder turene du går")
+        self.assertNotContains(svar, "Lag konto")  # 3.3: ny bruker uten «Lag konto»
 
     def test_vis_passord_ligger_i_forbedring_js(self):  # AR-18
         js = (ROT / "turforslag" / "static" / "forbedring.js").read_text(encoding="utf-8")
