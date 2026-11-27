@@ -77,7 +77,14 @@ ruff format --check .
 
 **Turdatabasen:** `python manage.py lastinn` laster turene i `data/turer.geojson` inn i databasen. Kommandoen oppretter eller oppdaterer turer og startpunkter etter ID og sletter aldri noe, så den kan kjøres så ofte du vil. Er fila ugyldig, stopper den med en norsk melding, og databasen er uendret. Turer i databasen som mangler i fila, blir stående, og kommandoen skriver en advarsel med ID-ene. Med `--fil <sti>` laster du en annen fil enn `data/turer.geojson`. Se [data/README.md](data/README.md).
 
-Innlogging for testbrukeren og hvordan en KI-nøkkel legges inn, kommer i senere stories. Kravene til denne delen står i [AD-12 i arkitekturen](_bmad-output/planning-artifacts/architecture/architecture-G81-eriksen-2026-11-07/ARCHITECTURE-SPINE.md).
+**Testbrukeren:** `python manage.py lastinn` laster også testbrukeren fra `data/testbruker.toml` (bare når du ikke bruker `--fil`, eller når du oppgir `--testbruker`). Logg inn på `/` med e-post `testbruker@example.com` og passord `Testbruker2026`. Det er ikke en hemmelighet og brukes ikke til annet.
+
+- **Historikken** viser nivåheving og sperre uten at du må gå turer: tre lette grønne turer (én av dem to ganger) gir grunnnivå blått, én vanskelig blå tur gir sperre, og én moderat tur opphever den. Én tur er vurdert med fornøydhet 2. Historikk-siden viser alle fem registreringene.
+- **Testbrukeren lages på nytt** ved hver kjøring av `lastinn`, også i byggesteget på Vercel. Alle endringer, også sletting av kontoen, forsvinner ved neste kjøring eller publisering.
+- **Se hevingen:** velg startpunkt Østmarksetra og varighet 4 timer, og søk. Den blå turen «Nøklevann rundt» kommer først, med setningen «Du får en blå tur fordi de tre siste grønne turene var lette for deg.» Søk du på nytt, er hevingen brukt: «Østmarksetra–Mariholtet» (grønn) kommer først, og hevingssetningen er borte.
+- **Se sperren:** registrer en blå tur som *vanskelig* (for eksempel «Nøklevann rundt») og søk på nytt. Nivåtaket er nå grønt, og forslaget får setningen «Du får en grønn tur igjen fordi den siste blå turen føltes vanskelig.»
+
+Hvordan en KI-nøkkel legges inn, kommer i en senere story. Kravene til denne delen står i [AD-12 i arkitekturen](_bmad-output/planning-artifacts/architecture/architecture-G81-eriksen-2026-11-07/ARCHITECTURE-SPINE.md).
 
 ## Publisering på Vercel
 

@@ -18,6 +18,27 @@ Testene (`python manage.py test`) bruker lagrede svar i `tests/fixtures/` og tre
 
 `python manage.py lastinn` laster `turer.geojson` inn i databasen (lokalt og i byggesteget på Vercel). Den validerer hele fila først, oppretter eller oppdaterer turer og startpunkter etter ID og sletter aldri noe. Turer i databasen som mangler i fila, blir stående med en advarsel, og `--fil <sti>` laster en annen fil.
 
+## Testbrukeren
+
+`testbruker.toml` beskriver testbrukeren og registreringene hennes (FR-21, AR-5). `lastinn` leser fila med `tomllib`, validerer hele fila før noe lagres, og sletter og gjenskaper testbrukeren med registreringene i samme transaksjon som turene. Andre brukere røres ikke. Med `--fil` leses testbrukeren bare når `--testbruker [sti]` er oppgitt.
+
+Vi valgte TOML fordi formatet er standard i Python 3.11+ (ingen ny avhengighet), tillater en kommentar per registrering om hva den viser, og er det samme formatet som kurateringslista.
+
+```toml
+epost = "testbruker@example.com"
+passord = "Testbruker2026"         # lagres bare som hash; minst 8 tegn etter Djangos passordregler
+
+# Kommentar om hva registreringen viser.
+[[registrering]]
+tur_id = "sognsvann-brekke"        # må finnes blant turene som lastes
+dato = "2026-08-02"                # ISO, ikke frem i tid
+brukt_tid_min = 45                 # 10 til 1440
+vanskelighet = "lett"              # lett, moderat eller vanskelig
+fornoydhet = 4                     # 1 til 5
+```
+
+Feil i fila (mangler, ugyldig TOML, e-post, passord, ukjent tur-ID, dato frem i tid, ugyldig verdi) gir en norsk melding som peker på registrering og felt, og databasen er uendret. Historikken gir grunnnivå blått, ingen sperre og én heving (`brukt_heving` settes til 0, så første søk viser hevingen).
+
 ## Formatet på kurateringslista
 
 Hver tur er en `[[tur]]`-tabell:

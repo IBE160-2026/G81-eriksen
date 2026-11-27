@@ -1,0 +1,51 @@
+# Testbrukeren som sensor kan logge inn med (FR-21, SM-4, AR-5).
+# `python manage.py lastinn` sletter og gjenskaper henne fra denne fila hver gang.
+# Passordet lagres bare som hash. Det er ikke en hemmelighet og brukes ikke til annet (NFR-1).
+# Formatet og valget av TOML står i data/README.md.
+
+epost = "testbruker@example.com"
+passord = "Testbruker2026"
+
+# Historikken i rekkefølge etter dato: tre lette grønne turer gir grunnnivå blått med én heving,
+# en vanskelig blå tur gir sperre, og en moderat tur opphever den.
+
+# Lett grønn tur nr. 1 av 3 mot nivåheving.
+[[registrering]]
+tur_id = "sognsvann-brekke"
+dato = "2026-08-02"
+brukt_tid_min = 45
+vanskelighet = "lett"
+fornoydhet = 4
+
+# Samme tur en gang til: gjentakelser teller, så dette er lett grønn tur nr. 2 av 3.
+[[registrering]]
+tur_id = "sognsvann-brekke"
+dato = "2026-08-16"
+brukt_tid_min = 40
+vanskelighet = "lett"
+fornoydhet = 5
+
+# Lett grønn tur nr. 3 av 3: grunnnivået heves til blått (én heving). Fornøydhet 2 gjør at
+# denne turen rangeres sist i søk, selv om den er gått.
+[[registrering]]
+tur_id = "frognervassdraget"
+dato = "2026-08-30"
+brukt_tid_min = 90
+vanskelighet = "lett"
+fornoydhet = 2
+
+# Vanskelig blå tur: sperre, og nivåtaket senkes til grønt.
+[[registrering]]
+tur_id = "frognerseteren-skjennungstua"
+dato = "2026-09-13"
+brukt_tid_min = 270
+vanskelighet = "vanskelig"
+fornoydhet = 3
+
+# Moderat tur: opphever sperren (teller ikke som heving), så nivåtaket er blått igjen.
+[[registrering]]
+tur_id = "rundtur-ulsrudvann"
+dato = "2026-09-27"
+brukt_tid_min = 35
+vanskelighet = "moderat"
+fornoydhet = 4
