@@ -67,8 +67,8 @@ development_status:
   3-5-p2-turtyper-ola-har-vært-fornøyd-med-kommer-først: done
   epic-3-retrospective: optional
 
-  epic-4: backlog
-  4-1-ki-tjenesten-har-ett-grensesnitt-med-tre-varianter: backlog
+  epic-4: in-progress
+  4-1-ki-tjenesten-har-ett-grensesnitt-med-tre-varianter: review
   4-2-systemet-sjekker-ki-teksten-før-den-vises: backlog
   4-3-forkastede-ki-svar-logges-uten-personopplysninger: backlog
   4-4-ki-kallene-har-en-grense-per-nettleser-og-per-døgn: backlog
