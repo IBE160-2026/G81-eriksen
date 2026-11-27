@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block tittel %}Slett konto{% endblock %}
+{% block meny_konto %} aria-current="page"{% endblock %}
+
+{% block innhold %}
+  {# FR-15, UX-DR30: egen bekreftelsesside. Ingen rød flate, ingen felt. #}
+  <div class="sok">
+    <h1 class="display" tabindex="-1">Vil du slette kontoen?</h1>
+    {% if feil %}
+      {# [ASSUMPTION] Mikrotekst («Sletting feilet») #}
+      {% include "turforslag/_melding.html" with type="feil" tittel="Kontoen ble ikke slettet. Prøv igjen." %}
+    {% endif %}
+    <p class="ingress">All historikken din slettes for godt, og det kan ikke angres.</p>
+    <form method="post" action="{% url 'turforslag:slett_konto' %}">
+      {% csrf_token %}
+      <button class="knapp-primaer" type="submit">Slett kontoen</button>
+    </form>
+    <a class="handlingslenke" href="{% url 'turforslag:konto' %}">Avbryt</a>
+  </div>
+{% endblock %}

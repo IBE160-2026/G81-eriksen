@@ -23,6 +23,14 @@
         {% include "turforslag/_melding.html" with type="suksess" tittel="Du er logget ut." fokus=True %}
       {% endif %}
     {% endif %}
+    {% if slettet %}
+      {# [ASSUMPTION] Mikrotekst («Kvittering etter sletting») #}
+      {% if utilgjengelig or utlogget %}
+        {% include "turforslag/_melding.html" with type="suksess" tittel="Kontoen din er slettet." %}
+      {% else %}
+        {% include "turforslag/_melding.html" with type="suksess" tittel="Kontoen din er slettet." fokus=True %}
+      {% endif %}
+    {% endif %}
     <p class="ingress">Fyll inn varighet og dato, så får du ett turforslag om gangen.</p>
 
     <form class="sokeskjema" method="post" action="{% url 'turforslag:sok' %}">

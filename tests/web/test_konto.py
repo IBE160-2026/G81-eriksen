@@ -8,7 +8,7 @@ from django.utils import timezone
 
 from tests.web.test_grunnoppsett import ROT, les_html
 from tests.web.testturer import lagre_testturer
-from turforslag.models import Bruker, Innloggingsforsok
+from turforslag.models import Bruker, Innloggingsforsok, Registrering, Tur
 
 EPOST = "ola@eksempel.no"
 PASSORD = "hemmelig123"
@@ -350,3 +350,85 @@ class InnloggingsgrenseTest(TestCase):  # NFR-8, AR-9
         with self.settings(INNLOGGING_MAKS_FORSOK=2):
             self.feil_forsok(2)
             self.assertContains(self.logg_inn(EPOST, PASSORD), SPERRE)
+
+
+class KontoSlettingTest(TestCase):  # FR-15, AR-9, NFR-5, NFR-8, UX-DR30
+    def setUp(self):
+        lagre_testturer()
+        self.ola = Bruker.objects.create_user(EPOST, PASSORD)
+        self.annen = Bruker.objects.create_user("kari@eksempel.no", PASSORD)
+        self.tur = Tur.objects.first()
+        for bruker in (self.ola, self.annen):
+            Registrering.objects.create(
+                bruker=bruker,
+                tur=self.tur,
+                dato=I_DAG,
+                brukt_tid_min=60,
+                vanskelighet="lett",
+                fornoydhet=4,
+            )
+        self.client.post("/logg-inn/", {"epost": EPOST, "passord": PASSORD})
+        Innloggingsforsok.objects.create(epost=EPOST, tidspunkt=timezone.now())
+        Innloggingsforsok.objects.create(epost="kari@eksempel.no", tidspunkt=timezone.now())
+
+    def test_konto_har_slettelenke_under_logg_ut(self):
+        svar = self.client.get("/konto/")
+        self.assertContains(svar, 'href="/konto/slett/"')
+        self.assertContains(svar, "Slett konto</a>")
+        html = svar.content.decode()
+        self.assertLess(html.index("Logg ut</button>"), html.index("Slett konto</a>"))
+
+    def test_bekreftelsessiden_og_get_endrer_ingenting(self):
+        svar = self.client.get("/konto/slett/")
+        self.assertContains(svar, "Vil du slette kontoen?")
+        self.assertContains(svar, "All historikken din slettes for godt, og det kan ikke angres.")
+        self.assertContains(svar, "Slett kontoen</button>")
+        self.assertContains(svar, 'href="/konto/"')
+        self.assertContains(svar, "Avbryt</a>")
+        self.assertContains(svar, 'aria-current="page"')
+        self.assertNotContains(svar, 'type="email"')
+        self.assertNotContains(svar, 'type="password"')
+        self.assertIn("no-store", svar["Cache-Control"])
+        self.assertTrue(Bruker.objects.filter(email=EPOST).exists())
+        self.assertEqual(Registrering.objects.count(), 2)
+
+    def test_gjest_sendes_til_logg_inn(self):
+        klient = Client()
+        svar = klient.get("/konto/slett/")
+        self.assertRedirects(svar, "/logg-inn/?next=/konto/slett/", fetch_redirect_response=False)
+
+    def test_sletting_fjerner_egne_data_og_bare_egne(self):
+        svar = self.client.post("/konto/slett/")
+        self.assertRedirects(svar, "/", fetch_redirect_response=False)
+        self.assertFalse(Bruker.objects.filter(email=EPOST).exists())
+        self.assertFalse(Registrering.objects.filter(bruker__email=EPOST).exists())
+        self.assertEqual(Innloggingsforsok.objects.filter(epost=EPOST).count(), 0)
+        self.assertTrue(Bruker.objects.filter(email="kari@eksempel.no").exists())
+        self.assertEqual(Registrering.objects.count(), 1)
+        self.assertEqual(Innloggingsforsok.objects.count(), 1)
+        self.assertNotIn("_auth_user_id", self.client.session)
+
+    def test_kvittering_med_fokus_bare_en_gang(self):
+        self.client.post("/konto/slett/")
+        side = self.client.get("/")
+        self.assertContains(side, "Kontoen din er slettet.")
+        self.assertContains(side, "data-fokus", count=1)
+        self.assertNotContains(self.client.get("/"), "Kontoen din er slettet.")
+
+    def test_dobbel_post_gir_stille_redirect(self):
+        self.client.post("/konto/slett/")
+        self.client.get("/")
+        svar = self.client.post("/konto/slett/")
+        self.assertRedirects(svar, "/", fetch_redirect_response=False)
+        self.assertNotContains(self.client.get("/"), "Kontoen din er slettet.")
+
+    def test_feil_i_transaksjonen_ruller_tilbake(self):
+        with mock.patch.object(Bruker, "delete", side_effect=RuntimeError("feil")):
+            svar = self.client.post("/konto/slett/")
+        self.assertEqual(svar.status_code, 200)
+        self.assertContains(svar, "Kontoen ble ikke slettet. Prøv igjen.")
+        self.assertContains(svar, "Slett kontoen</button>")
+        self.assertTrue(Bruker.objects.filter(email=EPOST).exists())
+        self.assertEqual(Registrering.objects.count(), 2)
+        self.assertEqual(Innloggingsforsok.objects.filter(epost=EPOST).count(), 1)
+        self.assertIn("_auth_user_id", self.client.session)

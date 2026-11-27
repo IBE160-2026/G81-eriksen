@@ -7,11 +7,13 @@ videre til Turforslag. Med headeren `X-Fragment: 1` gir Turforslag bare innholde
 som `forbedring.js` bytter inn uten sideinnlasting.
 """
 
+import logging
 from urllib.parse import urlsplit
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import redirect_to_login
 from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import Resolver404, resolve, reverse
@@ -21,7 +23,14 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods, require_POST, require_safe
 
-from turforslag import engangstoken, innloggingsgrense, okt, registrering, sokflyt
+from turforslag import (
+    engangstoken,
+    innloggingsgrense,
+    kontosletting,
+    okt,
+    registrering,
+    sokflyt,
+)
 from turforslag.forms import (
     FEIL_FOR_MANGE_FORSOK,
     FEIL_INNLOGGING,
@@ -34,8 +43,11 @@ from turforslag.forms import (
 
 # Nøkkelen for meldingen «Turforslaget er ikke lenger tilgjengelig …» på Søk. Teksten står i malen.
 FORSLAG_UTILGJENGELIG = "forslag-utilgjengelig"
+logger = logging.getLogger(__name__)
 # Nøkkelen for «Du er logget ut.» på Søk (FR-14, AD-6). Teksten står i malen.
 UTLOGGET = "utlogget"
+# Nøkkelen for «Kontoen din er slettet.» på Søk (FR-15). Teksten står i malen.
+SLETTET = "slettet"
 # Nøkkelen for «Turen er registrert i historikken din.» på Historikk (FR-16). Teksten står i malen.
 REGISTRERT = "registrert"
 
@@ -45,7 +57,7 @@ def sok(request):  # FR-4, FR-5
     """Søk. GET viser skjemaet (forhåndsutfylt med `?sok=<id>`), POST søker og sender videre."""
     i_dag = timezone.localdate()
     startpunkter = sokflyt.startpunktvalg()
-    utilgjengelig = utloggetmelding = False
+    utilgjengelig = utloggetmelding = slettet = False
     if request.method == "POST":
         skjema = SokForm(i_dag, startpunkter, data=request.POST)
         if skjema.is_valid():
@@ -59,10 +71,16 @@ def sok(request):  # FR-4, FR-5
         meldinger = [melding.message for melding in messages.get_messages(request)]
         utilgjengelig = FORSLAG_UTILGJENGELIG in meldinger
         utloggetmelding = UTLOGGET in meldinger
+        slettet = SLETTET in meldinger
     return render(
         request,
         "turforslag/sok.html",
-        {"skjema": skjema, "utilgjengelig": utilgjengelig, "utlogget": utloggetmelding},
+        {
+            "skjema": skjema,
+            "utilgjengelig": utilgjengelig,
+            "utlogget": utloggetmelding,
+            "slettet": slettet,
+        },
     )
 
 
@@ -235,6 +253,29 @@ def logg_ut(request):  # FR-14, AD-6
     logout(request)
     messages.success(request, UTLOGGET)
     return redirect("turforslag:sok")
+
+
+@never_cache
+@require_http_methods(["GET", "HEAD", "POST"])
+def slett_konto(request):  # FR-15, AR-9, NFR-5
+    """Bekreftelse (GET) og sletting (POST). Gjest som sender POST (dobbeltklikk) går stille
+    til Søk. Feiler slettingen, er alt rullet tilbake og siden vises på nytt med en feil."""
+    if not request.user.is_authenticated:
+        if request.method == "POST":
+            return redirect("turforslag:sok")
+        return redirect_to_login(request.get_full_path(), reverse("turforslag:logg_inn"))
+    feil = False
+    if request.method == "POST":
+        try:
+            kontosletting.slett_konto(request.user)
+        except Exception:
+            logger.exception("Kunne ikke slette konto")
+            feil = True
+        else:
+            logout(request)
+            messages.success(request, SLETTET)
+            return redirect("turforslag:sok")
+    return render(request, "turforslag/slett_konto.html", {"feil": feil})
 
 
 @login_required
