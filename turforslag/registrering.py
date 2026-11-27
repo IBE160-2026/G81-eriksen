@@ -7,7 +7,10 @@ from datetime import date
 
 from domene import tekst
 from domene.begrunnelse import historikkbegrunnelse
-from domene.utvalg import er_over_nivatak
+from domene.niva import NivaStatus, nivaheving, vurder_historikk
+from domene.niva import Registrering as DomeneRegistrering
+from domene.tur import Turniva
+from domene.utvalg import NIVATAK_UTEN_HISTORIKK, er_over_nivatak
 from turforslag import turdata
 from turforslag.models import Registrering, Tur
 
@@ -28,6 +31,40 @@ def lagre(bruker, tur_id: str, dato: date, brukt_tid_min: int, vanskelighet: str
         vanskelighet=vanskelighet,
         fornoydhet=int(fornoydhet),
     )
+
+
+def domeneregistreringer(bruker) -> tuple[DomeneRegistrering, ...]:  # FR-19, NFR-8
+    """Brukerens egne registreringer som domeneobjekter. Gjester har ingen."""
+    if not getattr(bruker, "is_authenticated", False):
+        return ()
+    return tuple(
+        DomeneRegistrering(
+            id=r.id,
+            dato=r.dato,
+            tur_id=r.tur_id,
+            turniva=Turniva(r.tur.turniva),
+            vanskelighet=r.vanskelighet,
+            fornoydhet=r.fornoydhet,
+        )
+        for r in Registrering.objects.filter(bruker=bruker).select_related("tur")
+    )
+
+
+def vurder_bruker(bruker) -> tuple[tuple[DomeneRegistrering, ...], NivaStatus | None]:  # FR-19
+    """Registreringene og nivåstatusen til en innlogget bruker. Gjester gir `((), None)`."""
+    if not getattr(bruker, "is_authenticated", False):
+        return (), None
+    registreringer = domeneregistreringer(bruker)
+    return registreringer, vurder_historikk(registreringer)
+
+
+def avgjor_nivaheving(bruker, status: NivaStatus) -> bool:  # FR-19, AD-11
+    """Om søket er første etter en heving. Lagrer `brukt_heving` som `antall_hevinger`."""
+    heving = nivaheving(status, bruker.brukt_heving)
+    if bruker.brukt_heving != status.antall_hevinger:
+        bruker.brukt_heving = status.antall_hevinger
+        bruker.save(update_fields=["brukt_heving"])
+    return heving
 
 
 def historikk(bruker) -> tuple[tekst.Historikkrad, ...]:  # FR-17, NFR-8
@@ -62,6 +99,8 @@ def historikkvisning(bruker, registrering_id: int) -> tekst.Forslagsvisning | No
     tur = turdata.hent_tur(r.tur_id) if r else None
     if r is None or tur is None:
         return None
+    _, status = vurder_bruker(bruker)
+    nivatak = status.nivatak if status else NIVATAK_UTEN_HISTORIKK
     return tekst.historikkvisning(
-        tur, historikkbegrunnelse(r.dato, r.fornoydhet), er_over_nivatak(tur)
+        tur, historikkbegrunnelse(r.dato, r.fornoydhet), er_over_nivatak(tur, nivatak)
     )

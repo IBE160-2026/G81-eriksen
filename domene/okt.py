@@ -13,7 +13,8 @@ from datetime import date
 from typing import Any
 
 from domene.sok import Sok
-from domene.utvalg import Status, Utvalg
+from domene.tur import Turniva
+from domene.utvalg import NIVATAK_UTEN_HISTORIKK, Status, Utvalg
 
 
 @dataclass(frozen=True)
@@ -26,6 +27,7 @@ class Soketilstand:  # AD-5, FR-7
     viste_tur_ider: tuple[str, ...] = ()
     gjeldende_tur_id: str | None = None
     nivaheving: bool = False
+    nivatak: Turniva = NIVATAK_UTEN_HISTORIKK  # frosset ved søket (FR-19)
 
     def til_dict(self) -> dict[str, Any]:  # AD-5
         return {
@@ -40,6 +42,7 @@ class Soketilstand:  # AD-5, FR-7
             "viste_tur_ider": list(self.viste_tur_ider),
             "gjeldende_tur_id": self.gjeldende_tur_id,
             "nivaheving": self.nivaheving,
+            "nivatak": self.nivatak.value,
         }
 
     @classmethod
@@ -63,6 +66,7 @@ class Soketilstand:  # AD-5, FR-7
                 viste_tur_ider=_ider(data.get("viste_tur_ider", [])),
                 gjeldende_tur_id=gjeldende,
                 nivaheving=bool(data.get("nivaheving", False)),
+                nivatak=Turniva(data.get("nivatak", NIVATAK_UTEN_HISTORIKK.value)),
             )
         except (KeyError, TypeError, AttributeError) as feil:
             raise ValueError(f"Søketilstanden kan ikke leses: {feil!r}.") from feil
@@ -74,7 +78,12 @@ def _ider(verdi: Any) -> tuple[str, ...]:  # AD-5
     return tuple(verdi)
 
 
-def ny_soketilstand(sok: Sok, utvalg: Utvalg) -> Soketilstand:  # AD-5, FR-7
+def ny_soketilstand(
+    sok: Sok,
+    utvalg: Utvalg,
+    nivaheving: bool = False,
+    nivatak: Turniva = NIVATAK_UTEN_HISTORIKK,
+) -> Soketilstand:  # AD-5, FR-7
     """Tilstanden rett etter et søk: første tur i rangeringen vises, om det finnes en."""
     forste = utvalg.rangerte_tur_ider[0] if utvalg.rangerte_tur_ider else None
     return Soketilstand(
@@ -83,6 +92,8 @@ def ny_soketilstand(sok: Sok, utvalg: Utvalg) -> Soketilstand:  # AD-5, FR-7
         rangerte_tur_ider=utvalg.rangerte_tur_ider,
         viste_tur_ider=(forste,) if forste else (),
         gjeldende_tur_id=forste,
+        nivaheving=nivaheving,
+        nivatak=nivatak,
     )
 
 

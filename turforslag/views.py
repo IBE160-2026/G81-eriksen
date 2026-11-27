@@ -61,7 +61,7 @@ def sok(request):  # FR-4, FR-5
     if request.method == "POST":
         skjema = SokForm(i_dag, startpunkter, data=request.POST)
         if skjema.is_valid():
-            tilstand = sokflyt.utfor_sok(skjema.til_sok())
+            tilstand = sokflyt.utfor_sok(skjema.til_sok(), request.user)
             sok_id = okt.lagre_sok(request, tilstand)
             return redirect("turforslag:forslag", sok_id=sok_id)
     else:
@@ -121,7 +121,9 @@ def endre(request, sok_id):  # FR-8, NFR-2
         return _utilgjengelig(request)
     felt, verdi = request.POST.get("felt"), request.POST.get("verdi")
     ny = (
-        sokflyt.endre_sok(tilstand, felt, verdi) if felt is not None and verdi is not None else None
+        sokflyt.endre_sok(tilstand, felt, verdi, request.user)
+        if felt is not None and verdi is not None
+        else None
     )
     if ny is None:
         return _utilgjengelig(request)
