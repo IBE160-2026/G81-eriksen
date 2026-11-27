@@ -4,10 +4,16 @@ import inspect
 import unittest
 from datetime import date
 
-from domene.begrunnelse import MAKS_TEGN, historikkbegrunnelse, reservebegrunnelse
+from domene.begrunnelse import (
+    MAKS_TEGN,
+    historikkbegrunnelse,
+    personaliseringssetning,
+    reservebegrunnelse,
+)
+from domene.niva import Sperre
 from domene.sok import Sok
-from domene.tekst import varighetsvalg
-from domene.tur import TURTYPER
+from domene.tekst import nivaord, varighetsvalg
+from domene.tur import NIVAREKKEFOLGE, TURTYPER, Turniva
 from tests.domene.test_utvalg import lag_tur
 
 DATO = date(2026, 11, 28)
@@ -77,3 +83,83 @@ class HistorikkbegrunnelseTest(unittest.TestCase):
         for maned in range(1, 13):
             for n in range(1, 6):
                 self.assertLessEqual(len(historikkbegrunnelse(date(2026, maned, 28), n)), MAKS_TEGN)
+
+
+G, B, R, S = Turniva.GRONN, Turniva.BLA, Turniva.ROD, Turniva.SVART
+
+
+class PersonaliseringssetningTest(unittest.TestCase):
+    def test_heving(self):  # FR-12, FR-19
+        self.assertEqual(
+            personaliseringssetning(B, B, True, None),
+            "Du får en blå tur fordi de tre siste grønne turene var lette for deg.",
+        )
+        self.assertEqual(
+            personaliseringssetning(R, R, True, None),
+            "Du får en rød tur fordi de tre siste blå turene var lette for deg.",
+        )
+        self.assertEqual(
+            personaliseringssetning(S, S, True, None),
+            "Du får en svart tur fordi de tre siste røde turene var lette for deg.",
+        )
+
+    def test_nadd_niva(self):  # FR-12
+        self.assertEqual(
+            personaliseringssetning(B, B, False, None),
+            "Du får en blå tur fordi du har nådd blått nivå.",
+        )
+        # Heving, men turen er under taket: «de tre siste» ville vært feil.
+        self.assertEqual(
+            personaliseringssetning(B, R, True, None),
+            "Du får en blå tur fordi du har nådd blått nivå.",
+        )
+
+    def test_sperre(self):  # FR-12, FR-19
+        self.assertEqual(
+            personaliseringssetning(G, G, False, Sperre(G, B)),
+            "Du får en grønn tur igjen fordi den siste blå turen føltes vanskelig.",
+        )
+        self.assertEqual(
+            personaliseringssetning(B, B, True, Sperre(B, S)),
+            "Du får en blå tur igjen fordi den siste svarte turen føltes vanskelig.",
+        )
+
+    def test_ingen_setning_for_gronn_tur_uten_sperre(self):  # FR-12
+        self.assertEqual(personaliseringssetning(G, G, False, None), "")
+        self.assertEqual(personaliseringssetning(G, B, True, None), "")
+
+    def test_nivaord_boyning(self):  # AR-16
+        forventet = {
+            G: ("grønn", "grønne", "grønt"),
+            B: ("blå", "blå", "blått"),
+            R: ("rød", "røde", "rødt"),
+            S: ("svart", "svarte", "svart"),
+        }
+        for niva, (m, bestemt, n) in forventet.items():
+            self.assertEqual(
+                (nivaord(niva), nivaord(niva, "bestemt"), nivaord(niva, "intetkjonn")),
+                (m, bestemt, n),
+            )
+
+    def test_ingen_tall_i_setningene(self):  # FR-12
+        for tur in NIVAREKKEFOLGE:
+            for tak in NIVAREKKEFOLGE:
+                for sperre in (None, Sperre(G, B)):
+                    setning = personaliseringssetning(tur, tak, True, sperre)
+                    self.assertFalse(any(t.isdigit() for t in setning))
+
+    def test_hele_begrunnelsen_hoyst_300_tegn(self):  # FR-12
+        tur_typer = TURTYPER
+        for tur_niva in NIVAREKKEFOLGE:
+            for tak in NIVAREKKEFOLGE:
+                for heving in (False, True):
+                    for sperre in (
+                        None,
+                        *(Sperre(n, s) for n in NIVAREKKEFOLGE for s in NIVAREKKEFOLGE),
+                    ):
+                        setning = personaliseringssetning(tur_niva, tak, heving, sperre)
+                        for minutter, _ in varighetsvalg():
+                            for turtype in (None, *TURTYPER):
+                                tur = lag_tur(estimert_tid_min=715, turtyper=tur_typer)
+                                mal = reservebegrunnelse(Sok(minutter, DATO, turtype=turtype), tur)
+                                self.assertLessEqual(len(f"{mal} {setning}"), MAKS_TEGN)

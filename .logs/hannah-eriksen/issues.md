@@ -121,6 +121,9 @@
 - [ ] 2026-11-27 [story-2-6](964-2026-11-27-09-50-00-story-2-6.md) — «Avbryt», feil i sletting, axe og 44 px ikke sett i nettleser
 - [x] 2026-11-27 [story-3-1](963-2026-11-27-10-08-00-story-3-1.md) — merge PR for 3.1; sett 3.1 `done`, sjekk prod; deretter story 3.2 (bytt til `vurder_historikk`, mapper fra `turforslag.Registrering`) (løst 2026-11-27 — PR #54 merget; `done` ligger i PR #55, se [story-3-2](962-2026-11-27-11-05-00-story-3-2.md))
 - [ ] 2026-11-27 [story-3-1](963-2026-11-27-10-08-00-story-3-1.md) — valgfritt: Epic 2-retrospektiv før eller under Epic 3
-- [ ] 2026-11-27 [story-3-2](962-2026-11-27-11-05-00-story-3-2.md) — merge PR for 3.2 og PR #55; sett 3.2 `done`, sjekk prod; deretter story 3.3
+- [x] 2026-11-27 [story-3-2](962-2026-11-27-11-05-00-story-3-2.md) — merge PR for 3.2 og PR #55; sett 3.2 `done`, sjekk prod; deretter story 3.3 (løst 2026-11-27 — PR #56 merget; `done` ligger i PR #57, se [story-3-3](961-2026-11-27-12-00-00-story-3-3.md))
 - [ ] 2026-11-27 [story-3-2](962-2026-11-27-11-05-00-story-3-2.md) — søk som innlogget bruker med historikk er bare testet i kode, ikke sett i nettleser
 - [ ] 2026-11-27 [story-3-2](962-2026-11-27-11-05-00-story-3-2.md) — utsatt: `avgjor_nivaheving` ikke atomisk ved samtidige søk (deferred-work.md)
+- [ ] 2026-11-27 [story-3-3](961-2026-11-27-12-00-00-story-3-3.md) — merge PR for 3.3 og PR #57; sett 3.3 `done`, sjekk prod; deretter story 3.4
+- [ ] 2026-11-27 [story-3-3](961-2026-11-27-12-00-00-story-3-3.md) — produkteier godkjenner [ASSUMPTION]-tekstene: nådd nivå, sperre, innlogget uten/med historikk, tittel ved høyere tak
+- [ ] 2026-11-27 [story-3-3](961-2026-11-27-12-00-00-story-3-3.md) — se nivåtekstene og fokus på h1 i nettleser (bare testet i kode)

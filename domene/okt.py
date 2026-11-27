@@ -12,6 +12,7 @@ from dataclasses import dataclass, replace
 from datetime import date
 from typing import Any
 
+from domene.niva import Sperre
 from domene.sok import Sok
 from domene.tur import Turniva
 from domene.utvalg import NIVATAK_UTEN_HISTORIKK, Status, Utvalg
@@ -28,6 +29,10 @@ class Soketilstand:  # AD-5, FR-7
     gjeldende_tur_id: str | None = None
     nivaheving: bool = False
     nivatak: Turniva = NIVATAK_UTEN_HISTORIKK  # frosset ved søket (FR-19)
+    # Grunnlaget for begrunnelsen og meldingene, frosset ved søket (FR-12, FR-8)
+    grunnniva: Turniva = NIVATAK_UTEN_HISTORIKK
+    sperre: Sperre | None = None
+    har_historikk: bool = False
 
     def til_dict(self) -> dict[str, Any]:  # AD-5
         return {
@@ -43,6 +48,13 @@ class Soketilstand:  # AD-5, FR-7
             "gjeldende_tur_id": self.gjeldende_tur_id,
             "nivaheving": self.nivaheving,
             "nivatak": self.nivatak.value,
+            "grunnniva": self.grunnniva.value,
+            "sperre": (
+                {"niva": self.sperre.niva.value, "turniva": self.sperre.turniva.value}
+                if self.sperre
+                else None
+            ),
+            "har_historikk": self.har_historikk,
         }
 
     @classmethod
@@ -67,9 +79,18 @@ class Soketilstand:  # AD-5, FR-7
                 gjeldende_tur_id=gjeldende,
                 nivaheving=bool(data.get("nivaheving", False)),
                 nivatak=Turniva(data.get("nivatak", NIVATAK_UTEN_HISTORIKK.value)),
+                grunnniva=Turniva(data.get("grunnniva", NIVATAK_UTEN_HISTORIKK.value)),
+                sperre=_sperre(data.get("sperre")),
+                har_historikk=bool(data.get("har_historikk", False)),
             )
         except (KeyError, TypeError, AttributeError) as feil:
             raise ValueError(f"Søketilstanden kan ikke leses: {feil!r}.") from feil
+
+
+def _sperre(verdi: Any) -> Sperre | None:  # FR-19
+    if verdi is None:
+        return None
+    return Sperre(niva=Turniva(verdi["niva"]), turniva=Turniva(verdi["turniva"]))
 
 
 def _ider(verdi: Any) -> tuple[str, ...]:  # AD-5
@@ -83,6 +104,10 @@ def ny_soketilstand(
     utvalg: Utvalg,
     nivaheving: bool = False,
     nivatak: Turniva = NIVATAK_UTEN_HISTORIKK,
+    *,
+    grunnniva: Turniva = NIVATAK_UTEN_HISTORIKK,
+    sperre: Sperre | None = None,
+    har_historikk: bool = False,
 ) -> Soketilstand:  # AD-5, FR-7
     """Tilstanden rett etter et søk: første tur i rangeringen vises, om det finnes en."""
     forste = utvalg.rangerte_tur_ider[0] if utvalg.rangerte_tur_ider else None
@@ -94,6 +119,9 @@ def ny_soketilstand(
         gjeldende_tur_id=forste,
         nivaheving=nivaheving,
         nivatak=nivatak,
+        grunnniva=grunnniva,
+        sperre=sperre,
+        har_historikk=har_historikk,
     )
 
 

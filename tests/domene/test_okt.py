@@ -5,6 +5,7 @@ import unittest
 from dataclasses import FrozenInstanceError
 from datetime import date
 
+from domene.niva import Sperre
 from domene.okt import (
     Soketilstand,
     alle_vist,
@@ -59,9 +60,41 @@ class SoketilstandTest(unittest.TestCase):
                 "gjeldende_tur_id": "a",
                 "nivaheving": False,
                 "nivatak": "gronn",
+                "grunnniva": "gronn",
+                "sperre": None,
+                "har_historikk": False,
             },
         )
         self.assertEqual(json.loads(json.dumps(data)), data)
+
+    def test_grunnlaget_for_begrunnelsen_gar_gjennom_json(self):  # FR-12, AD-5
+        original = tilstand(
+            nivatak=Turniva.GRONN,
+            grunnniva=Turniva.BLA,
+            sperre=Sperre(Turniva.GRONN, Turniva.BLA),
+            har_historikk=True,
+        )
+        data = json.loads(json.dumps(original.til_dict()))
+        self.assertEqual(data["sperre"], {"niva": "gronn", "turniva": "bla"})
+        self.assertEqual(Soketilstand.fra_dict(data), original)
+
+    def test_eldre_okt_uten_grunnlaget_leses_med_standard(self):  # NFR-2
+        data = tilstand().til_dict()
+        for felt in ("grunnniva", "sperre", "har_historikk"):
+            del data[felt]
+        lest = Soketilstand.fra_dict(data)
+        self.assertEqual(
+            (lest.grunnniva, lest.sperre, lest.har_historikk), (Turniva.GRONN, None, False)
+        )
+
+    def test_ugyldig_sperre_gir_value_error(self):  # NFR-2
+        data = tilstand().til_dict()
+        data["sperre"] = {"niva": "lilla", "turniva": "bla"}
+        with self.assertRaises(ValueError):
+            Soketilstand.fra_dict(data)
+        data["sperre"] = {"niva": "gronn"}
+        with self.assertRaises(ValueError):
+            Soketilstand.fra_dict(data)
 
     def test_nivatak_gar_gjennom_json(self):  # FR-19
         original = tilstand(nivatak=Turniva.BLA, nivaheving=True)

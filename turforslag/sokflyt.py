@@ -8,7 +8,7 @@ from collections.abc import Callable
 from dataclasses import replace
 
 from domene import tekst
-from domene.begrunnelse import reservebegrunnelse
+from domene.begrunnelse import personaliseringssetning, reservebegrunnelse
 from domene.okt import Soketilstand, alle_vist, neste_forslag, ny_soketilstand, start_pa_nytt
 from domene.sok import Sok
 from domene.tur import Tur, Turniva
@@ -41,7 +41,15 @@ def utfor_sok(sok: Sok, bruker=None) -> Soketilstand:  # FR-5, FR-8, FR-18, FR-1
     utvalg = velg_turer(
         sok, turdata.alle_turer(), nivatak, registreringer=registreringer, nivaheving=heving
     )
-    return ny_soketilstand(sok, utvalg, heving, nivatak)
+    return ny_soketilstand(
+        sok,
+        utvalg,
+        heving,
+        nivatak,
+        grunnniva=status.grunnniva if status else NIVATAK_UTEN_HISTORIKK,
+        sperre=status.sperre if status else None,
+        har_historikk=bool(registreringer),
+    )
 
 
 def _endringsforslag(tilstand: Soketilstand) -> tuple[Endringsforslag, ...]:  # FR-8, UX-DR17
@@ -149,6 +157,10 @@ def forslagsvisning(tilstand: Soketilstand) -> tekst.Forslagsvisning | None:  # 
     tur = turdata.hent_tur(tilstand.gjeldende_tur_id)
     if tur is None or not _passer(tur, tilstand.sok, tilstand.nivatak):
         return None
-    return tekst.forslagsvisning(
-        tilstand, tur, reservebegrunnelse(tilstand.sok, tur), startpunkt_navn
+    begrunnelse = reservebegrunnelse(tilstand.sok, tur)
+    setning = personaliseringssetning(
+        tur.turniva, tilstand.nivatak, tilstand.nivaheving, tilstand.sperre
     )
+    if setning:
+        begrunnelse = f"{begrunnelse} {setning}"
+    return tekst.forslagsvisning(tilstand, tur, begrunnelse, startpunkt_navn)
