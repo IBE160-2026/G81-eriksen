@@ -479,7 +479,9 @@ class StilarkTest(SimpleTestCase):
         self.assertEqual(kart_bred["position"], "sticky")
         self.assertEqual(kart_bred["grid-column"], "1")
         self.assertRegex(kart_bred["height"], r"^calc\(100vh\b")
-        self.assertEqual(deklarasjoner_for(self.css, ".kartbeskrivelse", bred)["grid-column"], "1")
+        # Kartbeskrivelsen står i høyre kolonne, ellers glir det sticky kartet over teksten.
+        self.assertEqual(deklarasjoner_for(self.css, ".kartbeskrivelse", bred)["grid-column"], "2")
+        self.assertEqual(kart_bred["grid-row"], "1 / 4")
         self.assertEqual(deklarasjoner_for(self.css, ".infokolonne", bred)["grid-column"], "2")
 
     def test_ingen_fast_hoyde_utenom_kartet_og_ikoner(self):  # NFR-4, WCAG 1.4.12 (story 1.10)
