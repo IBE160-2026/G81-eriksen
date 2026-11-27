@@ -30,9 +30,9 @@ passord = "Testbruker2026"         # lagres bare som hash; minst 8 tegn etter Dj
 
 # Kommentar om hva registreringen viser.
 [[registrering]]
-tur_id = "sognsvann-brekke"        # må finnes blant turene som lastes
+tur_id = "vettakollen-fuglemyrhytta"  # må finnes blant turene som lastes
 dato = "2026-08-02"                # ISO, ikke frem i tid
-brukt_tid_min = 45                 # 10 til 1440
+brukt_tid_min = 150                # 10 til 1440
 vanskelighet = "lett"              # lett, moderat eller vanskelig
 fornoydhet = 4                     # 1 til 5
 ```

@@ -7,7 +7,7 @@ kan lagres som JSON, med datoen som ISO-streng. `fra_dict` tåler at felt som ko
 første forslag igjen» (1.11) er rene funksjoner som gir en ny tilstand uten ny rangering.
 """
 
-from collections.abc import Callable
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass, replace
 from datetime import date
 from typing import Any
@@ -33,6 +33,7 @@ class Soketilstand:  # AD-5, FR-7
     grunnniva: Turniva = NIVATAK_UTEN_HISTORIKK
     sperre: Sperre | None = None
     har_historikk: bool = False
+    foretrukne_turtyper: tuple[str, ...] = ()  # sortert, frosset ved søket (FR-20)
 
     def til_dict(self) -> dict[str, Any]:  # AD-5
         return {
@@ -55,6 +56,7 @@ class Soketilstand:  # AD-5, FR-7
                 else None
             ),
             "har_historikk": self.har_historikk,
+            "foretrukne_turtyper": list(self.foretrukne_turtyper),
         }
 
     @classmethod
@@ -82,6 +84,7 @@ class Soketilstand:  # AD-5, FR-7
                 grunnniva=Turniva(data.get("grunnniva", NIVATAK_UTEN_HISTORIKK.value)),
                 sperre=_sperre(data.get("sperre")),
                 har_historikk=bool(data.get("har_historikk", False)),
+                foretrukne_turtyper=tuple(sorted(_ider(data.get("foretrukne_turtyper", [])))),
             )
         except (KeyError, TypeError, AttributeError) as feil:
             raise ValueError(f"Søketilstanden kan ikke leses: {feil!r}.") from feil
@@ -108,6 +111,7 @@ def ny_soketilstand(
     grunnniva: Turniva = NIVATAK_UTEN_HISTORIKK,
     sperre: Sperre | None = None,
     har_historikk: bool = False,
+    foretrukne_turtyper: Iterable[str] = (),
 ) -> Soketilstand:  # AD-5, FR-7
     """Tilstanden rett etter et søk: første tur i rangeringen vises, om det finnes en."""
     forste = utvalg.rangerte_tur_ider[0] if utvalg.rangerte_tur_ider else None
@@ -122,6 +126,7 @@ def ny_soketilstand(
         grunnniva=grunnniva,
         sperre=sperre,
         har_historikk=har_historikk,
+        foretrukne_turtyper=tuple(sorted(foretrukne_turtyper)),
     )
 
 

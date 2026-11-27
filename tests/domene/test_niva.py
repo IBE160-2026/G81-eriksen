@@ -186,5 +186,36 @@ class NivaTest(unittest.TestCase):
             status.teller = 1  # type: ignore[misc]
 
 
+class ForetrukneTurtyperTest(unittest.TestCase):  # FR-20
+    def reg(self, id, fornoydhet, turtyper):
+        return Registrering(
+            id, START + timedelta(days=id), f"t{id}", GRONN, "lett", fornoydhet, turtyper
+        )
+
+    def test_fornoydhet_4_og_5_gir_preferanse(self):
+        for fornoydhet in (4, 5):
+            with self.subTest(fornoydhet=fornoydhet):
+                status = vurder_historikk([self.reg(1, fornoydhet, ("utsikt", "topptur"))])
+                self.assertEqual(status.foretrukne_turtyper, frozenset({"utsikt", "topptur"}))
+
+    def test_fornoydhet_1_til_3_gir_ingen_preferanse(self):
+        for fornoydhet in (1, 2, 3):
+            with self.subTest(fornoydhet=fornoydhet):
+                status = vurder_historikk([self.reg(1, fornoydhet, ("utsikt",))])
+                self.assertEqual(status.foretrukne_turtyper, frozenset())
+
+    def test_senere_lav_fornoydhet_fjerner_ikke_preferansen(self):
+        status = vurder_historikk([self.reg(1, 5, ("utsikt",)), self.reg(2, 1, ("utsikt",))])
+        self.assertEqual(status.foretrukne_turtyper, frozenset({"utsikt"}))
+
+    def test_ingen_registreringer_gir_tomt_sett(self):
+        self.assertEqual(vurder_historikk([]).foretrukne_turtyper, frozenset())
+
+    def test_standardverdier_gir_eksisterende_kall_uendret(self):
+        r = Registrering(1, START, "t", GRONN, "lett", 5)
+        self.assertEqual(r.turtyper, ())
+        self.assertEqual(vurder_historikk([r]).foretrukne_turtyper, frozenset())
+
+
 if __name__ == "__main__":
     unittest.main()

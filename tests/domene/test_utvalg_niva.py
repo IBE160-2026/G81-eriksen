@@ -147,5 +147,60 @@ class NivahevingTest(unittest.TestCase):
         self.assertFalse(er_over_nivatak(tur, BLA))
 
 
+class ForetrukneTurtyperTest(unittest.TestCase):  # FR-20, FR-5 punkt 4
+    def turer(self):
+        return [
+            lag_tur(id="a-marka", estimert_tid_min=120, turtyper=("marka",)),
+            lag_tur(id="b-utsikt", estimert_tid_min=60, turtyper=("utsikt",)),
+        ]
+
+    def test_foretrukket_turtype_kommer_foran_lengre_tid(self):
+        uten = velg_turer(sok(180), self.turer(), GRONN)
+        med = velg_turer(sok(180), self.turer(), GRONN, foretrukne_turtyper=frozenset({"utsikt"}))
+        self.assertEqual(uten.rangerte_tur_ider, ("a-marka", "b-utsikt"))
+        self.assertEqual(med.rangerte_tur_ider, ("b-utsikt", "a-marka"))
+
+    def test_ikke_gatt_vinner_over_foretrukket_gatt(self):
+        utvalg = velg_turer(
+            sok(180),
+            self.turer(),
+            GRONN,
+            registreringer=[gatt("b-utsikt", 5)],
+            foretrukne_turtyper=frozenset({"utsikt"}),
+        )
+        self.assertEqual(utvalg.rangerte_tur_ider, ("a-marka", "b-utsikt"))
+
+    def test_gatt_med_lav_fornoydhet_er_sist(self):
+        utvalg = velg_turer(
+            sok(180),
+            self.turer(),
+            GRONN,
+            registreringer=[gatt("b-utsikt", 2)],
+            foretrukne_turtyper=frozenset({"utsikt"}),
+        )
+        self.assertEqual(utvalg.rangerte_tur_ider[-1], "b-utsikt")
+
+    def test_nivaheving_gar_foran_preferanse(self):
+        turer = [
+            lag_tur(id="a-gronn", turniva=GRONN, turtyper=("utsikt",), estimert_tid_min=120),
+            lag_tur(id="b-bla", turniva=BLA, turtyper=("marka",), estimert_tid_min=60),
+        ]
+        utvalg = velg_turer(
+            sok(180), turer, BLA, nivaheving=True, foretrukne_turtyper=frozenset({"utsikt"})
+        )
+        self.assertEqual(utvalg.rangerte_tur_ider, ("b-bla", "a-gronn"))
+
+    def test_gjelder_utsiktsturene_ved_topptur_erstattet(self):
+        turer = [
+            lag_tur(id="a", turtyper=("utsikt",), estimert_tid_min=120),
+            lag_tur(id="b", turtyper=("utsikt", "marka"), estimert_tid_min=60),
+        ]
+        utvalg = velg_turer(
+            sok(180, turtype="topptur"), turer, GRONN, foretrukne_turtyper=frozenset({"marka"})
+        )
+        self.assertEqual(utvalg.status, Status.TOPPTUR_ERSTATTET)
+        self.assertEqual(utvalg.rangerte_tur_ider, ("b", "a"))
+
+
 if __name__ == "__main__":
     unittest.main()

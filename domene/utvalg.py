@@ -87,18 +87,27 @@ def _rangerte_ider(
     nivatak: Turniva,
     fornoydhet: dict[str, int] | None = None,
     nivaheving: bool = False,
-) -> tuple[str, ...]:  # FR-5
+    foretrukne_turtyper: frozenset[str] = frozenset(),
+) -> tuple[str, ...]:  # FR-5, FR-20
     """(1) Ikke gåtte først, så gåtte med fornøydhet 3-5, så 1-2. (3) Ved nivåheving kommer
-    turer på nivåtaket foran lavere. Så lengst tid først (nærmest varigheten), så tur-ID."""
+    turer på nivåtaket foran lavere. (4) Turer med en foretrukket turtype foran andre. Så
+    lengst tid først (nærmest varigheten), så tur-ID."""
     fornoydhet = fornoydhet or {}
 
-    def nokkel(tur: Tur) -> tuple[int, int, int, str]:
+    def nokkel(tur: Tur) -> tuple[int, int, int, int, str]:
         if tur.id not in fornoydhet:
             gruppe = 0
         else:
             gruppe = 2 if fornoydhet[tur.id] <= LAV_FORNOYDHET else 1
         paa_taket = nivaheving and tur.turniva == nivatak
-        return (gruppe, 0 if paa_taket else 1, -tur.estimert_tid_min, str(tur.id))
+        foretrukket = not foretrukne_turtyper.isdisjoint(tur.turtyper)
+        return (
+            gruppe,
+            0 if paa_taket else 1,
+            0 if foretrukket else 1,
+            -tur.estimert_tid_min,
+            str(tur.id),
+        )
 
     passende = [tur for tur in turer if _passer(tur, sok, nivatak)]
     return tuple(tur.id for tur in sorted(passende, key=nokkel))
@@ -111,6 +120,7 @@ def velg_turer(
     *,
     registreringer: Iterable[Registrering] = (),
     nivaheving: bool = False,
+    foretrukne_turtyper: frozenset[str] = frozenset(),
 ) -> Utvalg:  # FR-5, FR-8, FR-18, FR-19
     """Velger og rangerer turene som passer søket innenfor nivåtaket.
 
@@ -123,19 +133,26 @@ def velg_turer(
     4. Ellers `INGEN_TREFF`.
 
     `registreringer` (brukerens egne) gjør at turer som ikke er gått, rangeres først, og
-    `nivaheving` setter turer på nivåtaket foran lavere turer (FR-5 punkt 1 og 3).
+    `nivaheving` setter turer på nivåtaket foran lavere turer (FR-5 punkt 1 og 3), og
+    `foretrukne_turtyper` setter turer med en slik turtype foran andre (FR-5 punkt 4, FR-20).
     """
     turer = tuple(turer)
     nivatak = Turniva(nivatak)
     fornoydhet = _fornoydhet_per_tur(registreringer)
 
-    treff = _rangerte_ider(turer, sok, nivatak, fornoydhet, nivaheving)
+    foretrukne = frozenset(foretrukne_turtyper)
+    treff = _rangerte_ider(turer, sok, nivatak, fornoydhet, nivaheving, foretrukne)
     if treff:
         return Utvalg(Status.TREFF, treff)
 
     if sok.turtype == TOPPTUR:  # FR-8
         utsikt = _rangerte_ider(
-            turer, replace(sok, turtype=ERSTATNING_FOR_TOPPTUR), nivatak, fornoydhet, nivaheving
+            turer,
+            replace(sok, turtype=ERSTATNING_FOR_TOPPTUR),
+            nivatak,
+            fornoydhet,
+            nivaheving,
+            foretrukne,
         )
         if utsikt:
             return Utvalg(Status.TOPPTUR_ERSTATTET, utsikt)

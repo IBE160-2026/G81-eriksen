@@ -14,6 +14,7 @@ VANSKELIGHETER = ("lett", "moderat", "vanskelig")
 MIN_FORNOYDHET = 1
 MAKS_FORNOYDHET = 5
 TURER_PER_HEVING = 3
+FORNOYD_FRA = 4  # Fornøydhet 4-5 gir preferanse for turtypene (FR-20)
 
 
 @dataclass(frozen=True)
@@ -24,6 +25,7 @@ class Registrering:  # FR-16
     turniva: Turniva
     vanskelighet: str
     fornoydhet: int
+    turtyper: tuple[str, ...] = ()  # FR-20: turtypene til turen
 
 
 @dataclass(frozen=True)
@@ -39,6 +41,8 @@ class NivaStatus:  # FR-18, FR-19
     sperre: Sperre | None
     antall_hevinger: int
     teller: int
+    # FR-20: turtypene til turer med minst én registrering med fornøydhet 4-5
+    foretrukne_turtyper: frozenset[str] = frozenset()
 
 
 def _pos(niva: Turniva) -> int:
@@ -67,8 +71,11 @@ def vurder_historikk(registreringer: Iterable[Registrering]) -> NivaStatus:
     sperre: Sperre | None = None
     hevinger = 0
     teller = 0
+    foretrukne: set[str] = set()
 
     for r in sorted(alle, key=lambda r: (r.dato, r.id)):
+        if r.fornoydhet >= FORNOYD_FRA:
+            foretrukne.update(r.turtyper)  # En senere lav fornøydhet fjerner den ikke
         if r.vanskelighet == "vanskelig":
             teller = 0
             kandidat = NIVAREKKEFOLGE[max(_pos(r.turniva) - 1, 0)]
@@ -92,6 +99,7 @@ def vurder_historikk(registreringer: Iterable[Registrering]) -> NivaStatus:
         sperre=sperre,
         antall_hevinger=hevinger,
         teller=teller,
+        foretrukne_turtyper=frozenset(foretrukne),
     )
 
 

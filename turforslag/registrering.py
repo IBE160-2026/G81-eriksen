@@ -45,6 +45,7 @@ def domeneregistreringer(bruker) -> tuple[DomeneRegistrering, ...]:  # FR-19, NF
             turniva=Turniva(r.tur.turniva),
             vanskelighet=r.vanskelighet,
             fornoydhet=r.fornoydhet,
+            turtyper=tuple(r.tur.turtyper),
         )
         for r in Registrering.objects.filter(bruker=bruker).select_related("tur")
     )
