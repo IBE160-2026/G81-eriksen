@@ -11,7 +11,7 @@ from domene import tekst
 from domene.begrunnelse import reservebegrunnelse
 from domene.okt import Soketilstand, alle_vist, neste_forslag, ny_soketilstand, start_pa_nytt
 from domene.sok import Sok
-from domene.tur import Tur
+from domene.tur import Tur, Turniva
 from domene.utvalg import (
     FELT_TURTYPE,
     FELT_VARIGHET,
@@ -23,6 +23,7 @@ from domene.utvalg import (
     velg_turer,
 )
 from turforslag import turdata
+from turforslag.registrering import avgjor_nivaheving, vurder_bruker
 
 
 def startpunktvalg() -> tuple[tuple[str, str], ...]:  # FR-4
@@ -30,10 +31,17 @@ def startpunktvalg() -> tuple[tuple[str, str], ...]:  # FR-4
     return tekst.sorter_startpunkter(turdata.startpunkter_med_turer())
 
 
-def utfor_sok(sok: Sok) -> Soketilstand:  # FR-5, FR-8, FR-18
-    """Velger og rangerer turene for en gjest (grønt nivåtak) og fryser rangeringen."""
-    utvalg = velg_turer(sok, turdata.alle_turer(), NIVATAK_UTEN_HISTORIKK)
-    return ny_soketilstand(sok, utvalg)
+def utfor_sok(sok: Sok, bruker=None) -> Soketilstand:  # FR-5, FR-8, FR-18, FR-19
+    """Velger og rangerer turene og fryser rangeringen og nivåtaket. Gjester og brukere uten
+    historikk har grønt tak. For en innlogget bruker styrer historikken taket og rangeringen,
+    og `brukt_heving` lagres (AD-11)."""
+    registreringer, status = vurder_bruker(bruker)
+    nivatak = status.nivatak if status else NIVATAK_UTEN_HISTORIKK
+    heving = avgjor_nivaheving(bruker, status) if status else False
+    utvalg = velg_turer(
+        sok, turdata.alle_turer(), nivatak, registreringer=registreringer, nivaheving=heving
+    )
+    return ny_soketilstand(sok, utvalg, heving, nivatak)
 
 
 def _endringsforslag(tilstand: Soketilstand) -> tuple[Endringsforslag, ...]:  # FR-8, UX-DR17
@@ -45,12 +53,14 @@ def _endringsforslag(tilstand: Soketilstand) -> tuple[Endringsforslag, ...]:  # 
     return foresla_endringer(
         tilstand.sok,
         turdata.alle_turer(),
-        NIVATAK_UTEN_HISTORIKK,
+        tilstand.nivatak,
         tilstand.rangerte_tur_ider if vist else (),
     )
 
 
-def endre_sok(tilstand: Soketilstand, felt: str, verdi: str) -> Soketilstand | None:  # FR-8
+def endre_sok(
+    tilstand: Soketilstand, felt: str, verdi: str, bruker=None
+) -> Soketilstand | None:  # FR-8
     """Kjører søket på nytt med én endring. Feltet og verdien må være et av forslagene som
     gjelder tilstanden akkurat nå, ellers gis `None`. «Velg startpunkt» er en lenke og kan
     ikke kjøres her."""
@@ -63,21 +73,21 @@ def endre_sok(tilstand: Soketilstand, felt: str, verdi: str) -> Soketilstand | N
             sok = replace(tilstand.sok, turtype=verdi or None)
         else:  # pragma: no cover - bare startpunkt, som er en lenke
             continue
-        return utfor_sok(sok)
+        return utfor_sok(sok, bruker)
     return None
 
 
-def _passer(tur: Tur, sok: Sok) -> bool:  # SM-C1
+def _passer(tur: Tur, sok: Sok, nivatak: Turniva) -> bool:  # SM-C1
     # Etter en ny `lastinn` kan turen ha fått høyere nivå eller lengre tid.
-    return innenfor_tid_og_nivatak(tur, sok, NIVATAK_UTEN_HISTORIKK)
+    return innenfor_tid_og_nivatak(tur, sok, nivatak)
 
 
-def _gyldig(sok: Sok) -> Callable[[str], bool]:  # FR-7, SM-C1
+def _gyldig(sok: Sok, nivatak: Turniva) -> Callable[[str], bool]:  # FR-7, SM-C1
     """Om turen finnes og fortsatt passer søket. Turer som ikke gjør det, hoppes over."""
 
     def gyldig(tur_id: str) -> bool:
         tur = turdata.hent_tur(tur_id)
-        return tur is not None and _passer(tur, sok)
+        return tur is not None and _passer(tur, sok, nivatak)
 
     return gyldig
 
@@ -87,7 +97,7 @@ def nytt_forslag(tilstand: Soketilstand, fra_tur_id: str | None) -> Soketilstand
 
     Går bare videre når `fra_tur_id` er gjeldende tur (dobbeltklikk og gamle POST-er).
     """
-    return neste_forslag(tilstand, fra_tur_id, _gyldig(tilstand.sok))
+    return neste_forslag(tilstand, fra_tur_id, _gyldig(tilstand.sok, tilstand.nivatak))
 
 
 def forfra(tilstand: Soketilstand) -> Soketilstand:  # FR-7
@@ -96,7 +106,7 @@ def forfra(tilstand: Soketilstand) -> Soketilstand:  # FR-7
     Gjelder bare ved «alle vist». Ellers gis samme tilstand.
     """
     ny = start_pa_nytt(tilstand)
-    gyldig = _gyldig(tilstand.sok)
+    gyldig = _gyldig(tilstand.sok, tilstand.nivatak)
     if ny != tilstand and ny.gjeldende_tur_id is not None and not gyldig(ny.gjeldende_tur_id):
         ny = neste_forslag(ny, ny.gjeldende_tur_id, gyldig)
     return ny
@@ -125,7 +135,7 @@ def forslagsvisning(tilstand: Soketilstand) -> tekst.Forslagsvisning | None:  # 
             return None
         # FR-7: ingressen teller bare turene som fortsatt finnes og passer (SM-C1). Er ingen
         # igjen, behandles søke-ID-en som ukjent.
-        gyldig = _gyldig(tilstand.sok)
+        gyldig = _gyldig(tilstand.sok, tilstand.nivatak)
         antall = sum(1 for tur_id in tilstand.rangerte_tur_ider if gyldig(tur_id))
         if antall == 0:
             return None
@@ -137,7 +147,7 @@ def forslagsvisning(tilstand: Soketilstand) -> tekst.Forslagsvisning | None:  # 
             endringsforslag=_endringsforslag(tilstand),
         )
     tur = turdata.hent_tur(tilstand.gjeldende_tur_id)
-    if tur is None or not _passer(tur, tilstand.sok):
+    if tur is None or not _passer(tur, tilstand.sok, tilstand.nivatak):
         return None
     return tekst.forslagsvisning(
         tilstand, tur, reservebegrunnelse(tilstand.sok, tur), startpunkt_navn

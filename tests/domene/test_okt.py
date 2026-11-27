@@ -13,6 +13,7 @@ from domene.okt import (
     start_pa_nytt,
 )
 from domene.sok import Sok
+from domene.tur import Turniva
 from domene.utvalg import Status, Utvalg
 
 SOK = Sok(150, date(2026, 11, 28), turtype="utsikt", startpunkt_id="asen")
@@ -57,9 +58,16 @@ class SoketilstandTest(unittest.TestCase):
                 "viste_tur_ider": ["a"],
                 "gjeldende_tur_id": "a",
                 "nivaheving": False,
+                "nivatak": "gronn",
             },
         )
         self.assertEqual(json.loads(json.dumps(data)), data)
+
+    def test_nivatak_gar_gjennom_json(self):  # FR-19
+        original = tilstand(nivatak=Turniva.BLA, nivaheving=True)
+        tilbake = Soketilstand.fra_dict(json.loads(json.dumps(original.til_dict())))
+        self.assertEqual(tilbake.nivatak, Turniva.BLA)
+        self.assertIs(type(tilbake.nivatak), Turniva)
 
     def test_rundtur_gjennom_json(self):  # AD-5
         for original in (
@@ -75,7 +83,7 @@ class SoketilstandTest(unittest.TestCase):
 
     def test_fra_dict_taaler_manglende_og_ukjente_felt(self):  # AD-5 (KI-felt kommer i 4.5)
         data = tilstand().til_dict()
-        for felt in ("viste_tur_ider", "gjeldende_tur_id", "nivaheving"):
+        for felt in ("viste_tur_ider", "gjeldende_tur_id", "nivaheving", "nivatak"):
             del data[felt]
         data["ki_begrunnelse"] = "Kommer i Epic 4"
         data["sok"]["fritekst"] = "forbi et vann"
@@ -84,6 +92,7 @@ class SoketilstandTest(unittest.TestCase):
         self.assertEqual(tilbake.viste_tur_ider, ())
         self.assertIsNone(tilbake.gjeldende_tur_id)
         self.assertIs(tilbake.nivaheving, False)
+        self.assertEqual(tilbake.nivatak, Turniva.GRONN)  # FR-19: eldre økt leses med grønt tak
         self.assertIsNone(tilbake.sok.turtype)
 
     def test_ugyldige_verdier_gir_value_error(self):  # AD-5, NFR-2

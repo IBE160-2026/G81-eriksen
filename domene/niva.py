@@ -93,3 +93,9 @@ def vurder_historikk(registreringer: Iterable[Registrering]) -> NivaStatus:
         antall_hevinger=hevinger,
         teller=teller,
     )
+
+
+def nivaheving(status: NivaStatus, brukt_heving: int) -> bool:  # FR-19, AD-11
+    """Om dette søket er det første etter en ny heving: flere hevinger enn de som er brukt,
+    og ingen aktiv sperre. Med sperre regnes hevingen som brukt, uten å gi `True`."""
+    return status.sperre is None and status.antall_hevinger > brukt_heving

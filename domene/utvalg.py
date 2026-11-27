@@ -13,6 +13,7 @@ from collections.abc import Iterable
 from dataclasses import dataclass, replace
 from enum import StrEnum
 
+from domene.niva import Registrering
 from domene.sok import MAKS_VARIGHET_MIN, VARIGHET_STEG_MIN, Sok
 from domene.tur import NIVAREKKEFOLGE, TURTYPER, Tur, Turniva
 
@@ -44,10 +45,9 @@ def _nivaplass(niva: Turniva) -> int:  # FR-5
     return NIVAREKKEFOLGE.index(niva)
 
 
-def er_over_nivatak(tur: Tur) -> bool:  # FR-17, FR-18
-    """Om turen er over nivåtaket for turforslag fra historikken. Til Epic 3 er taket
-    grønt for alle. Story 3.2 bytter taket her til taket fra historikken."""
-    return _nivaplass(tur.turniva) > _nivaplass(NIVATAK_UTEN_HISTORIKK)
+def er_over_nivatak(tur: Tur, nivatak: Turniva = NIVATAK_UTEN_HISTORIKK) -> bool:  # FR-17, FR-18
+    """Om turen er over nivåtaket (standard grønt, for gjester og brukere uten historikk)."""
+    return _nivaplass(tur.turniva) > _nivaplass(Turniva(nivatak))
 
 
 def _passer(tur: Tur, sok: Sok, nivatak: Turniva | None) -> bool:  # FR-5
@@ -70,17 +70,48 @@ def innenfor_tid_og_nivatak(tur: Tur, sok: Sok, nivatak: Turniva) -> bool:  # FR
     )
 
 
-def _rangeringsnokkel(tur: Tur) -> tuple[int, str]:  # FR-5 punkt 5 og 6
-    """Lengst tid først (nærmest varigheten, siden alle er ≤), så tur-ID stigende."""
-    return (-tur.estimert_tid_min, str(tur.id))
+LAV_FORNOYDHET = 2  # Fornøydhet 1-2 rangeres sist blant gåtte turer (FR-5)
 
 
-def _rangerte_ider(turer: Iterable[Tur], sok: Sok, nivatak: Turniva) -> tuple[str, ...]:  # FR-5
+def _fornoydhet_per_tur(registreringer: Iterable[Registrering]) -> dict[str, int]:  # FR-5
+    """Fornøydheten i siste registrering for hver gåtte tur (dato, deretter id)."""
+    siste: dict[str, Registrering] = {}
+    for r in sorted(registreringer, key=lambda r: (r.dato, r.id)):
+        siste[r.tur_id] = r
+    return {tur_id: r.fornoydhet for tur_id, r in siste.items()}
+
+
+def _rangerte_ider(
+    turer: Iterable[Tur],
+    sok: Sok,
+    nivatak: Turniva,
+    fornoydhet: dict[str, int] | None = None,
+    nivaheving: bool = False,
+) -> tuple[str, ...]:  # FR-5
+    """(1) Ikke gåtte først, så gåtte med fornøydhet 3-5, så 1-2. (3) Ved nivåheving kommer
+    turer på nivåtaket foran lavere. Så lengst tid først (nærmest varigheten), så tur-ID."""
+    fornoydhet = fornoydhet or {}
+
+    def nokkel(tur: Tur) -> tuple[int, int, int, str]:
+        if tur.id not in fornoydhet:
+            gruppe = 0
+        else:
+            gruppe = 2 if fornoydhet[tur.id] <= LAV_FORNOYDHET else 1
+        paa_taket = nivaheving and tur.turniva == nivatak
+        return (gruppe, 0 if paa_taket else 1, -tur.estimert_tid_min, str(tur.id))
+
     passende = [tur for tur in turer if _passer(tur, sok, nivatak)]
-    return tuple(tur.id for tur in sorted(passende, key=_rangeringsnokkel))
+    return tuple(tur.id for tur in sorted(passende, key=nokkel))
 
 
-def velg_turer(sok: Sok, turer: Iterable[Tur], nivatak: Turniva) -> Utvalg:  # FR-5, FR-8, FR-18
+def velg_turer(
+    sok: Sok,
+    turer: Iterable[Tur],
+    nivatak: Turniva,
+    *,
+    registreringer: Iterable[Registrering] = (),
+    nivaheving: bool = False,
+) -> Utvalg:  # FR-5, FR-8, FR-18, FR-19
     """Velger og rangerer turene som passer søket innenfor nivåtaket.
 
     1. Passer noen tur innenfor taket: `TREFF`.
@@ -90,16 +121,22 @@ def velg_turer(sok: Sok, turer: Iterable[Tur], nivatak: Turniva) -> Utvalg:  # F
        `BARE_OVER_NIVATAK`, uten turer. Utsiktsturer over taket teller ikke ved topptur
        (beslutning 3).
     4. Ellers `INGEN_TREFF`.
+
+    `registreringer` (brukerens egne) gjør at turer som ikke er gått, rangeres først, og
+    `nivaheving` setter turer på nivåtaket foran lavere turer (FR-5 punkt 1 og 3).
     """
     turer = tuple(turer)
     nivatak = Turniva(nivatak)
+    fornoydhet = _fornoydhet_per_tur(registreringer)
 
-    treff = _rangerte_ider(turer, sok, nivatak)
+    treff = _rangerte_ider(turer, sok, nivatak, fornoydhet, nivaheving)
     if treff:
         return Utvalg(Status.TREFF, treff)
 
     if sok.turtype == TOPPTUR:  # FR-8
-        utsikt = _rangerte_ider(turer, replace(sok, turtype=ERSTATNING_FOR_TOPPTUR), nivatak)
+        utsikt = _rangerte_ider(
+            turer, replace(sok, turtype=ERSTATNING_FOR_TOPPTUR), nivatak, fornoydhet, nivaheving
+        )
         if utsikt:
             return Utvalg(Status.TOPPTUR_ERSTATTET, utsikt)
 
