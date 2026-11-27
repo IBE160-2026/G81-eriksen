@@ -15,6 +15,7 @@ Ny fremdriftsplan mot fristen 15. desember (to ganger, med 2.3 og 3.3 i arbeid),
 - Nøkkel laget i Anthropic-konsollen (Default workspace, uten Admin API). Den havnet først i en feil fil, `IBE160G81-eriksen.env`, fordi `code C:\…\.env` kjørt i Git Bash mistet skråstrekene. Den ble flyttet til `.env`, og feilfilen ble slettet. Den ble aldri committet.
 - Kontrollert: én `ANTHROPIC_API_KEY`-linje i `.env`, `.env` git-ignorert, `.env.example` uendret, ingen nøkler i git-historikken og ingen andre filer med nøkkelen. `GET /v1/models` ga 200 og viser `claude-haiku-5-5`, og Django-settings leser nøkkelen.
 - Vercel (`your-next-adventure`): `ANTHROPIC_API_KEY` lagt inn som Sensitive, **bare i Production** (AR-24). Preview har ingen nøkkel.
+- Loggcommiten havnet først på den lokale grenen `implementering/story-3-4` etter at 3.4 var pushet, og ble ikke med i PR #60. Den ble cherry-picket til `implementering/story-3-5`, og den lokale 3.4-grenen ble slettet (fantes ikke lenger på origin).
 - Ingen kodeendringer.
 
 ### Åpne punkter
