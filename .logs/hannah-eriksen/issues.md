@@ -116,6 +116,8 @@
 - [x] 2026-11-27 [story-2-5](965-2026-11-27-09-35-00-story-2-5.md) — merge PR for 2.5 og PR #49; sett 2.5 `done`, sjekk prod; deretter story 2.6 (løst 2026-11-27 — PR #49/#50 merget, prod OK; `done` ligger i PR #51, se [story-2-6](964-2026-11-27-09-50-00-story-2-6.md))
 - [ ] 2026-11-27 [story-2-5](965-2026-11-27-09-35-00-story-2-5.md) — produkteier godkjenner Mikrotekst-endringen (innlogging utløpt tatt ut) og tekstene «Logg inn for å registrere» og «Turforslaget er tatt vare på.»
 - [ ] 2026-11-27 [story-2-5](965-2026-11-27-09-35-00-story-2-5.md) — «Tilbake til turforslaget» etter klikk, utløpt innlogging og ekstern `next` er bare testet i kode, ikke i nettleser
-- [ ] 2026-11-27 [story-2-6](964-2026-11-27-09-50-00-story-2-6.md) — merge PR for 2.6 og PR #51; sett 2.6 `done`, sjekk prod; deretter Epic 2-retrospektiv (valgfritt) og story 3.1
+- [x] 2026-11-27 [story-2-6](964-2026-11-27-09-50-00-story-2-6.md) — merge PR for 2.6 og PR #51; sett 2.6 `done`, sjekk prod; deretter Epic 2-retrospektiv (valgfritt) og story 3.1 (løst 2026-11-27 — PR #51/#53 merget; story 3.1 påbegynt, se [story-3-1](963-2026-11-27-10-08-00-story-3-1.md))
 - [ ] 2026-11-27 [story-2-6](964-2026-11-27-09-50-00-story-2-6.md) — produkteier godkjenner [ASSUMPTION]-tekstene «Kontoen din er slettet.», «Slett kontoen», «Avbryt» og «Kontoen ble ikke slettet. Prøv igjen.»
 - [ ] 2026-11-27 [story-2-6](964-2026-11-27-09-50-00-story-2-6.md) — «Avbryt», feil i sletting, axe og 44 px ikke sett i nettleser
+- [ ] 2026-11-27 [story-3-1](963-2026-11-27-10-08-00-story-3-1.md) — merge PR for 3.1; sett 3.1 `done`, sjekk prod; deretter story 3.2 (bytt til `vurder_historikk`, mapper fra `turforslag.Registrering`)
+- [ ] 2026-11-27 [story-3-1](963-2026-11-27-10-08-00-story-3-1.md) — valgfritt: Epic 2-retrospektiv før eller under Epic 3
