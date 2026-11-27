@@ -163,7 +163,7 @@ Har en rad flere tekster med ulik kilde, står kilden per tekst.
 | For mange innloggingsforsøk | «Det har vært for mange forsøk på å logge inn med denne e-postadressen. Vent 15 minutter, og prøv igjen.» | [ASSUMPTION]. Budskapet står i PRD NFR-8 |
 | E-posten finnes fra før | «Kunne ikke lage konto – prøv å logge inn» | PRD-budskap (FR-14) |
 | Feil i kontofelt | «Skriv inn e-postadressen din», «E-postadressen må ha med @, for eksempel ola@eksempel.no», «Passordet må ha minst 8 tegn» | [ASSUMPTION] |
-| Innlogging utløpt | «Du er logget ut fordi det har gått lang tid. Logg inn igjen, så tar jeg vare på det du har fylt inn.» | [ASSUMPTION] |
+| Innlogging utløpt | Tas ut av v1 (story 2.5): systemet skiller ikke utløpt innlogging fra «aldri innlogget», så brukeren får vanlig Logg inn (eller «Logg inn for å registrere») uten egen melding. | Avgjort |
 | Registreringsskjema | «Alle fire felt er påkrevd.», «I dag eller tidligere», «10 min–24 t» | Godkjent (wireframe) |
 | Fornøydhet, forklaring | «1 = ikke fornøyd, 5 = svært fornøyd» | [ASSUMPTION] |
 | Feil ved registrering | «Velg datoen du gikk turen», «Datoen kan ikke være frem i tid», «Brukt tid må være mellom 10 minutter og 24 timer», «Velg hvor vanskelig turen føltes», «Velg hvor fornøyd du var» | [ASSUMPTION] |
@@ -309,7 +309,7 @@ Alle tilstandene fra PRD §6 er dekket. Hver tilstand viser enten et turforslag 
 | For mange innloggingsforsøk (NFR-8) | – | Melding (feil) med teksten fra Mikrotekst. Den sier ikke om e-posten har en konto. Feltene beholdes, unntatt passordet. |
 | E-posten finnes fra før | – | Melding (feil) med PRD-teksten. |
 | Passord for kort | – | Feilmelding ved feltet. Hjelpeteksten «Minst 8 tegn» vises alltid. |
-| Innlogging utløpt (sider som krever konto) | – | Brukeren sendes til Logg inn og tilbake til samme side etterpå. Utfylte felt beholdes [ASSUMPTION]. |
+| Innlogging utløpt (sider som krever konto) | – | Brukeren sendes til Logg inn og tilbake til samme side etterpå. Utfylte felt beholdes ikke (avgjort i story 2.5). |
 
 **Registrer gjennomført tur**
 
@@ -491,7 +491,7 @@ Disse avvikene fra PRD v1.0 ble tatt inn i PRD v1.1 (2026-11-07). Listen står i
 |---|---|---|
 | **Kartfliser og målinger.** Flis-kilden (Kartverket topo eller OSM) velges i arkitekturen. Før valget godkjennes, må `{colors.map-route}`, `{colors.map-marker-start}` og `{colors.map-focus-ring}` måles mot ekte fliser i skog, myr, vann og bebyggelse. Zoomgrensene for Kartverkets detaljerte kartdata (zoom 12–20) må også avklares. **Delvis løst 2026-11-08:** flisene er Kartverket topo, zoom høyst 18 (AD-8). **Løst 2026-11-26:** fargene er målt mot topo-flisene, og alle kravene holder ([docs/kartfarger.md](../../../../docs/kartfarger.md)). `{colors.map-route}` ble justert til `#673A97` for å holde 3:1 mot den mørkeste skogen. | Arkitektur: [ARCHITECTURE-SPINE.md](../../architecture/architecture-G81-eriksen-2026-11-07/ARCHITECTURE-SPINE.md) | – |
 | **Nettleserstøtte.** **Løst 2026-11-08:** de to nyeste versjonene av Chrome, Edge, Firefox og Safari, også mobil. | Arkitektur: [ARCHITECTURE-SPINE.md](../../architecture/architecture-G81-eriksen-2026-11-07/ARCHITECTURE-SPINE.md) | – |
-| **Innloggingsøktens lengde** (WCAG 2.2.1) og om utfylte felt kan beholdes gjennom ny innlogging. **Delvis løst 2026-11-08:** innloggingen varer i to uker uten inaktivitetsgrense, og utløpt innlogging sender til Logg inn og tilbake (AD-6). Om utfylte felt beholdes, avgjøres i kontostoryen. | Arkitektur: [ARCHITECTURE-SPINE.md](../../architecture/architecture-G81-eriksen-2026-11-07/ARCHITECTURE-SPINE.md) | Tilstanden Innlogging utløpt |
+| **Innloggingsøktens lengde** (WCAG 2.2.1) og om utfylte felt kan beholdes gjennom ny innlogging. **Delvis løst 2026-11-08:** innloggingen varer i to uker uten inaktivitetsgrense, og utløpt innlogging sender til Logg inn og tilbake (AD-6). **Avgjort i story 2.5:** utfylte felt beholdes ikke. | Arkitektur: [ARCHITECTURE-SPINE.md](../../architecture/architecture-G81-eriksen-2026-11-07/ARCHITECTURE-SPINE.md) | Tilstanden Innlogging utløpt |
 | **Neste steg ved feil innlogging.** Glemt passord er utsatt til senere fase (PRD v1.1 §7.2), men NFR-2 krever likevel et neste steg i tilstanden Feil innlogging. | UX | Tilstanden Feil innlogging |
 | **Sperre og turtypepreferanse (FR-19, FR-20).** Teksten ved sperre er foreløpig. Preferansen har ingen tekst. **Regelen avklart 2026-11-12:** en tur vurdert *vanskelig* senker nivåtaket til nivået under turen (PRD v1.4 FR-19), så eksempelteksten for sperre i Mikrotekst stemmer med regelen. Selve ordlyden er fortsatt åpen. | PRD og UX | Tekstene ved sperre og preferanse |
 | **«Låse opp lengre turer».** FR-8-teksten og turkompis-eksemplet sier «lengre», mens FR-19 hever nivået (lengde eller høydemeter). Ordlyden bør sjekkes mot SM-C1 (ikke presse nybegynnere). **Løst 2026-11-07:** ny ordlyd i PRD v1.2 FR-8 og Mikrotekst. | PRD | – |
