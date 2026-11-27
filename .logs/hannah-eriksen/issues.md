@@ -127,8 +127,11 @@
 - [x] 2026-11-27 [story-3-3](961-2026-11-27-12-00-00-story-3-3.md) — merge PR for 3.3 og PR #57; sett 3.3 `done`, sjekk prod; deretter story 3.4 (løst 2026-11-27 — PR #58 merget; `done` ligger i PR #59, se [story-3-4](960-2026-11-27-13-00-00-story-3-4.md))
 - [ ] 2026-11-27 [story-3-3](961-2026-11-27-12-00-00-story-3-3.md) — produkteier godkjenner [ASSUMPTION]-tekstene: nådd nivå, sperre, innlogget uten/med historikk, tittel ved høyere tak
 - [ ] 2026-11-27 [story-3-3](961-2026-11-27-12-00-00-story-3-3.md) — se nivåtekstene og fokus på h1 i nettleser (bare testet i kode)
-- [ ] 2026-11-27 [story-3-4](960-2026-11-27-13-00-00-story-3-4.md) — merge PR for 3.4 og PR #59; sett 3.4 `done`, sjekk prod (logg inn som testbruker og gjør README-søket); deretter story 3.5 (P2)
+- [x] 2026-11-27 [story-3-4](960-2026-11-27-13-00-00-story-3-4.md) — merge PR for 3.4 og PR #59; sett 3.4 `done`, sjekk prod (logg inn som testbruker og gjør README-søket); deretter story 3.5 (P2) (løst 2026-11-27 — PR #60 merget; `done` ligger i PR #61, se [story-3-5](959-2026-11-27-14-00-00-story-3-5.md))
 - [ ] 2026-11-27 [story-3-4](960-2026-11-27-13-00-00-story-3-4.md) — utsatt: `lastinn` kan slette en ekte konto med e-posten `testbruker@example.com` (deferred-work.md)
 - [x] 2026-11-27 [anthropic-nokkel](959-2026-11-27-15-47-52-anthropic-nokkel-og-fremdriftsplan.md) — bekreft i Anthropic-konsollen at auto-reload er av (eventuelt utgiftsgrense på workspacet) (løst 2026-11-27 — Hannah bekreftet at auto-reload er av)
 - [ ] 2026-11-27 [anthropic-nokkel](959-2026-11-27-15-47-52-anthropic-nokkel-og-fremdriftsplan.md) — etter merge av 4.5: sjekk KI-begrunnelse i produksjonen og reservemal i forhåndsvisningene
 - [ ] 2026-11-27 [anthropic-nokkel](959-2026-11-27-15-47-52-anthropic-nokkel-og-fremdriftsplan.md) — avtal med 3–5 nybegynnere til brukertesten i 6.7 (ca. 7.–9. des)
+- [ ] 2026-11-27 [story-3-5](959-2026-11-27-14-00-00-story-3-5.md) — merge PR for 3.5 og PR #61; sett 3.5 og epic-3 `done`, sjekk prod (logg inn som testbruker, kjør README-søkene); deretter valgfritt Epic 3-retrospektiv
+- [ ] 2026-11-27 [story-3-5](959-2026-11-27-14-00-00-story-3-5.md) — produkteier godkjenner [ASSUMPTION]-teksten for preferansesetningen
+- [ ] 2026-11-27 [story-3-5](959-2026-11-27-14-00-00-story-3-5.md) — preferansesetningen og README-søket er bare testet i kode, ikke sett i nettleser
