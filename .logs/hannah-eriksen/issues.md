@@ -137,5 +137,6 @@
 - [ ] 2026-11-27 [story-3-5](959-2026-11-27-14-00-00-story-3-5.md) — preferansesetningen og README-søket er bare testet i kode, ikke sett i nettleser
 - [x] 2026-11-27 [story-4-1](958-2026-11-27-15-00-00-story-4-1.md) — merge PR for 4.1; sett 4.1 `done`; deretter story 4.2 (løst 2026-11-27 — PR #66 merget; `done` ligger i PR #67, se [story-4-2](957-2026-11-27-16-00-00-story-4-2.md))
 - [ ] 2026-11-27 [story-4-1](958-2026-11-27-15-00-00-story-4-1.md) — før 4.5: sett `ANTHROPIC_API_KEY` i Vercel (bare produksjon) når 4.2–4.4 er på plass; ekte variant aldri prøvd mot ekte API
-- [ ] 2026-11-27 [story-4-2](957-2026-11-27-16-00-00-story-4-2.md) — merge PR for 4.2 og PR #67; sett 4.2 `done`; deretter story 4.3
+- [x] 2026-11-27 [story-4-2](957-2026-11-27-16-00-00-story-4-2.md) — merge PR for 4.2 og PR #67; sett 4.2 `done`; deretter story 4.3 (løst 2026-11-27)
 - [ ] 2026-11-27 [story-4-2](957-2026-11-27-16-00-00-story-4-2.md) — vurder å fange sammensatte tallord («tjueto», «tretimers») i validatoren (4.5 eller senere)
+- [ ] 2026-11-27 [story-4-3](956-2026-11-27-21-00-00-story-4-3.md) — merge PR for 4.3; sett 4.3 `done`; deretter story 4.4
