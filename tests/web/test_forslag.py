@@ -270,10 +270,10 @@ class ForslagTest(TestCase):
             '<h1 class="headline-lg" tabindex="-1">Ingen grønne turer passer søket</h1>',
             html=True,
         )
+        self.assertContains(svar, "Som ny bruker får du grønne turer. ")
+        self.assertContains(svar, 'href="/lag-konto/">Lag konto</a> og vurder turene dine')
         self.assertContains(
-            svar,
-            "Som ny bruker får du grønne turer. Lag konto og vurder turene dine, så tilpasser jeg "
-            "forslagene etter hvordan turene kjentes for deg.",
+            svar, "så tilpasser jeg forslagene etter hvordan turene kjentes for deg."
         )
         self.assertContains(svar, "Lørdag 28. nov. · 4 t · Øvresetra")
         self.assertContains(svar, "Endre søk", count=1)

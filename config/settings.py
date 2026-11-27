@@ -77,6 +77,9 @@ else:
 # Egen brukermodell fra første migrering (AR-9, AD-7)
 AUTH_USER_MODEL = "turforslag.Bruker"
 
+# Innlogging (FR-14): gjester som åpner Konto sendes til Logg inn med `next`.
+LOGIN_URL = "turforslag:logg_inn"
+
 # Bare minimumslengde 8 (AD-7)
 AUTH_PASSWORD_VALIDATORS = [
     {

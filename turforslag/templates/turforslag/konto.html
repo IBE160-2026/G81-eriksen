@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block tittel %}Konto{% endblock %}
+{% block meny_konto %} aria-current="page"{% endblock %}
+
+{% block innhold %}
+  {# FR-14, NFR-5, UX-DR30: e-post, Personvern og «Logg ut» (POST). «Slett konto» kommer i 2.6. #}
+  <div class="sok">
+    <h1 class="display" tabindex="-1">Konto</h1>
+    <p class="ingress">{{ user.email }}</p>
+    <section>
+      <h2 class="headline-lg">Personvern</h2>
+      {# [ASSUMPTION] Mikrotekst («Personvern på Konto»): innhold godkjent, ordlyd ikke #}
+      <p>Jeg lagrer bare e-postadressen din, passordet ditt i sikret form og turene du registrerer. Jeg sporer ikke hvor du er, og KI-tjenesten får ingen personopplysninger om deg.</p>
+    </section>
+    <form method="post" action="{% url 'turforslag:logg_ut' %}">
+      {% csrf_token %}
+      <button class="knapp-sekundaer" type="submit">Logg ut</button>
+    </form>
+  </div>
+{% endblock %}

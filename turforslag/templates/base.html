@@ -14,10 +14,10 @@
 <body>
   {# AD-12 punkt 5, UX-DR2, UX-DR3: lang="nb", header med nav og én main. #}
   {# Logolenken har fast adresse og ingen URL-oppslag, så 500-siden virker også når oppslaget er feilen. #}
-  {# Søk setter aria-current i blokken logo_aktiv. Feilsidene (også 403 på POST til /) setter den ikke. #}
+  {# Søk setter aria-current i blokken logo_aktiv (gjest) eller finn_aktiv (innlogget). Feilsidene (også 403 på POST til /) setter den ikke. #}
   <header class="toppmeny">
     <nav aria-label="Hovedmeny">
-      <a class="logo" href="/"{% block logo_aktiv %}{% endblock %}>
+      <a class="logo" href="/"{% if not user.is_authenticated %}{% block logo_aktiv %}{% endblock %}{% endif %}>
         <svg class="logo-merke" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <defs>
             <linearGradient id="logo-gradient" x1="0" y1="1" x2="0" y2="0">
@@ -32,6 +32,14 @@
         </svg>
         <span>Your Next Adventure</span>
       </a>
+      {# Menyen følger innloggingen (UX-DR3). Faste adresser, ingen URL-oppslag (se over). #}
+      {# «Historikk» kommer i story 2.3. #}
+      {% if user.is_authenticated %}
+        <a class="menypunkt" href="/"{% block finn_aktiv %}{% endblock %}>Finn tur</a>
+        <a class="menypunkt" href="/konto/"{% block meny_konto %}{% endblock %}>Konto</a>
+      {% else %}
+        <a class="menypunkt" href="/logg-inn/"{% block meny_logg_inn %}{% endblock %}>Logg inn</a>
+      {% endif %}
     </nav>
   </header>
   <main>

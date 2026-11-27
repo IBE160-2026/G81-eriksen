@@ -8,16 +8,22 @@ som `forbedring.js` bytter inn uten sideinnlasting.
 """
 
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.utils.cache import patch_vary_headers
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods, require_POST, require_safe
 
 from turforslag import okt, sokflyt
-from turforslag.forms import SokForm
+from turforslag.forms import FEIL_INNLOGGING, FEIL_KONTO_FINNES, LagKontoForm, LoggInnForm, SokForm
 
 # Nøkkelen for meldingen «Turforslaget er ikke lenger tilgjengelig …» på Søk. Teksten står i malen.
 FORSLAG_UTILGJENGELIG = "forslag-utilgjengelig"
+# Nøkkelen for «Du er logget ut.» på Søk (FR-14, AD-6). Teksten står i malen.
+UTLOGGET = "utlogget"
 
 
 @require_http_methods(["GET", "HEAD", "POST"])
@@ -25,7 +31,7 @@ def sok(request):  # FR-4, FR-5
     """Søk. GET viser skjemaet (forhåndsutfylt med `?sok=<id>`), POST søker og sender videre."""
     i_dag = timezone.localdate()
     startpunkter = sokflyt.startpunktvalg()
-    utilgjengelig = False
+    utilgjengelig = utloggetmelding = False
     if request.method == "POST":
         skjema = SokForm(i_dag, startpunkter, data=request.POST)
         if skjema.is_valid():
@@ -38,8 +44,11 @@ def sok(request):  # FR-4, FR-5
         skjema = SokForm(i_dag, startpunkter, tilstand=tidligere, fokus=request.GET.get("fokus"))
         meldinger = [melding.message for melding in messages.get_messages(request)]
         utilgjengelig = FORSLAG_UTILGJENGELIG in meldinger
+        utloggetmelding = UTLOGGET in meldinger
     return render(
-        request, "turforslag/sok.html", {"skjema": skjema, "utilgjengelig": utilgjengelig}
+        request,
+        "turforslag/sok.html",
+        {"skjema": skjema, "utilgjengelig": utilgjengelig, "utlogget": utloggetmelding},
     )
 
 
@@ -99,4 +108,76 @@ def _handling(request, sok_id, endring):  # FR-7, AD-5, PRG
 
 def _utilgjengelig(request):  # FR-7, UX-DR21
     messages.info(request, FORSLAG_UTILGJENGELIG)
+    return redirect("turforslag:sok")
+
+
+def _neste(request) -> str:  # NFR-8, AR-8
+    """`next` fra POST eller GET, bare når den peker til dette nettstedet. Ellers tom streng."""
+    adresse = request.POST.get("next") or request.GET.get("next") or ""
+    trygg = url_has_allowed_host_and_scheme(
+        adresse, allowed_hosts={request.get_host()}, require_https=request.is_secure()
+    )
+    return adresse if trygg else ""
+
+
+def _etter_innlogging(request):  # FR-14, PRG
+    return redirect(_neste(request) or "turforslag:sok")
+
+
+def _kontoside(request, mal, skjema, neste, **ekstra):
+    return render(request, mal, {"skjema": skjema, "neste": neste, **ekstra})
+
+
+@never_cache
+@require_http_methods(["GET", "HEAD", "POST"])
+def logg_inn(request):  # FR-14, AR-8, NFR-8
+    """Logg inn. `login()` beholder økten, så gjestens turforslag er uendret (AR-7)."""
+    if request.user.is_authenticated:
+        return redirect("turforslag:sok")
+    feil = False
+    skjema = LoggInnForm()
+    if request.method == "POST":
+        skjema = LoggInnForm(request.POST)
+        if skjema.is_valid():
+            data = skjema.cleaned_data
+            bruker = authenticate(request, username=data["epost"], password=data["passord"])
+            if bruker is not None:
+                login(request, bruker)
+                return _etter_innlogging(request)
+        feil = FEIL_INNLOGGING
+    return _kontoside(request, "turforslag/logg_inn.html", skjema, _neste(request), feil=feil)
+
+
+@never_cache
+@require_http_methods(["GET", "HEAD", "POST"])
+def lag_konto(request):  # FR-14, AR-9
+    """Lag konto og logg inn. Finnes e-posten, lages ingen konto."""
+    if request.user.is_authenticated:
+        return redirect("turforslag:sok")
+    feil = False
+    skjema = LagKontoForm()
+    if request.method == "POST":
+        skjema = LagKontoForm(request.POST)
+        if skjema.is_valid():
+            bruker = skjema.lag_bruker()
+            if bruker is not None:
+                login(request, bruker, backend="django.contrib.auth.backends.ModelBackend")
+                return _etter_innlogging(request)
+            feil = FEIL_KONTO_FINNES
+    return _kontoside(request, "turforslag/lag_konto.html", skjema, _neste(request), feil=feil)
+
+
+@login_required
+@never_cache
+@require_safe
+def konto(request):  # NFR-5, UX-DR30
+    return render(request, "turforslag/konto.html")
+
+
+@require_POST
+def logg_ut(request):  # FR-14, AD-6
+    if not request.user.is_authenticated:
+        return redirect("turforslag:sok")
+    logout(request)
+    messages.success(request, UTLOGGET)
     return redirect("turforslag:sok")

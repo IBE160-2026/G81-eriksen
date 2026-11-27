@@ -2,8 +2,9 @@
 
 {% block tittel %}Finn tur{% endblock %}
 
-{# UX-DR3: logoen er eneste punkt i menyen i Epic 1. aria-current flyttes til «Finn tur» i Epic 2. #}
+{# UX-DR3: gjest har logoen som aktivt punkt, innlogget har «Finn tur». #}
 {% block logo_aktiv %} aria-current="page"{% endblock %}
+{% block finn_aktiv %} aria-current="page"{% endblock %}
 
 {% block innhold %}
   {# FR-4, UX-DR6/7/10/11: Søk (Turkort). Rekkefølgen følger DESIGN.md › Layout & Spacing › Søk. #}
@@ -13,6 +14,14 @@
     {% if utilgjengelig %}
       {# [ASSUMPTION] Mikrotekst («Forslaget finnes ikke lenger») #}
       {% include "turforslag/_melding.html" with type="info" tittel="Turforslaget er ikke lenger tilgjengelig." tekst="Søk på nytt for å få et forslag." fokus=True %}
+    {% endif %}
+    {% if utlogget %}
+      {# [ASSUMPTION] Mikrotekst («Logget ut») #}
+      {% if utilgjengelig %}
+        {% include "turforslag/_melding.html" with type="suksess" tittel="Du er logget ut." %}
+      {% else %}
+        {% include "turforslag/_melding.html" with type="suksess" tittel="Du er logget ut." fokus=True %}
+      {% endif %}
     {% endif %}
     <p class="ingress">Fyll inn varighet og dato, så får du ett turforslag om gangen.</p>
 

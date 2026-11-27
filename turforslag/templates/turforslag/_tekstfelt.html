@@ -1,0 +1,13 @@
+{% comment %}
+Skjemafelt med <input> (UX-DR10, FR-14, NFR-4). Etiketten er alltid synlig.
+Bruk: {% include "turforslag/_tekstfelt.html" with felt=skjema.epost type="email" etikett="E-post" autocomplete="email" %}
+- verdi: forhåndsutfylt verdi (e-post beholdes ved feil, passord fylles aldri inn igjen).
+- hint: hjelpetekst. fokus=True gir autofocus (første felt med feil).
+- Ved feil: feilen står rett under feltet og over hjelpeteksten, aria-invalid og aria-describedby (feil først).
+{% endcomment %}
+<div class="skjemafelt{% if felt.errors %} skjemafelt-feil{% endif %}">
+  <label class="label" for="{{ felt.name }}">{{ etikett }}</label>
+  <input id="{{ felt.name }}" name="{{ felt.name }}" type="{{ type }}" autocomplete="{{ autocomplete }}"{% if type == "email" %} autocapitalize="none" spellcheck="false"{% endif %}{% if verdi %} value="{{ verdi }}"{% endif %}{% if felt.errors %} aria-invalid="true" aria-describedby="{{ felt.name }}-feil{% if hint %} {{ felt.name }}-hint{% endif %}"{% elif hint %} aria-describedby="{{ felt.name }}-hint"{% endif %}{% if fokus %} autofocus{% endif %}>
+  {% if felt.errors %}{% include "turforslag/_feltfeil.html" with feil_id=felt.name|add:"-feil" feil=felt.errors.0 %}{% endif %}
+  {% if hint %}<p class="hjelpetekst caption" id="{{ felt.name }}-hint">{{ hint }}</p>{% endif %}
+</div>

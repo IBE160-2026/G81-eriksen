@@ -152,6 +152,38 @@ h2,
   gap: var(--spacing-2) var(--spacing-6);
 }
 
+/* Menypunkt (Epic 2): lenke i toppmenyen, minst 44 px høy. */
+.menypunkt {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target-min);
+  color: var(--text);
+  font-family: var(--button-font-family);
+  font-size: var(--button-font-size);
+  font-weight: var(--button-font-weight);
+}
+
+.menypunkt[aria-current="page"] {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* «Vis passord» (forbedring.js): avkrysningsboks med etikett, minst 44 px høy. */
+.vis-passord {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  min-height: var(--touch-target-min);
+  margin: var(--spacing-1) 0 0;
+  cursor: pointer;
+}
+
+.vis-passord input {
+  width: var(--spacing-5);
+  aspect-ratio: 1;
+  margin: 0;
+}
+
 .logo {
   display: inline-flex;
   align-items: center;
@@ -391,7 +423,8 @@ h2,
   color: var(--text-muted);
 }
 
-.skjemafelt select {
+.skjemafelt select,
+.skjemafelt input:not([type="checkbox"]) {
   display: block;
   width: 100%;
   min-height: var(--touch-target-min);
@@ -405,7 +438,8 @@ h2,
   line-height: var(--body-lg-line-height);
 }
 
-.skjemafelt-feil select {
+.skjemafelt-feil select,
+.skjemafelt-feil input:not([type="checkbox"]) {
   border-color: var(--error);
 }
 

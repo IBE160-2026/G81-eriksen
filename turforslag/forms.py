@@ -6,10 +6,14 @@ varighet utenfor listen) gir feil ved feltet og krasjer aldri.
 """
 
 from django import forms
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError, transaction
 
 from domene import tekst
 from domene.okt import Soketilstand
 from domene.sok import Sok
+from turforslag.models import Bruker
 
 # Feilmeldinger fra EXPERIENCE.md › Mikrotekst.
 FEIL_VARIGHET = "Velg varighet"
@@ -115,3 +119,58 @@ class SokForm(forms.Form):  # FR-4
             turtype=data["turtype"] or None,
             startpunkt_id=data["startpunkt"] or None,
         )
+
+
+# Konto (FR-14). Tekstene er fra EXPERIENCE.md › Mikrotekst.
+FEIL_INNLOGGING = "Feil e-post eller passord"
+FEIL_KONTO_FINNES = "Kunne ikke lage konto – prøv å logge inn"
+FEIL_EPOST_MANGLER = "Skriv inn e-postadressen din"  # [ASSUMPTION] Mikrotekst
+FEIL_EPOST_UGYLDIG = "E-postadressen må ha med @, for eksempel ola@eksempel.no"  # [ASSUMPTION]
+FEIL_PASSORD = "Passordet må ha minst 8 tegn"  # [ASSUMPTION] Mikrotekst
+FEIL_PASSORD_LANGT = "Passordet kan ha høyst 128 tegn"  # [ASSUMPTION] ikke i Mikrotekst
+
+
+class LoggInnForm(forms.Form):  # FR-14
+    """E-post og passord. Ingen feltfeil: all feil er «Feil e-post eller passord»."""
+
+    epost = forms.CharField(required=False, max_length=254)
+    passord = forms.CharField(required=False, strip=False, max_length=128)
+
+    def clean_epost(self):
+        return Bruker.objects.normalize_email(self.cleaned_data["epost"])
+
+
+class LagKontoForm(forms.Form):  # FR-14, AR-9
+    """E-post og passord (minst 8 tegn). E-posten trimmes og lagres med små bokstaver."""
+
+    epost = forms.EmailField(
+        max_length=254,
+        error_messages={"required": FEIL_EPOST_MANGLER, "invalid": FEIL_EPOST_UGYLDIG},
+    )
+    passord = forms.CharField(
+        strip=False,
+        max_length=128,
+        error_messages={"required": FEIL_PASSORD, "max_length": FEIL_PASSORD_LANGT},
+    )
+
+    def clean_epost(self):
+        return Bruker.objects.normalize_email(self.cleaned_data["epost"])
+
+    def clean_passord(self):
+        passord = self.cleaned_data["passord"]
+        try:
+            validate_password(passord)
+        except ValidationError:
+            raise ValidationError(FEIL_PASSORD) from None
+        return passord
+
+    def lag_bruker(self) -> Bruker | None:
+        """Lager kontoen, eller None når e-posten finnes fra før (ingen konto lages)."""
+        data = self.cleaned_data
+        if Bruker.objects.filter(email=data["epost"]).exists():
+            return None
+        try:
+            with transaction.atomic():
+                return Bruker.objects.create_user(data["epost"], data["passord"])
+        except IntegrityError:  # to samtidige forsøk med samme e-post
+            return None

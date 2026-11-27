@@ -25,7 +25,12 @@ Søkeoppsummeringen står over panelet uten egen lenke, så «Endre søk» bare 
       {% else %}
         {# [ASSUMPTION] Mikrotekst («Nivåtak, tittel»). Teksten er «Nivåtak (gjest)». #}
         <h1 class="headline-lg" tabindex="-1">Ingen grønne turer passer søket</h1>
-        <p>Som ny bruker får du grønne turer. Lag konto og vurder turene dine, så tilpasser jeg forslagene etter hvordan turene kjentes for deg.</p>
+        {% if user.is_authenticated %}
+          {# [ASSUMPTION] Nøytral variant for innlogget (story 2.1, alternativ a), inntil historikk i 2.3 #}
+          <p>Jeg foreslår bare grønne turer foreløpig.</p>
+        {% else %}
+          <p>Som ny bruker får du grønne turer. <a class="handlingslenke" href="{% url 'turforslag:lag_konto' %}">Lag konto</a> og vurder turene dine, så tilpasser jeg forslagene etter hvordan turene kjentes for deg.</p>
+        {% endif %}
       {% endif %}
     </div>
     <ul class="tilstandspanel-valg">
