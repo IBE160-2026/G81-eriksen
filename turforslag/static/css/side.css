@@ -1338,6 +1338,12 @@ fieldset.skjemafelt legend {
   border-bottom: 1px solid var(--border);
 }
 
+.historikk-handlinger .handlingslenke {
+  display: flex;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 .historikktabell tbody tr:last-child th,
 .historikktabell tbody tr:last-child td {
   border-bottom: 0;

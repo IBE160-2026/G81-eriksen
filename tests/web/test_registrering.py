@@ -300,7 +300,7 @@ class HistorikkTest(RegistreringTestBase):
         self.lag(self.ola, dato=date(2026, 11, 20), fornoydhet=2)
         self.lag(self.ola, dato=date(2026, 11, 7), fornoydhet=3)
         svar = self.client.get("/historikk/")
-        self.assertContains(svar, "Rundt Bråtenvann", count=3)
+        self.assertContains(svar, "Rundt Bråtenvann", count=9)  # navn, to lenketillegg per rad
         innhold = svar.content.decode()
         plassering = [innhold.index(f"<td>{n} av 5</td>") for n in (2, 3, 1)]
         self.assertEqual(plassering, sorted(plassering))
@@ -332,3 +332,71 @@ class HistorikkTest(RegistreringTestBase):
         self.lag(self.ola)
         self.ola.delete()
         self.assertEqual(Registrering.objects.count(), 0)
+
+
+class HistorikkTurTest(RegistreringTestBase):
+    def lag(self, bruker, tur_id=TUR, dato=date(2026, 11, 7), **endringer):
+        data = {"brukt_tid_min": 110, "vanskelighet": "lett", "fornoydhet": 5}
+        data.update(endringer)
+        return Registrering.objects.create(bruker=bruker, tur_id=tur_id, dato=dato, **data)
+
+    def adresse_til(self, registrering):
+        return f"/historikk/{registrering.id}/"
+
+    def test_apne_fra_historikk(self):  # FR-17, UX-DR29
+        r = self.lag(self.ola, dato=date(2026, 10, 12), fornoydhet=4)
+        svar = self.client.get(self.adresse_til(r))
+        self.assertEqual(svar.status_code, 200)
+        self.assertContains(svar, "<title>Rundt Bråtenvann – Turforslag")
+        self.assertContains(svar, "Fra historikken din")
+        self.assertContains(svar, "Du gikk denne turen 12. oktober og ga den 4 av 5.")
+        self.assertContains(svar, "Begrunnelse fra mal")
+        self.assertContains(svar, "Finn en ny tur")
+        self.assertContains(svar, 'href="/registrer/marka-lang/">Registrer gjennomført tur</a>')
+        self.assertContains(svar, "data-kart")
+        self.assertNotContains(svar, "Endre søk")
+        self.assertNotContains(svar, "Nytt forslag")
+        self.assertNotContains(svar, "som du ba om")
+        self.assertNotContains(svar, "Denne turen er over nivået")
+
+    def test_samme_tur_flere_ganger(self):  # FR-17
+        a = self.lag(self.ola, dato=date(2026, 10, 12), fornoydhet=4)
+        b = self.lag(self.ola, dato=date(2026, 9, 1), fornoydhet=2)
+        self.assertContains(self.client.get(self.adresse_til(a)), "12. oktober og ga den 4 av 5")
+        self.assertContains(self.client.get(self.adresse_til(b)), "1. september og ga den 2 av 5")
+
+    def test_over_gront_gir_melding_rett_etter_turnavnet(self):  # FR-17
+        r = self.lag(self.ola, tur_id="bla-marka")
+        svar = self.client.get(self.adresse_til(r))
+        self.assertContains(svar, "Denne turen er over nivået jeg foreslår for deg nå.")
+        innhold = svar.content.decode()
+        self.assertLess(innhold.index("</h1>"), innhold.index("Denne turen er over nivået"))
+        self.assertLess(innhold.index("Denne turen er over nivået"), innhold.index('class="niva"'))
+        self.assertContains(svar, "Øvresetra blå")
+
+    def test_andres_ukjent_og_gjest(self):  # NFR-8
+        kari = Bruker.objects.create_user("kari@eksempel.no", PASSORD)
+        andres = self.lag(kari)
+        self.assertEqual(self.client.get(self.adresse_til(andres)).status_code, 404)
+        self.assertEqual(self.client.get("/historikk/99999/").status_code, 404)
+        egen = self.lag(self.ola)
+        gjest = Client()
+        svar = gjest.get(self.adresse_til(egen))
+        self.assertEqual(svar.status_code, 302)
+        self.assertIn("/logg-inn/?next=", svar["Location"])
+
+    def test_soketilstand_er_uendret(self):  # FR-7
+        self.client.post("/", {"dato": "2026-11-27", "varighet": "300"})
+        for_okt = dict(self.client.session).get("sok")
+        r = self.lag(self.ola)
+        self.client.get(self.adresse_til(r))
+        self.assertEqual(dict(self.client.session).get("sok"), for_okt)
+
+    def test_handlinger_i_tabellen(self):  # FR-17, UX-DR28
+        r = self.lag(self.ola, dato=date(2026, 11, 7))
+        svar = self.client.get("/historikk/")
+        self.assertContains(svar, f'href="/historikk/{r.id}/">Åpne som turforslag')
+        self.assertContains(svar, 'href="/registrer/marka-lang/">Registrer gjennomført tur')
+        self.assertContains(
+            svar, '<span class="skjult-tekst"> – Rundt Bråtenvann, 7. nov.</span>', count=2
+        )

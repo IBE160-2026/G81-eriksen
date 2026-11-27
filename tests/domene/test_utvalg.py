@@ -493,3 +493,12 @@ class ForeslaEndringerTest(unittest.TestCase):
         for_ = velg_turer(sok(180), turer, NIVATAK_UTEN_HISTORIKK)
         self.forslag(turer, sok(60))
         self.assertEqual(for_, velg_turer(sok(180), turer, NIVATAK_UTEN_HISTORIKK))
+
+
+class ErOverNivatakTest(unittest.TestCase):
+    def test_bare_gront_er_ikke_over_taket(self):  # FR-17
+        from domene.utvalg import er_over_nivatak
+
+        for niva in Turniva:
+            with self.subTest(niva=niva):
+                self.assertEqual(er_over_nivatak(lag_tur(turniva=niva)), niva != Turniva.GRONN)

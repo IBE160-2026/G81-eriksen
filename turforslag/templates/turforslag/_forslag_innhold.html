@@ -10,10 +10,14 @@ med hele sidetittelen, så forbedring.js kan sette document.title etter byttet.
       <div class="infokolonne infokolonne-topp">
         <p class="sokeoppsummering caption">
           <span>{{ visning.sokeoppsummering }}</span>
-          <a href="{{ sok_url }}?sok={{ sok_id|urlencode }}">Endre søk</a>
+          {% if not visning.fra_historikk %}<a href="{{ sok_url }}?sok={{ sok_id|urlencode }}">Endre søk</a>{% endif %}
         </p>
 
         <h1 class="headline-md" tabindex="-1">{{ tur.navn }}</h1>
+        {# FR-17: nivåmerknaden står rett etter turnavnet. Turen vises likevel. #}
+        {% if visning.over_nivatak %}
+          {% include "turforslag/_melding.html" with type="info" tittel="Denne turen er over nivået jeg foreslår for deg nå." %}
+        {% endif %}
 
         <div class="niva">
           {% include "turforslag/_nivamerke.html" with niva=tur.niva nivatekst=tur.nivatekst %}
@@ -63,11 +67,16 @@ med hele sidetittelen, så forbedring.js kan sette document.title etter byttet.
         {# FR-16: «Registrer gjennomført tur» er sekundærknapp (lenke) for innlogget. Gjesteflyten er story 2.5. #}
         {# [ASSUMPTION] Mikrotekst («Lasting, nytt forslag»): data-lastetekst. #}
         <div class="forslag-handlinger">
+        {% if visning.fra_historikk %}
+          {# FR-17: turforslag fra historikken har ingen «Nytt forslag». «Finn en ny tur» går til tomt Søk. #}
+          <a class="knapp-primaer" href="{{ sok_url }}">Finn en ny tur</a>
+        {% else %}
         <form class="forslag-knapper" method="post" action="{% url 'turforslag:nytt_forslag' sok_id=sok_id %}" data-nytt-forslag data-lastetekst="Finner et nytt forslag …">
           {% csrf_token %}
           <input type="hidden" name="tur" value="{{ tur.id }}">
           <button class="knapp-primaer" type="submit">Nytt forslag</button>
         </form>
+        {% endif %}
         {% if user.is_authenticated %}
           <a class="knapp-sekundaer" href="{% url 'turforslag:registrer' tur_id=tur.id %}">Registrer gjennomført tur</a>
         {% endif %}

@@ -387,9 +387,21 @@ class RegistreringstekstTest(unittest.TestCase):
 
     def test_historikkrad(self):  # FR-17, UX-DR28
         tur = lag_tur(navn="Granåsen rundt", estimert_tid_min=95)
-        rad = tekst.historikkrad(tur, date(2026, 11, 7), 110, "lett", 5)
+        rad = tekst.historikkrad(42, tur, date(2026, 11, 7), 110, "lett", 5)
         self.assertEqual(
             (rad.tur_navn, rad.dato, rad.brukt_tid, rad.estimert_tid, rad.vanskelighet),
             ("Granåsen rundt", "7. nov.", "1 t 50 min", "estimert ca. 1 t 35 min", "Lett"),
         )
         self.assertEqual(rad.fornoydhet, "5 av 5")
+        self.assertEqual((rad.id, rad.tur_id), (42, tur.id))
+        self.assertEqual(rad.tillegg, "– Granåsen rundt, 7. nov.")
+
+    def test_historikkvisning(self):  # FR-17
+        tur = lag_tur(navn="Granåsen rundt", turtyper=("utsikt",))
+        visning = tekst.historikkvisning(tur, "Begrunnelsen.", True)
+        self.assertEqual(visning.sokeoppsummering, "Fra historikken din")
+        self.assertTrue(visning.fra_historikk)
+        self.assertTrue(visning.over_nivatak)
+        self.assertIsNone(visning.tur.turtype_treff)
+        self.assertFalse(visning.tur.topptur_erstattet)
+        self.assertEqual(visning.tur.begrunnelse, "Begrunnelsen.")

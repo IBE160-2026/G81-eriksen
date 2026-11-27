@@ -6,8 +6,10 @@ seg alltid under `MAKS_TEGN` (testet for alle varigheter og turtyper). Tall og t
 settes inn av systemet.
 """
 
+from datetime import date
+
 from domene.sok import Sok
-from domene.tekst import formater_tid, formater_varighet_timer
+from domene.tekst import formater_dato, formater_tid, formater_varighet_timer
 from domene.tur import Tur
 from domene.utvalg import ERSTATNING_FOR_TOPPTUR, TOPPTUR
 
@@ -35,3 +37,9 @@ def reservebegrunnelse(sok: Sok, tur: Tur) -> str:  # FR-12, FR-13
     elif sok.turtype == TOPPTUR and ERSTATNING_FOR_TOPPTUR in tur.turtyper:
         tekst += " Ingen topptur passet, så den har utsikt i stedet."
     return tekst
+
+
+def historikkbegrunnelse(dato: date, fornoydhet: int) -> str:  # FR-17, FR-12
+    """«Du gikk denne turen 12. oktober og ga den 5 av 5.» Fast mal uten KI for turforslag
+    fra historikken. Dato og vurdering kommer fra registreringen lenken peker på."""
+    return f"Du gikk denne turen {formater_dato(dato)} og ga den {fornoydhet} av 5."

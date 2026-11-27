@@ -4,7 +4,7 @@ import inspect
 import unittest
 from datetime import date
 
-from domene.begrunnelse import MAKS_TEGN, reservebegrunnelse
+from domene.begrunnelse import MAKS_TEGN, historikkbegrunnelse, reservebegrunnelse
 from domene.sok import Sok
 from domene.tekst import varighetsvalg
 from domene.tur import TURTYPER
@@ -64,3 +64,16 @@ class ReservebegrunnelseTest(unittest.TestCase):
 
     def test_nevner_aldri_fritekst(self):  # FR-13
         self.assertEqual(list(inspect.signature(reservebegrunnelse).parameters), ["sok", "tur"])
+
+
+class HistorikkbegrunnelseTest(unittest.TestCase):
+    def test_mal(self):  # FR-17
+        self.assertEqual(
+            historikkbegrunnelse(date(2026, 10, 12), 5),
+            "Du gikk denne turen 12. oktober og ga den 5 av 5.",
+        )
+
+    def test_alle_datoer_og_vurderinger_under_grensen(self):  # FR-12
+        for maned in range(1, 13):
+            for n in range(1, 6):
+                self.assertLessEqual(len(historikkbegrunnelse(date(2026, maned, 28), n)), MAKS_TEGN)

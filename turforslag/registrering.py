@@ -6,6 +6,8 @@ Alt hentes filtrert på brukeren (NFR-8). Formateringen gjøres i `domene/tekst.
 from datetime import date
 
 from domene import tekst
+from domene.begrunnelse import historikkbegrunnelse
+from domene.utvalg import er_over_nivatak
 from turforslag import turdata
 from turforslag.models import Registrering, Tur
 
@@ -37,6 +39,7 @@ def historikk(bruker) -> tuple[tekst.Historikkrad, ...]:  # FR-17, NFR-8
     )
     return tuple(
         tekst.historikkrad(
+            r.id,
             turdata.tur_fra_modell(r.tur),
             r.dato,
             r.brukt_tid_min,
@@ -44,4 +47,21 @@ def historikk(bruker) -> tuple[tekst.Historikkrad, ...]:  # FR-17, NFR-8
             r.fornoydhet,
         )
         for r in registreringer
+    )
+
+
+def historikkvisning(bruker, registrering_id: int) -> tekst.Forslagsvisning | None:  # FR-17
+    """Turforslaget fra brukerens egen registrering. `None` når registreringen ikke er
+    brukerens eller ikke finnes, eller når turen ikke finnes i turdatabasen. Rører ikke
+    søketilstanden."""
+    r = (
+        Registrering.objects.filter(bruker=bruker, id=registrering_id)
+        .select_related("tur__startpunkt")
+        .first()
+    )
+    tur = turdata.hent_tur(r.tur_id) if r else None
+    if r is None or tur is None:
+        return None
+    return tekst.historikkvisning(
+        tur, historikkbegrunnelse(r.dato, r.fornoydhet), er_over_nivatak(tur)
     )

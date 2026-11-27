@@ -14,6 +14,7 @@ urlpatterns = [
     path("lag-konto/", views.lag_konto, name="lag_konto"),
     path("registrer/<str:tur_id>/", views.registrer, name="registrer"),
     path("historikk/", views.historikk, name="historikk"),
+    path("historikk/<int:registrering_id>/", views.historikk_tur, name="historikk_tur"),
     path("konto/", views.konto, name="konto"),
     path("logg-ut/", views.logg_ut, name="logg_ut"),
 ]
