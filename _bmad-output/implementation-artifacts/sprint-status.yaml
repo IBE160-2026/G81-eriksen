@@ -29,7 +29,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 # - Retrospective appends its action items to action_items; the status view surfaces open ones
 generated: 11-22-2026 19:23
-last_updated: 11-27-2026 23:00
+last_updated: 11-28-2026 09:00
 project: G81-eriksen
 project_key: NOKEY
 tracking_system: file-system
@@ -55,7 +55,7 @@ development_status:
   2-2-innloggingen-har-en-grense-for-mislykkede-forsøk: done
   2-3-ola-registrerer-en-gjennomført-tur-og-ser-den-i-historikken: done
   2-4-ola-åpner-en-tur-fra-historikken: done
-  2-5-gjesten-blir-bedt-om-å-logge-inn-og-kommer-rett-tilbake: review
+  2-5-gjesten-blir-bedt-om-å-logge-inn-og-kommer-rett-tilbake: done
   2-6-ola-sletter-kontoen: backlog
   epic-2-retrospective: optional
 
