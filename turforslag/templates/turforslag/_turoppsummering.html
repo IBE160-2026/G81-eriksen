@@ -1,0 +1,9 @@
+<section class="turoppsummering" aria-label="Turen">
+  <h2 class="headline-sm">{{ oppsummering.navn }}</h2>
+  <p class="turoppsummering-meta caption">
+    {% include "turforslag/_nivamerke.html" with niva=oppsummering.niva nivatekst=oppsummering.nivatekst %}
+    <span>{{ oppsummering.form }}</span>
+    <span>{{ oppsummering.lengde }}</span>
+    <span>{{ oppsummering.estimert_tid }}</span>
+  </p>
+</section>

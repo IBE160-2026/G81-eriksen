@@ -83,7 +83,7 @@ class ForslagTest(TestCase):
         self.assertNotContains(svar, "som du ba om")  # Alle turtyper: ingen Turtype-treff
         self.assertNotContains(svar, "style=")
         self.assertContains(svar, "Nytt forslag", count=1)  # FR-7 (1.11)
-        self.assertNotContains(svar, "Registrer gjennomført tur")  # Epic 2
+        self.assertContains(svar, "Registrer gjennomført tur", count=1)  # 2.5: også for gjester
 
     def test_dom_rekkefolgen(self, _):  # UX-DR12, EXPERIENCE.md › Turforslag – rekkefølge
         tekst = tekster(self.client.get(self.sok(turtype="utsikt", varighet="150")))
@@ -429,7 +429,8 @@ class KartTest(TestCase):
         self.assertTrue(
             tekst.endswith(
                 "| Tiden kan bomme med rundt 15 prosent, og nybegynnere bruker ofte lenger tid "
-                "enn beregnet. | Nytt forslag | Kartet i tekst | Rundtur på 3,5 km totalt fra "
+                "enn beregnet. | Nytt forslag | Registrer gjennomført tur | Kartet i tekst | "
+                "Rundtur på 3,5 km totalt fra "
                 "Bråten. Ruten stiger ca. 130 høydemeter, fra 200 til 260 moh. |"
             ),
             tekst[-300:],

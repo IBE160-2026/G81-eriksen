@@ -7,11 +7,14 @@ videre til Turforslag. Med headeren `X-Fragment: 1` gir Turforslag bare innholde
 som `forbedring.js` bytter inn uten sideinnlasting.
 """
 
+from urllib.parse import urlsplit
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import redirect, render
+from django.urls import Resolver404, resolve, reverse
 from django.utils import timezone
 from django.utils.cache import patch_vary_headers
 from django.utils.http import url_has_allowed_host_and_scheme
@@ -135,8 +138,36 @@ def _etter_innlogging(request):  # FR-14, PRG
     return redirect(_neste(request) or "turforslag:sok")
 
 
+def _krav_om_konto(request, neste: str) -> dict:  # FR-14, AD-6, AR-8, UX-DR26
+    """Kontekst for «krev konto»-visningen når `neste` peker til en registreringsside for en
+    kjent tur: Turoppsummering og, med et gyldig `sok`, «tatt vare på» og lenken tilbake.
+    `sok` er en rå id og valideres mot økta; lenken bygges med `reverse`. Ellers tom."""
+    if not neste:
+        return {}
+    try:
+        funnet = resolve(urlsplit(neste).path)
+    except Resolver404:
+        return {}
+    if funnet.view_name != "turforslag:registrer":
+        return {}
+    oppsummering = registrering.oppsummering(funnet.kwargs["tur_id"])
+    if oppsummering is None:
+        return {}
+    sok_id = request.POST.get("sok") or request.GET.get("sok") or ""
+    gyldig = bool(sok_id) and okt.hent_sok(request, sok_id) is not None
+    return {
+        "oppsummering": oppsummering,
+        "sok_id": sok_id if gyldig else "",
+        "tilbake_url": reverse("turforslag:forslag", kwargs={"sok_id": sok_id}) if gyldig else "",
+    }
+
+
 def _kontoside(request, mal, skjema, neste, **ekstra):
-    return render(request, mal, {"skjema": skjema, "neste": neste, **ekstra})
+    return render(
+        request,
+        mal,
+        {"skjema": skjema, "neste": neste, **_krav_om_konto(request, neste), **ekstra},
+    )
 
 
 @never_cache
