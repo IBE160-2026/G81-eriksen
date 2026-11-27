@@ -57,3 +57,14 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-2-1-ola-lager-konto-logger-inn-og-logger-ut.md`
   summary: Toppmenyen på 500/403-sider viser gjestmeny også for innlogget bruker.
   evidence: base.html er hardkodet uten request.user på feilsider med vilje (500 unngår oppslag); lav alvorlighet.
+
+## Fra story 2.2
+
+- Ingen sperre på Lag konto: duplikatmeldingen («Kunne ikke lage konto – prøv å logge inn») kan brukes til å liste opp hvilke e-poster som har konto. Utsatt bevisst (spec 2.2, Never).
+
+- source_spec: `_bmad-output/implementation-artifacts/spec-2-2-innloggingen-har-en-grense-for-mislykkede-forsok.md`
+  summary: Admin-innloggingen (`/admin/`) bruker samme `Bruker`-kontoer men er ikke omfattet av forsøksgrensen.
+  evidence: Edge-/verification-reviewer: bare `logg_inn` kaller `authenticate()` via grensen; admin-skjemaet går utenom. Gjelder kontoer med `is_staff`.
+- source_spec: `_bmad-output/implementation-artifacts/spec-2-2-innloggingen-har-en-grense-for-mislykkede-forsok.md`
+  summary: `Innloggingsforsok` kan vokse ved flom av tilfeldige e-poster; opprydding kjører bare på innloggings-POST og sletter globalt per forespørsel.
+  evidence: Edge-case-reviewer; lav alvorlighet på Hobby/Neon Free, ingen IP-grense (AD-10).
