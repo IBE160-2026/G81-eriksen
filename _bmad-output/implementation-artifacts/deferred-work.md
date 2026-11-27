@@ -84,3 +84,7 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-2-6-ola-sletter-kontoen.md`
   summary: Andre økter for den slettede brukeren (annen enhet) ryddes ikke aktivt.
   evidence: De blir ugyldige fordi brukeren ikke finnes; sesjonsrader blir liggende til de utløper.
+
+- source_spec: `_bmad-output/implementation-artifacts/spec-3-2-soket-bruker-nivataket-og-historikken.md`
+  summary: `avgjor_nivaheving` er ikke atomisk: to samtidige søk fra samme bruker kan begge få `nivaheving=True`.
+  evidence: leser `brukt_heving` og lagrer uten lås. Skade er bare dobbel prioritering. Fiks: betinget UPDATE på `brukt_heving < antall_hevinger` og bruk radantall som resultat.
