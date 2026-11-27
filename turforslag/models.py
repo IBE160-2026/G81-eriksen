@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models.functions import Now
 from django.utils import timezone
 
+from domene import tekst
 from domene import tur as domenetur
 
 
@@ -145,3 +146,42 @@ class Innloggingsforsok(models.Model):
 
     def __str__(self):
         return f"{self.epost} {self.tidspunkt:%Y-%m-%d %H:%M:%S}"
+
+
+class Registrering(models.Model):
+    """En gjennomført tur som en bruker har registrert (FR-16, FR-17, AR-5).
+
+    Brukeren slettes sammen med registreringene, men en tur med registreringer kan ikke
+    slettes (`PROTECT`), så `lastinn` stopper når en slik tur mangler i fila.
+    """
+
+    bruker = models.ForeignKey(
+        Bruker,
+        on_delete=models.CASCADE,
+        related_name="registreringer",
+        verbose_name="bruker",
+    )
+    tur = models.ForeignKey(
+        Tur,
+        on_delete=models.PROTECT,
+        related_name="registreringer",
+        verbose_name="tur",
+    )
+    dato = models.DateField("dato")
+    brukt_tid_min = models.PositiveIntegerField("brukt tid (min)")
+    vanskelighet = models.CharField(
+        "opplevd vanskelighet",
+        max_length=20,
+        choices=[(verdi, navn) for verdi, navn in tekst.vanskelighetsvalg()],
+    )
+    fornoydhet = models.PositiveSmallIntegerField(
+        "fornøydhet", choices=[(n, str(n)) for n in range(1, 6)]
+    )
+
+    class Meta:
+        verbose_name = "registrering"
+        verbose_name_plural = "registreringer"
+        indexes = [models.Index(fields=["bruker", "-dato", "-id"], name="registrering_bruker_dato")]
+
+    def __str__(self):
+        return f"{self.bruker} {self.tur_id} {self.dato}"

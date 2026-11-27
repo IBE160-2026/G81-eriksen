@@ -33,9 +33,9 @@
         <span>Your Next Adventure</span>
       </a>
       {# Menyen følger innloggingen (UX-DR3). Faste adresser, ingen URL-oppslag (se over). #}
-      {# «Historikk» kommer i story 2.3. #}
       {% if user.is_authenticated %}
         <a class="menypunkt" href="/"{% block finn_aktiv %}{% endblock %}>Finn tur</a>
+        <a class="menypunkt" href="/historikk/"{% block meny_historikk %}{% endblock %}>Historikk</a>
         <a class="menypunkt" href="/konto/"{% block meny_konto %}{% endblock %}>Konto</a>
       {% else %}
         <a class="menypunkt" href="/logg-inn/"{% block meny_logg_inn %}{% endblock %}>Logg inn</a>

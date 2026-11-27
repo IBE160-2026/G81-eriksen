@@ -1183,3 +1183,193 @@ button.handlingslenke {
     scroll-behavior: auto !important;
   }
 }
+
+/* --- Registrer gjennomført tur og Historikk (FR-16, FR-17, UX-DR27–29) --- */
+
+/* «Nytt forslag» (primær) og «Registrer gjennomført tur» (sekundær) på turforslaget. */
+.forslag-handlinger {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+}
+
+@media (max-width: 719.98px) {
+  .forslag-handlinger {
+    flex-direction: column;
+  }
+
+  .forslag-handlinger .knapp-sekundaer {
+    width: 100%;
+  }
+}
+
+.skjemaknapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+}
+
+fieldset.skjemafelt {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+fieldset.skjemafelt legend {
+  padding: 0;
+}
+
+/* Turoppsummering (DESIGN.md › turoppsummering) */
+.turoppsummering {
+  width: 100%;
+  margin-bottom: var(--spacing-4);
+  padding: var(--spacing-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--rounded-lg);
+}
+
+.turoppsummering h2 {
+  margin: 0 0 var(--spacing-2);
+  font-family: var(--headline-sm-font-family);
+  font-size: var(--headline-sm-font-size);
+  font-weight: var(--headline-sm-font-weight);
+  line-height: var(--headline-sm-line-height);
+}
+
+.turoppsummering-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-2) var(--spacing-3);
+  margin: 0;
+  color: var(--text-muted);
+}
+
+/* Valggruppe (DESIGN.md › valggruppe): segmenter. Radioknappen er skjult, men har fokus. */
+.valggruppe-valg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+}
+
+.valggruppe-segment {
+  position: relative;
+  display: block;
+  flex: 1 1 0;
+  min-width: var(--touch-target-min);
+}
+
+.valggruppe-segment input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.valggruppe-segment span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-1);
+  min-height: var(--touch-target-min);
+  padding: var(--spacing-2) var(--spacing-3);
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--input-border);
+  border-radius: var(--rounded-md);
+}
+
+.valggruppe-segment input:checked + span {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-color: var(--primary);
+  font-weight: 600;
+}
+
+.valggruppe-segment input:checked + span::before {
+  content: "\2713";
+}
+
+.valggruppe-segment input:focus-visible + span {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.skjemafelt-feil .valggruppe-segment span {
+  border-color: var(--error);
+}
+
+/* Historikk (DESIGN.md › Layout & Spacing › Historikk) */
+.historikk {
+  max-width: var(--content-max-width);
+  margin-inline: auto;
+}
+
+.historikk .melding {
+  margin-bottom: var(--spacing-4);
+}
+
+.historikktabell-region {
+  overflow-x: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--rounded-md);
+}
+
+.historikktabell {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  font-family: var(--body-md-font-family);
+  font-size: var(--body-md-font-size);
+  line-height: var(--body-md-line-height);
+  text-align: left;
+}
+
+.historikktabell th,
+.historikktabell td {
+  padding: var(--spacing-3);
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+}
+
+.historikktabell tbody tr:last-child th,
+.historikktabell tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.historikktabell thead th {
+  color: var(--text-muted);
+  font-family: var(--eyebrow-font-family);
+  font-size: var(--eyebrow-font-size);
+  font-weight: var(--eyebrow-font-weight);
+  letter-spacing: var(--eyebrow-letter-spacing);
+  text-transform: uppercase;
+}
+
+.historikktabell tbody th {
+  font-family: var(--body-lg-font-family);
+  font-size: var(--body-lg-font-size);
+  font-weight: 600;
+  line-height: var(--body-lg-line-height);
+}
+
+.historikk-turnavn {
+  display: block;
+  margin-bottom: var(--spacing-1);
+}
+
+.historikk-estimert {
+  display: block;
+  color: var(--text-muted);
+}
+
+.historikk-fot {
+  margin: var(--spacing-3) 0 0;
+  color: var(--text-muted);
+}

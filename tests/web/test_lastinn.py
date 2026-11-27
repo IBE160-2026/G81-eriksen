@@ -11,6 +11,7 @@ import copy
 import json
 import tempfile
 import unittest
+from datetime import date
 from io import StringIO
 from pathlib import Path
 from unittest import mock
@@ -21,7 +22,7 @@ from django.core.management.base import CommandError
 from django.db import DatabaseError
 from django.test import TestCase
 
-from turforslag.models import Startpunkt, Tur
+from turforslag.models import Bruker, Registrering, Startpunkt, Tur
 
 ROT = Path(settings.BASE_DIR)
 TURFIL = ROT / "data" / "turer.geojson"
@@ -151,6 +152,31 @@ class LastinnTest(TestCase):
         self.assertIn(", ".join(bort), feil)
         self.assertEqual(list(Tur.objects.filter(id__in=bort).order_by("id").values()), for_endring)
         self.assertEqual(Tur.objects.count(), 3)
+
+    def test_tur_med_registrering_som_mangler_i_fila_stopper_kommandoen(self):  # AR-5, FR-16
+        self.lastinn_fixtur()
+        data = fixturdata()
+        bort = sorted(feature["id"] for feature in data["features"][1:])
+        data["features"][0]["properties"]["navn"] = "Endret navn"
+        data["features"] = data["features"][:1]
+        bruker = Bruker.objects.create_user("ola@eksempel.no", "hemmelig123")
+        Registrering.objects.create(
+            bruker=bruker,
+            tur_id=bort[0],
+            dato=date(2026, 11, 7),
+            brukt_tid_min=60,
+            vanskelighet="lett",
+            fornoydhet=4,
+        )
+        for_endring = rader()
+
+        with self.assertRaises(CommandError) as feil:
+            self.lastinn("--fil", str(self.skriv(data)))
+
+        self.assertIn(bort[0], str(feil.exception))
+        self.assertNotIn(bort[1], str(feil.exception))
+        self.assertEqual(rader(), for_endring)
+        self.assertEqual(Registrering.objects.count(), 1)
 
     def test_fila_mangler(self):  # AR-5
         self.lastinn_fixtur()

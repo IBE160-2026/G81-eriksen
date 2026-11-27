@@ -68,3 +68,10 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-2-2-innloggingen-har-en-grense-for-mislykkede-forsok.md`
   summary: `Innloggingsforsok` kan vokse ved flom av tilfeldige e-poster; opprydding kjører bare på innloggings-POST og sletter globalt per forespørsel.
   evidence: Edge-case-reviewer; lav alvorlighet på Hobby/Neon Free, ingen IP-grense (AD-10).
+
+- source_spec: `_bmad-output/implementation-artifacts/spec-2-3-ola-registrerer-en-gjennomfort-tur-og-ser-den-i-historikken.md`
+  summary: Samtidig dobbel POST mot en DB-lagret økt kan gi to registreringer, siden engangstokenet leses og skrives uten lås.
+  evidence: Review (alle tre lag): `engangstoken.bruk` er read-modify-write på økta; sekvensiell dobbel POST er testet, `forbedring.js` sperrer dobbeltklikk i nettleseren. Vurder unik nøkkel eller lås.
+- source_spec: `_bmad-output/implementation-artifacts/spec-2-3-ola-registrerer-en-gjennomfort-tur-og-ser-den-i-historikken.md`
+  summary: `Registrering` mangler `CheckConstraint` for fornøydhet 1–5 og brukt tid 10–1440 min; Historikk har ingen paginering; dato i Historikk vises uten år.
+  evidence: Review: reglene ligger bare i skjema/mal; ubegrenset spørring og «7. nov.» uten år blir tvetydig over flere år.

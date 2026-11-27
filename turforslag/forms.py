@@ -5,6 +5,9 @@ klokka selv. Manipulerte verdier (ukjent turtype eller startpunkt, dato utenfor 
 varighet utenfor listen) gir feil ved feltet og krasjer aldri.
 """
 
+import re
+from datetime import date
+
 from django import forms
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -178,3 +181,119 @@ class LagKontoForm(forms.Form):  # FR-14, AR-9
                 return Bruker.objects.create_user(data["epost"], data["passord"])
         except IntegrityError:  # to samtidige forsøk med samme e-post
             return None
+
+
+# Registrer gjennomført tur (FR-16). Tekstene er fra EXPERIENCE.md › Mikrotekst.
+FEIL_REG_DATO = "Velg datoen du gikk turen"  # [ASSUMPTION] Mikrotekst
+FEIL_REG_DATO_FREMTID = "Datoen kan ikke være frem i tid"  # [ASSUMPTION] Mikrotekst
+FEIL_REG_TID = "Brukt tid må være mellom 10 minutter og 24 timer"  # [ASSUMPTION] Mikrotekst
+FEIL_REG_VANSKELIGHET = "Velg hvor vanskelig turen føltes"  # [ASSUMPTION] Mikrotekst
+FEIL_REG_FORNOYDHET = "Velg hvor fornøyd du var"  # [ASSUMPTION] Mikrotekst
+
+MIN_REG_AR = 1900
+REG_FELTREKKEFOLGE = ("dato", "timer", "minutter", "vanskelighet", "fornoydhet")
+
+
+def _heltall(verdi: str) -> int | None:
+    """Et heltall fra siffer (ASCII), ellers `None`. Svært lange verdier gir `None`."""
+    verdi = verdi.strip()
+    if verdi.isascii() and verdi.isdigit() and len(verdi) <= 6:
+        return int(verdi)
+    return None
+
+
+class RegistreringForm(forms.Form):  # FR-16
+    """Dato, brukt tid (timer og minutter), opplevd vanskelighet og fornøydhet. Alle er påkrevd.
+
+    Dagens dato sendes inn, så skjemaet aldri leser klokka selv. Feil i brukt tid står på
+    Timer, eller på Minutter når det feltet er ugyldig for seg selv.
+    """
+
+    dato = forms.CharField(required=False)
+    timer = forms.CharField(required=False)
+    minutter = forms.CharField(required=False)
+    vanskelighet = forms.ChoiceField(required=False)
+    fornoydhet = forms.ChoiceField(required=False)
+
+    def __init__(self, i_dag, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.i_dag = i_dag
+        self.fields["vanskelighet"].choices = tekst.vanskelighetsvalg()
+        self.fields["fornoydhet"].choices = tekst.fornoydhetsvalg()
+        self.initial = {"dato": i_dag.isoformat()}
+
+    def clean(self):
+        data = super().clean()
+        self._rens_dato(data)
+        self._rens_tid(data)
+        for felt, melding in (
+            ("vanskelighet", FEIL_REG_VANSKELIGHET),
+            ("fornoydhet", FEIL_REG_FORNOYDHET),
+        ):
+            if not data.get(felt):
+                self.errors.pop(felt, None)
+                self.add_error(felt, melding)
+        return data
+
+    def _rens_dato(self, data):
+        verdi = (data.get("dato") or "").strip()
+        try:
+            if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", verdi, re.ASCII):
+                raise ValueError(verdi)
+            dato = date.fromisoformat(verdi)
+            if dato.year < MIN_REG_AR:
+                raise ValueError(verdi)
+        except ValueError:
+            self.add_error("dato", FEIL_REG_DATO)
+            return
+        if dato > self.i_dag:
+            self.add_error("dato", FEIL_REG_DATO_FREMTID)
+        else:
+            data["dato"] = dato
+
+    def _rens_tid(self, data):
+        timer_tekst = (data.get("timer") or "").strip()
+        minutter_tekst = (data.get("minutter") or "").strip()
+        if not timer_tekst and not minutter_tekst:
+            self.add_error("timer", FEIL_REG_TID)
+            return
+        timer = _heltall(timer_tekst) if timer_tekst else 0
+        minutter = _heltall(minutter_tekst) if minutter_tekst else 0
+        if timer is None:
+            self.add_error("timer", FEIL_REG_TID)
+        elif minutter is None:
+            self.add_error("minutter", FEIL_REG_TID)
+        elif not tekst.MIN_BRUKT_TID_MIN <= timer * 60 + minutter <= tekst.MAKS_BRUKT_TID_MIN:
+            self.add_error("timer", FEIL_REG_TID)
+        else:
+            data["brukt_tid_min"] = timer * 60 + minutter
+
+    @property
+    def dato_verdi(self) -> str:  # FR-16: i dag er forvalgt, og det som ble sendt, beholdes
+        return self["dato"].value() or ""
+
+    @property
+    def tid_feil(self) -> str | None:  # FR-16: én feil for Brukt tid, under fieldset
+        for navn in ("timer", "minutter"):
+            if navn in self.errors:
+                return self.errors[navn][0]
+        return None
+
+    def _valg(self, navn: str) -> list[tuple[str, str, bool]]:  # FR-16
+        verdi = self[navn].value()
+        verdi = "" if verdi is None else str(verdi)
+        return [(v, tekst_, v == verdi) for v, tekst_ in self.fields[navn].choices]
+
+    @property
+    def vanskelighetsvalg(self):  # FR-16
+        return self._valg("vanskelighet")
+
+    @property
+    def fornoydhetsvalg(self):  # FR-16
+        return self._valg("fornoydhet")
+
+    @property
+    def forste_feil(self) -> str | None:  # FR-16: fokus til første felt med feil
+        if not self.is_bound:
+            return None
+        return next((navn for navn in REG_FELTREKKEFOLGE if navn in self.errors), None)

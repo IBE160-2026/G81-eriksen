@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block tittel %}Registrer gjennomført tur: {{ oppsummering.navn }}{% endblock %}
+
+{% block innhold %}
+  {# FR-16, UX-DR27: egen side, ikke dialog. Tekstene er fra EXPERIENCE.md › Mikrotekst. Virker uten JS (AR-18). #}
+  <div class="sok">
+    <h1 class="headline-lg" tabindex="-1">Registrer gjennomført tur</h1>
+
+    <section class="turoppsummering" aria-label="Turen">
+      <h2 class="headline-sm">{{ oppsummering.navn }}</h2>
+      <p class="turoppsummering-meta caption">
+        {% include "turforslag/_nivamerke.html" with niva=oppsummering.niva nivatekst=oppsummering.nivatekst %}
+        <span>{{ oppsummering.form }}</span>
+        <span>{{ oppsummering.lengde }}</span>
+        <span>{{ oppsummering.estimert_tid }}</span>
+      </p>
+    </section>
+
+    {# Godkjent (wireframe) #}
+    <p class="ingress">Alle fire felt er påkrevd.</p>
+
+    <form class="sokeskjema" method="post" action="{% url 'turforslag:registrer' tur_id=oppsummering.id %}" novalidate>
+      {% csrf_token %}
+      <input type="hidden" name="token" value="{{ token }}">
+
+      {# [ASSUMPTION] Mikrotekst («Registreringsskjema»): «I dag eller tidligere» er godkjent (wireframe) #}
+      {% include "turforslag/_tekstfelt.html" with felt=skjema.dato verdi=skjema.dato_verdi type="date" etikett="Dato" autocomplete="off" max=i_dag.isoformat hint="I dag eller tidligere" %}
+
+      <fieldset class="skjemafelt{% if skjema.tid_feil %} skjemafelt-feil{% endif %}"{% if skjema.tid_feil %} aria-describedby="brukt-tid-feil brukt-tid-hint"{% else %} aria-describedby="brukt-tid-hint"{% endif %}>
+        <legend class="label">Brukt tid</legend>
+        <div class="felt-par">
+          <div class="skjemafelt">
+            <label class="label" for="timer">Timer</label>
+            <input id="timer" name="timer" type="text" inputmode="numeric" autocomplete="off"{% if skjema.timer.value %} value="{{ skjema.timer.value }}"{% endif %}{% if skjema.tid_feil %} aria-invalid="true"{% endif %}{% if skjema.forste_feil == "timer" %} autofocus{% endif %}>
+          </div>
+          <div class="skjemafelt">
+            <label class="label" for="minutter">Minutter</label>
+            <input id="minutter" name="minutter" type="text" inputmode="numeric" autocomplete="off"{% if skjema.minutter.value %} value="{{ skjema.minutter.value }}"{% endif %}{% if skjema.tid_feil %} aria-invalid="true"{% endif %}{% if skjema.forste_feil == "minutter" %} autofocus{% endif %}>
+          </div>
+        </div>
+        {% if skjema.tid_feil %}{% include "turforslag/_feltfeil.html" with feil_id="brukt-tid-feil" feil=skjema.tid_feil %}{% endif %}
+        <p class="hjelpetekst caption" id="brukt-tid-hint">10 min–24 t</p>
+      </fieldset>
+
+      {% include "turforslag/_valggruppe.html" with felt=skjema.vanskelighet valg=skjema.vanskelighetsvalg etikett="Opplevd vanskelighet" %}
+      {# [ASSUMPTION] Mikrotekst («Fornøydhet, forklaring») #}
+      {% include "turforslag/_valggruppe.html" with felt=skjema.fornoydhet valg=skjema.fornoydhetsvalg etikett="Fornøydhet" hint="1 = ikke fornøyd, 5 = svært fornøyd" %}
+
+      <div class="skjemaknapper">
+        <button class="knapp-primaer" type="submit">Registrer gjennomført tur</button>
+        <a class="knapp-sekundaer" href="{% url 'turforslag:historikk' %}">Avbryt</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}

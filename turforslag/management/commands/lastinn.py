@@ -3,7 +3,8 @@
 To trinn: `les_fil` leser og validerer hele fila i minnet via `domene.tur`, og først når
 alt er i orden, lagrer `turforslag.turdata.lagre_turer` startpunkter og turer i én
 transaksjon. Ved feil stopper kommandoen med en norsk melding, og databasen er uendret.
-Kommandoen regner ingenting selv (AD-2) og sletter aldri noe.
+Kommandoen regner ingenting selv (AD-2) og sletter aldri noe. Mangler en tur som har
+registreringer i fila, stopper den før noe lagres.
 """
 
 import json
@@ -82,6 +83,12 @@ class Command(BaseCommand):
     def handle(self, *args, **options):  # AR-5
         sti = options["fil"] or standard_fil()
         turer = les_fil(sti)
+        mangler = turdata.mangler_med_registreringer(turer)
+        if mangler:
+            raise CommandError(
+                f"Turfila {sti} mangler {', '.join(mangler)}, som har registreringer i "
+                "historikken. Ingenting er endret."
+            )
         try:
             lagret = turdata.lagre_turer(turer)
         except DatabaseError as feil:

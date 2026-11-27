@@ -12,6 +12,8 @@ urlpatterns = [
     path("forslag/<str:sok_id>/endre/", views.endre, name="endre"),
     path("logg-inn/", views.logg_inn, name="logg_inn"),
     path("lag-konto/", views.lag_konto, name="lag_konto"),
+    path("registrer/<str:tur_id>/", views.registrer, name="registrer"),
+    path("historikk/", views.historikk, name="historikk"),
     path("konto/", views.konto, name="konto"),
     path("logg-ut/", views.logg_ut, name="logg_ut"),
 ]
