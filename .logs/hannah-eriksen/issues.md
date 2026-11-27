@@ -94,9 +94,13 @@
 - [ ] 2026-11-26 [story-1-11](971-2026-11-26-21-12-28-story-1-11.md) — produkteier godkjenner [ASSUMPTION]-tekstene i 1.11 («Finner et nytt forslag …», «Vil du prøve noe annet?», «turer i marka», «toppturer») i PR-en
 - [x] 2026-11-26 [story-1-11](971-2026-11-26-21-12-28-story-1-11.md) — merge PR-en for 1.11, sett 1.11 til `done` og sjekk produksjonen; neste er `bmad-build` for 1.12 (løst 2026-11-26 — PR #37 og #38 merget; 1.12 implementert, se [story-1-12](970-2026-11-26-22-30-00-story-1-12.md))
 - [ ] 2026-11-26 [story-1-11](971-2026-11-26-21-12-28-story-1-11.md) — fragmentbyttet i `forbedring.js` har bare tekstsjekker og Chrome-sjekk (deferred-work.md); vurder Playwright i 6.6
-- [ ] 2026-11-26 [story-1-12](970-2026-11-26-22-30-00-story-1-12.md) — merge PR #40 (1.12 `done`) og PR #41 (README)
+- [x] 2026-11-26 [story-1-12](970-2026-11-26-22-30-00-story-1-12.md) — merge PR #40 (1.12 `done`) og PR #41 (README) (løst 2026-11-27 — begge merget)
 - [ ] 2026-11-26 [story-1-12](970-2026-11-26-22-30-00-story-1-12.md) — h1 får ikke fokus ved full sideinnlasting i Tilstandspanelet (UX-DR25), også 1.9 og 1.11; rett for alle paneler samtidig
 - [ ] 2026-11-26 [story-1-12](970-2026-11-26-22-30-00-story-1-12.md) — utsatt: dato i endret søk sjekkes ikke mot dagens dato; `foresla_endringer` kjører mange `velg_turer` per visning
 - [ ] 2026-11-26 [story-1-12](970-2026-11-26-22-30-00-story-1-12.md) — produkteier godkjenner [ASSUMPTION]-tekstene «Prøv 2,5 timer» og «Prøv alle turtyper»
 - [ ] 2026-11-26 [story-1-12](970-2026-11-26-22-30-00-story-1-12.md) — Neon har 10 grener; rydd preview-grener (spør Hannah først) før neste PR
-- [ ] 2026-11-26 [story-1-12](970-2026-11-26-22-30-00-story-1-12.md) — neste økt starter med story 2.1
+- [x] 2026-11-26 [story-1-12](970-2026-11-26-22-30-00-story-1-12.md) — neste økt starter med story 2.1 (løst 2026-11-27 — se [story-2-1](969-2026-11-27-08-30-00-story-2-1.md))
+- [ ] 2026-11-27 [story-2-1](969-2026-11-27-08-30-00-story-2-1.md) — produkteier godkjenner [ASSUMPTION]-tekstene «Jeg foreslår bare grønne turer foreløpig.», «Passordet kan ha høyst 128 tegn» og «Har du allerede konto? Logg inn»
+- [ ] 2026-11-27 [story-2-1](969-2026-11-27-08-30-00-story-2-1.md) — finpuss «Vis passord»-avkrysningsboksen (24 px, står skjevt ved teksten); axe-sjekk ikke kjørt
+- [ ] 2026-11-27 [story-2-1](969-2026-11-27-08-30-00-story-2-1.md) — utsatt: tester for IntegrityError-race og meldingsfokus; meny for innlogget på 500/403-sider (deferred-work.md)
+- [ ] 2026-11-27 [story-2-1](969-2026-11-27-08-30-00-story-2-1.md) — merge PR for 2.1, sett 2.1 `done`, sjekk prod; rydd Neon-grener først (spør Hannah)
