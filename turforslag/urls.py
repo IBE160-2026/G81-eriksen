@@ -16,5 +16,6 @@ urlpatterns = [
     path("historikk/", views.historikk, name="historikk"),
     path("historikk/<int:registrering_id>/", views.historikk_tur, name="historikk_tur"),
     path("konto/", views.konto, name="konto"),
+    path("konto/slett/", views.slett_konto, name="slett_konto"),
     path("logg-ut/", views.logg_ut, name="logg_ut"),
 ]

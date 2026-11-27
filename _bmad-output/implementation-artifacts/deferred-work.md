@@ -75,3 +75,12 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-2-3-ola-registrerer-en-gjennomfort-tur-og-ser-den-i-historikken.md`
   summary: `Registrering` mangler `CheckConstraint` for fornøydhet 1–5 og brukt tid 10–1440 min; Historikk har ingen paginering; dato i Historikk vises uten år.
   evidence: Review: reglene ligger bare i skjema/mal; ubegrenset spørring og «7. nov.» uten år blir tvetydig over flere år.
+
+## Fra story 2.6
+
+- source_spec: `_bmad-output/implementation-artifacts/spec-2-6-ola-sletter-kontoen.md`
+  summary: En `is_staff`-bruker kan slette seg selv, også som siste superbruker.
+  evidence: Spec 2.6 (Never): ingen blokkering av `is_staff`. Vurder vern mot å slette siste superbruker.
+- source_spec: `_bmad-output/implementation-artifacts/spec-2-6-ola-sletter-kontoen.md`
+  summary: Andre økter for den slettede brukeren (annen enhet) ryddes ikke aktivt.
+  evidence: De blir ugyldige fordi brukeren ikke finnes; sesjonsrader blir liggende til de utløper.

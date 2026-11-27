@@ -4,7 +4,7 @@
 {% block meny_konto %} aria-current="page"{% endblock %}
 
 {% block innhold %}
-  {# FR-14, NFR-5, UX-DR30: e-post, Personvern og «Logg ut» (POST). «Slett konto» kommer i 2.6. #}
+  {# FR-14, NFR-5, UX-DR30: e-post, Personvern og «Logg ut» (POST). «Slett konto» (lenke) åpner bekreftelsen (2.6). #}
   <div class="sok">
     <h1 class="display" tabindex="-1">Konto</h1>
     <p class="ingress">{{ user.email }}</p>
@@ -17,5 +17,8 @@
       {% csrf_token %}
       <button class="knapp-sekundaer" type="submit">Logg ut</button>
     </form>
+    <section>
+      <a class="handlingslenke" href="{% url 'turforslag:slett_konto' %}">Slett konto</a>
+    </section>
   </div>
 {% endblock %}
