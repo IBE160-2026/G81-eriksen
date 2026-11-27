@@ -107,6 +107,13 @@
       if (!hendelse.persisted) {
         return;
       }
+      // «Vis passord»: nettleseren kan gjenopprette avkrysningen, så feltets type følger den.
+      document.querySelectorAll(".vis-passord input").forEach(function (boks) {
+        var felt = boks.parentNode.parentNode.querySelector("input[id]");
+        if (felt) {
+          felt.type = boks.checked ? "text" : "password";
+        }
+      });
       document.querySelectorAll("form[data-sendes]").forEach(function (skjema) {
         skjema.removeAttribute("data-sendes");
         skjema.querySelectorAll('[aria-disabled="true"]').forEach(function (knapp) {
@@ -130,7 +137,29 @@
     }
   }
 
+  // «Vis passord» (FR-14, 2.1): en avkrysningsboks under hvert passordfelt bytter mellom
+  // type="password" og type="text". Uten JS står feltet som vanlig passordfelt.
+  function visPassord() {
+    try {
+      document.querySelectorAll('input[type="password"]').forEach(function (felt) {
+        var etikett = document.createElement("label");
+        etikett.className = "vis-passord";
+        var boks = document.createElement("input");
+        boks.type = "checkbox";
+        boks.addEventListener("change", function () {
+          felt.type = boks.checked ? "text" : "password";
+        });
+        etikett.appendChild(boks);
+        etikett.appendChild(document.createTextNode("Vis passord"));
+        felt.parentNode.appendChild(etikett);
+      });
+    } catch (feil) {
+      // Feiler stille.
+    }
+  }
+
   document.addEventListener("submit", vedInnsending);
   window.addEventListener("pageshow", vedVisning);
   giFokus();
+  visPassord();
 })();

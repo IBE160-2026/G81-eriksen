@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block tittel %}Lag konto{% endblock %}
+
+{% block innhold %}
+  {# FR-14, UX-DR26: Lag konto. «Minst 8 tegn» er godkjent (wireframe). Virker uten JS (AR-18). #}
+  <div class="sok">
+    <h1 class="display" tabindex="-1">Lag konto</h1>
+    {% if feil %}
+      {% include "turforslag/_melding.html" with type="feil" tittel=feil %}
+    {% endif %}
+    <form class="sokeskjema" method="post" action="{% url 'turforslag:lag_konto' %}" novalidate>
+      {% csrf_token %}
+      {% if neste %}<input type="hidden" name="next" value="{{ neste }}">{% endif %}
+      {% include "turforslag/_tekstfelt.html" with felt=skjema.epost verdi=skjema.epost.value type="email" etikett="E-post" autocomplete="email" fokus=skjema.epost.errors|default:feil %}
+      {% include "turforslag/_tekstfelt.html" with felt=skjema.passord type="password" etikett="Passord" autocomplete="new-password" hint="Minst 8 tegn" fokus=skjema.passord.errors %}
+      <button class="knapp-primaer" type="submit">Lag konto og fortsett</button>
+    </form>
+    <p>Har du allerede konto? <a class="handlingslenke" href="{% url 'turforslag:logg_inn' %}{% if neste %}?next={{ neste|urlencode }}{% endif %}">Logg inn</a></p>
+  </div>
+{% endblock %}

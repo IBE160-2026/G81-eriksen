@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block tittel %}Logg inn{% endblock %}
+{% block meny_logg_inn %} aria-current="page"{% endblock %}
+
+{% block innhold %}
+  {# FR-14, UX-DR26: Logg inn. Tekstene er fra EXPERIENCE.md › Mikrotekst. Virker uten JS (AR-18). #}
+  <div class="sok">
+    <h1 class="display" tabindex="-1">Logg inn</h1>
+    {% if feil %}
+      {% include "turforslag/_melding.html" with type="feil" tittel=feil %}
+    {% endif %}
+    <form class="sokeskjema" method="post" action="{% url 'turforslag:logg_inn' %}" novalidate>
+      {% csrf_token %}
+      {% if neste %}<input type="hidden" name="next" value="{{ neste }}">{% endif %}
+      {% include "turforslag/_tekstfelt.html" with felt=skjema.epost verdi=skjema.epost.value type="email" etikett="E-post" autocomplete="email" %}
+      {% include "turforslag/_tekstfelt.html" with felt=skjema.passord type="password" etikett="Passord" autocomplete="current-password" fokus=feil %}
+      <button class="knapp-primaer" type="submit">Logg inn</button>
+    </form>
+    {# [ASSUMPTION] «Har du ikke konto? Lag konto» (epics.md, story 2.1) #}
+    <p>Har du ikke konto? <a class="handlingslenke" href="{% url 'turforslag:lag_konto' %}{% if neste %}?next={{ neste|urlencode }}{% endif %}">Lag konto</a></p>
+  </div>
+{% endblock %}
