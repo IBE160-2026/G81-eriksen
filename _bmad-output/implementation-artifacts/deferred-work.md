@@ -92,3 +92,7 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-3-4-testbrukeren-viser-personaliseringen.md`
   summary: `lastinn` sletter kontoen med testbrukerens e-post uten å vite om den er laget av `lastinn`.
   evidence: `testbruker.slett` slår opp på e-post alene. En ekte bruker som registrerer `testbruker@example.com` mister kontoen ved neste bygg. Fiks krever en markering (felt/migrasjon) eller å sperre e-posten ved kontooppretting.
+
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-7-turdatabasen-har-15-kontrollerte-turer.md` (kurateringen av turdatabasen, se også `docs/kontroll-turdatabasen.md`)
+  summary: Bare 4 av 15 turer har `ut_no_url`, så «Se turen på ut.no» mangler på 11 turer. Finn ut.no-turforslag som følger de samme rutene, og fyll inn lenkene.
+  evidence: Funksjonen finnes (Epic 1, FR-6) og viser lenken når `ut_no_url` er satt. Story 1.7 satte den bare der ut.no sitt turforslag følger i hovedsak samme rute (`vettakollen-topp`, `vettakollen-fuglemyrhytta`, `noklevann-rundt`, `frognerseteren-kobberhaughytta`); kandidater med annen rute ble tatt bort. Ingen story i Epic 4–6 fyller inn de resterende, og story 6.2 (tur 16–30) nevner ikke ut.no. Gjøres i nettleser per tur, med rutekontroll mot Kartverket-linjen som i story 1.7. Oppdater `data/turer.geojson`, `data/kurateringsliste.toml`, `data/README.md` og `docs/kontroll-turdatabasen.md`. Ikke gjett på adresser. Ble oppdaget da Hannah testet turforslag på produksjon 2026-11-27.
