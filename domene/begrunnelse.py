@@ -6,12 +6,13 @@ seg alltid under `MAKS_TEGN` (testet for alle varigheter og turtyper). Tall og t
 settes inn av systemet.
 """
 
+from collections.abc import Iterable
 from datetime import date
 
 from domene.niva import Sperre
 from domene.sok import Sok
 from domene.tekst import formater_dato, formater_tid, formater_varighet_timer, nivaord
-from domene.tur import NIVAREKKEFOLGE, Tur, Turniva
+from domene.tur import NIVAREKKEFOLGE, TURTYPER, Tur, Turniva
 from domene.utvalg import ERSTATNING_FOR_TOPPTUR, TOPPTUR
 
 MAKS_TEGN = 300  # FR-12
@@ -65,6 +66,35 @@ def personaliseringssetning(
     return (
         f"Du får en {nivaord(turniva)} tur fordi du har nådd {nivaord(turniva, 'intetkjonn')} nivå."
     )
+
+
+# Turtypen som «en utsiktstur» og «utsiktsturer» i preferansesetningen (FR-20)
+_TURTYPE_ENTALL_OG_FLERTALL = {
+    "marka": ("markatur", "markaturer"),
+    "utsikt": ("utsiktstur", "utsiktsturer"),
+    "topptur": ("topptur", "toppturer"),
+}
+
+
+def preferansesetning(
+    tur: Tur, foretrukne_turtyper: Iterable[str], treff: Iterable[Tur]
+) -> str:  # FR-20, FR-12
+    """«Du får en utsiktstur fordi du har vært fornøyd med utsiktsturer før.»
+
+    Ordet er turens første turtype (marka, utsikt, topptur) som også er foretrukket. Setningen
+    kommer bare når turen har en foretrukket turtype og minst ett annet treff i søket ikke
+    har det, ellers ville den ikke forklart hvorfor akkurat denne turen vises.
+
+    [ASSUMPTION] Teksten er foreløpig til produkteier har godkjent den (Mikrotekst).
+    """
+    foretrukne = frozenset(foretrukne_turtyper)
+    ord_ = next((t for t in TURTYPER if t in foretrukne and t in tur.turtyper), None)
+    if ord_ is None:
+        return ""
+    if all(not foretrukne.isdisjoint(andre.turtyper) for andre in treff):
+        return ""
+    en, flere = _TURTYPE_ENTALL_OG_FLERTALL[ord_]
+    return f"Du får en {en} fordi du har vært fornøyd med {flere} før."
 
 
 def historikkbegrunnelse(dato: date, fornoydhet: int) -> str:  # FR-17, FR-12

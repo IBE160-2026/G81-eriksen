@@ -156,16 +156,17 @@ def les_og_valider(sti: Path, tur_ider: set[str], i_dag: date) -> Testbruker:  #
 
 def historikk(testbruker: Testbruker, turer: list[Tur]) -> NivaStatus:
     """Nivåstatusen fra registreringene i fila. Ren Python, uten database."""
-    nivaer = {tur.id: Turniva(tur.turniva) for tur in turer}
+    nivaer = {tur.id: tur for tur in turer}
     return vurder_historikk(
         tuple(
             DomeneRegistrering(
                 id=nr,
                 dato=r.dato,
                 tur_id=r.tur_id,
-                turniva=nivaer[r.tur_id],
+                turniva=Turniva(nivaer[r.tur_id].turniva),
                 vanskelighet=r.vanskelighet,
                 fornoydhet=r.fornoydhet,
+                turtyper=tuple(nivaer[r.tur_id].turtyper),
             )
             for nr, r in enumerate(testbruker.registreringer, start=1)
         )

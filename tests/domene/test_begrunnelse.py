@@ -5,9 +5,11 @@ import unittest
 from datetime import date
 
 from domene.begrunnelse import (
+    _TURTYPE_ENTALL_OG_FLERTALL,
     MAKS_TEGN,
     historikkbegrunnelse,
     personaliseringssetning,
+    preferansesetning,
     reservebegrunnelse,
 )
 from domene.niva import Sperre
@@ -163,3 +165,63 @@ class PersonaliseringssetningTest(unittest.TestCase):
                                 tur = lag_tur(estimert_tid_min=715, turtyper=tur_typer)
                                 mal = reservebegrunnelse(Sok(minutter, DATO, turtype=turtype), tur)
                                 self.assertLessEqual(len(f"{mal} {setning}"), MAKS_TEGN)
+
+
+class PreferansesetningTest(unittest.TestCase):  # FR-20, FR-12
+    def test_setning_for_hver_turtype(self):
+        forventet = {
+            "marka": "Du får en markatur fordi du har vært fornøyd med markaturer før.",
+            "utsikt": "Du får en utsiktstur fordi du har vært fornøyd med utsiktsturer før.",
+            "topptur": "Du får en topptur fordi du har vært fornøyd med toppturer før.",
+        }
+        for turtype, setning in forventet.items():
+            with self.subTest(turtype=turtype):
+                tur = lag_tur(turtyper=(turtype,))
+                annen = lag_tur(turtyper=())
+                self.assertEqual(preferansesetning(tur, {turtype}, [tur, annen]), setning)
+
+    def test_ordet_er_turens_forste_turtype_som_er_foretrukket(self):
+        tur = lag_tur(turtyper=("topptur", "utsikt"))
+        annen = lag_tur(turtyper=("marka",))
+        setning = preferansesetning(tur, {"utsikt", "topptur"}, [tur, annen])
+        self.assertIn("utsiktstur", setning)
+
+    def test_ingen_setning_uten_preferanse_eller_uten_felles_turtype(self):
+        tur = lag_tur(turtyper=("marka",))
+        annen = lag_tur(turtyper=("utsikt",))
+        self.assertEqual(preferansesetning(tur, set(), [tur, annen]), "")
+        self.assertEqual(preferansesetning(tur, {"utsikt"}, [tur, annen]), "")
+
+    def test_ingen_setning_nar_alle_treff_har_foretrukket_type(self):
+        a = lag_tur(turtyper=("utsikt",))
+        b = lag_tur(turtyper=("utsikt", "marka"))
+        self.assertEqual(preferansesetning(a, {"utsikt"}, [a, b]), "")
+
+    def test_lengste_kombinasjon_er_hoyst_300_tegn(self):
+        tur = lag_tur(estimert_tid_min=715, turtyper=TURTYPER)
+        annen = lag_tur(turtyper=())
+        for minutter, _ in varighetsvalg():
+            for turtype in (None, *TURTYPER):
+                for turniva in NIVAREKKEFOLGE:
+                    for heving, sperre in ((True, None), (False, Sperre(G, turniva))):
+                        with self.subTest(minutter=minutter, turtype=turtype, niva=turniva):
+                            tekst = reservebegrunnelse(Sok(minutter, DATO, turtype=turtype), tur)
+                            niva = personaliseringssetning(turniva, turniva, heving, sperre)
+                            for pref_type in TURTYPER:
+                                pref = preferansesetning(tur, {pref_type}, [tur, annen])
+                                self.assertTrue(pref)
+                                hele = " ".join(d for d in (tekst, niva, pref) if d)
+                                self.assertLessEqual(len(hele), MAKS_TEGN)
+
+    def test_lengste_kombinasjon_ved_topptur_erstattet(self):
+        tur = lag_tur(estimert_tid_min=715, turtyper=TURTYPER)
+        annen = lag_tur(turtyper=())
+        tekst = reservebegrunnelse(Sok(720, DATO, turtype="topptur"), lag_tur(turtyper=("utsikt",)))
+        for turniva in NIVAREKKEFOLGE:
+            niva = personaliseringssetning(turniva, turniva, False, Sperre(G, turniva))
+            for pref_type in TURTYPER:
+                pref = preferansesetning(tur, {pref_type}, [tur, annen])
+                self.assertLessEqual(len(" ".join((tekst, niva, pref))), MAKS_TEGN)
+
+    def test_turtypeordene_dekker_alle_turtyper(self):
+        self.assertEqual(set(_TURTYPE_ENTALL_OG_FLERTALL), set(TURTYPER))

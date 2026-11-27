@@ -63,6 +63,7 @@ class SoketilstandTest(unittest.TestCase):
                 "grunnniva": "gronn",
                 "sperre": None,
                 "har_historikk": False,
+                "foretrukne_turtyper": [],
             },
         )
         self.assertEqual(json.loads(json.dumps(data)), data)
@@ -258,3 +259,27 @@ class StartPaNyttTest(unittest.TestCase):
         ):
             with self.subTest(naa=naa):
                 self.assertEqual(start_pa_nytt(naa), naa)
+
+
+class ForetrukneTurtyperTest(unittest.TestCase):  # FR-20, AD-5
+    def test_gar_gjennom_json_sortert(self):
+        original = ny_soketilstand(
+            SOK, Utvalg(Status.TREFF, ("a",)), foretrukne_turtyper={"utsikt", "marka"}
+        )
+        self.assertEqual(original.foretrukne_turtyper, ("marka", "utsikt"))
+        data = json.loads(json.dumps(original.til_dict()))
+        self.assertEqual(data["foretrukne_turtyper"], ["marka", "utsikt"])
+        self.assertEqual(Soketilstand.fra_dict(data), original)
+
+    def test_eldre_okt_uten_feltet_gir_tom_liste(self):
+        data = tilstand().til_dict()
+        del data["foretrukne_turtyper"]
+        self.assertEqual(Soketilstand.fra_dict(data).foretrukne_turtyper, ())
+
+    def test_ugyldig_verdi_gir_valueerror(self):
+        for verdi in ("utsikt", [1], {"a": 1}):
+            with self.subTest(verdi=verdi):
+                data = tilstand().til_dict()
+                data["foretrukne_turtyper"] = verdi
+                with self.assertRaises(ValueError):
+                    Soketilstand.fra_dict(data)

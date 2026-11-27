@@ -44,6 +44,12 @@ class FilhistorikkTest(SimpleTestCase):  # Uten database
         self.assertIsNone(status.sperre)
         self.assertEqual(status.antall_hevinger, 1)
 
+    def test_fila_gir_bare_utsikt_som_foretrukket_turtype(self):  # FR-20, FR-21
+        alle = turer()
+        bruker = testbruker.les_og_valider(FIL, {t.id for t in alle}, I_DAG)
+        status = testbruker.historikk(bruker, alle)
+        self.assertEqual(status.foretrukne_turtyper, frozenset({"utsikt"}))
+
     def test_innholdet_i_fila(self):  # AR-5, FR-21
         alle = turer()
         bruker = testbruker.les_og_valider(FIL, {t.id for t in alle}, I_DAG)
@@ -152,10 +158,10 @@ class LastinnTestbrukerTest(TestCase):
             "toml": "dette er ikke = = toml [",
             "epost": ok.replace(EPOST, "ikke-en-epost"),
             "kort passord": ok.replace(PASSORD_TEST, "abc1"),
-            "tur-id": ok.replace("sognsvann-brekke", "finnes-ikke", 1),
+            "tur-id": ok.replace("vettakollen-fuglemyrhytta", "finnes-ikke", 1),
             "frem i tid": ok.replace("2026-08-02", "2026-12-01"),
             "dato": ok.replace("2026-08-02", "2026-13-45"),
-            "tid": ok.replace("brukt_tid_min = 45", "brukt_tid_min = 5"),
+            "tid": ok.replace("brukt_tid_min = 150", "brukt_tid_min = 5"),
             "vanskelighet": ok.replace('vanskelighet = "lett"', 'vanskelighet = "svaer"', 1),
             "fornoydhet": ok.replace("fornoydhet = 4", "fornoydhet = 6", 1),
             "felt": ok.replace("fornoydhet = 4\n", "", 1),
@@ -273,3 +279,25 @@ class ReadmeSokTest(TestCase):
         self.assertIn(EPOST, readme)
         self.assertIn(PASSORD_TEST, readme)
         self.assertIn("vanskelig", readme)
+
+    # FR-20, FR-21
+    def test_readme_soket_viser_utsikt_forst_med_preferansesetningen(self):
+        self.sok()  # bruker opp hevingen
+        svar = self.klient.post("/", {**SOK, "varighet": "210", "startpunkt": ""})
+        sok_id = svar["Location"].rstrip("/").split("/")[-1]
+        tilstand = self.klient.session["sok"][sok_id]
+        self.assertEqual(tilstand["foretrukne_turtyper"], ["utsikt"])
+        self.assertEqual(tilstand["rangerte_tur_ider"][0], "kolsastoppen")
+        self.assertIs(tilstand["nivaheving"], False)
+        self.assertContains(
+            self.klient.get(f"/forslag/{sok_id}/"),
+            "Du får en utsiktstur fordi du har vært fornøyd med utsiktsturer før.",
+        )
+        # Ny innlasting gir samme tekst (frosset)
+        self.assertContains(self.klient.get(f"/forslag/{sok_id}/"), "utsiktsturer før.")
+
+    def test_gjest_far_ingen_preferansesetning(self):
+        gjest = Client()
+        svar = gjest.post("/", {**SOK, "varighet": "210", "startpunkt": ""})
+        sok_id = svar["Location"].rstrip("/").split("/")[-1]
+        self.assertNotContains(gjest.get(f"/forslag/{sok_id}/"), "fornøyd med")

@@ -8,7 +8,7 @@ from collections.abc import Callable
 from dataclasses import replace
 
 from domene import tekst
-from domene.begrunnelse import personaliseringssetning, reservebegrunnelse
+from domene.begrunnelse import personaliseringssetning, preferansesetning, reservebegrunnelse
 from domene.okt import Soketilstand, alle_vist, neste_forslag, ny_soketilstand, start_pa_nytt
 from domene.sok import Sok
 from domene.tur import Tur, Turniva
@@ -38,8 +38,14 @@ def utfor_sok(sok: Sok, bruker=None) -> Soketilstand:  # FR-5, FR-8, FR-18, FR-1
     registreringer, status = vurder_bruker(bruker)
     nivatak = status.nivatak if status else NIVATAK_UTEN_HISTORIKK
     heving = avgjor_nivaheving(bruker, status) if status else False
+    foretrukne = status.foretrukne_turtyper if status else frozenset()
     utvalg = velg_turer(
-        sok, turdata.alle_turer(), nivatak, registreringer=registreringer, nivaheving=heving
+        sok,
+        turdata.alle_turer(),
+        nivatak,
+        registreringer=registreringer,
+        nivaheving=heving,
+        foretrukne_turtyper=foretrukne,
     )
     return ny_soketilstand(
         sok,
@@ -49,6 +55,7 @@ def utfor_sok(sok: Sok, bruker=None) -> Soketilstand:  # FR-5, FR-8, FR-18, FR-1
         grunnniva=status.grunnniva if status else NIVATAK_UTEN_HISTORIKK,
         sperre=status.sperre if status else None,
         har_historikk=bool(registreringer),
+        foretrukne_turtyper=foretrukne,
     )
 
 
@@ -163,4 +170,9 @@ def forslagsvisning(tilstand: Soketilstand) -> tekst.Forslagsvisning | None:  # 
     )
     if setning:
         begrunnelse = f"{begrunnelse} {setning}"
+    if tilstand.foretrukne_turtyper:
+        treff = [t for t in map(turdata.hent_tur, tilstand.rangerte_tur_ider) if t is not None]
+        preferanse = preferansesetning(tur, tilstand.foretrukne_turtyper, treff)
+        if preferanse:
+            begrunnelse = f"{begrunnelse} {preferanse}"
     return tekst.forslagsvisning(tilstand, tur, begrunnelse, startpunkt_navn)

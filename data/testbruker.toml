@@ -8,20 +8,22 @@ passord = "Testbruker2026"
 
 # Historikken i rekkefølge etter dato: tre lette grønne turer gir grunnnivå blått med én heving,
 # en vanskelig blå tur gir sperre, og en moderat tur opphever den.
+# Fornøydhet 4-5 er bare gitt til en tur med turtypen utsikt (Vettakollen–Fuglemyrhytta), så
+# utsikt er eneste foretrukne turtype (FR-20). Fornøydhet 3 gir ingen preferanse.
 
-# Lett grønn tur nr. 1 av 3 mot nivåheving.
+# Lett grønn utsiktstur nr. 1 av 3 mot nivåheving. Fornøydhet 4 gir preferanse for utsikt.
 [[registrering]]
-tur_id = "sognsvann-brekke"
+tur_id = "vettakollen-fuglemyrhytta"
 dato = "2026-08-02"
-brukt_tid_min = 45
+brukt_tid_min = 150
 vanskelighet = "lett"
 fornoydhet = 4
 
 # Samme tur en gang til: gjentakelser teller, så dette er lett grønn tur nr. 2 av 3.
 [[registrering]]
-tur_id = "sognsvann-brekke"
+tur_id = "vettakollen-fuglemyrhytta"
 dato = "2026-08-16"
-brukt_tid_min = 40
+brukt_tid_min = 140
 vanskelighet = "lett"
 fornoydhet = 5
 
@@ -43,9 +45,10 @@ vanskelighet = "vanskelig"
 fornoydhet = 3
 
 # Moderat tur: opphever sperren (teller ikke som heving), så nivåtaket er blått igjen.
+# Fornøydhet 3 gir ingen preferanse for turtypen marka.
 [[registrering]]
 tur_id = "rundtur-ulsrudvann"
 dato = "2026-09-27"
 brukt_tid_min = 35
 vanskelighet = "moderat"
-fornoydhet = 4
+fornoydhet = 3

@@ -79,9 +79,10 @@ ruff format --check .
 
 **Testbrukeren:** `python manage.py lastinn` laster også testbrukeren fra `data/testbruker.toml` (bare når du ikke bruker `--fil`, eller når du oppgir `--testbruker`). Logg inn på `/` med e-post `testbruker@example.com` og passord `Testbruker2026`. Det er ikke en hemmelighet og brukes ikke til annet.
 
-- **Historikken** viser nivåheving og sperre uten at du må gå turer: tre lette grønne turer (én av dem to ganger) gir grunnnivå blått, én vanskelig blå tur gir sperre, og én moderat tur opphever den. Én tur er vurdert med fornøydhet 2. Historikk-siden viser alle fem registreringene.
+- **Historikken** viser nivåheving og sperre uten at du må gå turer: tre lette grønne turer (én av dem to ganger) gir grunnnivå blått, én vanskelig blå tur gir sperre, og én moderat tur opphever den. Én tur er vurdert med fornøydhet 2, og de to lette utsiktsturene har fornøydhet 4 og 5, så utsikt er turtypen testbrukeren er fornøyd med. Historikk-siden viser alle fem registreringene.
 - **Testbrukeren lages på nytt** ved hver kjøring av `lastinn`, også i byggesteget på Vercel. Alle endringer, også sletting av kontoen, forsvinner ved neste kjøring eller publisering.
 - **Se hevingen:** velg startpunkt Østmarksetra og varighet 4 timer, og søk. Den blå turen «Nøklevann rundt» kommer først, med setningen «Du får en blå tur fordi de tre siste grønne turene var lette for deg.» Søk du på nytt, er hevingen brukt: «Østmarksetra–Mariholtet» (grønn) kommer først, og hevingssetningen er borte.
+- **Se turtypen du er fornøyd med:** søk når hevingen er brukt (søket over er gjort), uten startpunkt og med varighet 3,5 timer. Utsiktsturen «Kolsåstoppen fra Gjettum» kommer først, med setningen «Du får en utsiktstur fordi du har vært fornøyd med utsiktsturer før.» Uten denne preferansen hadde «Østmarksetra–Mariholtet» kommet først. Teksten er foreløpig ([ASSUMPTION], Mikrotekst).
 - **Se sperren:** registrer en blå tur som *vanskelig* (for eksempel «Nøklevann rundt») og søk på nytt. Nivåtaket er nå grønt, og forslaget får setningen «Du får en grønn tur igjen fordi den siste blå turen føltes vanskelig.»
 
 Hvordan en KI-nøkkel legges inn, kommer i en senere story. Kravene til denne delen står i [AD-12 i arkitekturen](_bmad-output/planning-artifacts/architecture/architecture-G81-eriksen-2026-11-07/ARCHITECTURE-SPINE.md).
