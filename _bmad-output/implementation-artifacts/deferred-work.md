@@ -88,3 +88,7 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-3-2-soket-bruker-nivataket-og-historikken.md`
   summary: `avgjor_nivaheving` er ikke atomisk: to samtidige søk fra samme bruker kan begge få `nivaheving=True`.
   evidence: leser `brukt_heving` og lagrer uten lås. Skade er bare dobbel prioritering. Fiks: betinget UPDATE på `brukt_heving < antall_hevinger` og bruk radantall som resultat.
+
+- source_spec: `_bmad-output/implementation-artifacts/spec-3-4-testbrukeren-viser-personaliseringen.md`
+  summary: `lastinn` sletter kontoen med testbrukerens e-post uten å vite om den er laget av `lastinn`.
+  evidence: `testbruker.slett` slår opp på e-post alene. En ekte bruker som registrerer `testbruker@example.com` mister kontoen ved neste bygg. Fiks krever en markering (felt/migrasjon) eller å sperre e-posten ved kontooppretting.
