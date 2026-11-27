@@ -135,3 +135,5 @@
 - [ ] 2026-11-27 [story-3-5](959-2026-11-27-14-00-00-story-3-5.md) — merge PR for 3.5 og PR #61; sett 3.5 og epic-3 `done`, sjekk prod (logg inn som testbruker, kjør README-søkene); deretter valgfritt Epic 3-retrospektiv
 - [ ] 2026-11-27 [story-3-5](959-2026-11-27-14-00-00-story-3-5.md) — produkteier godkjenner [ASSUMPTION]-teksten for preferansesetningen
 - [ ] 2026-11-27 [story-3-5](959-2026-11-27-14-00-00-story-3-5.md) — preferansesetningen og README-søket er bare testet i kode, ikke sett i nettleser
+- [ ] 2026-11-27 [story-4-1](958-2026-11-27-15-00-00-story-4-1.md) — merge PR for 4.1; sett 4.1 `done`; deretter story 4.2
+- [ ] 2026-11-27 [story-4-1](958-2026-11-27-15-00-00-story-4-1.md) — før 4.5: sett `ANTHROPIC_API_KEY` i Vercel (bare produksjon) når 4.2–4.4 er på plass; ekte variant aldri prøvd mot ekte API

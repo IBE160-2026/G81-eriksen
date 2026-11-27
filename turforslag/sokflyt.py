@@ -9,6 +9,7 @@ from dataclasses import replace
 
 from domene import tekst
 from domene.begrunnelse import personaliseringssetning, preferansesetning, reservebegrunnelse
+from domene.ki import KiSok, KiTur
 from domene.okt import Soketilstand, alle_vist, neste_forslag, ny_soketilstand, start_pa_nytt
 from domene.sok import Sok
 from domene.tur import Tur, Turniva
@@ -22,6 +23,7 @@ from domene.utvalg import (
     innenfor_tid_og_nivatak,
     velg_turer,
 )
+from tjenester.ki import hent_ki
 from turforslag import turdata
 from turforslag.registrering import avgjor_nivaheving, vurder_bruker
 
@@ -164,7 +166,15 @@ def forslagsvisning(tilstand: Soketilstand) -> tekst.Forslagsvisning | None:  # 
     tur = turdata.hent_tur(tilstand.gjeldende_tur_id)
     if tur is None or not _passer(tur, tilstand.sok, tilstand.nivatak):
         return None
-    begrunnelse = reservebegrunnelse(tilstand.sok, tur)
+    sok = tilstand.sok
+    # Til story 4.5: reserve alltid, også med nøkkel, til validering, logg og grense er på plass.
+    reserve = reservebegrunnelse(sok, tur)
+    svar = hent_ki(tving_reserve=True).begrunnelse(
+        KiSok(sok.varighet_min, sok.dato, sok.turtype, sok.startpunkt_id),
+        KiTur(tur.id, tur.navn, tur.turtyper, tur.form.value),
+        reserve,
+    )
+    begrunnelse = svar.tekst if svar.ok and svar.tekst else reserve
     setning = personaliseringssetning(
         tur.turniva, tilstand.nivatak, tilstand.nivaheving, tilstand.sperre
     )
