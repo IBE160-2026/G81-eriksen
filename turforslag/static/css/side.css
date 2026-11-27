@@ -1078,8 +1078,11 @@ main:has(> .forslag) {
 }
 
 /* Fra 720 px: kartet sticky til venstre, Infokolonne (340–470 px) til høyre og
-   Kartbeskrivelse under kartet. Plasseringen gjøres med grid, og DOM-rekkefølgen står.
-   Rad 2 er fleksibel, så ekstra høyde fra kartet havner under Begrunnelse. */
+   Kartbeskrivelse nederst i høyre kolonne. Plasseringen gjøres med grid, og DOM-rekkefølgen
+   står. Rad 2 er fleksibel, så ekstra høyde fra kartet havner under Begrunnelse.
+   Kartbeskrivelsen kan ikke stå under det sticky kartet: sticky begrenses av grid-beholderen,
+   ikke av kartets rader, så kartet gled over teksten ved rulling. Derfor går kartet over alle
+   tre radene og teksten ligger i høyre kolonne. */
 @media (min-width: 720px) {
   .forslag {
     display: grid;
@@ -1108,14 +1111,14 @@ main:has(> .forslag) {
 
   .kart {
     grid-column: 1;
-    grid-row: 1 / 3;
+    grid-row: 1 / 4;
     position: sticky;
     top: var(--spacing-4);
     height: calc(100vh - var(--header-min-height) - var(--spacing-7));
   }
 
   .kartbeskrivelse {
-    grid-column: 1;
+    grid-column: 2;
     grid-row: 3;
   }
 }
