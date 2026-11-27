@@ -129,3 +129,6 @@
 - [ ] 2026-11-27 [story-3-3](961-2026-11-27-12-00-00-story-3-3.md) — se nivåtekstene og fokus på h1 i nettleser (bare testet i kode)
 - [ ] 2026-11-27 [story-3-4](960-2026-11-27-13-00-00-story-3-4.md) — merge PR for 3.4 og PR #59; sett 3.4 `done`, sjekk prod (logg inn som testbruker og gjør README-søket); deretter story 3.5 (P2)
 - [ ] 2026-11-27 [story-3-4](960-2026-11-27-13-00-00-story-3-4.md) — utsatt: `lastinn` kan slette en ekte konto med e-posten `testbruker@example.com` (deferred-work.md)
+- [ ] 2026-11-27 [anthropic-nokkel](959-2026-11-27-15-47-52-anthropic-nokkel-og-fremdriftsplan.md) — bekreft i Anthropic-konsollen at auto-reload er av (eventuelt utgiftsgrense på workspacet)
+- [ ] 2026-11-27 [anthropic-nokkel](959-2026-11-27-15-47-52-anthropic-nokkel-og-fremdriftsplan.md) — etter merge av 4.5: sjekk KI-begrunnelse i produksjonen og reservemal i forhåndsvisningene
+- [ ] 2026-11-27 [anthropic-nokkel](959-2026-11-27-15-47-52-anthropic-nokkel-og-fremdriftsplan.md) — avtal med 3–5 nybegynnere til brukertesten i 6.7 (ca. 7.–9. des)
