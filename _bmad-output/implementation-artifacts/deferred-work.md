@@ -50,3 +50,10 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-1-12-ola-far-hjelp-nar-ingen-tur-passer.md`
   summary: `foresla_endringer` kjører `velg_turer` opptil ~25 ganger per visning av Tilstandspanelet.
   evidence: Ikke et problem med 15 turer; kan måles og caches om turdatabasen vokser.
+
+- source_spec: `_bmad-output/implementation-artifacts/spec-2-1-ola-lager-konto-logger-inn-og-logger-ut.md`
+  summary: Tester for IntegrityError-race ved samtidig kontooppretting og for fokusrekkefølge når både «Forslaget er utilgjengelig» og «Du er logget ut.» ligger i meldingskøen.
+  evidence: Verification-gap-reviewer: grenene i LagKontoForm.lag_bruker og sok.html er ikke dekket av tester; sjeldne tilfeller.
+- source_spec: `_bmad-output/implementation-artifacts/spec-2-1-ola-lager-konto-logger-inn-og-logger-ut.md`
+  summary: Toppmenyen på 500/403-sider viser gjestmeny også for innlogget bruker.
+  evidence: base.html er hardkodet uten request.user på feilsider med vilje (500 unngår oppslag); lav alvorlighet.
