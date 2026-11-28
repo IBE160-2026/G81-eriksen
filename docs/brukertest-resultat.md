@@ -13,17 +13,17 @@ Testplan: `docs/brukertest-testplan.md`. Ingen navn, e-post eller opptak står h
 | Enhet (mobil/PC, nettleser) | ikke notert |
 | Hvilke turer ble foreslått | Søk 1: ingen tur. Søk 1b (marka): Grorud – Badedammen, grønn. Søk 2: Kolsåstoppen |
 | Begrunnelsen viste | ikke notert |
-| Steg 1 søk som gjest, uten hjelp | ikke notert |
-| Steg 2 turforslag, uten hjelp | ikke notert |
-| Steg 3 lage konto, uten hjelp | ikke notert |
-| Steg 4 registrere tur, uten hjelp | ikke notert (turen ble registrert, se under) |
-| Steg 5 søke på nytt, uten hjelp | ikke notert (et nytt søk, søk 2, ble gjort) |
-| Hele kjerneflyten uten hjelp | ikke notert |
+| Steg 1 søk som gjest, uten hjelp | ja |
+| Steg 2 turforslag, uten hjelp | ja |
+| Steg 3 lage konto, uten hjelp | ja |
+| Steg 4 registrere tur, uten hjelp | ja |
+| Steg 5 søke på nytt, uten hjelp | ja |
+| Hele kjerneflyten uten hjelp | ja |
 | Hvor det eventuelt stoppet | Søk 1 ga «Jeg fant ingen tur som passer søket ditt». Testeren prøvde marka i stedet og kom videre |
 | Spørsmål 1: første forslag relevant? | ikke notert |
 | Spørsmål 2: vanskelighet før registrering | ikke notert |
 | Fant «Slett konto» selv | ja (gikk fint) |
-| Sitater (uten navn) | ikke notert |
+| Sitater (uten navn) | ingen |
 
 ### Søk og registreringer (slik de ble utført)
 
@@ -41,13 +41,13 @@ Vurderingen i selve registreringen (lett/moderat, fornøyd) telles ikke i SM-C1,
 - **F2:** Datoen i søk 2 er notert som «søndag 29. desember». 29. desember 2026 er en tirsdag, mens 29. november 2026 er en søndag. Trolig skrivefeil. Bekreft datoen.
 - **F3:** Startpunktet i søk 2 er notert som «alle startpunkt = Kolsåstoppen». Uklart om testeren valgte «alle startpunkt» og fikk Kolsåstoppen som tur.
 
-Slett konto: gikk fint, uten hjelp.
+Slett konto: gikk fint, uten hjelp (T1 klarte alt uten hjelp).
 
 ## Sammendrag
 
 | Tester | Uten hjelp | Første forslag relevant | Vanskelighet (spm. 2) |
 |---|---|---|---|
-| T1 | ikke notert | ikke notert | ikke notert |
+| T1 | ja | ikke notert | ikke notert |
 
 **SM-1:** ikke vurdert ennå (1 tester, ikke ferdig utfylt).
 **SM-C1:** ikke vurdert ennå.
