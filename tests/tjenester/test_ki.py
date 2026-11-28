@@ -14,6 +14,7 @@ from domene.ki import KiSok, KiTur
 from tjenester.ki import hent_ki
 from tjenester.ki.ekte import MODELL, EkteKi
 from tjenester.ki.falsk import FalskKi
+from tjenester.ki.grense import BegrensetKi
 from tjenester.ki.reserve import ReserveKi
 
 SOK = KiSok(120, date(2026, 12, 1), "utsikt", None)
@@ -57,8 +58,14 @@ class ValgAvVariantTest(SimpleTestCase):
         self.assertIsInstance(hent_ki(tving_reserve=True), ReserveKi)
 
     @override_settings(ANTHROPIC_API_KEY=" sk-test ")
-    def test_nokkel_gir_ekte(self):
-        self.assertIsInstance(hent_ki(), EkteKi)
+    def test_nokkel_uten_okt_gir_reserve(self):
+        self.assertIsInstance(hent_ki(), ReserveKi)
+
+    @override_settings(ANTHROPIC_API_KEY=" sk-test ")
+    def test_nokkel_med_okt_gir_begrenset_ekte(self):
+        ki = hent_ki(okt={})
+        self.assertIsInstance(ki, BegrensetKi)
+        self.assertIsInstance(ki.indre, EkteKi)
 
     def test_reserve_gir_tekst_uendret(self):
         svar = ReserveKi().begrunnelse(SOK, TUR, "Turen tar 2 t.")
@@ -76,7 +83,7 @@ class ValgAvVariantTest(SimpleTestCase):
     @override_settings(ANTHROPIC_API_KEY="sk-test")
     def test_feil_ved_opprettelse_gir_reserve(self):
         with mock.patch("anthropic.Anthropic", side_effect=RuntimeError("feil")):
-            self.assertIsInstance(hent_ki(), ReserveKi)
+            self.assertIsInstance(hent_ki(okt={}), ReserveKi)
 
 
 class EkteVariantTest(unittest.TestCase):

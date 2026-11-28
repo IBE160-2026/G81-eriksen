@@ -14,14 +14,18 @@ class Ki(Protocol):
         ...
 
 
-def hent_ki(tving_reserve: bool = False) -> Ki:  # FR-13
-    """Reserve uten nøkkel (mangler, tom eller bare mellomrom) eller når `tving_reserve`."""
+def hent_ki(tving_reserve: bool = False, okt=None) -> Ki:  # FR-13
+    """Reserve uten nøkkel (mangler, tom eller bare mellomrom), ved `tving_reserve` eller uten `okt`
+
+    Med nøkkel og `okt` pakkes den ekte varianten i `BegrensetKi` (grense per nettleser og døgn).
+    """
     nokkel = (getattr(settings, "ANTHROPIC_API_KEY", None) or "").strip()
-    if tving_reserve or not nokkel:
+    if tving_reserve or not nokkel or okt is None:
         return ReserveKi()
     try:
         from tjenester.ki.ekte import EkteKi
+        from tjenester.ki.grense import BegrensetKi
 
-        return EkteKi(nokkel)
+        return BegrensetKi(EkteKi(nokkel), okt)
     except Exception:  # noqa: BLE001 - KI-feil når aldri viewet
         return ReserveKi()

@@ -142,3 +142,7 @@ if MILJO.vercel:
 # minutter sperrer nye forsøk. Testene bruker `override_settings`.
 INNLOGGING_MAKS_FORSOK = 5
 INNLOGGING_SPERRETID_MIN = 15
+
+# Grenser for KI-kall (FR-13, NFR-8, AD-10 punkt 9)
+KI_MAKS_PER_NETTLESER_TIME = 20
+KI_MAKS_PER_DOGN = 200

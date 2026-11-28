@@ -112,3 +112,14 @@ def logg_forkastet(kalltype: str, arsak: str, svar: str | None) -> None:
         except OSError:
             return
     logger.info("%s", lag_linje(kalltype, arsak, svar))
+
+
+def logg_totalgrense_nadd() -> None:
+    """Én linje når døgnets totalgrense er nådd: `tidspunkt<TAB><TAB>totalgrense<TAB>`."""
+    if not settings.VERCEL:
+        try:
+            _sikre_handler()
+        except OSError:
+            return
+    tid = datetime.now(OSLO).isoformat(timespec="seconds")
+    logger.info("%s", "\t".join([tid, "", "totalgrense", ""]))
