@@ -10,9 +10,9 @@ Testplan: `docs/brukertest-testplan.md`. Ingen navn, e-post eller opptak står h
 |---|---|
 | Kode | T1 |
 | Dato | ikke notert |
-| Enhet (mobil/PC, nettleser) | Chrome (mobil/PC ikke notert) |
+| Enhet (mobil/PC, nettleser) | PC, Chrome |
 | Hvilke turer ble foreslått | Søk 1: ingen tur. Søk 1b (marka): Grorud – Badedammen, grønn. Søk 2: Kolsåstoppen |
-| Begrunnelsen viste | ikke notert |
+| Begrunnelsen viste | ikke notert hvilket merke. Testleder: KI-teksten så fin ut i forhold til hva som dukket opp |
 | Steg 1 søk som gjest, uten hjelp | ja |
 | Steg 2 turforslag, uten hjelp | ja |
 | Steg 3 lage konto, uten hjelp | ja |
@@ -20,8 +20,8 @@ Testplan: `docs/brukertest-testplan.md`. Ingen navn, e-post eller opptak står h
 | Steg 5 søke på nytt, uten hjelp | ja |
 | Hele kjerneflyten uten hjelp | ja |
 | Hvor det eventuelt stoppet | Søk 1 ga «Jeg fant ingen tur som passer søket ditt». Testeren prøvde marka i stedet og kom videre |
-| Spørsmål 1: første forslag relevant? | ikke notert |
-| Spørsmål 2: vanskelighet før registrering | ikke notert |
+| Spørsmål 1: første forslag relevant? | ja |
+| Spørsmål 2: vanskelighet før registrering | lett |
 | Fant «Slett konto» selv | ja (gikk fint) |
 | Sitater (uten navn) | ingen |
 
@@ -70,7 +70,7 @@ Slett konto: gikk fint, uten hjelp (T1 klarte alt uten hjelp).
 
 | Tester | Uten hjelp | Første forslag relevant | Vanskelighet (spm. 2) |
 |---|---|---|---|
-| T1 | ja | ikke notert | ikke notert |
+| T1 | ja | ja | lett |
 | T2 | ja | ikke notert | ikke notert |
 
 **SM-1:** ikke vurdert ennå (2 testere, ikke ferdig utfylt).
