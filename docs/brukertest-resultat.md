@@ -12,7 +12,7 @@ Testplan: `docs/brukertest-testplan.md`. Ingen navn, e-post eller opptak står h
 | Dato | 2026-11-28 |
 | Enhet (mobil/PC, nettleser) | PC, Chrome |
 | Hvilke turer ble foreslått | Søk 1: ingen tur. Søk 1b (marka): Grorud – Badedammen, grønn. Søk 2: Kolsåstoppen (turene som dukket opp) |
-| Begrunnelsen viste | ikke notert om merket var KI eller mal. Testleder: KI-merket og teksten så fine ut i forhold til turen som dukket opp |
+| Begrunnelsen viste | «✦ Skrevet med KI». Testleder: begrunnelsen så fin ut i forhold til turen som dukket opp |
 | Steg 1 søk som gjest, uten hjelp | ja |
 | Steg 2 turforslag, uten hjelp | ja |
 | Steg 3 lage konto, uten hjelp | ja |
@@ -49,7 +49,7 @@ Slett konto: gikk fint, uten hjelp (T1 klarte alt uten hjelp).
 | Dato | 2026-11-28 |
 | Enhet (mobil/PC, nettleser) | mobil: Safari (iPhone) |
 | Hvilke turer ble foreslått | Søk 1: Kolsåstoppen fra Gjettum. Søk 2: Vettakollen (turene som dukket opp) |
-| Begrunnelsen viste | ikke notert |
+| Begrunnelsen viste | «✦ Skrevet med KI» |
 | Steg 1–5 og hele kjerneflyten uten hjelp | ja (kjerneflyten gikk fint) |
 | Hvor det eventuelt stoppet | ikke notert |
 | Spørsmål 1: første forslag relevant? | ja |
