@@ -1,7 +1,8 @@
 """Registrer gjennomført tur og Historikk (story 2.3, FR-16, FR-17, AD-14, NFR-8)."""
 
-from datetime import date
+from datetime import date, datetime
 from unittest import mock
+from zoneinfo import ZoneInfo
 
 from django.db.models import ProtectedError
 from django.test import Client, TestCase
@@ -12,6 +13,12 @@ from turforslag import engangstoken
 from turforslag.models import Bruker, Registrering, Tur
 
 I_DAG = date(2026, 11, 27)
+
+
+def OSLO_I_DAG():
+    return datetime.now(ZoneInfo("Europe/Oslo")).date().isoformat()
+
+
 PASSORD = "hemmelig123"
 TUR = "marka-lang"
 FEIL_TID = "Brukt tid må være mellom 10 minutter og 24 timer"
@@ -389,7 +396,10 @@ class HistorikkTurTest(RegistreringTestBase):
         self.assertIn("/logg-inn/?next=", svar["Location"])
 
     def test_soketilstand_er_uendret(self):  # FR-7
-        self.client.post("/", {"dato": "2026-11-27", "varighet": "300"})
+        self.client.post(
+            "/",
+            {"dato": OSLO_I_DAG(), "varighet": "300"},
+        )
         for_okt = dict(self.client.session).get("sok")
         r = self.lag(self.ola)
         self.client.get(self.adresse_til(r))
@@ -411,7 +421,13 @@ class KravOmKontoTest(TestCase):  # FR-14, AD-6, AR-8, NFR-8, UX-DR26
         self.ola = Bruker.objects.create_user("ola@eksempel.no", PASSORD)
         self.gjest = Client()
         self.sok_id = self.gjest.post(
-            "/", {"varighet": "180", "dato": "2026-11-27", "turtype": "", "startpunkt": ""}
+            "/",
+            {
+                "varighet": "180",
+                "dato": OSLO_I_DAG(),
+                "turtype": "",
+                "startpunkt": "",
+            },
         )["Location"].split("/")[2]
         self.adresse = f"/logg-inn/?next=/registrer/{TUR}/&sok={self.sok_id}"
 
