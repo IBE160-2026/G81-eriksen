@@ -107,6 +107,7 @@ class ForslagTest(TestCase):
             "Ruten, tiden og nivået kommer fra Kartverkets turdata og faste formler, ikke fra KI.",
             "Tiden kan bomme med rundt 15 prosent, og nybegynnere bruker ofte lenger tid enn "
             "beregnet.",
+            "KI skriver begrunnelsen, og den kan ta feil.",
         ]
         plasser = [tekst.index(f"| {del_} |") for del_ in rekkefolge]
         self.assertEqual(plasser, sorted(plasser))
@@ -429,7 +430,8 @@ class KartTest(TestCase):
         self.assertTrue(
             tekst.endswith(
                 "| Tiden kan bomme med rundt 15 prosent, og nybegynnere bruker ofte lenger tid "
-                "enn beregnet. | Nytt forslag | Registrer gjennomført tur | Kartet i tekst | "
+                "enn beregnet. | KI skriver begrunnelsen, og den kan ta feil. | Nytt forslag | "
+                "Registrer gjennomført tur | Kartet i tekst | "
                 "Rundtur på 3,5 km totalt fra "
                 "Bråten. Ruten stiger ca. 130 høydemeter, fra 200 til 260 moh. |"
             ),

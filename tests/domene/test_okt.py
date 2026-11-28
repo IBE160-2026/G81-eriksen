@@ -7,8 +7,11 @@ from datetime import date
 
 from domene.niva import Sperre
 from domene.okt import (
+    LagretBegrunnelse,
     Soketilstand,
     alle_vist,
+    lagret_begrunnelse,
+    med_begrunnelse,
     neste_forslag,
     ny_soketilstand,
     start_pa_nytt,
@@ -64,6 +67,7 @@ class SoketilstandTest(unittest.TestCase):
                 "sperre": None,
                 "har_historikk": False,
                 "foretrukne_turtyper": [],
+                "begrunnelser": [],
             },
         )
         self.assertEqual(json.loads(json.dumps(data)), data)
@@ -283,3 +287,58 @@ class ForetrukneTurtyperTest(unittest.TestCase):  # FR-20, AD-5
                 data["foretrukne_turtyper"] = verdi
                 with self.assertRaises(ValueError):
                     Soketilstand.fra_dict(data)
+
+
+class BegrunnelserTest(unittest.TestCase):
+    def test_rundtur_gjennom_json(self):  # FR-12, AD-5
+        t = med_begrunnelse(tilstand(), "a", "Tekst a", True)
+        t = med_begrunnelse(t, "b", "Tekst b", False)
+        data = json.loads(json.dumps(t.til_dict()))
+        self.assertEqual(
+            data["begrunnelser"],
+            [
+                {"tur_id": "a", "tekst": "Tekst a", "ki": True},
+                {"tur_id": "b", "tekst": "Tekst b", "ki": False},
+            ],
+        )
+        self.assertEqual(Soketilstand.fra_dict(data), t)
+
+    def test_med_begrunnelse_erstatter_og_lagret_finner(self):  # FR-12
+        t = med_begrunnelse(tilstand(), "a", "Første", False)
+        t = med_begrunnelse(t, "a", "Andre", True)
+        self.assertEqual(t.begrunnelser, (LagretBegrunnelse("a", "Andre", True),))
+        self.assertEqual(lagret_begrunnelse(t, "a").tekst, "Andre")
+        self.assertIsNone(lagret_begrunnelse(t, "b"))
+
+    def test_gammel_tilstand_uten_feltet(self):  # NFR-2, AD-5
+        data = tilstand().til_dict()
+        del data["begrunnelser"]
+        self.assertEqual(Soketilstand.fra_dict(data).begrunnelser, ())
+
+    def test_skadet_felt_hoppes_over(self):  # NFR-2
+        for skadet in ("tekst", 5, None, {"a": 1}):
+            with self.subTest(skadet=skadet):
+                data = {**tilstand().til_dict(), "begrunnelser": skadet}
+                self.assertEqual(Soketilstand.fra_dict(data).begrunnelser, ())
+        god = {"tur_id": "a", "tekst": "Ok", "ki": True}
+        rader = [
+            god,
+            {"tur_id": "b"},
+            {"tur_id": "c", "tekst": "t", "ki": 1},
+            {"tur_id": "d", "tekst": "  ", "ki": False},
+            {"tur_id": 5, "tekst": "t", "ki": False},
+            {**god, "tekst": "Duplikat"},
+            "streng",
+        ]
+        data = {**tilstand().til_dict(), "begrunnelser": rader}
+        self.assertEqual(
+            Soketilstand.fra_dict(data).begrunnelser, (LagretBegrunnelse("a", "Ok", True),)
+        )
+
+    def test_nytt_forslag_og_forfra_beholder_begrunnelser(self):  # FR-12
+        t = med_begrunnelse(tilstand(), "a", "Tekst", True)
+        t = neste_forslag(t, "a", alle_gyldige)
+        self.assertEqual(len(t.begrunnelser), 1)
+        for _ in range(3):
+            t = neste_forslag(t, t.gjeldende_tur_id, alle_gyldige)
+        self.assertEqual(start_pa_nytt(t).begrunnelser, t.begrunnelser)

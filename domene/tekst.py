@@ -322,6 +322,7 @@ class Turvisning:  # FR-6
     kartbeskrivelse: str
     kart_navn: str
     kart_geojson: dict[str, Any] = field(hash=False)
+    skrevet_med_ki: bool = False  # FR-12: «✦ Skrevet med KI» eller «Begrunnelse fra mal»
 
 
 @dataclass(frozen=True)
@@ -382,16 +383,22 @@ def alle_vist_ingress(
     return f"Det var {turer} som passer {formater_varighet_timer(varighet_min)}."
 
 
-def turvisning(sok: Sok, status: Status, tur: Tur, begrunnelse: str) -> Turvisning:  # FR-6
+def turvisning(
+    sok: Sok, status: Status, tur: Tur, begrunnelse: str, skrevet_med_ki: bool = False
+) -> Turvisning:  # FR-6
     """Formaterer turen. Tid og nivå kommer fra turdatabasen og regnes aldri på nytt."""
     treff = None
     if sok.turtype is not None and sok.turtype in tur.turtyper:
         treff = turtype_treff(sok.turtype)
-    return _turvisning(tur, begrunnelse, treff, status == Status.TOPPTUR_ERSTATTET)
+    return _turvisning(tur, begrunnelse, treff, status == Status.TOPPTUR_ERSTATTET, skrevet_med_ki)
 
 
 def _turvisning(
-    tur: Tur, begrunnelse: str, treff: str | None, topptur_erstattet: bool
+    tur: Tur,
+    begrunnelse: str,
+    treff: str | None,
+    topptur_erstattet: bool,
+    skrevet_med_ki: bool = False,
 ) -> Turvisning:  # FR-6
     return Turvisning(
         id=tur.id,
@@ -412,6 +419,7 @@ def _turvisning(
         kartbeskrivelse=kartbeskrivelse(tur),
         kart_navn=f"Kart over {tur.navn}",
         kart_geojson=kart_geojson(tur),
+        skrevet_med_ki=skrevet_med_ki,
     )
 
 
@@ -422,6 +430,7 @@ def forslagsvisning(
     startpunkt_navn: str | None = None,
     antall: int | None = None,
     endringsforslag: tuple[Endringsforslag, ...] = (),
+    skrevet_med_ki: bool = False,
 ) -> Forslagsvisning:  # FR-6, FR-7, FR-8
     """Visningen av søketilstanden. `tur` er gjeldende tur, eller `None` ved Tilstandspanel.
 
@@ -440,7 +449,11 @@ def forslagsvisning(
     return Forslagsvisning(
         sokeoppsummering=sokeoppsummering(tilstand.sok, startpunkt_navn),
         status=tilstand.status,
-        tur=turvisning(tilstand.sok, tilstand.status, tur, begrunnelse) if tur else None,
+        tur=(
+            turvisning(tilstand.sok, tilstand.status, tur, begrunnelse, skrevet_med_ki)
+            if tur
+            else None
+        ),
         alle_vist=vist,
         ingress_alle_vist=ingress,
         endringsforslag=endringsforslag,

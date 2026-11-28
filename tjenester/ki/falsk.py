@@ -7,6 +7,7 @@ class FalskKi:
     def __init__(self, svar: KiSvar | str = "") -> None:
         self.svar = KiSvar(tekst=svar) if isinstance(svar, str) else svar
         self.kall: list[tuple[KiSok, KiTur, str]] = []
+        self.kall_topptur_erstattet: list[bool] = []
 
     @classmethod
     def tidsavbrudd(cls) -> "FalskKi":
@@ -20,6 +21,9 @@ class FalskKi:
     def antall_kall(self) -> int:
         return len(self.kall)
 
-    def begrunnelse(self, sok: KiSok, tur: KiTur, reserve: str) -> KiSvar:
+    def begrunnelse(
+        self, sok: KiSok, tur: KiTur, reserve: str, *, topptur_erstattet: bool = False
+    ) -> KiSvar:
         self.kall.append((sok, tur, reserve))
+        self.kall_topptur_erstattet.append(topptur_erstattet)
         return self.svar

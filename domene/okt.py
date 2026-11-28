@@ -3,7 +3,7 @@
 Tilstanden har søket, statusen og den frosne rangeringen fra `velg_turer`, så en ny
 innlasting gir samme tur uten å rangere på nytt. `til_dict` og `fra_dict` gir en verdi som
 kan lagres som JSON, med datoen som ISO-streng. `fra_dict` tåler at felt som kommer senere
-(KI-begrunnelsen i Epic 4), mangler, og at ukjente felt finnes. «Nytt forslag» og «Start fra
+(som begrunnelsene fra 4.5), mangler, og at ukjente felt finnes. «Nytt forslag» og «Start fra
 første forslag igjen» (1.11) er rene funksjoner som gir en ny tilstand uten ny rangering.
 """
 
@@ -16,6 +16,15 @@ from domene.niva import Sperre
 from domene.sok import Sok
 from domene.tur import Turniva
 from domene.utvalg import NIVATAK_UTEN_HISTORIKK, Status, Utvalg
+
+
+@dataclass(frozen=True)
+class LagretBegrunnelse:  # FR-12, AD-10 punkt 3
+    """Den ferdige begrunnelsen for én tur i ett søk, og om KI skrev den."""
+
+    tur_id: str
+    tekst: str
+    ki: bool
 
 
 @dataclass(frozen=True)
@@ -34,6 +43,7 @@ class Soketilstand:  # AD-5, FR-7
     sperre: Sperre | None = None
     har_historikk: bool = False
     foretrukne_turtyper: tuple[str, ...] = ()  # sortert, frosset ved søket (FR-20)
+    begrunnelser: tuple[LagretBegrunnelse, ...] = ()  # lagres første gang turen vises (FR-12)
 
     def til_dict(self) -> dict[str, Any]:  # AD-5
         return {
@@ -57,6 +67,9 @@ class Soketilstand:  # AD-5, FR-7
             ),
             "har_historikk": self.har_historikk,
             "foretrukne_turtyper": list(self.foretrukne_turtyper),
+            "begrunnelser": [
+                {"tur_id": b.tur_id, "tekst": b.tekst, "ki": b.ki} for b in self.begrunnelser
+            ],
         }
 
     @classmethod
@@ -85,6 +98,7 @@ class Soketilstand:  # AD-5, FR-7
                 sperre=_sperre(data.get("sperre")),
                 har_historikk=bool(data.get("har_historikk", False)),
                 foretrukne_turtyper=tuple(sorted(_ider(data.get("foretrukne_turtyper", [])))),
+                begrunnelser=_begrunnelser(data.get("begrunnelser", [])),
             )
         except (KeyError, TypeError, AttributeError) as feil:
             raise ValueError(f"Søketilstanden kan ikke leses: {feil!r}.") from feil
@@ -94,6 +108,25 @@ def _sperre(verdi: Any) -> Sperre | None:  # FR-19
     if verdi is None:
         return None
     return Sperre(niva=Turniva(verdi["niva"]), turniva=Turniva(verdi["turniva"]))
+
+
+def _begrunnelser(verdi: Any) -> tuple[LagretBegrunnelse, ...]:  # NFR-2, AD-5
+    """Leser de lagrede begrunnelsene defensivt: ugyldige oppføringer hoppes over."""
+    if not isinstance(verdi, list | tuple):
+        return ()
+    resultat: list[LagretBegrunnelse] = []
+    sett: set[str] = set()
+    for rad in verdi:
+        if not isinstance(rad, dict):
+            continue
+        tur_id, tekst, ki = rad.get("tur_id"), rad.get("tekst"), rad.get("ki")
+        if not (isinstance(tur_id, str) and isinstance(tekst, str) and isinstance(ki, bool)):
+            continue
+        if not tekst.strip() or tur_id in sett:
+            continue
+        sett.add(tur_id)
+        resultat.append(LagretBegrunnelse(tur_id, tekst, ki))
+    return tuple(resultat)
 
 
 def _ider(verdi: Any) -> tuple[str, ...]:  # AD-5
@@ -176,3 +209,20 @@ def start_pa_nytt(tilstand: Soketilstand) -> Soketilstand:  # FR-7
         return tilstand
     forste = tilstand.rangerte_tur_ider[0]
     return replace(tilstand, viste_tur_ider=(forste,), gjeldende_tur_id=forste)
+
+
+def lagret_begrunnelse(tilstand: Soketilstand, tur_id: str) -> LagretBegrunnelse | None:  # FR-12
+    """Den lagrede begrunnelsen for turen, eller `None`."""
+    for b in tilstand.begrunnelser:
+        if b.tur_id == tur_id:
+            return b
+    return None
+
+
+def med_begrunnelse(
+    tilstand: Soketilstand, tur_id: str, tekst: str, ki: bool
+) -> Soketilstand:  # FR-12
+    """Erstatter begrunnelsen for turen, eller legger den til."""
+    ny = LagretBegrunnelse(tur_id, tekst, ki)
+    andre = tuple(b for b in tilstand.begrunnelser if b.tur_id != tur_id)
+    return replace(tilstand, begrunnelser=(*andre, ny))

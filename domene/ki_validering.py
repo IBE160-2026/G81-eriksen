@@ -62,6 +62,14 @@ ENHETER = frozenset(
     }
 )  # fmt: skip
 
+TIERE = frozenset(
+    {"tjue", "tyve", "tretti", "tredve", "førti", "femti", "seksti", "sytti", "åtti", "nitti"}
+)  # fmt: skip
+ENERE = frozenset({"en", "ett", "to", "tre", "fire", "fem", "seks", "sju", "syv", "åtte", "ni"})
+# Bøyninger av enhetene som kan henge sammen med et tallord: «tretimers», «tjuetominutter».
+ENHET_SLUTT = ("timers", "timer", "time", "minutters", "minutter", "minutt", "min")
+ENHET_SLUTT += ("kilometers", "kilometer", "km", "meter", "mil")
+
 NIVAORD = frozenset(
     {"grønn", "grønne", "grønt", "blå", "blått", "rød", "røde", "rødt", "svart", "svarte"}
 )
@@ -84,9 +92,25 @@ def _ord(tekst: str) -> list[str]:
     return [o.casefold() for o in _ORD.findall(tekst)]
 
 
+def _sammensatt_tallord(ord_: str) -> bool:  # FR-12
+    """Tier + ener («tjueto»), eller tallord + enhet («tretimers», «tjuetominutter»)."""
+    for tier in TIERE:
+        if ord_.startswith(tier) and ord_[len(tier) :] in ENERE:
+            return True
+    for enhet in ENHET_SLUTT:
+        if not ord_.endswith(enhet) or len(ord_) == len(enhet):
+            continue
+        rest = ord_[: -len(enhet)]
+        if rest in TALLORD or rest in ENERE or rest in TIERE:
+            return True
+        if any(rest.startswith(t) and rest[len(t) :] in ENERE for t in TIERE):
+            return True
+    return False
+
+
 def _har_tallord(ord_: list[str]) -> bool:
     for i, o in enumerate(ord_):
-        if o in TALLORD:
+        if o in TALLORD or _sammensatt_tallord(o):
             return True
         if o in TALLORD_FOR_ENHET and i + 1 < len(ord_) and ord_[i + 1] in ENHETER:
             return True

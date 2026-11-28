@@ -88,6 +88,14 @@ def sok(request):  # FR-4, FR-5
 def forslag(request, sok_id):  # FR-6, FR-7
     """Turforslaget for søke-ID-en, uten ny rangering. Ukjent ID eller tur gir Søk."""
     tilstand = okt.hent_sok(request, sok_id)
+    if tilstand is not None and request.method == "GET":  # FR-12: bare GET kan sende KI-kall
+        ny = sokflyt.sikre_begrunnelse(tilstand, request.session)
+        if ny != tilstand:
+            # Tilstanden kan ha endret seg under KI-kallet: bare begrunnelsen skrives inn.
+            fersk = okt.hent_sok(request, sok_id)
+            if fersk is not None:
+                tilstand = sokflyt.flett_begrunnelse(fersk, ny)
+                okt.oppdater_sok(request, sok_id, tilstand)
     visning = sokflyt.forslagsvisning(tilstand) if tilstand else None
     if visning is None:
         return _utilgjengelig(request)

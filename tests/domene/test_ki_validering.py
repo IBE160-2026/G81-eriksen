@@ -66,6 +66,25 @@ class KiValideringTest(unittest.TestCase):
             with self.subTest(ord=ord_):
                 self.assert_forkastet(valider(f"{{varighet}} {ord_}."), Forkastelse.TALLORD)
 
+    def test_sammensatte_tallord(self):  # FR-12
+        for ord_ in (
+            "tjueto minutter",
+            "en tretimers tur",
+            "Tretimers",
+            "førtifem",
+            "tjuetominutter",
+            "femkilometers",
+            "tomil",
+            "tretti minutters tur",
+        ):
+            with self.subTest(ord=ord_):
+                self.assert_forkastet(valider(f"{{varighet}} {ord_}."), Forkastelse.TALLORD)
+
+    def test_lovlige_ord_ligner_ikke_tallord(self):  # FR-12
+        for ord_ in ("toppen", "tiden", "tonnevis", "timeplan", "fiske", "timene", "minuttene"):
+            with self.subTest(ord=ord_):
+                self.assertTrue(valider(f"{{varighet}} {ord_}.").ok)
+
     def test_lovlige_ord_med_tallord_inni(self):  # FR-12
         for ord_ in ("en fin tur", "toppen", "tiden", "en tur"):
             with self.subTest(ord=ord_):

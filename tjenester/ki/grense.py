@@ -41,7 +41,9 @@ class BegrensetKi:
         self.indre = indre
         self.okt = okt
 
-    def begrunnelse(self, sok: KiSok, tur: KiTur, reserve: str) -> KiSvar:
+    def begrunnelse(
+        self, sok: KiSok, tur: KiTur, reserve: str, *, topptur_erstattet: bool = False
+    ) -> KiSvar:
         na = datetime.now(OSLO)
         dato = na.date()
         tidspunkter = behold_siste_time(_les_okt(self.okt), na)
@@ -63,7 +65,7 @@ class BegrensetKi:
             return KiSvar(tekst=reserve)
         if ny_verdi == settings.KI_MAKS_PER_DOGN:
             logg_totalgrense_nadd()
-        return self.indre.begrunnelse(sok, tur, reserve)
+        return self.indre.begrunnelse(sok, tur, reserve, topptur_erstattet=topptur_erstattet)
 
     @staticmethod
     def _reserver(dato) -> tuple[bool, int]:
