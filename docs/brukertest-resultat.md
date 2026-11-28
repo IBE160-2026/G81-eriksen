@@ -2,7 +2,7 @@
 
 Testplan: `docs/brukertest-testplan.md`. Ingen navn, e-post eller opptak står her (NFR-5). Felter merket «ikke notert» mangler i notatene fra testen og må fylles ut av testlederen, ikke gjettes.
 
-**Status:** pågår. 3 av 3–5 testere er gjennomført.
+**Status:** 3 testere gjennomført 28. november 2026. SM-1 nådd, SM-C1 ikke fullt dokumentert (se Konklusjon).
 
 ## T1
 
@@ -35,11 +35,7 @@ Testplan: `docs/brukertest-testplan.md`. Ingen navn, e-post eller opptak står h
 
 Vurderingen i selve registreringen (lett/moderat, fornøyd) telles ikke i SM-C1, fordi den kommer etter turen, ikke på første forslag (testplan §7).
 
-### Funn
-
-- **F1 (T1, søk 1):** Utsikt fra Grorud stasjon med 2,5 t ga ingen tur. Testeren løste det selv ved å bytte turtype til marka. Sjekk at meldingen om at ingen tur passet, gir forslag til hva testeren kan gjøre (FR-8), og om turdatabasen har for få utsiktsturer fra østlige startpunkter.
-
-Slett konto: gikk fint, uten hjelp (T1 klarte alt uten hjelp).
+Slett konto: gikk fint, uten hjelp (T1 klarte alt uten hjelp). Funn er samlet nederst.
 
 ## T2
 
@@ -76,7 +72,7 @@ Slett konto: gikk fint, uten hjelp (T1 klarte alt uten hjelp).
 | Steg 1–5 og hele kjerneflyten uten hjelp | ja |
 | Hvor det eventuelt stoppet | ingen stopp |
 | Spørsmål 1: første forslag relevant? | ja |
-| Spørsmål 2: vanskelighet før registrering | ikke sikkert: «lett» er notert ved Dælivann, men det er uklart om det var svaret på spørsmål 2 eller turens nivå |
+| Spørsmål 2: vanskelighet før registrering | ikke notert. «Lett» ved Dælivann er turens nivå, ikke T3s svar |
 | Fant «Slett konto» selv | ja (gikk fint) |
 | Sitater (uten navn) | «Det gikk fint å bruke.» (kommentar fra testen) |
 
@@ -85,15 +81,29 @@ Slett konto: gikk fint, uten hjelp (T1 klarte alt uten hjelp).
 | | Søk | Resultat | Registrert tur |
 |---|---|---|---|
 | 1 | 2 t, søndag 29. november, marka, startpunkt: alle | Dælivann (notert «lett») | Registrert med dagens dato (28. november), fordi appen ikke lar en registrere frem i tid. Brukt tid 1 t 35 min, lett, fornøyd 1 (ingen kommentar til fornøydheten) |
-| 2 | 5 t, dato ikke bekreftet (notert som «29. desember»), utsikt, startpunkt: alle | Kolsåstoppen fra Gjettum | Brukt tid 1 t 20 min, moderat, fornøyd 4 |
+| 2 | 5 t, søndag 29. november, utsikt, startpunkt: alle | Kolsåstoppen fra Gjettum | Brukt tid 1 t 20 min, moderat, fornøyd 4 |
 
 ## Sammendrag
 
-| Tester | Uten hjelp | Første forslag relevant | Vanskelighet (spm. 2) |
-|---|---|---|---|
-| T1 | ja | ja | lett |
-| T2 | ja | ja | lett |
-| T3 | ja | ja | ikke sikkert |
+| Tester | Enhet | Uten hjelp | Første forslag relevant | Vanskelighet (spm. 2) | KI-merke |
+|---|---|---|---|---|---|
+| T1 | PC, Chrome | ja | ja | lett | KI |
+| T2 | iPhone, Safari | ja | ja | lett | KI |
+| T3 | Android | ja | ja | ikke notert | KI |
 
-**SM-1:** T1 og T2 har nådd målet (uten hjelp og første forslag relevant). T3 klarte alt uten hjelp og vurderte første forslag som relevant. Avgjøres for T3 når svaret på spørsmål 2 (vanskelighet før registrering) er bekreftet. Med 3 testere må alle 3 nå målet.
-**SM-C1:** så langt oppfylt: ingen av T1 og T2 svarte «vanskelig» (begge «lett»). Avgjøres når alle testerne er ferdige.
+Alle tester ble gjennomført 28. november 2026 på den publiserte siden og slettet kontoen (gikk fint for alle).
+
+## Konklusjon
+
+- **SM-1: nådd.** Alle 3 av 3 testere klarte kjerneflyten uten hjelp og vurderte første forslag som relevant. Målet er minst 75 % (3 av 3 med tre testere).
+- **SM-C1: ikke fullt dokumentert.** T1 og T2 svarte *lett*, og ingen har svart *vanskelig*. T3 fikk ikke spørsmål 2 stilt, eller svaret ble ikke notert, så SM-C1 kan ikke stadfestes for alle tre. Tiltak: spør T3 i ettertid, eller kjør en ny runde med nye testere og still spørsmålet rett etter første forslag.
+- Dekning: PC (Chrome), iPhone (Safari) og Android. Tre testere er nedre grense i planen (3–5).
+- Alle tre fikk KI-begrunnelse («✦ Skrevet med KI»). Testen sier derfor ikke noe om hvordan reservemalen oppleves.
+
+## Funn
+
+- **F1 (T1, søk 1):** Utsikt fra Grorud stasjon med 2,5 t ga ingen tur. T1 løste det selv ved å bytte turtype til marka. Tiltak: sjekk at meldingen om «ingen tur» gir et tydelig forslag (FR-8), og om turdatabasen har for få utsiktsturer fra østlige startpunkter.
+- **F2 (T3):** T3 søkte for 29. november, men måtte registrere turen med dagens dato, siden appen ikke lar en registrere frem i tid. Ingen feil, men testeren fikk ikke registrert den datoen testen handlet om. Tiltak: vurder om meldingen ved fremtidig dato er tydelig nok.
+- **F3 (T3):** Fornøydhet 1 på første tur (Dælivann), uten kommentar. Ikke fulgt opp.
+- **F4 (T3):** Spørsmål 2 (vanskelighet før registrering) ble ikke notert. Se SM-C1 over.
+- Sitater: kun «Det gikk fint å bruke.» (T3). Ingen andre kommentarer.
