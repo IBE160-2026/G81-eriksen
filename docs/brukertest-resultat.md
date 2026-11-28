@@ -2,7 +2,7 @@
 
 Testplan: `docs/brukertest-testplan.md`. Ingen navn, e-post eller opptak står her (NFR-5). Felter merket «ikke notert» mangler i notatene fra testen og må fylles ut av testlederen, ikke gjettes.
 
-**Status:** pågår. 1 av 3–5 testere er gjennomført.
+**Status:** pågår. 2 av 3–5 testere er gjennomført.
 
 ## T1
 
@@ -43,11 +43,35 @@ Vurderingen i selve registreringen (lett/moderat, fornøyd) telles ikke i SM-C1,
 
 Slett konto: gikk fint, uten hjelp (T1 klarte alt uten hjelp).
 
+## T2
+
+| Felt | Verdi |
+|---|---|
+| Kode | T2 |
+| Dato | ikke notert |
+| Enhet (mobil/PC, nettleser) | ikke notert |
+| Hvilke turer ble foreslått | Søk 1: Kolsåstoppen fra Gjettum. Søk 2: Vettakollen |
+| Begrunnelsen viste | ikke notert |
+| Steg 1–5 og hele kjerneflyten uten hjelp | ikke notert |
+| Hvor det eventuelt stoppet | ikke notert |
+| Spørsmål 1: første forslag relevant? | ikke notert |
+| Spørsmål 2: vanskelighet før registrering | ikke notert |
+| Fant «Slett konto» selv | ja (gikk veldig fint) |
+| Sitater (uten navn) | ingen (ellers ingen kommentarer) |
+
+### Søk og registreringer (slik de ble utført)
+
+| | Søk | Resultat | Registrert tur |
+|---|---|---|---|
+| 1 | 4 t, fredag 4. desember, topptur, startpunkt: alle | Kolsåstoppen fra Gjettum | Brukt tid 3 t 25 min, lett, fornøyd 4 |
+| 2 | 6 t, lørdag 28. november, utsikt, startpunkt: alle | Vettakollen | Brukt tid 3 t, lett, fornøyd 3 |
+
 ## Sammendrag
 
 | Tester | Uten hjelp | Første forslag relevant | Vanskelighet (spm. 2) |
 |---|---|---|---|
 | T1 | ja | ikke notert | ikke notert |
+| T2 | ikke notert | ikke notert | ikke notert |
 
-**SM-1:** ikke vurdert ennå (1 tester, ikke ferdig utfylt).
+**SM-1:** ikke vurdert ennå (2 testere, ikke ferdig utfylt).
 **SM-C1:** ikke vurdert ennå.
