@@ -18,7 +18,7 @@ med `tur` (Turvisning) i konteksten. EXPERIENCE.md › Kart – oppførsel, DESI
   <div class="kart-flate" tabindex="0" role="region" aria-label="{{ tur.kart_navn }}"></div>
   {# Mikrotekst («Lasting»): «Kart lastes …». #}
   <p class="kart-lastes" hidden>Kart lastes …</p>
-  {# [ASSUMPTION] Mikrotekst («Kartfliser feiler») #}
+  {# Godkjent 2026-11-28, Mikrotekst («Kartfliser feiler») #}
   <div class="melding melding-info kart-melding" role="status">
     <svg class="melding-ikon" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
       <circle cx="10" cy="10" r="10" fill="currentColor"/>
@@ -42,7 +42,7 @@ med `tur` (Turvisning) i konteksten. EXPERIENCE.md › Kart – oppførsel, DESI
   </div>
   {# PRD NFR-7, Mikrotekst («Kreditering (på kartet)»). #}
   <p class="kreditering caption">© <a href="https://www.kartverket.no/api-og-data/vilkar-for-bruk">Kartverket</a> · © <a href="https://www.openstreetmap.org/copyright" lang="en">OpenStreetMap contributors</a></p>
-  {# [ASSUMPTION] Mikrotekst («Kart på berøringsskjerm»). Bare synlig hint; skjermlesere har egne bevegelser. #}
+  {# Godkjent 2026-11-28, Mikrotekst («Kart på berøringsskjerm»). Bare synlig hint; skjermlesere har egne bevegelser. #}
   <p class="kart-hint" aria-hidden="true">Bruk to fingre for å flytte kartet</p>
 </div>
 {{ tur.kart_geojson|json_script:"kart-geojson" }}

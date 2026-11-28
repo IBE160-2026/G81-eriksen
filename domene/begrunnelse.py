@@ -47,8 +47,8 @@ def personaliseringssetning(
     """Setningen som forklarer nivået, lagt til etter malteksten. Høyst én: sperre, ellers
     heving, ellers nådd nivå. Grønn tur uten sperre gir ingen setning.
 
-    [ASSUMPTION] Sperresetningen og nådd-nivå-setningen er foreløpige til produkteier har
-    godkjent dem (Mikrotekst). Ingen tall i setningene.
+    Sperresetningen og nådd-nivå-setningen er godkjent 2026-11-28 av produkteier (Mikrotekst).
+    Ingen tall i setningene.
     """
     if sperre is not None:
         return (
@@ -85,7 +85,7 @@ def preferansesetning(
     kommer bare når turen har en foretrukket turtype og minst ett annet treff i søket ikke
     har det, ellers ville den ikke forklart hvorfor akkurat denne turen vises.
 
-    [ASSUMPTION] Teksten er foreløpig til produkteier har godkjent den (Mikrotekst).
+    Teksten er godkjent 2026-11-28 av produkteier (Mikrotekst).
     """
     foretrukne = frozenset(foretrukne_turtyper)
     ord_ = next((t for t in TURTYPER if t in foretrukne and t in tur.turtyper), None)

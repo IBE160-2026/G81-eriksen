@@ -25,7 +25,7 @@ med hele sidetittelen, så forbedring.js kan sette document.title etter byttet.
         </div>
 
         {% if tur.topptur_erstattet %}
-          {# FR-8, beslutning 2026-11-26 (1A). [ASSUMPTION] Mikrotekst («Topptur passer ikke, merke») #}
+          {# FR-8, beslutning 2026-11-26 (1A). Godkjent 2026-11-28, Mikrotekst («Topptur passer ikke, merke») #}
           <p class="turtype-merke"><span class="turtype-treff">{% include "turforslag/_sol.html" %}Utsikt i stedet for topptur</span></p>
           {% include "turforslag/_melding.html" with type="advarsel" tittel="Ingen topptur passer søket ditt" %}
         {% elif tur.turtype_treff %}
@@ -62,7 +62,7 @@ med hele sidetittelen, så forbedring.js kan sette document.title etter byttet.
             <ul class="body-md">
               <li>Ruten, tiden og nivået kommer fra Kartverkets turdata og faste formler, ikke fra KI.</li>
               <li>Tiden kan bomme med rundt 15 prosent, og nybegynnere bruker ofte lenger tid enn beregnet.</li>
-              {# [ASSUMPTION] Mikrotekst: setning 3, foreløpig til produkteier har godkjent den. #}
+              {# Godkjent 2026-11-28, Mikrotekst: setning 3, foreløpig til produkteier har godkjent den. #}
               <li>KI skriver begrunnelsen, og den kan ta feil.</li>
             </ul>
           </details>
@@ -71,7 +71,7 @@ med hele sidetittelen, så forbedring.js kan sette document.title etter byttet.
         {# FR-7 (1.11): «Nytt forslag» er POST med CSRF og PRG. `tur` er turen som vises, så #}
         {# serveren bare går ett steg videre (dobbeltklikk). forbedring.js henter fragmentet. #}
         {# FR-16: «Registrer gjennomført tur» er sekundærknapp (lenke) for innlogget. Gjesteflyten er story 2.5. #}
-        {# [ASSUMPTION] Mikrotekst («Lasting, nytt forslag»): data-lastetekst. #}
+        {# Godkjent 2026-11-28, Mikrotekst («Lasting, nytt forslag»): data-lastetekst. #}
         <div class="forslag-handlinger">
         {% if visning.fra_historikk %}
           {# FR-17: turforslag fra historikken har ingen «Nytt forslag». «Finn en ny tur» går til tomt Søk. #}
