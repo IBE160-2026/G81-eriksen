@@ -12,7 +12,9 @@ Repoet inneholder gruppens applikasjon og dokumentasjon av utvikling, testing og
 
 En bruker med konto kan registrere og vurdere turene sine. Tjenesten bruker vurderingene til å foreslå riktig nivå og variasjon neste gang. Tilpasningen følger enkle, faste regler som alltid kan forklares. KI tolker bare ønsker og formulerer begrunnelser, og velger aldri en tur utenfor den kuraterte turdatabasen.
 
-**Hva appen kan nå:** Brukeren velger tid, dato, startpunkt og turtype og får ett turforslag fra en kontrollert database med 15 turer, med rute på kart (Kartverket) og i tekst, beregnet turnivå og estimert tid. Hen kan be om nytt forslag, og får forslag til hva som kan endres når ingen tur passer. Konto, værvarsel og KI kommer i senere epics.
+**Hva appen kan nå:** Brukeren velger tid, dato, startpunkt og turtype og får ett turforslag fra en kontrollert database med 15 turer, med rute på kart (Kartverket) og i tekst, beregnet turnivå og estimert tid. Hen kan be om nytt forslag, og får forslag til hva som kan endres når ingen tur passer. Hen kan lage konto, registrere og vurdere turer og se historikken. Nivåtaket og turtypene hen har vært fornøyd med styrer forslagene, og begrunnelsen skrives av KI med en fast mal som reserve. Værvarsel og bekledningstips (epic 5) og fritekstønske (story 4.6 og 4.7) er ikke laget ennå.
+
+**Prøv dette (testbrukeren, FR-21):** logg inn med `testbruker@example.com` og `Testbruker2026` (se avsnittet «Testbrukeren» under [Installasjon og kjøring](#installasjon-og-kjøring)), velg startpunkt Østmarksetra og varighet 4 timer, og søk. Den blå turen «Nøklevann rundt» kommer først, med begrunnelsen «Du får en blå tur fordi de tre siste grønne turene var lette for deg.» Det viser personaliseringen uten at du må gå turer selv. Flere søk å prøve står under Installasjon og kjøring.
 
 Teknologi: Python og Django, SQLite lokalt og Postgres hos Neon på den publiserte siden, kart fra Kartverket, værvarsel fra MET og en valgfri språkmodell fra Anthropic. Appen publiseres på Vercel og skal også kunne kjøres lokalt uten nøkler. Se [arkitekturen](docs/arkitektur.md) for begrunnelsen.
 
@@ -26,7 +28,31 @@ Teknologi: Python og Django, SQLite lokalt og Postgres hos Neon på den publiser
 | UX | Ferdig | [EXPERIENCE.md](_bmad-output/planning-artifacts/ux-designs/ux-G81-eriksen-2026-11-06/EXPERIENCE.md) og [DESIGN.md](_bmad-output/planning-artifacts/ux-designs/ux-G81-eriksen-2026-11-06/DESIGN.md) |
 | Arkitektur | Ferdig | [Arkitektur](docs/arkitektur.md) |
 | Epics og stories | Ferdig: 6 epics og 41 stories | [epics.md](_bmad-output/planning-artifacts/epics.md) |
-| Implementering og testing | Pågår: epic 1 (story 1.1–1.12) og story 6.5 er implementert, neste er epic 2. Se sprint-status. Brukertest: [resultat](docs/brukertest-resultat.md) | [sprint-status.yaml](_bmad-output/implementation-artifacts/sprint-status.yaml) |
+| Implementering og testing | Pågår: epic 1, 2 og 3 er ferdige, epic 4 er ferdig til og med story 4.5 (KI skriver begrunnelsen), og story 6.5 og 6.7 er ferdige. Ikke laget: 4.6 og 4.7, epic 5, 6.1–6.4 og 6.6 (UU og mobil). Story 6.8 (repo og README for sensor) er delvis gjort. Se sprint-status. | [sprint-status.yaml](_bmad-output/implementation-artifacts/sprint-status.yaml) |
+
+**Dokumentasjon av testing og kvalitet:** [kartfarger](docs/kartfarger.md) (story 6.5: kartfargene målt mot kartfliser, med [skjermbilder](docs/skjermbilder/)), [brukertest: testplan](docs/brukertest-testplan.md), [invitasjon](docs/brukertest-invitasjon.md) og [resultat](docs/brukertest-resultat.md) (story 6.7), [testplan for KI-kvalitet](docs/ki-testplan.md) og [kontroll av turdatabasen](docs/kontroll-turdatabasen.md).
+
+### P2: levert og planlagt
+
+Kravene som kan kuttes hvis tiden ikke strekker til (P2), står i [PRD §7.1](_bmad-output/planning-artifacts/prds/prd-G81-eriksen-2026-10-29/prd.md). Kutt-nr. 1 kuttes først. Alle P2-stories skal fortsatt gjennomføres, og ingen er kuttet. Droppes en story, føres kuttet med årsak i PRD §9 og endringsloggen, og denne tabellen oppdateres.
+
+| Kutt-nr. | P2-krav | Story | Status |
+|---|---|---|---|
+| 1 | FR-17.1 Fremgang mot neste nivå | 6.4 | Planlagt |
+| 2 | NFR-9 Mørk modus | 6.3 | Planlagt |
+| 3 | Turillustrasjon (FR-6) | 6.1 | Planlagt |
+| 4 | FR-11 KI tolker fritekstønske | 4.6 og 4.7 | Planlagt |
+| 5 | FR-9 og FR-10 Bekledningstips og værvarsel | 5.1, 5.2 og 5.3 | Planlagt |
+| 6 | FR-20 Turtypepreferanse | 3.5 | Levert |
+| – | Tur 16–30 (FR-1) | 6.2 | Planlagt |
+
+Tur 16–30 (6.2) står utenfor kuttrekkefølgen i PRD §7.1. Story 6.6 (UU og mobil), 6.7 og 6.8 er P1 og kuttes aldri.
+
+### Kjente begrensninger
+
+- Bare 4 av 15 turer har lenke til ut.no (bevisst, se `docs/kontroll-turdatabasen.md`).
+- README er ikke prøvd i et helt rent miljø ennå, og nettlesermatrisen (Chrome, Edge, Firefox, Safari) og UU-runden for mobil (story 6.6) er ikke kjørt. Resultatene kommer i `docs/` når de er gjort.
+- Åpne punkter og utsatt arbeid står i [deferred-work.md](_bmad-output/implementation-artifacts/deferred-work.md).
 
 ## Installasjon og kjøring
 
@@ -127,9 +153,18 @@ Appen planlegges med [BMAD](https://github.com/bmad-code-org/BMAD-METHOD) og byg
 G81-eriksen/
   README.md
   CLAUDE.md              instruksjoner til Claude Code
-  docs/                  product brief, tilbakemelding og arkitekturforklaring
+  manage.py              Djangos kommandolinje (migrate, lastinn, runserver, test)
+  pyproject.toml         prosjektoppsett for Vercel (pakker og byggesteg) og Ruff
+  vercel.json            oppsett for publisering på Vercel
+  requirements.txt       pakker appen trenger
+  requirements-dev.txt   i tillegg Ruff for kodestil
+  .env.example           mal for miljøvariabler, kopieres til `.env`
+  .gitignore             filer som ikke skal i git (blant annet `.env`)
+  .gitattributes         linjeskift- og binærregler for git
+  .python-version        Python-versjonen
+  docs/                  product brief, tilbakemelding, arkitekturforklaring, testplaner og testresultater (brukertest, KI, kartfarger), skjermbilder
   notater/               egne arbeidsnotater
-  _bmad-output/          BMAD-dokumenter: research, PRD, UX og arkitektur, med gjennomganger
+  _bmad-output/          BMAD-dokumenter: research, PRD, UX, arkitektur og epics, med gjennomganger og implementeringsartefakter (specs, sprint-status)
   _bmad/                 BMAD-rammeverket og konfigurasjonen
   .claude/skills/        BMAD-skills og egen sesjonslogg-skill for Claude Code
   .logs/                 logger fra KI-øktene og åpne punkter
@@ -143,7 +178,7 @@ G81-eriksen/
   config/                Django-oppsett (settings, miljø, urls)
   domene/                rene Python-regler uten Django: søk, utvalg, nivå, tid, tekst, økt
   turforslag/            Django-appen: skjemaer, visninger, maler, statiske filer, turmodeller
-  tjenester/             tjenester mot eksterne systemer (kommer med epic 4 og 5)
+  tjenester/             tjenester mot eksterne systemer: KI (`ki/`: grensesnitt, ekte og falsk tjeneste, reservemal, sjekk, grense og logg). Har også `models.py`, `apps.py` og `migrations/` for tilstand som deles av KI-grensene. Værtjenesten (epic 5) er ikke laget
   data/                  turdatabasen (`turer.geojson`) og kurateringsliste
   skript/                byggeskript for turdatabasen og kartfarger
   tests/                 tester for domene, web, skript og tjenester

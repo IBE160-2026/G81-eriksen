@@ -145,3 +145,4 @@
 - [ ] 2026-11-28 [story-4-5](953-2026-11-28-story-4-5.md) — merge PR for 4.5; kjør docs/ki-testplan.md med nøkkel; produkteier godkjenner setning 3 [ASSUMPTION]; sett 4.5 done (setning 3 godkjent 2026-11-28; resten gjenstår)
 - [ ] 2026-11-28 [ki-prompt-justering](952-2026-11-28-ki-prompt-justering.md) — kjør testplanen på nytt etter merge, fyll ut tabellene i docs/ki-testplan.md
 - [ ] 2026-11-28 [story-6-7-testplan](951-2026-11-28-story-6-7-testplan.md) — finn 3–5 testere og kjør testen; skriv docs/brukertest-resultat.md og lenke fra README
+- [ ] 2026-11-28 [story-6-8-del-1](950-2026-11-28-11-21-51-story-6-8-del-1.md) — 6.8 del 2–4 (rent miljø, historikk-/hemmelighetssjekk og commit-ID-kontroll, nettlesertest) gjenstår; deferred-work.md

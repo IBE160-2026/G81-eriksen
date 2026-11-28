@@ -96,3 +96,17 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-1-7-turdatabasen-har-15-kontrollerte-turer.md` (kurateringen av turdatabasen, se også `docs/kontroll-turdatabasen.md`)
   summary: Bare 4 av 15 turer har `ut_no_url`, så «Se turen på ut.no» mangler på 11 turer. Finn ut.no-turforslag som følger de samme rutene, og fyll inn lenkene.
   evidence: Funksjonen finnes (Epic 1, FR-6) og viser lenken når `ut_no_url` er satt. Story 1.7 satte den bare der ut.no sitt turforslag følger i hovedsak samme rute (`vettakollen-topp`, `vettakollen-fuglemyrhytta`, `noklevann-rundt`, `frognerseteren-kobberhaughytta`); kandidater med annen rute ble tatt bort. Ingen story i Epic 4–6 fyller inn de resterende, og story 6.2 (tur 16–30) nevner ikke ut.no. Gjøres i nettleser per tur, med rutekontroll mot Kartverket-linjen som i story 1.7. Oppdater `data/turer.geojson`, `data/kurateringsliste.toml`, `data/README.md` og `docs/kontroll-turdatabasen.md`. Ikke gjett på adresser. Ble oppdaget da Hannah testet turforslag på produksjon 2026-11-27.
+
+- source_spec: `_bmad-output/implementation-artifacts/spec-6-8-readme-rotmappe-og-kutt.md`
+  summary: Story 6.8 del 2: test av README i rent miljø (under 20 min, to OS) og dokumentasjon i docs/ med avvik rettet i README.
+  evidence: Splittet fra 6.8 2026-11-28; krever manuell kjøring av Hannah på en maskin uten utviklingsmiljø.
+- source_spec: `_bmad-output/implementation-artifacts/spec-6-8-readme-rotmappe-og-kutt.md`
+  summary: Story 6.8 del 3: historikksjekk (git log --all på filnavn, søk etter sk-ant- m.m.) og kontroll av commit-/PR-meldinger mot FR/NFR-ID, dokumentert i docs/.
+  evidence: Splittet fra 6.8 2026-11-28; egen leveranse uavhengig av README.
+- source_spec: `_bmad-output/implementation-artifacts/spec-6-8-readme-rotmappe-og-kutt.md`
+  summary: Story 6.8 del 4: kjerneflyt-test i to nyeste Chrome, Edge, Firefox og Safari (også mobil) og siste UU-/testrunde før innlevering, dokumentert i docs/.
+  evidence: Splittet fra 6.8 2026-11-28; overlapper 6.6 og krever manuell testing.
+
+- source_spec: `_bmad-output/implementation-artifacts/spec-6-8-readme-rotmappe-og-kutt.md`
+  summary: Legg til test i tests/test_kildetre.py som sjekker at lokale lenker i README finnes og at mappeoversikten stemmer med git ls-files.
+  evidence: Review (verification-gap) 2026-11-28: ingen test leser README-lenker eller P2-status, så brutte lenker kan nå sensor.

@@ -242,6 +242,8 @@ FR-21: Epic 3 – testbruker
 
 ## Epic-liste
 
+> **Kuttføring (P2, gjelder alle epics):** Ingen P2-story er kuttet per 2026-11-28 (levert: 3.5, planlagt: resten). Kuttes en story, føres det med årsak i PRD §9 og endringsloggen, og denne merknaden oppdateres.
+
 Epicene står etter tema. Storyene bygges i rekkefølgen i avsnittet Byggerekkefølge under, som følger PRD §7.1. Ingen epic trenger en senere epic for å virke, og hver epic kan publiseres når den er ferdig.
 
 ### Byggerekkefølge
