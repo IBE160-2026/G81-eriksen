@@ -52,7 +52,7 @@ Slett konto: gikk fint, uten hjelp (T1 klarte alt uten hjelp).
 | Enhet (mobil/PC, nettleser) | mobil (nettleser ikke notert) |
 | Hvilke turer ble foreslått | Søk 1: Kolsåstoppen fra Gjettum. Søk 2: Vettakollen |
 | Begrunnelsen viste | ikke notert |
-| Steg 1–5 og hele kjerneflyten uten hjelp | ikke notert |
+| Steg 1–5 og hele kjerneflyten uten hjelp | ja (kjerneflyten gikk fint) |
 | Hvor det eventuelt stoppet | ikke notert |
 | Spørsmål 1: første forslag relevant? | ikke notert |
 | Spørsmål 2: vanskelighet før registrering | ikke notert |
@@ -71,7 +71,7 @@ Slett konto: gikk fint, uten hjelp (T1 klarte alt uten hjelp).
 | Tester | Uten hjelp | Første forslag relevant | Vanskelighet (spm. 2) |
 |---|---|---|---|
 | T1 | ja | ikke notert | ikke notert |
-| T2 | ikke notert | ikke notert | ikke notert |
+| T2 | ja | ikke notert | ikke notert |
 
 **SM-1:** ikke vurdert ennå (2 testere, ikke ferdig utfylt).
 **SM-C1:** ikke vurdert ennå.
