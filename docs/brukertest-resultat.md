@@ -72,9 +72,9 @@ Slett konto: gikk fint, uten hjelp (T1 klarte alt uten hjelp).
 | Dato | 2026-11-28 |
 | Enhet (mobil/PC, nettleser) | mobil: Android (nettleser ikke notert) |
 | Hvilke turer ble foreslått | Søk 1: Dælivann. Søk 2: Kolsåstoppen fra Gjettum (turene som dukket opp) |
-| Begrunnelsen viste | ikke notert |
-| Steg 1–5 og hele kjerneflyten uten hjelp | ikke notert («det gikk fint å bruke») |
-| Hvor det eventuelt stoppet | ikke notert |
+| Begrunnelsen viste | «✦ Skrevet med KI» |
+| Steg 1–5 og hele kjerneflyten uten hjelp | ja |
+| Hvor det eventuelt stoppet | ingen stopp |
 | Spørsmål 1: første forslag relevant? | ikke notert |
 | Spørsmål 2: vanskelighet før registrering | ikke sikkert: «lett» er notert ved Dælivann, men det er uklart om det var svaret på spørsmål 2 eller turens nivå |
 | Fant «Slett konto» selv | ja (gikk fint) |
@@ -93,7 +93,7 @@ Slett konto: gikk fint, uten hjelp (T1 klarte alt uten hjelp).
 |---|---|---|---|
 | T1 | ja | ja | lett |
 | T2 | ja | ja | lett |
-| T3 | ikke notert | ikke notert | ikke sikkert |
+| T3 | ja | ikke notert | ikke sikkert |
 
-**SM-1:** T1 og T2 har nådd målet (uten hjelp og første forslag relevant). T3 kan ikke avgjøres før «uten hjelp», relevans og vanskelighet er notert. Med 3 testere må alle 3 nå målet.
+**SM-1:** T1 og T2 har nådd målet (uten hjelp og første forslag relevant). T3 klarte alt uten hjelp, men kan ikke avgjøres før relevans og vanskelighet er notert. Med 3 testere må alle 3 nå målet.
 **SM-C1:** så langt oppfylt: ingen av T1 og T2 svarte «vanskelig» (begge «lett»). Avgjøres når alle testerne er ferdige.
