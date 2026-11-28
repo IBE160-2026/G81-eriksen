@@ -49,7 +49,7 @@ Slett konto: gikk fint, uten hjelp (T1 klarte alt uten hjelp).
 |---|---|
 | Kode | T2 |
 | Dato | ikke notert |
-| Enhet (mobil/PC, nettleser) | ikke notert |
+| Enhet (mobil/PC, nettleser) | mobil (nettleser ikke notert) |
 | Hvilke turer ble foreslått | Søk 1: Kolsåstoppen fra Gjettum. Søk 2: Vettakollen |
 | Begrunnelsen viste | ikke notert |
 | Steg 1–5 og hele kjerneflyten uten hjelp | ikke notert |
