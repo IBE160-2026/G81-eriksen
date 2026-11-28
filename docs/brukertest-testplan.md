@@ -31,8 +31,8 @@ Testlederen sier dette før testen, og testeren sier ja:
 
 ## 4. Forberedelser (testleder)
 
-- Åpne den publiserte siden: https://your-next-adventure-hannah-eriksen.vercel.app/
-- Sjekk at siden åpner og at et søk gir turforslag.
+- Åpne den publiserte siden: https://your-next-adventure.vercel.app/
+- Sjekk at siden åpner og at et søk gir turforslag, også i et privat nettleservindu uten Vercel-innlogging. Bruk produksjonsdomenet over, ikke `...-hannah-eriksen.vercel.app` eller adresser til forhåndsvisninger: de krever Vercel-innlogging.
 - Lag en liste over test-e-poster, for eksempel `tester1@eksempel.no`, `tester2@eksempel.no`. De trenger ikke være ekte postkasser. Appen sender ikke e-post.
 - Velg et enkelt testpassord (minst 8 tegn) som testeren får skrevet ned på lapp. Det slettes sammen med kontoen.
 - Ha denne planen og notatskjemaet (§9) klare. Legg telefonen på lydløs.
