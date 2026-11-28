@@ -141,3 +141,4 @@
 - [ ] 2026-11-27 [story-4-2](957-2026-11-27-16-00-00-story-4-2.md) — vurder å fange sammensatte tallord («tjueto», «tretimers») i validatoren (4.5 eller senere)
 - [x]- [ ] 2026-11-27 [story-4-3](956-2026-11-27-21-00-00-story-4-3.md) — merge PR for 4.3; sett 4.3 `done`; deretter story 4.4 (løst 2026-11-27)
 - [ ] 2026-11-27 [story-4-4-spec](955-2026-11-27-22-00-00-story-4-4-spec.md) — merge PR #71; implementer 4.4 fra godkjent spec (ready-for-dev)
+- [ ] 2026-11-28 [story-4-4](954-2026-11-28-story-4-4.md) — merge PR for 4.4; sett 4.4 `done`; sjekk at `migrate` kjøres på Vercel/Neon; deretter 4.5 (send request.session til hent_ki)
