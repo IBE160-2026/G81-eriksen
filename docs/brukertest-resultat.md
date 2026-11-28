@@ -75,7 +75,7 @@ Slett konto: gikk fint, uten hjelp (T1 klarte alt uten hjelp).
 | Begrunnelsen viste | «✦ Skrevet med KI» |
 | Steg 1–5 og hele kjerneflyten uten hjelp | ja |
 | Hvor det eventuelt stoppet | ingen stopp |
-| Spørsmål 1: første forslag relevant? | ikke notert |
+| Spørsmål 1: første forslag relevant? | ja |
 | Spørsmål 2: vanskelighet før registrering | ikke sikkert: «lett» er notert ved Dælivann, men det er uklart om det var svaret på spørsmål 2 eller turens nivå |
 | Fant «Slett konto» selv | ja (gikk fint) |
 | Sitater (uten navn) | «Det gikk fint å bruke.» (kommentar fra testen) |
@@ -84,8 +84,8 @@ Slett konto: gikk fint, uten hjelp (T1 klarte alt uten hjelp).
 
 | | Søk | Resultat | Registrert tur |
 |---|---|---|---|
-| 1 | 2 t, 29. november, marka, startpunkt: alle | Dælivann (notert «lett») | Brukt tid 1 t 35 min, lett, fornøyd 1 |
-| 2 | 5 t, [29. desember eller 29. november, bekreft], utsikt, startpunkt: alle | Kolsåstoppen fra Gjettum | Brukt tid 1 t 20 min, moderat, fornøyd 4 |
+| 1 | 2 t, søndag 29. november, marka, startpunkt: alle | Dælivann (notert «lett») | Registrert med dagens dato (28. november), fordi appen ikke lar en registrere frem i tid. Brukt tid 1 t 35 min, lett, fornøyd 1 (ingen kommentar til fornøydheten) |
+| 2 | 5 t, dato ikke bekreftet (notert som «29. desember»), utsikt, startpunkt: alle | Kolsåstoppen fra Gjettum | Brukt tid 1 t 20 min, moderat, fornøyd 4 |
 
 ## Sammendrag
 
@@ -93,7 +93,7 @@ Slett konto: gikk fint, uten hjelp (T1 klarte alt uten hjelp).
 |---|---|---|---|
 | T1 | ja | ja | lett |
 | T2 | ja | ja | lett |
-| T3 | ja | ikke notert | ikke sikkert |
+| T3 | ja | ja | ikke sikkert |
 
-**SM-1:** T1 og T2 har nådd målet (uten hjelp og første forslag relevant). T3 klarte alt uten hjelp, men kan ikke avgjøres før relevans og vanskelighet er notert. Med 3 testere må alle 3 nå målet.
+**SM-1:** T1 og T2 har nådd målet (uten hjelp og første forslag relevant). T3 klarte alt uten hjelp og vurderte første forslag som relevant. Avgjøres for T3 når svaret på spørsmål 2 (vanskelighet før registrering) er bekreftet. Med 3 testere må alle 3 nå målet.
 **SM-C1:** så langt oppfylt: ingen av T1 og T2 svarte «vanskelig» (begge «lett»). Avgjøres når alle testerne er ferdige.
