@@ -7,7 +7,7 @@ from tjenester.ki.prompt import SYSTEMPROMPT, lag_bruker_melding
 
 MODELL = "claude-haiku-5-5"
 TIMEOUT_SEKUNDER = 5.0
-MAKS_TOKENS = 300
+MAKS_TOKENS = 400
 
 
 class EkteKi:
@@ -29,6 +29,9 @@ class EkteKi:
                 max_tokens=MAKS_TOKENS,
                 system=SYSTEMPROMPT,
                 messages=[{"role": "user", "content": prompt}],
+                # Uten dette bruker modellen tokens på tenkeblokker (målt: tomme eller avkuttede
+                # svar og engelsk resonnement i teksten), og kallet nærmer seg tidsgrensen.
+                thinking={"type": "disabled"},
                 output_config={"effort": "low"},
             )
         except anthropic.APITimeoutError:

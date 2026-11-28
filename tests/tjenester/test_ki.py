@@ -140,6 +140,7 @@ class EkteVariantTest(unittest.TestCase):
         self.assertEqual(kropp["model"], "claude-haiku-5-5")
         self.assertEqual(kropp["output_config"], {"effort": "low"})
         self.assertIn("max_tokens", kropp)
+        self.assertEqual(kropp["thinking"], {"type": "disabled"})
         for forbudt in ("temperature", "top_p", "top_k"):
             self.assertNotIn(forbudt, kropp)
         self.assertNotEqual(kropp["messages"][-1]["role"], "assistant")

@@ -11,7 +11,8 @@ from domene.ki import KiSok, KiTur
 
 SYSTEMPROMPT = (
     "Du skriver en kort begrunnelse på norsk bokmål for hvorfor en gitt tur passer et søk. "
-    "Svar bare med selve teksten, uten innledning, overskrift eller anførselstegn.\n"
+    "Svar bare med selve teksten, uten innledning, overskrift eller anførselstegn. "
+    "Ikke tenk høyt, ikke skriv utkast eller kommentarer, og skriv ikke på engelsk.\n"
     "\n"
     "Regler:\n"
     "- Hold deg til maks ca. 180 tegn, helst to korte setninger. Systemet legger til egne "
@@ -21,7 +22,7 @@ SYSTEMPROMPT = (
     "- Tall og nivå skriver du med plassholdere. Systemet setter inn riktig verdi etterpå, "
     "og du beregner aldri noe selv: {tid} er turens tid, {varighet} er tiden Ola har satt av, "
     "{lengde} er turens lengde, og {nivå} er turens nivå.\n"
-    "- Nevn alltid {varighet}.\n"
+    "- Nevn alltid {varighet}. Regn aldri selv med tid eller lengde.\n"
     "- Er en turtype valgt, nevner du den med ordet «marka», «utsikt» eller «topptur» som i "
     "dataene. Er turtypen «topptur» og meldingen sier at turen er en utsiktstur i stedet for "
     "en topptur, skriver du at turen er en utsiktstur, og du kaller den ikke topptur.\n"

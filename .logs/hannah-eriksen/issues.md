@@ -143,3 +143,4 @@
 - [ ] 2026-11-27 [story-4-4-spec](955-2026-11-27-22-00-00-story-4-4-spec.md) — merge PR #71; implementer 4.4 fra godkjent spec (ready-for-dev)
 - [ ] 2026-11-28 [story-4-4](954-2026-11-28-story-4-4.md) — merge PR for 4.4; sett 4.4 `done`; sjekk at `migrate` kjøres på Vercel/Neon; deretter 4.5 (send request.session til hent_ki)
 - [ ] 2026-11-28 [story-4-5](953-2026-11-28-story-4-5.md) — merge PR for 4.5; kjør docs/ki-testplan.md med nøkkel; produkteier godkjenner setning 3 [ASSUMPTION]; sett 4.5 done
+- [ ] 2026-11-28 [ki-prompt-justering](952-2026-11-28-ki-prompt-justering.md) — kjør testplanen på nytt etter merge, fyll ut tabellene i docs/ki-testplan.md
