@@ -26,7 +26,7 @@
       {% include "turforslag/_tekstfelt.html" with felt=skjema.passord type="password" etikett="Passord" autocomplete="current-password" fokus=feil %}
       <button class="knapp-primaer" type="submit">Logg inn</button>
     </form>
-    {# [ASSUMPTION] «Har du ikke konto? Lag konto» (epics.md, story 2.1) #}
+    {# Godkjent 2026-11-28: «Har du ikke konto? Lag konto» (epics.md, story 2.1) #}
     <p>Har du ikke konto? <a class="handlingslenke" href="{% url 'turforslag:lag_konto' %}{% if neste %}?next={{ neste|urlencode }}{% if sok_id %}&amp;sok={{ sok_id|urlencode }}{% endif %}{% endif %}">Lag konto</a></p>
   </div>
 {% endblock %}

@@ -16,7 +16,7 @@
       {% csrf_token %}
       <input type="hidden" name="token" value="{{ token }}">
 
-      {# [ASSUMPTION] Mikrotekst («Registreringsskjema»): «I dag eller tidligere» er godkjent (wireframe) #}
+      {# Godkjent 2026-11-28, Mikrotekst («Registreringsskjema»): «I dag eller tidligere» er godkjent (wireframe) #}
       {% include "turforslag/_tekstfelt.html" with felt=skjema.dato verdi=skjema.dato_verdi type="date" etikett="Dato" autocomplete="off" max=i_dag.isoformat hint="I dag eller tidligere" %}
 
       <fieldset class="skjemafelt{% if skjema.tid_feil %} skjemafelt-feil{% endif %}"{% if skjema.tid_feil %} aria-describedby="brukt-tid-feil brukt-tid-hint"{% else %} aria-describedby="brukt-tid-hint"{% endif %}>
@@ -36,7 +36,7 @@
       </fieldset>
 
       {% include "turforslag/_valggruppe.html" with felt=skjema.vanskelighet valg=skjema.vanskelighetsvalg etikett="Opplevd vanskelighet" %}
-      {# [ASSUMPTION] Mikrotekst («Fornøydhet, forklaring») #}
+      {# Godkjent 2026-11-28, Mikrotekst («Fornøydhet, forklaring») #}
       {% include "turforslag/_valggruppe.html" with felt=skjema.fornoydhet valg=skjema.fornoydhetsvalg etikett="Fornøydhet" hint="1 = ikke fornøyd, 5 = svært fornøyd" %}
 
       <div class="skjemaknapper">

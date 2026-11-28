@@ -82,25 +82,25 @@
 - [ ] 2026-11-26 [psycopg-smart-app-control](976-2026-11-26-09-36-49-psycopg-smart-app-control.md) — Postgres-sjekken i `tests.web.test_vercel` hoppes over lokalt så lenge Smart App Control er på; byggeloggen på Vercel er kontrollen
 - [ ] 2026-11-26 [psycopg-smart-app-control](976-2026-11-26-09-36-49-psycopg-smart-app-control.md) — neste er `bmad-build` for Story 1.9 (Ola søker og får ett turforslag) på en ny branch fra `main`
 - [x] 2026-11-26 [story-1-9](975-2026-11-26-10-47-55-story-1-9.md) — merge PR #34, sett Story 1.9 til `done` og sjekk produksjonen; neste er Story 1.10 (kartet) (løst 2026-11-26 — PR #34 merget, produksjonen er sjekket; 1.10 startet)
-- [ ] 2026-11-26 [story-1-9](975-2026-11-26-10-47-55-story-1-9.md) — produkteier godkjenner de foreløpige tekstene merket [ASSUMPTION] fra 1.9 (listet i PR #34)
+- [x] 2026-11-26 [story-1-9](975-2026-11-26-10-47-55-story-1-9.md) — produkteier godkjenner de foreløpige tekstene merket [ASSUMPTION] fra 1.9 (listet i PR #34) (løst 2026-11-28: godkjent av Hannah)
 - [ ] 2026-11-26 [story-1-9](975-2026-11-26-10-47-55-story-1-9.md) — rydd Neon-preview-grenen etter hver merge (Neon › Branches › «Clean up branches», eller slett gamle forhåndsvisninger i Vercel); Neon Free tillater bare 10 grener
 - [x] 2026-11-26 [story-1-10](974-2026-11-26-15-37-59-story-1-10.md) — merge PR #35, sett Story 1.10 til `done` og sjekk produksjonen; neste er story 6.5 (kartfargene mot ekte fliser), så 1.11 (løst 2026-11-26 — PR #35 merget, produksjonen er sjekket)
 - [ ] 2026-11-26 [story-1-10](974-2026-11-26-15-37-59-story-1-10.md) — test berøring med to fingre på en ekte mobil (forhåndsvisningen for PR #35)
 - [ ] 2026-11-26 [story-1-10](974-2026-11-26-15-37-59-story-1-10.md) — oppførselen i `kart.js` testes bare som tekst (deferred-work.md)
 - [x] 2026-11-26 [story-1-10](974-2026-11-26-15-37-59-story-1-10.md) — neste er `bmad-build` for story 6.5 (kartfargene målt mot ekte kartfliser) på `implementering/story-6-5`, deretter 1.11 (løst 2026-11-26 — implementert, se [story-6-5](972-2026-11-26-20-28-04-story-6-5.md))
 - [ ] 2026-11-26 [refleksjonsnotat-skill](973-2026-11-26-18-40-56-refleksjonsnotat-skill.md) — skriv refleksjonsrapporten med `refleksjonsnotat`-skillen
-- [x] 2026-11-26 [story-6-5](972-2026-11-26-20-28-04-story-6-5.md) — produkteier godkjenner `map-route` `#673A97` og det hvite fokusbåndet på kartflaten i PR-en for 6.5 (skjermbilder før og etter i `docs/skjermbilder/`) (løst 2026-11-26 — PR #36 merget)
+- [x] 2026-11-26 [story-6-5](972-2026-11-26-20-28-04-story-6-5.md) — produkteier godkjenner `map-route` `#673A97` og det hvite fokusbåndet på kartflaten i PR-en for 6.5 (skjermbilder før og etter i `docs/skjermbilder/`) (løst 2026-11-26 — PR #36 merget) (løst 2026-11-28: godkjent av Hannah)
 - [x] 2026-11-26 [story-6-5](972-2026-11-26-20-28-04-story-6-5.md) — merge PR-en for 6.5, sett 6.5 til `done` og sjekk produksjonen; neste er `bmad-build` for 1.11 (løst 2026-11-26 — PR #36 merget, produksjonen er sjekket; 1.11 implementert, se [story-1-11](971-2026-11-26-21-12-28-story-1-11.md))
-- [ ] 2026-11-26 [story-1-11](971-2026-11-26-21-12-28-story-1-11.md) — produkteier godkjenner [ASSUMPTION]-tekstene i 1.11 («Finner et nytt forslag …», «Vil du prøve noe annet?», «turer i marka», «toppturer») i PR-en
+- [x] 2026-11-26 [story-1-11](971-2026-11-26-21-12-28-story-1-11.md) — produkteier godkjenner [ASSUMPTION]-tekstene i 1.11 («Finner et nytt forslag …», «Vil du prøve noe annet?», «turer i marka», «toppturer») i PR-en (løst 2026-11-28: godkjent av Hannah)
 - [x] 2026-11-26 [story-1-11](971-2026-11-26-21-12-28-story-1-11.md) — merge PR-en for 1.11, sett 1.11 til `done` og sjekk produksjonen; neste er `bmad-build` for 1.12 (løst 2026-11-26 — PR #37 og #38 merget; 1.12 implementert, se [story-1-12](970-2026-11-26-22-30-00-story-1-12.md))
 - [ ] 2026-11-26 [story-1-11](971-2026-11-26-21-12-28-story-1-11.md) — fragmentbyttet i `forbedring.js` har bare tekstsjekker og Chrome-sjekk (deferred-work.md); vurder Playwright i 6.6
 - [x] 2026-11-26 [story-1-12](970-2026-11-26-22-30-00-story-1-12.md) — merge PR #40 (1.12 `done`) og PR #41 (README) (løst 2026-11-27 — begge merget)
 - [ ] 2026-11-26 [story-1-12](970-2026-11-26-22-30-00-story-1-12.md) — h1 får ikke fokus ved full sideinnlasting i Tilstandspanelet (UX-DR25), også 1.9 og 1.11; rett for alle paneler samtidig
 - [ ] 2026-11-26 [story-1-12](970-2026-11-26-22-30-00-story-1-12.md) — utsatt: dato i endret søk sjekkes ikke mot dagens dato; `foresla_endringer` kjører mange `velg_turer` per visning
-- [ ] 2026-11-26 [story-1-12](970-2026-11-26-22-30-00-story-1-12.md) — produkteier godkjenner [ASSUMPTION]-tekstene «Prøv 2,5 timer» og «Prøv alle turtyper»
+- [x] 2026-11-26 [story-1-12](970-2026-11-26-22-30-00-story-1-12.md) — produkteier godkjenner [ASSUMPTION]-tekstene «Prøv 2,5 timer» og «Prøv alle turtyper» (løst 2026-11-28: godkjent av Hannah)
 - [ ] 2026-11-26 [story-1-12](970-2026-11-26-22-30-00-story-1-12.md) — Neon har 10 grener; rydd preview-grener (spør Hannah først) før neste PR
 - [x] 2026-11-26 [story-1-12](970-2026-11-26-22-30-00-story-1-12.md) — neste økt starter med story 2.1 (løst 2026-11-27 — se [story-2-1](969-2026-11-27-08-30-00-story-2-1.md))
-- [ ] 2026-11-27 [story-2-1](969-2026-11-27-08-30-00-story-2-1.md) — produkteier godkjenner [ASSUMPTION]-tekstene «Jeg foreslår bare grønne turer foreløpig.», «Passordet kan ha høyst 128 tegn» og «Har du allerede konto? Logg inn»
+- [x] 2026-11-27 [story-2-1](969-2026-11-27-08-30-00-story-2-1.md) — produkteier godkjenner [ASSUMPTION]-tekstene «Jeg foreslår bare grønne turer foreløpig.», «Passordet kan ha høyst 128 tegn» og «Har du allerede konto? Logg inn» (løst 2026-11-28: godkjent av Hannah)
 - [ ] 2026-11-27 [story-2-1](969-2026-11-27-08-30-00-story-2-1.md) — finpuss «Vis passord»-avkrysningsboksen (24 px, står skjevt ved teksten); axe-sjekk ikke kjørt
 - [ ] 2026-11-27 [story-2-1](969-2026-11-27-08-30-00-story-2-1.md) — utsatt: tester for IntegrityError-race og meldingsfokus; meny for innlogget på 500/403-sider (deferred-work.md)
 - [x] 2026-11-27 [story-2-1](969-2026-11-27-08-30-00-story-2-1.md) — merge PR for 2.1, sett 2.1 `done`, sjekk prod; rydd Neon-grener først (spør Hannah) (løst 2026-11-27 — PR #42 merget, prod OK, Neon ryddet; `done` ligger i PR #43, se [story-2-2](968-2026-11-27-08-44-00-story-2-2.md))
@@ -108,16 +108,16 @@
 - [ ] 2026-11-27 [story-2-2](968-2026-11-27-08-44-00-story-2-2.md) — rydd Neon-grener igjen når nær 10 (spør først)
 - [ ] 2026-11-27 [story-2-2](968-2026-11-27-08-44-00-story-2-2.md) — utsatt: admin-innlogging uten forsøksgrense; vekst i `Innloggingsforsok` ved flom; Lag konto uten sperre (deferred-work.md)
 - [x] 2026-11-27 [story-2-3](967-2026-11-27-09-04-00-story-2-3.md) — merge PR for 2.3 og PR #45; sett 2.3 `done`, sjekk prod (migrering `0004` mot Neon) (løst 2026-11-27 — PR #45/#46 merget, prod OK med `0004`; `done` ligger i PR #47, se [story-2-4](966-2026-11-27-09-20-00-story-2-4.md))
-- [ ] 2026-11-27 [story-2-3](967-2026-11-27-09-04-00-story-2-3.md) — produkteier godkjenner [ASSUMPTION]-tekstene i registreringsskjemaet (datoer, brukt tid, vanskelighet, fornøydhet, «I dag eller tidligere»)
+- [x] 2026-11-27 [story-2-3](967-2026-11-27-09-04-00-story-2-3.md) — produkteier godkjenner [ASSUMPTION]-tekstene i registreringsskjemaet (datoer, brukt tid, vanskelighet, fornøydhet, «I dag eller tidligere») (løst 2026-11-28: godkjent av Hannah)
 - [ ] 2026-11-27 [story-2-3](967-2026-11-27-09-04-00-story-2-3.md) — test Historikk og skjema under 720 px (rulling) på ekte mobil eller smalt vindu
 - [ ] 2026-11-27 [story-2-3](967-2026-11-27-09-04-00-story-2-3.md) — utsatt: samtidig dobbel POST mot økta, `CheckConstraint` på Registrering, paginering og år i datoen (deferred-work.md)
 - [x] 2026-11-27 [story-2-4](966-2026-11-27-09-20-00-story-2-4.md) — merge PR for 2.4 og PR #47; sett 2.4 `done`, sjekk prod; deretter story 2.5 (løst 2026-11-27 — PR #47/#48 merget, prod OK; `done` ligger i PR #49, se [story-2-5](965-2026-11-27-09-35-00-story-2-5.md))
 - [ ] 2026-11-27 [story-2-4](966-2026-11-27-09-20-00-story-2-4.md) — se kartet og handlingskolonnen i Historikk visuelt (skjermbilder tidsavbrøt); pågående søk i annen fane bare testet i kode
 - [x] 2026-11-27 [story-2-5](965-2026-11-27-09-35-00-story-2-5.md) — merge PR for 2.5 og PR #49; sett 2.5 `done`, sjekk prod; deretter story 2.6 (løst 2026-11-27 — PR #49/#50 merget, prod OK; `done` ligger i PR #51, se [story-2-6](964-2026-11-27-09-50-00-story-2-6.md))
-- [ ] 2026-11-27 [story-2-5](965-2026-11-27-09-35-00-story-2-5.md) — produkteier godkjenner Mikrotekst-endringen (innlogging utløpt tatt ut) og tekstene «Logg inn for å registrere» og «Turforslaget er tatt vare på.»
+- [x] 2026-11-27 [story-2-5](965-2026-11-27-09-35-00-story-2-5.md) — produkteier godkjenner Mikrotekst-endringen (innlogging utløpt tatt ut) og tekstene «Logg inn for å registrere» og «Turforslaget er tatt vare på.» (løst 2026-11-28: godkjent av Hannah)
 - [ ] 2026-11-27 [story-2-5](965-2026-11-27-09-35-00-story-2-5.md) — «Tilbake til turforslaget» etter klikk, utløpt innlogging og ekstern `next` er bare testet i kode, ikke i nettleser
 - [x] 2026-11-27 [story-2-6](964-2026-11-27-09-50-00-story-2-6.md) — merge PR for 2.6 og PR #51; sett 2.6 `done`, sjekk prod; deretter Epic 2-retrospektiv (valgfritt) og story 3.1 (løst 2026-11-27 — PR #51/#53 merget; story 3.1 påbegynt, se [story-3-1](963-2026-11-27-10-08-00-story-3-1.md))
-- [ ] 2026-11-27 [story-2-6](964-2026-11-27-09-50-00-story-2-6.md) — produkteier godkjenner [ASSUMPTION]-tekstene «Kontoen din er slettet.», «Slett kontoen», «Avbryt» og «Kontoen ble ikke slettet. Prøv igjen.»
+- [x] 2026-11-27 [story-2-6](964-2026-11-27-09-50-00-story-2-6.md) — produkteier godkjenner [ASSUMPTION]-tekstene «Kontoen din er slettet.», «Slett kontoen», «Avbryt» og «Kontoen ble ikke slettet. Prøv igjen.» (løst 2026-11-28: godkjent av Hannah)
 - [ ] 2026-11-27 [story-2-6](964-2026-11-27-09-50-00-story-2-6.md) — «Avbryt», feil i sletting, axe og 44 px ikke sett i nettleser
 - [x] 2026-11-27 [story-3-1](963-2026-11-27-10-08-00-story-3-1.md) — merge PR for 3.1; sett 3.1 `done`, sjekk prod; deretter story 3.2 (bytt til `vurder_historikk`, mapper fra `turforslag.Registrering`) (løst 2026-11-27 — PR #54 merget; `done` ligger i PR #55, se [story-3-2](962-2026-11-27-11-05-00-story-3-2.md))
 - [ ] 2026-11-27 [story-3-1](963-2026-11-27-10-08-00-story-3-1.md) — valgfritt: Epic 2-retrospektiv før eller under Epic 3
@@ -125,7 +125,7 @@
 - [ ] 2026-11-27 [story-3-2](962-2026-11-27-11-05-00-story-3-2.md) — søk som innlogget bruker med historikk er bare testet i kode, ikke sett i nettleser
 - [ ] 2026-11-27 [story-3-2](962-2026-11-27-11-05-00-story-3-2.md) — utsatt: `avgjor_nivaheving` ikke atomisk ved samtidige søk (deferred-work.md)
 - [x] 2026-11-27 [story-3-3](961-2026-11-27-12-00-00-story-3-3.md) — merge PR for 3.3 og PR #57; sett 3.3 `done`, sjekk prod; deretter story 3.4 (løst 2026-11-27 — PR #58 merget; `done` ligger i PR #59, se [story-3-4](960-2026-11-27-13-00-00-story-3-4.md))
-- [ ] 2026-11-27 [story-3-3](961-2026-11-27-12-00-00-story-3-3.md) — produkteier godkjenner [ASSUMPTION]-tekstene: nådd nivå, sperre, innlogget uten/med historikk, tittel ved høyere tak
+- [x] 2026-11-27 [story-3-3](961-2026-11-27-12-00-00-story-3-3.md) — produkteier godkjenner [ASSUMPTION]-tekstene: nådd nivå, sperre, innlogget uten/med historikk, tittel ved høyere tak (løst 2026-11-28: godkjent av Hannah)
 - [ ] 2026-11-27 [story-3-3](961-2026-11-27-12-00-00-story-3-3.md) — se nivåtekstene og fokus på h1 i nettleser (bare testet i kode)
 - [x] 2026-11-27 [story-3-4](960-2026-11-27-13-00-00-story-3-4.md) — merge PR for 3.4 og PR #59; sett 3.4 `done`, sjekk prod (logg inn som testbruker og gjør README-søket); deretter story 3.5 (P2) (løst 2026-11-27 — PR #60 merget; `done` ligger i PR #61, se [story-3-5](959-2026-11-27-14-00-00-story-3-5.md))
 - [ ] 2026-11-27 [story-3-4](960-2026-11-27-13-00-00-story-3-4.md) — utsatt: `lastinn` kan slette en ekte konto med e-posten `testbruker@example.com` (deferred-work.md)
@@ -133,7 +133,7 @@
 - [ ] 2026-11-27 [anthropic-nokkel](959-2026-11-27-15-47-52-anthropic-nokkel-og-fremdriftsplan.md) — etter merge av 4.5: sjekk KI-begrunnelse i produksjonen og reservemal i forhåndsvisningene
 - [ ] 2026-11-27 [anthropic-nokkel](959-2026-11-27-15-47-52-anthropic-nokkel-og-fremdriftsplan.md) — avtal med 3–5 nybegynnere til brukertesten i 6.7 (ca. 7.–9. des)
 - [ ] 2026-11-27 [story-3-5](959-2026-11-27-14-00-00-story-3-5.md) — merge PR for 3.5 og PR #61; sett 3.5 og epic-3 `done`, sjekk prod (logg inn som testbruker, kjør README-søkene); deretter valgfritt Epic 3-retrospektiv
-- [ ] 2026-11-27 [story-3-5](959-2026-11-27-14-00-00-story-3-5.md) — produkteier godkjenner [ASSUMPTION]-teksten for preferansesetningen
+- [x] 2026-11-27 [story-3-5](959-2026-11-27-14-00-00-story-3-5.md) — produkteier godkjenner [ASSUMPTION]-teksten for preferansesetningen (løst 2026-11-28: godkjent av Hannah)
 - [ ] 2026-11-27 [story-3-5](959-2026-11-27-14-00-00-story-3-5.md) — preferansesetningen og README-søket er bare testet i kode, ikke sett i nettleser
 - [x] 2026-11-27 [story-4-1](958-2026-11-27-15-00-00-story-4-1.md) — merge PR for 4.1; sett 4.1 `done`; deretter story 4.2 (løst 2026-11-27 — PR #66 merget; `done` ligger i PR #67, se [story-4-2](957-2026-11-27-16-00-00-story-4-2.md))
 - [ ] 2026-11-27 [story-4-1](958-2026-11-27-15-00-00-story-4-1.md) — før 4.5: sett `ANTHROPIC_API_KEY` i Vercel (bare produksjon) når 4.2–4.4 er på plass; ekte variant aldri prøvd mot ekte API
@@ -142,6 +142,6 @@
 - [x]- [ ] 2026-11-27 [story-4-3](956-2026-11-27-21-00-00-story-4-3.md) — merge PR for 4.3; sett 4.3 `done`; deretter story 4.4 (løst 2026-11-27)
 - [ ] 2026-11-27 [story-4-4-spec](955-2026-11-27-22-00-00-story-4-4-spec.md) — merge PR #71; implementer 4.4 fra godkjent spec (ready-for-dev)
 - [ ] 2026-11-28 [story-4-4](954-2026-11-28-story-4-4.md) — merge PR for 4.4; sett 4.4 `done`; sjekk at `migrate` kjøres på Vercel/Neon; deretter 4.5 (send request.session til hent_ki)
-- [ ] 2026-11-28 [story-4-5](953-2026-11-28-story-4-5.md) — merge PR for 4.5; kjør docs/ki-testplan.md med nøkkel; produkteier godkjenner setning 3 [ASSUMPTION]; sett 4.5 done
+- [ ] 2026-11-28 [story-4-5](953-2026-11-28-story-4-5.md) — merge PR for 4.5; kjør docs/ki-testplan.md med nøkkel; produkteier godkjenner setning 3 [ASSUMPTION]; sett 4.5 done (setning 3 godkjent 2026-11-28; resten gjenstår)
 - [ ] 2026-11-28 [ki-prompt-justering](952-2026-11-28-ki-prompt-justering.md) — kjør testplanen på nytt etter merge, fyll ut tabellene i docs/ki-testplan.md
 - [ ] 2026-11-28 [story-6-7-testplan](951-2026-11-28-story-6-7-testplan.md) — finn 3–5 testere og kjør testen; skriv docs/brukertest-resultat.md og lenke fra README

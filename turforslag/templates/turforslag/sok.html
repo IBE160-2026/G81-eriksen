@@ -12,11 +12,11 @@
   <div class="sok">
     <h1 class="display" tabindex="-1">Hvor lang tid har du?</h1>
     {% if utilgjengelig %}
-      {# [ASSUMPTION] Mikrotekst («Forslaget finnes ikke lenger») #}
+      {# Godkjent 2026-11-28, Mikrotekst («Forslaget finnes ikke lenger») #}
       {% include "turforslag/_melding.html" with type="info" tittel="Turforslaget er ikke lenger tilgjengelig." tekst="Søk på nytt for å få et forslag." fokus=True %}
     {% endif %}
     {% if utlogget %}
-      {# [ASSUMPTION] Mikrotekst («Logget ut») #}
+      {# Godkjent 2026-11-28, Mikrotekst («Logget ut») #}
       {% if utilgjengelig %}
         {% include "turforslag/_melding.html" with type="suksess" tittel="Du er logget ut." %}
       {% else %}
@@ -24,7 +24,7 @@
       {% endif %}
     {% endif %}
     {% if slettet %}
-      {# [ASSUMPTION] Mikrotekst («Kvittering etter sletting») #}
+      {# Godkjent 2026-11-28, Mikrotekst («Kvittering etter sletting») #}
       {% if utilgjengelig or utlogget %}
         {% include "turforslag/_melding.html" with type="suksess" tittel="Kontoen din er slettet." %}
       {% else %}

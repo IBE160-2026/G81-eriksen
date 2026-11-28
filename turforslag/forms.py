@@ -20,9 +20,9 @@ from turforslag.models import Bruker
 
 # Feilmeldinger fra EXPERIENCE.md › Mikrotekst.
 FEIL_VARIGHET = "Velg varighet"
-FEIL_DATO = "Velg en dato fra i dag til {dato}"  # [ASSUMPTION] Mikrotekst
-FEIL_TURTYPE = "Velg en turtype fra listen"  # [ASSUMPTION] Mikrotekst
-FEIL_STARTPUNKT = "Velg et startpunkt fra listen"  # [ASSUMPTION] Mikrotekst
+FEIL_DATO = "Velg en dato fra i dag til {dato}"  # godkjent 2026-11-28, Mikrotekst
+FEIL_TURTYPE = "Velg en turtype fra listen"  # godkjent 2026-11-28, Mikrotekst
+FEIL_STARTPUNKT = "Velg et startpunkt fra listen"  # godkjent 2026-11-28, Mikrotekst
 
 FELTREKKEFOLGE = ("varighet", "dato", "turtype", "startpunkt")
 
@@ -126,15 +126,15 @@ class SokForm(forms.Form):  # FR-4
 
 # Konto (FR-14). Tekstene er fra EXPERIENCE.md › Mikrotekst.
 FEIL_INNLOGGING = "Feil e-post eller passord"
-FEIL_FOR_MANGE_FORSOK = (  # NFR-8, [ASSUMPTION] Mikrotekst
+FEIL_FOR_MANGE_FORSOK = (  # NFR-8, godkjent 2026-11-28, Mikrotekst
     "Det har vært for mange forsøk på å logge inn med denne e-postadressen. "
     "Vent 15 minutter, og prøv igjen."
 )
 FEIL_KONTO_FINNES = "Kunne ikke lage konto – prøv å logge inn"
-FEIL_EPOST_MANGLER = "Skriv inn e-postadressen din"  # [ASSUMPTION] Mikrotekst
-FEIL_EPOST_UGYLDIG = "E-postadressen må ha med @, for eksempel ola@eksempel.no"  # [ASSUMPTION]
-FEIL_PASSORD = "Passordet må ha minst 8 tegn"  # [ASSUMPTION] Mikrotekst
-FEIL_PASSORD_LANGT = "Passordet kan ha høyst 128 tegn"  # [ASSUMPTION] ikke i Mikrotekst
+FEIL_EPOST_MANGLER = "Skriv inn e-postadressen din"  # godkjent 2026-11-28, Mikrotekst
+FEIL_EPOST_UGYLDIG = "E-postadressen må ha med @, for eksempel ola@eksempel.no"
+FEIL_PASSORD = "Passordet må ha minst 8 tegn"  # godkjent 2026-11-28, Mikrotekst
+FEIL_PASSORD_LANGT = "Passordet kan ha høyst 128 tegn"  # godkjent 2026-11-28, Mikrotekst
 
 
 class LoggInnForm(forms.Form):  # FR-14
@@ -184,11 +184,11 @@ class LagKontoForm(forms.Form):  # FR-14, AR-9
 
 
 # Registrer gjennomført tur (FR-16). Tekstene er fra EXPERIENCE.md › Mikrotekst.
-FEIL_REG_DATO = "Velg datoen du gikk turen"  # [ASSUMPTION] Mikrotekst
-FEIL_REG_DATO_FREMTID = "Datoen kan ikke være frem i tid"  # [ASSUMPTION] Mikrotekst
-FEIL_REG_TID = "Brukt tid må være mellom 10 minutter og 24 timer"  # [ASSUMPTION] Mikrotekst
-FEIL_REG_VANSKELIGHET = "Velg hvor vanskelig turen føltes"  # [ASSUMPTION] Mikrotekst
-FEIL_REG_FORNOYDHET = "Velg hvor fornøyd du var"  # [ASSUMPTION] Mikrotekst
+FEIL_REG_DATO = "Velg datoen du gikk turen"  # godkjent 2026-11-28, Mikrotekst
+FEIL_REG_DATO_FREMTID = "Datoen kan ikke være frem i tid"  # godkjent 2026-11-28, Mikrotekst
+FEIL_REG_TID = "Brukt tid må være mellom 10 minutter og 24 timer"  # godkjent 2026-11-28, Mikrotekst
+FEIL_REG_VANSKELIGHET = "Velg hvor vanskelig turen føltes"  # godkjent 2026-11-28, Mikrotekst
+FEIL_REG_FORNOYDHET = "Velg hvor fornøyd du var"  # godkjent 2026-11-28, Mikrotekst
 
 MIN_REG_AR = 1900
 REG_FELTREKKEFOLGE = ("dato", "timer", "minutter", "vanskelighet", "fornoydhet")

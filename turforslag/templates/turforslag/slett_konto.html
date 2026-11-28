@@ -8,7 +8,7 @@
   <div class="sok">
     <h1 class="display" tabindex="-1">Vil du slette kontoen?</h1>
     {% if feil %}
-      {# [ASSUMPTION] Mikrotekst («Sletting feilet») #}
+      {# Godkjent 2026-11-28, Mikrotekst («Sletting feilet») #}
       {% include "turforslag/_melding.html" with type="feil" tittel="Kontoen ble ikke slettet. Prøv igjen." %}
     {% endif %}
     <p class="ingress">All historikken din slettes for godt, og det kan ikke angres.</p>

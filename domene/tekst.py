@@ -117,8 +117,7 @@ def nivaord(niva: Turniva, form: str = "hankjonn") -> str:  # FR-12, AR-16
     return _NIVAORD[niva][{"hankjonn": 0, "bestemt": 1, "intetkjonn": 2}[form]]
 
 
-# [ASSUMPTION] Mikrotekst («Nivåtak, tittel» ved høyere nivåtak, og variantene for innlogget):
-# tekstene her er foreløpige til produkteier har godkjent dem.
+# Godkjent 2026-11-28, Mikrotekst («Nivåtak, tittel» ved høyere nivåtak og for innlogget).
 NIVATAK_TITTEL_GRONN = "Ingen grønne turer passer søket"
 NIVATAK_TEKST_NY_BRUKER = (
     "Som ny bruker får du grønne turer. Registrer og vurder turene du går, så tilpasser "
@@ -228,7 +227,7 @@ def formater_dato(dato: date) -> str:  # FR-4
     return f"{dato.day}. {_MANEDER[dato.month - 1]}"
 
 
-def formater_dato_valg(dato: date) -> str:  # FR-4. Formatet er [ASSUMPTION] i Mikrotekst.
+def formater_dato_valg(dato: date) -> str:  # FR-4. Formatet er godkjent i Mikrotekst.
     """«Lørdag 7. november»: teksten i datovalget."""
     return f"{_UKEDAGER[dato.weekday()].capitalize()} {formater_dato(dato)}"
 
