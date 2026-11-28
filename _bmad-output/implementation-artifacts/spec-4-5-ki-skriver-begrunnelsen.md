@@ -2,7 +2,7 @@
 title: 'Story 4.5: KI skriver begrunnelsen'
 type: 'feature'
 created: '2026-11-28'
-status: 'review'
+status: 'done'
 baseline_commit: '14517f2ee41b804ae5c6e74606d1c921b00407c9'
 route: 'dispatch'
 review_loop_iteration: 0
