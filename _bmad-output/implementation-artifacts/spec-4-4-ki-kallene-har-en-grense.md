@@ -2,7 +2,7 @@
 title: 'Story 4.4: KI-kallene har en grense per nettleser og per døgn'
 type: 'feature'
 created: '2026-11-27'
-status: 'review'
+status: 'done'
 baseline_commit: '5c9a1c51c46d6758bbfa42df66c972cec4996693'
 route: 'dispatch'
 review_loop_iteration: 0
