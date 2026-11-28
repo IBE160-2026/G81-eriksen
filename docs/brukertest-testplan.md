@@ -1,6 +1,6 @@
 # Testplan: brukertest med nybegynnere (SM-1)
 
-Denne planen er skrevet før første test (story 6.7, AR-21). Resultatene føres i `docs/brukertest-resultat.md` etter mal i slutten av dette dokumentet.
+Denne planen er skrevet før første test (story 6.7, AR-21). Utkast til invitasjon til testere: `docs/brukertest-invitasjon.md`. Resultatene føres i `docs/brukertest-resultat.md` etter mal i slutten av dette dokumentet.
 
 ## 1. Mål
 
