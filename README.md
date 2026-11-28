@@ -26,7 +26,7 @@ Teknologi: Python og Django, SQLite lokalt og Postgres hos Neon på den publiser
 | UX | Ferdig | [EXPERIENCE.md](_bmad-output/planning-artifacts/ux-designs/ux-G81-eriksen-2026-11-06/EXPERIENCE.md) og [DESIGN.md](_bmad-output/planning-artifacts/ux-designs/ux-G81-eriksen-2026-11-06/DESIGN.md) |
 | Arkitektur | Ferdig | [Arkitektur](docs/arkitektur.md) |
 | Epics og stories | Ferdig: 6 epics og 41 stories | [epics.md](_bmad-output/planning-artifacts/epics.md) |
-| Implementering og testing | Pågår: epic 1 (story 1.1–1.12) og story 6.5 er implementert, neste er epic 2. Se sprint-status | [sprint-status.yaml](_bmad-output/implementation-artifacts/sprint-status.yaml) |
+| Implementering og testing | Pågår: epic 1 (story 1.1–1.12) og story 6.5 er implementert, neste er epic 2. Se sprint-status. Brukertest: [resultat](docs/brukertest-resultat.md) | [sprint-status.yaml](_bmad-output/implementation-artifacts/sprint-status.yaml) |
 
 ## Installasjon og kjøring
 
