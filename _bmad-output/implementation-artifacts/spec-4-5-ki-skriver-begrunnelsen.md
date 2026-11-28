@@ -2,7 +2,7 @@
 title: 'Story 4.5: KI skriver begrunnelsen'
 type: 'feature'
 created: '2026-11-28'
-status: 'in-progress'
+status: 'review'
 baseline_commit: '14517f2ee41b804ae5c6e74606d1c921b00407c9'
 route: 'dispatch'
 review_loop_iteration: 0
@@ -117,6 +117,11 @@ context:
 ## Implementation Notes
 
 - Valg for å skille reserve fra KI-svar: `BegrensetKi` og `ReserveKi` gir `KiSvar(tekst=reserve)`, som mangler plassholdere og ville blitt forkastet og logget som `ugyldig`. `sokflyt` sammenligner derfor `svar.tekst == reserve` før validering. Alternativet er et nytt felt på `KiSvar` (`reserve: bool`), men det rører den frosne dataklassen fra 4.1 og ble ikke valgt.
+- Implementert 2026-11-28 (de tre åpne spørsmålene er besvart med JA): reserve lagres også uten nøkkel, sammensatte tallord er med i `domene/ki_validering.py` (`_sammensatt_tallord`), og bare startpunkt-ID går til KI.
+- `tests/__init__.py` setter `settings.ANTHROPIC_API_KEY = ""` for hele testpakken. Uten den ville en ekte nøkkel i `.env` gitt nettverkskall fra webtestene som nå går gjennom `GET forslag`. Tester som trenger nøkkel bruker `override_settings`.
+- `sokflyt.sikre_begrunnelse` er delt i `_kall_ki` (kall, validering, logging) og en ytre `try/except` som gir reserve. `logg_forkastet` kalles via `_logg` som svelger feil. Reserveteksten fra `ReserveKi`/`BegrensetKi` kjennes igjen ved `svar.tekst == reserve` (ingen nytt felt på `KiSvar`).
+- `FalskKi` lagrer `topptur_erstattet` i `kall_topptur_erstattet` (egen liste, `kall` er uendret med tre elementer).
+- Prompt (`tjenester/ki/prompt.py`): søk og tur sendes som JSON-data, med én ekstra linje ved erstattet topptur. Prompten er ikke prøvd mot ekte KI. Det gjøres med `docs/ki-testplan.md`.
 - Ved ventetid: kallet skjer i `GET forslag` etter redirect, med `timeout=5.0` og `max_retries=0`. Lastetekst finnes alt i `forbedring.js` («Finner et nytt forslag …»).
 - To faner som åpner samme nye søk samtidig kan gi to kall (grensen i 4.4 begrenser skaden). Sist lagrede tilstand vinner. Ikke løst her.
 - `.env` inneholder en ekte nøkkel. Testplanen og README skal aldri gjengi nøkkelverdier, og `.env` skal ikke committes (`.gitignore`).
@@ -124,6 +129,15 @@ context:
 ## Spec Change Log
 
 ## Review Triage Log
+
+Utført (patch): `tests/__init__.py` setter `DJANGO_SETTINGS_MODULE`, `views.forslag` leser tilstanden på nytt etter KI-kallet og skriver bare begrunnelsen inn (`sokflyt.flett_begrunnelse`), prompten ber om maks ca. 180 tegn, unntak i `sikre_begrunnelse` logges med typenavn, og personvernstesten sjekker den faktisk sendte meldingen.
+
+Utsatt, ingen kode:
+- «tre» og «halv» kan gi falske positiver i valideringen, og ordenstall, «enogtjue» og «tohundre» slipper gjennom. Dette er 4.2-valg og trygt.
+- Nivåord «svarte» og «grønne» (trygt).
+- Reserve kjennes igjen ved tekstlikhet (`svar.tekst == reserve`), et spec-valg.
+- Lagret tekst foreldes hvis turdata endres etter at begrunnelsen er lagret.
+- To faner som åpner samme nye søk samtidig kan gi to kall.
 
 ## Open Questions
 
@@ -141,3 +155,5 @@ context:
 **Manual checks:**
 - Følg `docs/ki-testplan.md` lokalt med nøkkel i `.env` (krever Anthropic-konto, kan utsettes). Sjekk `logs/ki.log` for forkastelser, og at ingen linje har e-post, bruker-ID eller søke-ID.
 - `vercel env ls`: `ANTHROPIC_API_KEY` finnes bare for Production. En forhåndsvisning viser «Begrunnelse fra mal».
+
+- Lagt til etter review (utenfor frozen-blokka): `views.forslag` fletter bare begrunnelsen inn i fersk tilstand (`flett_begrunnelse`) for å unngå lost update mot «Nytt forslag».
