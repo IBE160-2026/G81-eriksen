@@ -2,7 +2,8 @@
 title: 'Story 4.4: KI-kallene har en grense per nettleser og per døgn'
 type: 'feature'
 created: '2026-11-27'
-status: 'ready-for-dev'
+status: 'review'
+baseline_commit: '5c9a1c51c46d6758bbfa42df66c972cec4996693'
 route: 'dispatch'
 review_loop_iteration: 0
 context:
@@ -82,6 +83,9 @@ context:
 ## Spec Change Log
 
 ## Review Triage Log
+
+- Utenfor frozen-blokka: `tests/tjenester/test_ki.py` endret (`hent_ki` uten `okt` gir reserve; ekte variant er nå pakket i `BegrensetKi`), og `tests/web/test_registrering.py` endret (hardkodet søkedato i `KravOmKontoTest` var passert; bruker nå Oslo-dato i dag).
+- Etter review lagt til (utenfor frozen-blokka): døgnreservasjonen er atomisk (`UPDATE ... WHERE antall < maks`), feil ved bruk av `KiForbruk` gir reservesvar (fail closed), og tidspunkter i fremtiden i økta forkastes.
 
 ## Verification
 

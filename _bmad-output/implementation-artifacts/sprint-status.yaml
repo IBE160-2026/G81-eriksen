@@ -71,7 +71,7 @@ development_status:
   4-1-ki-tjenesten-har-ett-grensesnitt-med-tre-varianter: done
   4-2-systemet-sjekker-ki-teksten-før-den-vises: done
   4-3-forkastede-ki-svar-logges-uten-personopplysninger: done
-  4-4-ki-kallene-har-en-grense-per-nettleser-og-per-døgn: backlog
+  4-4-ki-kallene-har-en-grense-per-nettleser-og-per-døgn: review
   4-5-ki-skriver-begrunnelsen: backlog
   4-6-p2-ola-kan-skrive-et-fritekstønske: backlog
   4-7-p2-ki-tolker-fritekstønsket: backlog
