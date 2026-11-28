@@ -10,7 +10,7 @@ Testplan: `docs/brukertest-testplan.md`. Ingen navn, e-post eller opptak står h
 |---|---|
 | Kode | T1 |
 | Dato | ikke notert |
-| Enhet (mobil/PC, nettleser) | ikke notert |
+| Enhet (mobil/PC, nettleser) | Chrome (mobil/PC ikke notert) |
 | Hvilke turer ble foreslått | Søk 1: ingen tur. Søk 1b (marka): Grorud – Badedammen, grønn. Søk 2: Kolsåstoppen |
 | Begrunnelsen viste | ikke notert |
 | Steg 1 søk som gjest, uten hjelp | ja |
@@ -49,7 +49,7 @@ Slett konto: gikk fint, uten hjelp (T1 klarte alt uten hjelp).
 |---|---|
 | Kode | T2 |
 | Dato | ikke notert |
-| Enhet (mobil/PC, nettleser) | mobil (nettleser ikke notert) |
+| Enhet (mobil/PC, nettleser) | mobil: Safari (iPhone) |
 | Hvilke turer ble foreslått | Søk 1: Kolsåstoppen fra Gjettum. Søk 2: Vettakollen |
 | Begrunnelsen viste | ikke notert |
 | Steg 1–5 og hele kjerneflyten uten hjelp | ja (kjerneflyten gikk fint) |
