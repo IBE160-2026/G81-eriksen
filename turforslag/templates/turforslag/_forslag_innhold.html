@@ -50,7 +50,11 @@ med hele sidetittelen, så forbedring.js kan sette document.title etter byttet.
 
       <div class="infokolonne infokolonne-bunn">
         <section class="begrunnelse" aria-labelledby="begrunnelse-tittel">
-          <p class="ki-merke eyebrow">Begrunnelse fra mal</p>
+          {% if tur.skrevet_med_ki %}
+            <p class="ki-merke eyebrow"><span aria-hidden="true">✦ </span>Skrevet med KI</p>
+          {% else %}
+            <p class="ki-merke eyebrow">Begrunnelse fra mal</p>
+          {% endif %}
           <h2 class="eyebrow" id="begrunnelse-tittel">Begrunnelse</h2>
           <p class="body-md">{{ tur.begrunnelse }}</p>
           <details class="forklaringspanel">
@@ -58,6 +62,8 @@ med hele sidetittelen, så forbedring.js kan sette document.title etter byttet.
             <ul class="body-md">
               <li>Ruten, tiden og nivået kommer fra Kartverkets turdata og faste formler, ikke fra KI.</li>
               <li>Tiden kan bomme med rundt 15 prosent, og nybegynnere bruker ofte lenger tid enn beregnet.</li>
+              {# [ASSUMPTION] Mikrotekst: setning 3, foreløpig til produkteier har godkjent den. #}
+              <li>KI skriver begrunnelsen, og den kan ta feil.</li>
             </ul>
           </details>
         </section>

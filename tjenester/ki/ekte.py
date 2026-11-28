@@ -3,16 +3,11 @@
 import anthropic
 
 from domene.ki import ARSAK_FEIL, ARSAK_TIDSAVBRUDD, ARSAK_UGYLDIG, KiSok, KiSvar, KiTur
+from tjenester.ki.prompt import SYSTEMPROMPT, lag_bruker_melding
 
 MODELL = "claude-haiku-5-5"
 TIMEOUT_SEKUNDER = 5.0
 MAKS_TOKENS = 300
-
-# Foreløpig prompt, forfines i story 4.5.
-SYSTEMPROMPT = (
-    "Du skriver en kort begrunnelse på norsk (bokmål), maks 300 tegn, for hvorfor en gitt "
-    "tur passer et søk. Svar bare med begrunnelsen."
-)
 
 
 class EkteKi:
@@ -24,11 +19,10 @@ class EkteKi:
             http_client=http_client,
         )
 
-    def begrunnelse(self, sok: KiSok, tur: KiTur, reserve: str) -> KiSvar:
-        prompt = (
-            f"Søk: varighet {sok.varighet_min} min, turtype {sok.turtype or 'ingen'}.\n"
-            f"Tur: {tur.navn} ({', '.join(tur.turtyper) or 'ingen turtyper'}, {tur.form})."
-        )
+    def begrunnelse(
+        self, sok: KiSok, tur: KiTur, reserve: str, *, topptur_erstattet: bool = False
+    ) -> KiSvar:
+        prompt = lag_bruker_melding(sok, tur, topptur_erstattet)
         try:
             svar = self.klient.messages.create(
                 model=MODELL,

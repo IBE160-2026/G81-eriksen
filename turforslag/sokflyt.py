@@ -4,13 +4,23 @@ Views kaller bare funksjonene her og regner, filtrerer og formaterer ingenting s
 hentes turene fra databasen, og så gjør `domene/` utvalget, begrunnelsen og formateringen.
 """
 
+import logging
 from collections.abc import Callable
 from dataclasses import replace
 
 from domene import tekst
 from domene.begrunnelse import personaliseringssetning, preferansesetning, reservebegrunnelse
 from domene.ki import KiSok, KiTur
-from domene.okt import Soketilstand, alle_vist, neste_forslag, ny_soketilstand, start_pa_nytt
+from domene.ki_validering import valider_begrunnelse
+from domene.okt import (
+    Soketilstand,
+    alle_vist,
+    lagret_begrunnelse,
+    med_begrunnelse,
+    neste_forslag,
+    ny_soketilstand,
+    start_pa_nytt,
+)
 from domene.sok import Sok
 from domene.tur import Tur, Turniva
 from domene.utvalg import (
@@ -23,9 +33,11 @@ from domene.utvalg import (
     innenfor_tid_og_nivatak,
     velg_turer,
 )
-from tjenester.ki import hent_ki
+from tjenester.ki import hent_ki, logg_forkastet
 from turforslag import turdata
 from turforslag.registrering import avgjor_nivaheving, vurder_bruker
+
+logger = logging.getLogger(__name__)
 
 
 def startpunktvalg() -> tuple[tuple[str, str], ...]:  # FR-4
@@ -166,23 +178,96 @@ def forslagsvisning(tilstand: Soketilstand) -> tekst.Forslagsvisning | None:  # 
     tur = turdata.hent_tur(tilstand.gjeldende_tur_id)
     if tur is None or not _passer(tur, tilstand.sok, tilstand.nivatak):
         return None
-    sok = tilstand.sok
-    # Til story 4.5: reserve alltid, også med nøkkel, til validering, logg og grense er på plass.
-    reserve = reservebegrunnelse(sok, tur)
-    svar = hent_ki(tving_reserve=True).begrunnelse(
-        KiSok(sok.varighet_min, sok.dato, sok.turtype, sok.startpunkt_id),
-        KiTur(tur.id, tur.navn, tur.turtyper, tur.form.value),
-        reserve,
-    )
-    begrunnelse = svar.tekst if svar.ok and svar.tekst else reserve
+    lagret = lagret_begrunnelse(tilstand, tur.id)
+    if lagret is not None:  # FR-12: lagret tekst og merke, aldri nytt kall
+        return tekst.forslagsvisning(
+            tilstand, tur, lagret.tekst, startpunkt_navn, skrevet_med_ki=lagret.ki
+        )
+    reserve, tillegg = _reserve_og_tillegg(tilstand, tur)
+    return tekst.forslagsvisning(tilstand, tur, " ".join([reserve, *tillegg]), startpunkt_navn)
+
+
+def _reserve_og_tillegg(tilstand: Soketilstand, tur: Tur) -> tuple[str, list[str]]:  # FR-12
+    """Reserveteksten og tilleggssetningene (personalisering, preferanse)."""
+    reserve = reservebegrunnelse(tilstand.sok, tur)
+    tillegg = []
     setning = personaliseringssetning(
         tur.turniva, tilstand.nivatak, tilstand.nivaheving, tilstand.sperre
     )
     if setning:
-        begrunnelse = f"{begrunnelse} {setning}"
+        tillegg.append(setning)
     if tilstand.foretrukne_turtyper:
         treff = [t for t in map(turdata.hent_tur, tilstand.rangerte_tur_ider) if t is not None]
         preferanse = preferansesetning(tur, tilstand.foretrukne_turtyper, treff)
         if preferanse:
-            begrunnelse = f"{begrunnelse} {preferanse}"
-    return tekst.forslagsvisning(tilstand, tur, begrunnelse, startpunkt_navn)
+            tillegg.append(preferanse)
+    return reserve, tillegg
+
+
+def sikre_begrunnelse(tilstand: Soketilstand, okt) -> Soketilstand:  # FR-12, FR-13, AD-10
+    """Lager og lagrer begrunnelsen for gjeldende tur første gang den vises i søket.
+
+    Gjør ingenting uten tur, for en tur som ikke passer, eller for en som alt har en lagret
+    begrunnelse. Ellers kalles KI én gang, svaret valideres, og resultatet (KI-tekst eller
+    reservemal) lagres. Feil gir reservemalen og når aldri viewet.
+    """
+    if tilstand.status not in (Status.TREFF, Status.TOPPTUR_ERSTATTET):
+        return tilstand
+    if tilstand.gjeldende_tur_id is None:
+        return tilstand
+    tur = turdata.hent_tur(tilstand.gjeldende_tur_id)
+    if tur is None or not _passer(tur, tilstand.sok, tilstand.nivatak):
+        return tilstand
+    if lagret_begrunnelse(tilstand, tur.id) is not None:
+        return tilstand
+    reserve, tillegg = _reserve_og_tillegg(tilstand, tur)
+    try:
+        ferdig, ki = _kall_ki(tilstand, tur, okt, reserve, tillegg)
+    except Exception as feil:  # noqa: BLE001 - KI-feil når aldri viewet
+        logger.warning("Begrunnelsen falt tilbake til reserve: %s", type(feil).__name__)
+        ferdig, ki = " ".join([reserve, *tillegg]), False
+    return med_begrunnelse(tilstand, tur.id, ferdig, ki)
+
+
+def flett_begrunnelse(fersk: Soketilstand, ny: Soketilstand) -> Soketilstand:  # FR-12
+    """Skriver bare begrunnelsen for turen `ny` viser, inn i den ferske tilstanden.
+
+    Tilstanden kan ha endret seg mens KI-kallet pågikk. Da skal viste turer og gjeldende tur
+    ikke rulles tilbake. En begrunnelse som alt finnes i den ferske tilstanden beholdes.
+    """
+    if ny.gjeldende_tur_id is None:
+        return fersk
+    b = lagret_begrunnelse(ny, ny.gjeldende_tur_id)
+    if b is None or lagret_begrunnelse(fersk, b.tur_id) is not None:
+        return fersk
+    return med_begrunnelse(fersk, b.tur_id, b.tekst, b.ki)
+
+
+def _kall_ki(
+    tilstand: Soketilstand, tur: Tur, okt, reserve: str, tillegg: list[str]
+) -> tuple[str, bool]:  # FR-12, FR-13
+    sok = tilstand.sok
+    ferdig_reserve = " ".join([reserve, *tillegg])
+    svar = hent_ki(okt=okt).begrunnelse(
+        KiSok(sok.varighet_min, sok.dato, sok.turtype, sok.startpunkt_id),
+        KiTur(tur.id, tur.navn, tur.turtyper, tur.form.value),
+        reserve,
+        topptur_erstattet=tilstand.status == Status.TOPPTUR_ERSTATTET,
+    )
+    if svar.ok and svar.tekst == reserve:  # uten nøkkel, nådd grense: ingen validering
+        return ferdig_reserve, False
+    if not svar.ok:
+        _logg(svar.arsak, None)
+        return ferdig_reserve, False
+    resultat = valider_begrunnelse(svar.tekst, sok, tur, tilstand.status, tillegg)
+    if resultat.ok:
+        return resultat.tekst, True
+    _logg(str(resultat.forkastelse), svar.tekst)
+    return ferdig_reserve, False
+
+
+def _logg(arsak: str, svar: str | None) -> None:  # FR-13
+    try:
+        logg_forkastet("begrunnelse", arsak, svar)
+    except Exception:  # noqa: BLE001 - loggfeil når aldri viewet
+        pass

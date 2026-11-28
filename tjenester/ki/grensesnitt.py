@@ -9,7 +9,9 @@ from tjenester.ki.reserve import ReserveKi
 
 
 class Ki(Protocol):
-    def begrunnelse(self, sok: KiSok, tur: KiTur, reserve: str) -> KiSvar:
+    def begrunnelse(
+        self, sok: KiSok, tur: KiTur, reserve: str, *, topptur_erstattet: bool = False
+    ) -> KiSvar:
         """Kall B. `reserve` er ferdig reservetekst. Kaster aldri."""
         ...
 
