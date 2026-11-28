@@ -4,6 +4,10 @@ Testplan: `docs/brukertest-testplan.md`. Ingen navn, e-post eller opptak står h
 
 **Status:** 3 testere gjennomført 28. november 2026. SM-1 og SM-C1 oppfylt (se Konklusjon).
 
+## Testerne
+
+Testleder bekrefter at alle tre testerne (T1–T3) var nybegynnere i målgruppen (PRD §2), ikke hadde brukt nettsiden før, ikke var med i prosjektgruppen og hadde sagt ja etter å ha fått vite hva som ble notert.
+
 ## T1
 
 | Felt | Verdi |
