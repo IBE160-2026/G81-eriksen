@@ -12,7 +12,7 @@ Testplan: `docs/brukertest-testplan.md`. Ingen navn, e-post eller opptak står h
 | Dato | 2026-11-28 |
 | Enhet (mobil/PC, nettleser) | PC, Chrome |
 | Hvilke turer ble foreslått | Søk 1: ingen tur. Søk 1b (marka): Grorud – Badedammen, grønn. Søk 2: Kolsåstoppen (turene som dukket opp) |
-| Begrunnelsen viste | ikke notert hvilket merke. Testleder: KI-teksten så fin ut i forhold til hva som dukket opp |
+| Begrunnelsen viste | ikke notert om merket var KI eller mal. Testleder: KI-merket og teksten så fine ut i forhold til turen som dukket opp |
 | Steg 1 søk som gjest, uten hjelp | ja |
 | Steg 2 turforslag, uten hjelp | ja |
 | Steg 3 lage konto, uten hjelp | ja |
@@ -46,14 +46,14 @@ Slett konto: gikk fint, uten hjelp (T1 klarte alt uten hjelp).
 | Felt | Verdi |
 |---|---|
 | Kode | T2 |
-| Dato | ikke notert |
+| Dato | 2026-11-28 |
 | Enhet (mobil/PC, nettleser) | mobil: Safari (iPhone) |
 | Hvilke turer ble foreslått | Søk 1: Kolsåstoppen fra Gjettum. Søk 2: Vettakollen (turene som dukket opp) |
 | Begrunnelsen viste | ikke notert |
 | Steg 1–5 og hele kjerneflyten uten hjelp | ja (kjerneflyten gikk fint) |
 | Hvor det eventuelt stoppet | ikke notert |
-| Spørsmål 1: første forslag relevant? | ikke notert |
-| Spørsmål 2: vanskelighet før registrering | ikke notert |
+| Spørsmål 1: første forslag relevant? | ja |
+| Spørsmål 2: vanskelighet før registrering | lett |
 | Fant «Slett konto» selv | ja (gikk veldig fint) |
 | Sitater (uten navn) | ingen (ellers ingen kommentarer) |
 
@@ -69,7 +69,7 @@ Slett konto: gikk fint, uten hjelp (T1 klarte alt uten hjelp).
 | Tester | Uten hjelp | Første forslag relevant | Vanskelighet (spm. 2) |
 |---|---|---|---|
 | T1 | ja | ja | lett |
-| T2 | ja | ikke notert | ikke notert |
+| T2 | ja | ja | lett |
 
-**SM-1:** ikke vurdert ennå (2 testere, ikke ferdig utfylt).
-**SM-C1:** ikke vurdert ennå.
+**SM-1:** 2 av 2 testere har nådd målet (uten hjelp og første forslag relevant), men minimum er 3 testere. Ikke avgjort før en tredje tester er gjennomført.
+**SM-C1:** så langt oppfylt: ingen av de to svarte «vanskelig» (begge «lett»). Avgjøres når alle testerne er ferdige.
