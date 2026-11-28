@@ -2,7 +2,7 @@
 
 Testplan: `docs/brukertest-testplan.md`. Ingen navn, e-post eller opptak står her (NFR-5). Felter merket «ikke notert» mangler i notatene fra testen og må fylles ut av testlederen, ikke gjettes.
 
-**Status:** pågår. 2 av 3–5 testere er gjennomført.
+**Status:** pågår. 3 av 3–5 testere er gjennomført.
 
 ## T1
 
@@ -64,12 +64,36 @@ Slett konto: gikk fint, uten hjelp (T1 klarte alt uten hjelp).
 | 1 | 4 t, fredag 4. desember, topptur, startpunkt: alle | Kolsåstoppen fra Gjettum | Brukt tid 3 t 25 min, lett, fornøyd 4 |
 | 2 | 6 t, lørdag 28. november, utsikt, startpunkt: alle | Vettakollen | Brukt tid 3 t, lett, fornøyd 3 |
 
+## T3
+
+| Felt | Verdi |
+|---|---|
+| Kode | T3 |
+| Dato | 2026-11-28 |
+| Enhet (mobil/PC, nettleser) | mobil: Android (nettleser ikke notert) |
+| Hvilke turer ble foreslått | Søk 1: Dælivann. Søk 2: Kolsåstoppen fra Gjettum (turene som dukket opp) |
+| Begrunnelsen viste | ikke notert |
+| Steg 1–5 og hele kjerneflyten uten hjelp | ikke notert («det gikk fint å bruke») |
+| Hvor det eventuelt stoppet | ikke notert |
+| Spørsmål 1: første forslag relevant? | ikke notert |
+| Spørsmål 2: vanskelighet før registrering | ikke sikkert: «lett» er notert ved Dælivann, men det er uklart om det var svaret på spørsmål 2 eller turens nivå |
+| Fant «Slett konto» selv | ja (gikk fint) |
+| Sitater (uten navn) | «Det gikk fint å bruke.» (kommentar fra testen) |
+
+### Søk og registreringer (slik de ble utført)
+
+| | Søk | Resultat | Registrert tur |
+|---|---|---|---|
+| 1 | 2 t, 29. november, marka, startpunkt: alle | Dælivann (notert «lett») | Brukt tid 1 t 35 min, lett, fornøyd 1 |
+| 2 | 5 t, [29. desember eller 29. november, bekreft], utsikt, startpunkt: alle | Kolsåstoppen fra Gjettum | Brukt tid 1 t 20 min, moderat, fornøyd 4 |
+
 ## Sammendrag
 
 | Tester | Uten hjelp | Første forslag relevant | Vanskelighet (spm. 2) |
 |---|---|---|---|
 | T1 | ja | ja | lett |
 | T2 | ja | ja | lett |
+| T3 | ikke notert | ikke notert | ikke sikkert |
 
-**SM-1:** 2 av 2 testere har nådd målet (uten hjelp og første forslag relevant), men minimum er 3 testere. Ikke avgjort før en tredje tester er gjennomført.
-**SM-C1:** så langt oppfylt: ingen av de to svarte «vanskelig» (begge «lett»). Avgjøres når alle testerne er ferdige.
+**SM-1:** T1 og T2 har nådd målet (uten hjelp og første forslag relevant). T3 kan ikke avgjøres før «uten hjelp», relevans og vanskelighet er notert. Med 3 testere må alle 3 nå målet.
+**SM-C1:** så langt oppfylt: ingen av T1 og T2 svarte «vanskelig» (begge «lett»). Avgjøres når alle testerne er ferdige.
